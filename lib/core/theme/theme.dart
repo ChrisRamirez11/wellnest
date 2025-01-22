@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-const Color primary = Color(0xFF9C27B0);
-const Color secondary = Color(0xFFCDDC39);
+const Color primary = Color(0xFF008080);
+const Color secondary = Color(0xFFA67B5B);
 const Color obsidian = Color(0xFF0B1215);
 const Color ghostWhite = Color(0xFFFFFAFA);
-const Color bone = Color(0xFFF2EBE3);
 const Color coffe = Color(0xFFA67B5B);
 Color errorColor = Colors.red.shade300;
 

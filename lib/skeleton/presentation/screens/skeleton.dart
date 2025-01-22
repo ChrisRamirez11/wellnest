@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/skeleton/presentation/providers/index_provider.dart';
-import 'package:wellnest/skeleton/presentation/widgets/custom_bottom_nav_bar.dart';
+import 'package:wellnest/skeleton/presentation/widgets/custom_nav_bar.dart';
 
 List<Widget> pages = [
   Center(child: Text('Home')),
@@ -19,7 +19,7 @@ class Skeleton extends ConsumerWidget {
     final index = ref.watch(indexProvider);
     return SafeArea(
         child: Scaffold(
-      bottomNavigationBar: CustomBottomNavBar(),
+      bottomNavigationBar: CustomNavBar(),
       body: pages[index.selectedIndex],
     ));
   }
