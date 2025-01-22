@@ -10,8 +10,11 @@ class IndexProvider extends ChangeNotifier{
   int get selectedIndex => _selectedIndex;
 
   void changeIndex(int index){
-    pageController.jumpToPage(index);
     _selectedIndex = index;
     notifyListeners();
+  }
+
+  void updatePageController(int i){
+    pageController.jumpToPage(i);
   }
 }

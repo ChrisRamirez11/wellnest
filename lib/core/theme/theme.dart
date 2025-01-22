@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-const Color primary = Color(0xFF008080);
-const Color secondary = Color(0xFFA67B5B);
+const Color primary = Color(0xFF008080);  //Greenish Blue
+const Color secondary = Color(0xFFF4E1C1); //Sandy Beige
 const Color obsidian = Color(0xFF0B1215);
 const Color ghostWhite = Color(0xFFFFFAFA);
 const Color coffe = Color(0xFFA67B5B);
-Color errorColor = Colors.red.shade300;
+Color errorColor = const Color(0xFFE57373);
 
 const double largeSize = 20;
 const double mediumSize = 16;
