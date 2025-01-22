@@ -10,7 +10,6 @@ List<Widget> pages = [
   Center(child: Text('Achievements')),
 ];
 
-
 class Skeleton extends ConsumerWidget {
   const Skeleton({super.key});
 
@@ -20,7 +19,11 @@ class Skeleton extends ConsumerWidget {
     return SafeArea(
         child: Scaffold(
       bottomNavigationBar: CustomNavBar(),
-      body: pages[index.selectedIndex],
+      body: PageView.builder(
+          controller: index.pageController,
+          onPageChanged: (value) => index.changeIndex(value),
+          itemBuilder: (context, index) => pages[index],
+          itemCount: pages.length),
     ));
   }
 }

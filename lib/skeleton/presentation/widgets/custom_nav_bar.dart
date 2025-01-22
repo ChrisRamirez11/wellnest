@@ -6,8 +6,7 @@ import 'package:wellnest/skeleton/presentation/providers/index_provider.dart';
 List<NavigationDestination> itemsList = [
   NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Home'),
   NavigationDestination(icon: Icon(Icons.schedule_outlined), label: 'Routines'),
-  NavigationDestination(
-      icon: Icon(Icons.health_and_safety_outlined), label: 'Wellbeing'),
+  NavigationDestination(icon: Icon(Icons.health_and_safety_outlined), label: 'Wellbeing'),
   NavigationDestination(icon: Icon(Icons.star_border), label: 'Achievements'),
 ];
 
