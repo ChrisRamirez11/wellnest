@@ -24,7 +24,7 @@ class CustomNavBar extends ConsumerWidget {
       backgroundColor: primary,
       indicatorColor: secondary,
       destinations: itemsList,
-      onDestinationSelected: (value) => index.updatePageController(value),
+      onDestinationSelected: (value) => index.pageController.jumpToPage(value),
       selectedIndex: index.selectedIndex,
     );
   }
