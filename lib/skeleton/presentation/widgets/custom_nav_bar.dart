@@ -4,7 +4,7 @@ import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/skeleton/presentation/providers/index_provider.dart';
 
 List<NavigationDestination> itemsList = [
-  NavigationDestination(icon: Icon(Icons.check_box, color: obsidian,), label: 'Small Routines'),
+  NavigationDestination(icon: Icon(Icons.check_box_outlined, color: obsidian,), label: 'Small Routines'),
   NavigationDestination(icon: Icon(Icons.health_and_safety_outlined, color: obsidian,), label: 'Wellness'),
   NavigationDestination(icon: Icon(Icons.schedule_outlined, color: obsidian,), label: 'Week Scheduling'),
   NavigationDestination(icon: Icon(Icons.star_border, color: obsidian,), label: 'Achievements'),
