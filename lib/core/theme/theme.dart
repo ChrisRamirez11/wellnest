@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color primary = Color(0xFF008080);  //Greenish Blue
+const Color primary = Color(0xFF008080); //Greenish Blue
 const Color secondary = Color(0xFFF4E1C1); //Sandy Beige
 const Color obsidian = Color(0xFF0B1215);
 const Color ghostWhite = Color(0xFFFFFAFA);
@@ -47,7 +47,7 @@ ThemeData theme = ThemeData(
         color: obsidian,
         fontFamily: 'Karla'),
   ),
-  
+
   //SnackBarTheme
   //
   snackBarTheme: SnackBarThemeData(
@@ -63,6 +63,11 @@ ThemeData theme = ThemeData(
     thickness: WidgetStatePropertyAll(8),
     thumbVisibility: WidgetStatePropertyAll(true),
   ),
+
+  //NavigationBarThemeData
+  //
+  navigationBarTheme: NavigationBarThemeData(
+      labelTextStyle: WidgetStatePropertyAll(TextStyle(fontSize: smallSize))),
 
   //ColorScheme
   //
@@ -163,6 +168,11 @@ ThemeData themeDark = ThemeData.dark().copyWith(
     //Card
     //
     cardColor: primary.withValues(alpha: 100),
+
+    //NavigationBarThemeData
+    //
+    navigationBarTheme: NavigationBarThemeData(
+        labelTextStyle: WidgetStatePropertyAll(TextStyle(fontSize: smallSize))),
 
     //Color Scheme
     //

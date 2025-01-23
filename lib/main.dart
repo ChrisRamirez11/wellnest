@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/skeleton/presentation/screens/skeleton.dart';
 
 void main() {
@@ -14,7 +15,10 @@ class MyApp extends StatelessWidget {
     return ProviderScope(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'WellNest',
+        theme: theme,
+        darkTheme: themeDark,
+        themeMode: ThemeMode.system,
         home: const Skeleton(),
       ),
     );

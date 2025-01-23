@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/skeleton/presentation/providers/index_provider.dart';
+import 'package:wellnest/skeleton/presentation/widgets/custom_fab.dart';
 import 'package:wellnest/skeleton/presentation/widgets/custom_nav_bar.dart';
 
 List<Widget> pages = [
@@ -23,17 +24,18 @@ class _SkeletonState extends ConsumerState<Skeleton> {
     ref.watch(indexProvider).pageController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final index = ref.watch(indexProvider);
     return SafeArea(
         child: Scaffold(
-      bottomNavigationBar: CustomNavBar(),
-      body: PageView.builder(
-          controller: index.pageController,
-          onPageChanged: (value) => index.changeIndex(value),
-          itemBuilder: (context, index) => pages[index],
-          itemCount: pages.length),
-    ));
+          floatingActionButton: CustomFab(),
+            bottomNavigationBar: CustomNavBar(),
+            body: PageView(
+              controller: index.pageController,
+              onPageChanged: (value) => index.changeIndex(value),
+              children: pages,
+            )));
   }
 }
