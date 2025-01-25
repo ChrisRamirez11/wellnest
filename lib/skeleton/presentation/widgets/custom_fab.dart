@@ -7,8 +7,8 @@ class CustomFab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FloatingActionButton(
-        onPressed: () async {
-        },
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+        onPressed: () async {},
         child: Icon(Icons.add));
   }
 }

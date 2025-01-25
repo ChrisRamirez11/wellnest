@@ -31,7 +31,9 @@ class _SkeletonState extends ConsumerState<Skeleton> {
     final index = ref.watch(indexProvider);
     return SafeArea(
         child: Scaffold(
-          floatingActionButton: CustomFab(),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.miniCenterDocked,
+            floatingActionButton: CustomFab(),
             bottomNavigationBar: CustomNavBar(),
             body: PageView(
               controller: index.pageController,

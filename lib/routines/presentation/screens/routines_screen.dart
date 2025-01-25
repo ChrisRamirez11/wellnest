@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/widgets/custom_app_bar.dart';
+import 'package:wellnest/core/widgets/custom_error_widget.dart';
 import 'package:wellnest/routines/presentation/providers/routine_provider.dart';
+import 'package:wellnest/routines/presentation/widgets/routines_body.dart';
 
 class RoutinesScreen extends ConsumerWidget {
   const RoutinesScreen({super.key});
@@ -12,23 +15,20 @@ class RoutinesScreen extends ConsumerWidget {
     late Widget? widget;
 
     if (routines != null) {
-      widget = Scaffold(
-        body: ListView.builder(
-          itemCount: routines.length,
-          itemBuilder: (context, index) => ListTile(
-            title: Text(routines[index].name),
-          ),
-        ),
-      );
+      widget = RoutinesBody(routines: routines);
     } else if (failure != null) {
-      widget = Center(
-        child: Text('Error'),
-      );
+      widget = CustomErrorWidget(errorMessage: failure.errorMessage);
     } else {
       widget = Center(
         child: CircularProgressIndicator(),
       );
     }
-    return widget;
+
+    return Scaffold(
+      appBar: CustomAppBar(
+        titleString: 'Small Routines',
+      ),
+      body: widget,
+    );
   }
 }
