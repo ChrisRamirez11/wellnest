@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/routines/presentation/screens/routines_screen.dart';
 import 'package:wellnest/skeleton/presentation/providers/index_provider.dart';
 import 'package:wellnest/skeleton/presentation/widgets/custom_fab.dart';
 import 'package:wellnest/skeleton/presentation/widgets/custom_nav_bar.dart';
 
 List<Widget> pages = [
-  Center(child: Text('Small Routines')),
+  RoutinesScreen(),
   Center(child: Text('Wellnes')),
   Center(child: Text('Week Scheduling')),
   Center(child: Text('Achievements')),

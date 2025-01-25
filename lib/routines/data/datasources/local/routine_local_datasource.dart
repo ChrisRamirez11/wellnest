@@ -1,0 +1,70 @@
+import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:wellnest/errors/excpetions.dart';
+import 'package:wellnest/routines/data/models/routine_model.dart';
+
+abstract class RoutineLocalDatasource {
+  Future<RoutineModel?> getRoutine(int id);
+  Future<List<RoutineModel>> getEveryRoutine();
+  Future<int> upsertRoutine(RoutineModel routineModel);
+  Future<void> deleteRoutine(int id);
+}
+
+class RoutineLocalDatasourceImpl implements RoutineLocalDatasource {
+  Isar? _isar;
+
+  Future<Isar> get isar async {
+    if (_isar != null) return _isar!;
+
+    final dir = await getApplicationDocumentsDirectory();
+
+    _isar = await Isar.open([RoutineModelSchema], directory: dir.path);
+    return _isar!;
+  }
+
+  @override
+  Future<int> upsertRoutine(RoutineModel routineModel) async {
+    int? res;
+    try {
+      final isarInstance = await isar;
+      await isarInstance.writeTxn(
+        () async => res = await isarInstance.routineModels.put(routineModel),
+      );
+      return res!;
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<RoutineModel?> getRoutine(int id) async {
+    try {
+      final isarInstance = await isar;
+      return await isarInstance.routineModels.get(id);
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<List<RoutineModel>> getEveryRoutine() async {
+    try {
+      final isarInstance = await isar;
+      return await isarInstance.routineModels.where().findAll();
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<void> deleteRoutine(int id) async {
+    try{
+      final isarInstance = await isar;
+      await isarInstance.writeTxn(
+        () async => await isarInstance.routineModels.delete(id),
+      );
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
+  }
+}
