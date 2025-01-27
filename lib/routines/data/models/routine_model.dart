@@ -10,21 +10,21 @@ class RoutineModel {
   Id? id;
   String name;
   int duration;
-  String type;
+  List<bool> days;
 
   RoutineModel({
     this.id,
     required this.name,
     required this.duration,
-    required this.type,
+    required this.days,
   });
 
   factory RoutineModel.fromEntity(RoutineEntity routinEntity) => RoutineModel(
       id: routinEntity.id,
       name: routinEntity.name,
       duration: routinEntity.duration,
-      type: routinEntity.type);
+      days: routinEntity.days);
 
   RoutineEntity toEntity() =>
-      RoutineEntity(id: id, name: name, duration: duration, type: type);
+      RoutineEntity(id: id, name: name, duration: duration, days: days);
 }

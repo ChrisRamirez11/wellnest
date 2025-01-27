@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wellnest/routines/data/models/routine_model.dart';
+import 'package:wellnest/routines/presentation/widgets/routine_tile.dart';
 
 class RoutinesBody extends StatelessWidget {
   final List<RoutineModel> routines;
@@ -13,9 +14,9 @@ class RoutinesBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: routines.length,
-      itemBuilder: (context, index) => ListTile(
-        title: Text(routines[index].name),
-      ),
+      itemBuilder: (context, index) => RoutineTile(routineModel: routines[index]),
     );
   }
 }
+
+

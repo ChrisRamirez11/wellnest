@@ -12,16 +12,16 @@ List<NavigationDestination> itemsList = [
       label: 'Small Routines'),
   NavigationDestination(
       icon: Icon(
-        Icons.health_and_safety_outlined,
-        color: obsidian,
-      ),
-      label: 'Wellness'),
-  NavigationDestination(
-      icon: Icon(
         Icons.schedule_outlined,
         color: obsidian,
       ),
       label: 'Week Scheduling'),
+  NavigationDestination(
+      icon: Icon(
+        Icons.health_and_safety_outlined,
+        color: obsidian,
+      ),
+      label: 'Wellness'),
   NavigationDestination(
       icon: Icon(
         Icons.star_border,

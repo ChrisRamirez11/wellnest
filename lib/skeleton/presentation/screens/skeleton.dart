@@ -7,8 +7,8 @@ import 'package:wellnest/skeleton/presentation/widgets/custom_nav_bar.dart';
 
 List<Widget> pages = [
   RoutinesScreen(),
-  Center(child: Text('Wellnes')),
   Center(child: Text('Week Scheduling')),
+  Center(child: Text('Wellnes')),
   Center(child: Text('Achievements')),
 ];
 

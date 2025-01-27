@@ -8,9 +8,13 @@ class CustomAppBar extends AppBar {
           centerTitle: true,
           backgroundColor: primary,
           foregroundColor: secondary,
-          title: Text(
-            titleString,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
+          title: titleWidget(titleString),
         );
+
+  static Text titleWidget(String titleString) {
+    return Text(
+          titleString,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        );
+  }
 }

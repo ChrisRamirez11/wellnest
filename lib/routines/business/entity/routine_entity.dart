@@ -4,12 +4,12 @@ class RoutineEntity {
   int? id;
   String name;
   int duration;
-  String type;
+  List<bool> days;
   
   RoutineEntity({
     this.id,
     required this.name,
     required this.duration,
-    required this.type,
+    required this.days,
   });
 }
