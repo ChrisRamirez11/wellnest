@@ -5,7 +5,7 @@ import 'package:wellnest/errors/failures.dart';
 import 'package:wellnest/routines/business/entity/routine_entity.dart';
 import 'package:wellnest/routines/business/repositories/routine_repository.dart';
 import 'package:wellnest/routines/data/datasources/local/routine_local_datasource.dart';
-import 'package:wellnest/routines/data/models/routine_model.dart';
+import 'package:wellnest/routines/data/models/routine/routine_model.dart';
 
 class RoutineRepositoryImpl implements RoutineRepository {
   RoutineLocalDatasource routineLocalDatasource;

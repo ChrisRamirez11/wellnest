@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wellnest/core/utils/utils.dart';
-import 'package:wellnest/routines/data/models/routine_model.dart';
+import 'package:wellnest/routines/data/models/routine/routine_model.dart';
 import 'package:wellnest/routines/presentation/widgets/custom_calendar.dart';
 import 'package:wellnest/routines/presentation/widgets/routine_tile.dart';
 
