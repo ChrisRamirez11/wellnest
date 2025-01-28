@@ -73,8 +73,14 @@ class HeatMapColumn extends StatelessWidget {
   // current week.
   final int numDays;
 
+  /// The day that is currently selected.
+  final DateTime? currentSelectedDate;
+
+  /// The color of the currently selected day.
+  final Color? currentSelectedDateColor;
+
   HeatMapColumn({
-    Key? key,
+    super.key,
     required this.startDate,
     required this.endDate,
     required this.colorMode,
@@ -90,11 +96,15 @@ class HeatMapColumn extends StatelessWidget {
     this.onClick,
     this.maxValue,
     this.showText,
+    this.currentSelectedDate,
+    this.currentSelectedDateColor,
   })  :
         // Init list.
         dayContainers = List.generate(
           numDays,
           (i) => HeatMapContainer(
+            currentSelectedDate: currentSelectedDate,
+            currentSelectedDateColor: currentSelectedDateColor,
             date: DateUtil.changeDay(startDate, i),
             backgroundColor: defaultColor,
             size: size,
@@ -144,8 +154,7 @@ class HeatMapColumn extends StatelessWidget {
                     width: size ?? 42,
                     height: size ?? 42),
               )
-            : [],
-        super(key: key);
+            : [];
 
   @override
   Widget build(BuildContext context) {

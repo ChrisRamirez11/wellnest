@@ -61,8 +61,14 @@ class HeatMapCalendarPage extends StatelessWidget {
   /// Paratmeter gives clicked [DateTime] value.
   final Function(DateTime)? onClick;
 
+  /// The day that is currently selected.
+  final DateTime? currentSelectedDate;
+
+  /// The color of the currently selected day.
+  final Color? currentSelectedDateColor;
+
   HeatMapCalendarPage({
-    Key? key,
+    super.key,
     required this.baseDate,
     required this.colorMode,
     this.flexible,
@@ -75,10 +81,11 @@ class HeatMapCalendarPage extends StatelessWidget {
     this.colorsets,
     this.borderRadius,
     this.onClick,
+    this.currentSelectedDate,
+    this.currentSelectedDateColor,
   })  : separatedDate = DateUtil.separatedMonth(baseDate),
         maxValue = DatasetsUtil.getMaxValue(
-            DatasetsUtil.filterMonth(datasets, baseDate)),
-        super(key: key);
+            DatasetsUtil.filterMonth(datasets, baseDate));
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +94,8 @@ class HeatMapCalendarPage extends StatelessWidget {
       children: <Widget>[
         for (var date in separatedDate)
           HeatMapCalendarRow(
+            currentSelectedDate: currentSelectedDate,
+            currentSelectedDateColor: currentSelectedDateColor,
             startDate: date.keys.first,
             endDate: date.values.first,
             colorMode: colorMode,

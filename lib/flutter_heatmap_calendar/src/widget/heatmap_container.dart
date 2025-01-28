@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import '../data/heatmap_color.dart';
 
@@ -13,6 +11,8 @@ class HeatMapContainer extends StatelessWidget {
   final Color? textColor;
   final EdgeInsets? margin;
   final bool? showText;
+  final DateTime? currentSelectedDate;
+  final Color? currentSelectedDateColor;
   final Function(DateTime dateTime)? onClick;
 
   const HeatMapContainer({
@@ -27,20 +27,28 @@ class HeatMapContainer extends StatelessWidget {
     this.textColor,
     this.onClick,
     this.showText,
+    this.currentSelectedDate,
+    this.currentSelectedDateColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    log((date.day == DateTime.now().day).toString());
     return Padding(
       padding: margin ?? const EdgeInsets.all(2),
-      child: GestureDetector(
+      child: InkWell(
         child: Container(
           decoration: BoxDecoration(
             color: backgroundColor ?? HeatMapColor.defaultColor,
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 5)),
           ),
           child: AnimatedContainer(
+            foregroundDecoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(borderRadius ?? 10),
+                border: Border.all(
+                    color: _selectedDateValidation()
+                        ? currentSelectedDateColor ?? Colors.blue
+                        : Colors.transparent,
+                    width: 5)),
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeInOutQuad,
             width: size,
@@ -55,19 +63,15 @@ class HeatMapContainer extends StatelessWidget {
                 ? Text(
                     date.day.toString(),
                     style: TextStyle(
-                        color: (date.day == DateTime.now().day) &&
-                                (date.month == DateTime.now().month) &&
-                                (date.year == DateTime.now().year)
-                            ? Colors.blue
+                        color: _selectedDateValidation()
+                            ? currentSelectedDateColor ?? Colors.blue
                             : textColor ?? const Color(0xFF8A8A8A),
-                        fontWeight: (date.day == DateTime.now().day) &&
-                                (date.month == DateTime.now().month) &&
-                                (date.year == DateTime.now().year)
+                        fontWeight: _selectedDateValidation()
                             ? FontWeight.w900
                             : FontWeight.normal,
-                        fontSize: (date.day == DateTime.now().day) &&
-                                (date.month == DateTime.now().month) &&
-                                (date.year == DateTime.now().year) ? fontSize!+2 : fontSize),
+                        fontSize: _selectedDateValidation()
+                            ? fontSize! + 2
+                            : fontSize),
                   )
                 : null,
           ),
@@ -77,5 +81,11 @@ class HeatMapContainer extends StatelessWidget {
         },
       ),
     );
+  }
+
+  bool _selectedDateValidation() {
+    return ((date.day == (currentSelectedDate?.day ?? DateTime.now().day)) &&
+        (date.month == (currentSelectedDate?.month ?? DateTime.now().month)) &&
+        (date.year == (currentSelectedDate?.year ?? DateTime.now().year)));
   }
 }

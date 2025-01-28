@@ -65,8 +65,14 @@ class HeatMapCalendarRow extends StatelessWidget {
   /// Paratmeter gives clicked [DateTime] value.
   final Function(DateTime)? onClick;
 
+  /// The day that is currently selected.
+  final DateTime? currentSelectedDate;
+
+  /// The color of the currently selected day.
+  final Color? currentSelectedDateColor;
+
   HeatMapCalendarRow({
-    Key? key,
+    super.key,
     required this.startDate,
     required this.endDate,
     required this.colorMode,
@@ -81,7 +87,9 @@ class HeatMapCalendarRow extends StatelessWidget {
     this.datasets,
     this.maxValue,
     this.onClick,
-  })  : dayContainers = List<Widget>.generate(
+    this.currentSelectedDate,
+    this.currentSelectedDateColor,
+  }) : dayContainers = List<Widget>.generate(
           7,
           // If current week has first day of the month and
           // the first day is not a sunday, it must have extra space on it.
@@ -102,6 +110,8 @@ class HeatMapCalendarRow extends StatelessWidget {
                 )
               // If the day is not a empty one then create HeatMapContainer.
               : HeatMapContainer(
+                  currentSelectedDate: currentSelectedDate,
+                  currentSelectedDateColor: currentSelectedDateColor,
                   // Given information about the week is that
                   // start day of week value and end day of week.
                   //
@@ -150,8 +160,7 @@ class HeatMapCalendarRow extends StatelessWidget {
                                   startDate.day + i - (startDate.weekday % 7))])
                       : null,
                 ),
-        ),
-        super(key: key);
+        );
 
   @override
   Widget build(BuildContext context) {
