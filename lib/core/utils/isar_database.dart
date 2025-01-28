@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:wellnest/routines/data/models/routine/routine_model.dart';
+import 'package:wellnest/routines/data/models/routine_model.dart';
 
 class IsarDatabase {
   IsarDatabase._privateConstructor();

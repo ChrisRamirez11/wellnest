@@ -9,7 +9,7 @@ import 'package:wellnest/routines/business/usecases/delete_routine.dart';
 import 'package:wellnest/routines/business/usecases/get_every_routine.dart';
 import 'package:wellnest/routines/business/usecases/upsert_routine.dart';
 import 'package:wellnest/routines/data/datasources/local/routine_local_datasource.dart';
-import 'package:wellnest/routines/data/models/routine/routine_model.dart';
+import 'package:wellnest/routines/data/models/routine_model.dart';
 import 'package:wellnest/routines/data/repositories/routine_repository_impl.dart';
 
 final routineProvider = ChangeNotifierProvider(

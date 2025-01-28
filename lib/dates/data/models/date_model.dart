@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:isar/isar.dart';
-import 'package:wellnest/routines/business/entity/date_entity.dart';
+import 'package:wellnest/dates/business/entity/date_entity.dart';
 
 part 'date_model.g.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/routines/data/models/routine/routine_model.dart';
+import 'package:wellnest/routines/data/models/routine_model.dart';
 import 'package:wellnest/routines/presentation/providers/routine_provider.dart';
 
 class CustomFab extends ConsumerWidget {
