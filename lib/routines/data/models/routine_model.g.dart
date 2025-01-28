@@ -17,18 +17,23 @@ const RoutineModelSchema = CollectionSchema(
   name: r'RoutineModel',
   id: -1626869750065799181,
   properties: {
-    r'days': PropertySchema(
+    r'createdDate': PropertySchema(
       id: 0,
+      name: r'createdDate',
+      type: IsarType.dateTime,
+    ),
+    r'days': PropertySchema(
+      id: 1,
       name: r'days',
       type: IsarType.boolList,
     ),
     r'finished': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'finished',
       type: IsarType.bool,
     ),
     r'name': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'name',
       type: IsarType.string,
     )
@@ -64,9 +69,10 @@ void _routineModelSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeBoolList(offsets[0], object.days);
-  writer.writeBool(offsets[1], object.finished);
-  writer.writeString(offsets[2], object.name);
+  writer.writeDateTime(offsets[0], object.createdDate);
+  writer.writeBoolList(offsets[1], object.days);
+  writer.writeBool(offsets[2], object.finished);
+  writer.writeString(offsets[3], object.name);
 }
 
 RoutineModel _routineModelDeserialize(
@@ -76,10 +82,11 @@ RoutineModel _routineModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = RoutineModel(
-    days: reader.readBoolList(offsets[0]) ?? [],
-    finished: reader.readBool(offsets[1]),
+    createdDate: reader.readDateTime(offsets[0]),
+    days: reader.readBoolList(offsets[1]) ?? [],
+    finished: reader.readBool(offsets[2]),
     id: id,
-    name: reader.readString(offsets[2]),
+    name: reader.readString(offsets[3]),
   );
   return object;
 }
@@ -92,10 +99,12 @@ P _routineModelDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readBoolList(offset) ?? []) as P;
+      return (reader.readDateTime(offset)) as P;
     case 1:
-      return (reader.readBool(offset)) as P;
+      return (reader.readBoolList(offset) ?? []) as P;
     case 2:
+      return (reader.readBool(offset)) as P;
+    case 3:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -196,6 +205,62 @@ extension RoutineModelQueryWhere
 
 extension RoutineModelQueryFilter
     on QueryBuilder<RoutineModel, RoutineModel, QFilterCondition> {
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      createdDateEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'createdDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      createdDateGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'createdDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      createdDateLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'createdDate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      createdDateBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'createdDate',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
       daysElementEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
@@ -518,6 +583,19 @@ extension RoutineModelQueryLinks
 
 extension RoutineModelQuerySortBy
     on QueryBuilder<RoutineModel, RoutineModel, QSortBy> {
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> sortByCreatedDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdDate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy>
+      sortByCreatedDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdDate', Sort.desc);
+    });
+  }
+
   QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> sortByFinished() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'finished', Sort.asc);
@@ -545,6 +623,19 @@ extension RoutineModelQuerySortBy
 
 extension RoutineModelQuerySortThenBy
     on QueryBuilder<RoutineModel, RoutineModel, QSortThenBy> {
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> thenByCreatedDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdDate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy>
+      thenByCreatedDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdDate', Sort.desc);
+    });
+  }
+
   QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> thenByFinished() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'finished', Sort.asc);
@@ -584,6 +675,12 @@ extension RoutineModelQuerySortThenBy
 
 extension RoutineModelQueryWhereDistinct
     on QueryBuilder<RoutineModel, RoutineModel, QDistinct> {
+  QueryBuilder<RoutineModel, RoutineModel, QDistinct> distinctByCreatedDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'createdDate');
+    });
+  }
+
   QueryBuilder<RoutineModel, RoutineModel, QDistinct> distinctByDays() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'days');
@@ -609,6 +706,12 @@ extension RoutineModelQueryProperty
   QueryBuilder<RoutineModel, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<RoutineModel, DateTime, QQueryOperations> createdDateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'createdDate');
     });
   }
 

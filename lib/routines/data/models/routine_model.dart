@@ -11,20 +11,27 @@ class RoutineModel {
   String name;
   List<bool> days;
   bool finished;
+  DateTime createdDate;
 
   RoutineModel({
     this.id,
     required this.name,
     required this.days,
     required this.finished,
+    required this.createdDate,
   });
 
   factory RoutineModel.fromEntity(RoutineEntity routinEntity) => RoutineModel(
       id: routinEntity.id,
       name: routinEntity.name,
       days: routinEntity.days,
-      finished: routinEntity.finished);
+      finished: routinEntity.finished,
+      createdDate: routinEntity.createdDate);
 
-  RoutineEntity toEntity() =>
-      RoutineEntity(id: id, name: name, days: days, finished: finished);
+  RoutineEntity toEntity() => RoutineEntity(
+      id: id,
+      name: name,
+      days: days,
+      finished: finished,
+      createdDate: createdDate);
 }

@@ -35,6 +35,7 @@ class RoutineRepositoryImpl implements RoutineRepository {
                 name: e.name,
                 days: e.days,
                 finished: e.finished,
+                createdDate: e.createdDate
               ))
           .toList();
 
