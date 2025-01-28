@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/routines/data/models/routine_model.dart';
+import 'package:wellnest/routines/presentation/providers/routine_provider.dart';
 
-class RoutineTile extends StatelessWidget {
+class RoutineTile extends ConsumerWidget {
   final RoutineModel routineModel;
   const RoutineTile({
     super.key,
@@ -9,15 +11,23 @@ class RoutineTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final routineNotifier = ref.watch(routineProvider);
     return Card(
-      margin: EdgeInsets.all(20),
+      margin: EdgeInsets.all(10),
       child: Container(
           padding: EdgeInsets.all(20),
           child: Column(
             children: [
               Row(
                 children: [
+                  Checkbox(
+                    value: routineModel.finished,
+                    onChanged: (value) async {
+                      routineModel.finished = value!;
+                      await routineNotifier.upsertRoutine(routineModel);
+                    },
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -25,7 +35,12 @@ class RoutineTile extends StatelessWidget {
                     ],
                   ),
                   Expanded(child: const SizedBox()),
-                  Text(routineModel.duration.toString()),
+                  IconButton(
+                    icon: Icon(Icons.more_horiz),
+                    onPressed: () {
+                      //TODO
+                    },
+                  )
                 ],
               ),
             ],

@@ -24,10 +24,10 @@ List<NavigationDestination> itemsList = [
       label: 'Wellness'),
   NavigationDestination(
       icon: Icon(
-        Icons.star_border,
+        Icons.person,
         color: obsidian,
       ),
-      label: 'Achievements'),
+      label: 'Account'),
 ];
 
 class CustomNavBar extends ConsumerWidget {

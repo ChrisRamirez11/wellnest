@@ -9,22 +9,22 @@ part 'routine_model.g.dart';
 class RoutineModel {
   Id? id;
   String name;
-  int duration;
   List<bool> days;
+  bool finished;
 
   RoutineModel({
     this.id,
     required this.name,
-    required this.duration,
     required this.days,
+    required this.finished,
   });
 
   factory RoutineModel.fromEntity(RoutineEntity routinEntity) => RoutineModel(
       id: routinEntity.id,
       name: routinEntity.name,
-      duration: routinEntity.duration,
-      days: routinEntity.days);
+      days: routinEntity.days,
+      finished: routinEntity.finished);
 
   RoutineEntity toEntity() =>
-      RoutineEntity(id: id, name: name, duration: duration, days: days);
+      RoutineEntity(id: id, name: name, days: days, finished: finished);
 }

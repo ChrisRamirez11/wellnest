@@ -22,10 +22,10 @@ const RoutineModelSchema = CollectionSchema(
       name: r'days',
       type: IsarType.boolList,
     ),
-    r'duration': PropertySchema(
+    r'finished': PropertySchema(
       id: 1,
-      name: r'duration',
-      type: IsarType.long,
+      name: r'finished',
+      type: IsarType.bool,
     ),
     r'name': PropertySchema(
       id: 2,
@@ -65,7 +65,7 @@ void _routineModelSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeBoolList(offsets[0], object.days);
-  writer.writeLong(offsets[1], object.duration);
+  writer.writeBool(offsets[1], object.finished);
   writer.writeString(offsets[2], object.name);
 }
 
@@ -77,7 +77,7 @@ RoutineModel _routineModelDeserialize(
 ) {
   final object = RoutineModel(
     days: reader.readBoolList(offsets[0]) ?? [],
-    duration: reader.readLong(offsets[1]),
+    finished: reader.readBool(offsets[1]),
     id: id,
     name: reader.readString(offsets[2]),
   );
@@ -94,7 +94,7 @@ P _routineModelDeserializeProp<P>(
     case 0:
       return (reader.readBoolList(offset) ?? []) as P;
     case 1:
-      return (reader.readLong(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 2:
       return (reader.readString(offset)) as P;
     default:
@@ -296,57 +296,11 @@ extension RoutineModelQueryFilter
   }
 
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
-      durationEqualTo(int value) {
+      finishedEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'duration',
+        property: r'finished',
         value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
-      durationGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'duration',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
-      durationLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'duration',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
-      durationBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'duration',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
       ));
     });
   }
@@ -564,15 +518,15 @@ extension RoutineModelQueryLinks
 
 extension RoutineModelQuerySortBy
     on QueryBuilder<RoutineModel, RoutineModel, QSortBy> {
-  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> sortByDuration() {
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> sortByFinished() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'duration', Sort.asc);
+      return query.addSortBy(r'finished', Sort.asc);
     });
   }
 
-  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> sortByDurationDesc() {
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> sortByFinishedDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'duration', Sort.desc);
+      return query.addSortBy(r'finished', Sort.desc);
     });
   }
 
@@ -591,15 +545,15 @@ extension RoutineModelQuerySortBy
 
 extension RoutineModelQuerySortThenBy
     on QueryBuilder<RoutineModel, RoutineModel, QSortThenBy> {
-  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> thenByDuration() {
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> thenByFinished() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'duration', Sort.asc);
+      return query.addSortBy(r'finished', Sort.asc);
     });
   }
 
-  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> thenByDurationDesc() {
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> thenByFinishedDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'duration', Sort.desc);
+      return query.addSortBy(r'finished', Sort.desc);
     });
   }
 
@@ -636,9 +590,9 @@ extension RoutineModelQueryWhereDistinct
     });
   }
 
-  QueryBuilder<RoutineModel, RoutineModel, QDistinct> distinctByDuration() {
+  QueryBuilder<RoutineModel, RoutineModel, QDistinct> distinctByFinished() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'duration');
+      return query.addDistinctBy(r'finished');
     });
   }
 
@@ -664,9 +618,9 @@ extension RoutineModelQueryProperty
     });
   }
 
-  QueryBuilder<RoutineModel, int, QQueryOperations> durationProperty() {
+  QueryBuilder<RoutineModel, bool, QQueryOperations> finishedProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'duration');
+      return query.addPropertyName(r'finished');
     });
   }
 

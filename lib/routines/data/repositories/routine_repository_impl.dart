@@ -33,8 +33,8 @@ class RoutineRepositoryImpl implements RoutineRepository {
           .map((e) => RoutineEntity(
                 id: e.id!,
                 name: e.name,
-                duration: e.duration,
-                days: e.days
+                days: e.days,
+                finished: e.finished,
               ))
           .toList();
 

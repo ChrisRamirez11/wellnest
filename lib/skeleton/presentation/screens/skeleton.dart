@@ -9,7 +9,7 @@ List<Widget> pages = [
   RoutinesScreen(),
   Center(child: Text('Week Scheduling')),
   Center(child: Text('Wellnes')),
-  Center(child: Text('Achievements')),
+  Center(child: Text('Account')),
 ];
 
 class Skeleton extends ConsumerStatefulWidget {

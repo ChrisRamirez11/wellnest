@@ -3,13 +3,13 @@
 class RoutineEntity {
   int? id;
   String name;
-  int duration;
   List<bool> days;
+  bool finished;
   
   RoutineEntity({
     this.id,
     required this.name,
-    required this.duration,
     required this.days,
+    required this.finished,
   });
 }

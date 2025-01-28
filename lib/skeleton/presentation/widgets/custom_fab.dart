@@ -6,13 +6,15 @@ import 'package:wellnest/routines/presentation/providers/routine_provider.dart';
 class CustomFab extends ConsumerWidget {
   const CustomFab({super.key});
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FloatingActionButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
         onPressed: () async => ref.watch(routineProvider).upsertRoutine(
-            RoutineModel(name: 'Meditacion', duration: 15, days: [false,false,true,false,false,false,false])),
+            RoutineModel(
+                name: 'Meditacion',
+                finished: false,
+                days: [false, false, true, false, false, false, false])),
         child: Icon(Icons.add));
   }
 }
