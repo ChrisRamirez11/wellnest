@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:wellnest/errors/failures.dart';
+import 'package:wellnest/core/errors/failures.dart';
 import 'package:wellnest/dates/business/entity/date_entity.dart';
 
 abstract class DateRepository {

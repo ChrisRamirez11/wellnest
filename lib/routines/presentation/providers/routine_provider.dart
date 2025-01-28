@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:wellnest/errors/failures.dart';
+import 'package:wellnest/core/errors/failures.dart';
 import 'package:wellnest/routines/business/usecases/delete_routine.dart';
 import 'package:wellnest/routines/business/usecases/get_every_routine.dart';
 import 'package:wellnest/routines/business/usecases/upsert_routine.dart';

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:wellnest/errors/failures.dart';
+import 'package:wellnest/core/errors/failures.dart';
 import 'package:wellnest/routines/business/repositories/routine_repository.dart';
 
 class DeleteRoutine {

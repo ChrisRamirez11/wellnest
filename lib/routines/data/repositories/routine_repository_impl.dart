@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dartz/dartz.dart';
-import 'package:wellnest/errors/excpetions.dart';
-import 'package:wellnest/errors/failures.dart';
+import 'package:wellnest/core/errors/excpetions.dart';
+import 'package:wellnest/core/errors/failures.dart';
 import 'package:wellnest/routines/business/entity/routine_entity.dart';
 import 'package:wellnest/routines/business/repositories/routine_repository.dart';
 import 'package:wellnest/routines/data/datasources/local/routine_local_datasource.dart';
@@ -29,15 +29,7 @@ class RoutineRepositoryImpl implements RoutineRepository {
     try {
       final routineModels = await routineLocalDatasource.getEveryRoutine();
 
-      final res = routineModels
-          .map((e) => RoutineEntity(
-                id: e.id!,
-                name: e.name,
-                days: e.days,
-                finished: e.finished,
-                createdDate: e.createdDate
-              ))
-          .toList();
+      final res = routineModels.map((e) => e.toEntity()).toList();
 
       return Right(res);
     } on CacheException catch (e) {

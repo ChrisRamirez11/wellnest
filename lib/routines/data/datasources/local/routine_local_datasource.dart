@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:wellnest/core/utils/isar_database.dart';
-import 'package:wellnest/errors/excpetions.dart';
+import 'package:wellnest/core/errors/excpetions.dart';
 import 'package:wellnest/routines/data/models/routine_model.dart';
 
 abstract class RoutineLocalDatasource {
