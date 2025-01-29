@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:wellnest/core/utils/isar_database.dart';
+import 'package:wellnest/core/local_dbs/isar_database.dart';
 import 'package:wellnest/core/errors/excpetions.dart';
 import 'package:wellnest/dates/data/models/date_model.dart';
 
