@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../util/datasets_util.dart';
+// import '../util/datasets_util.dart';
 import './heatmap_container.dart';
 import '../data/heatmap_color_mode.dart';
 import '../util/date_util.dart';
@@ -129,36 +129,39 @@ class HeatMapCalendarRow extends StatelessWidget {
                   // we have to color the matched HeatMapContainer.
                   //
                   // If datasets is null or doesn't contains the equal DateTime value, send null.
-                  selectedColor: datasets?.keys.contains(DateTime(
-                              startDate.year,
-                              startDate.month,
-                              startDate.day - startDate.weekday % 7 + i)) ??
-                          false
-                      // If colorMode is ColorMode.opacity,
-                      ? colorMode == ColorMode.opacity
-                          // Color the container with first value of colorsets
-                          // and set opacity value to current day's datasets key
-                          // devided by maxValue which is the maximum value of the month.
-                          ? colorsets?.values.first.withOpacity((datasets?[
-                                      DateTime(
-                                          startDate.year,
-                                          startDate.month,
-                                          startDate.day +
-                                              i -
-                                              (startDate.weekday % 7))] ??
-                                  1) /
-                              (maxValue ?? 1))
-                          // Else if colorMode is ColorMode.Color.
-                          //
-                          // Get color value from colorsets which is filtered with DateTime value
-                          // Using DatasetsUtil.getColor()
-                          : DatasetsUtil.getColor(
-                              colorsets,
-                              datasets?[DateTime(
-                                  startDate.year,
-                                  startDate.month,
-                                  startDate.day + i - (startDate.weekday % 7))])
-                      : null,
+
+                  //
+                  // COMMENTED because of withOpacity use and i changed how selected day works
+                  // selectedColor: datasets?.keys.contains(DateTime(
+                  //             startDate.year,
+                  //             startDate.month,
+                  //             startDate.day - startDate.weekday % 7 + i)) ??
+                  //         false
+                  //     // If colorMode is ColorMode.opacity,
+                  //     ? colorMode == ColorMode.opacity
+                  //         // Color the container with first value of colorsets
+                  //         // and set opacity value to current day's datasets key
+                  //         // devided by maxValue which is the maximum value of the month.
+                  //         ? colorsets?.values.first.withValues(
+                  //             alpha: (datasets?[DateTime(
+                  //                         startDate.year,
+                  //                         startDate.month,
+                  //                         startDate.day +
+                  //                             i -
+                  //                             (startDate.weekday % 7))] ??
+                  //                     1) /
+                  //                 (maxValue ?? 1))
+                  //         // Else if colorMode is ColorMode.Color.
+                  //         //
+                  //         // Get color value from colorsets which is filtered with DateTime value
+                  //         // Using DatasetsUtil.getColor()
+                  //         : DatasetsUtil.getColor(
+                  //             colorsets,
+                  //             datasets?[DateTime(
+                  //                 startDate.year,
+                  //                 startDate.month,
+                  //                 startDate.day + i - (startDate.weekday % 7))])
+                  //     : null,
                 ),
         );
 
