@@ -18,7 +18,7 @@ class RoutineRepositoryImpl implements RoutineRepository {
   Future<Either<Failure, void>> deleteRoutine(int id) async {
     try {
       await routineLocalDatasource.deleteRoutine(id);
-      return Right(null);
+      return const Right(null);
     } on CacheException catch (e) {
       return Left(CacheFailure(errorMessage: e.message));
     }
@@ -50,6 +50,9 @@ class RoutineRepositoryImpl implements RoutineRepository {
   @override
   Future<Either<Failure, int>> upsertRoutine(RoutineEntity routine) async {
     try {
+      final d = DateTime(routine.createdDate.year, routine.createdDate.month,
+          routine.createdDate.day);
+          routine.createdDate = d;
       final res = await routineLocalDatasource
           .upsertRoutine(RoutineModel.fromEntity(routine));
       return Right(res);

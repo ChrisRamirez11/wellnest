@@ -66,7 +66,7 @@ ThemeData theme = ThemeData(
 
   //NavigationBarThemeData
   //
-  navigationBarTheme: NavigationBarThemeData(
+  navigationBarTheme: const NavigationBarThemeData(
       labelTextStyle: WidgetStatePropertyAll(TextStyle(fontSize: smallSize))),
 
   //ColorScheme
@@ -171,7 +171,7 @@ ThemeData themeDark = ThemeData.dark().copyWith(
 
     //NavigationBarThemeData
     //
-    navigationBarTheme: NavigationBarThemeData(
+    navigationBarTheme: const NavigationBarThemeData(
         labelTextStyle: WidgetStatePropertyAll(TextStyle(fontSize: smallSize))),
 
     //Color Scheme

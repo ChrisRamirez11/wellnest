@@ -8,7 +8,8 @@ class GetDate {
 
   GetDate(this._dateRepository);
 
-  Future<Either<Failure, DateEntity>> call(int id) async {
-    return await _dateRepository.getDate(id);
+  Future<Either<Failure, DateEntity?>> call(DateTime date) async {
+    DateTime d = DateTime(date.year, date.month, date.day);
+    return await _dateRepository.getDate(d);
   }
 }

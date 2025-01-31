@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/routines/presentation/screens/routines_screen.dart';
+import 'package:wellnest/small_routines/presentation/screens/small_routines_screen.dart';
 import 'package:wellnest/skeleton/presentation/providers/index_provider.dart';
 import 'package:wellnest/skeleton/presentation/widgets/custom_fab.dart';
 import 'package:wellnest/skeleton/presentation/widgets/custom_nav_bar.dart';
 
 List<Widget> pages = [
-  RoutinesScreen(),
-  Center(child: Text('Week Scheduling')),
-  Center(child: Text('Wellnes')),
-  Center(child: Text('Account')),
+  const SmallRoutinesScreen(),
+  const Center(child: Text('Week Scheduling')),
+  const Center(child: Text('Wellnes')),
+  const Center(child: Text('Account')),
 ];
 
 class Skeleton extends ConsumerStatefulWidget {
@@ -33,8 +33,8 @@ class _SkeletonState extends ConsumerState<Skeleton> {
         child: Scaffold(
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.miniCenterDocked,
-            floatingActionButton: CustomFab(),
-            bottomNavigationBar: CustomNavBar(),
+            floatingActionButton: const CustomFab(),
+            bottomNavigationBar: const CustomNavBar(),
             body: PageView(
               controller: index.pageController,
               onPageChanged: (value) => index.changeIndex(value),

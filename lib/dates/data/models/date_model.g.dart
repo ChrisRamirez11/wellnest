@@ -102,7 +102,7 @@ P _dateModelDeserializeProp<P>(
 }
 
 Id _dateModelGetId(DateModel object) {
-  return object.id;
+  return object.id ?? Isar.autoIncrement;
 }
 
 List<IsarLinkBase<dynamic>> _dateModelGetLinks(DateModel object) {
@@ -301,8 +301,24 @@ extension DateModelQueryFilter
     });
   }
 
+  QueryBuilder<DateModel, DateModel, QAfterFilterCondition> idIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'id',
+      ));
+    });
+  }
+
+  QueryBuilder<DateModel, DateModel, QAfterFilterCondition> idIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'id',
+      ));
+    });
+  }
+
   QueryBuilder<DateModel, DateModel, QAfterFilterCondition> idEqualTo(
-      Id value) {
+      Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -312,7 +328,7 @@ extension DateModelQueryFilter
   }
 
   QueryBuilder<DateModel, DateModel, QAfterFilterCondition> idGreaterThan(
-    Id value, {
+    Id? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -325,7 +341,7 @@ extension DateModelQueryFilter
   }
 
   QueryBuilder<DateModel, DateModel, QAfterFilterCondition> idLessThan(
-    Id value, {
+    Id? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -338,8 +354,8 @@ extension DateModelQueryFilter
   }
 
   QueryBuilder<DateModel, DateModel, QAfterFilterCondition> idBetween(
-    Id lower,
-    Id upper, {
+    Id? lower,
+    Id? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {

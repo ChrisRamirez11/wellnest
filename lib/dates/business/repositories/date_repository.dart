@@ -4,7 +4,7 @@ import 'package:wellnest/dates/business/entity/date_entity.dart';
 
 abstract class DateRepository {
   Future<Either<Failure, int>> upsertDate(DateEntity dateEntity);
-  Future<Either<Failure, DateEntity>> getDate(int id);
+  Future<Either<Failure, DateEntity?>> getDate(DateTime date);
   Future<Either<Failure, List<DateEntity>>> getEveryDate();
   Future<Either<Failure, void>> deleteDate(int id);
 }

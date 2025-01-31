@@ -14,9 +14,9 @@ class RoutineTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final routineNotifier = ref.watch(routineProvider);
     return Card(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       child: Container(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               Row(
@@ -34,9 +34,9 @@ class RoutineTile extends ConsumerWidget {
                       Text(routineModel.name),
                     ],
                   ),
-                  Expanded(child: const SizedBox()),
+                  const Expanded(child: SizedBox()),
                   IconButton(
-                    icon: Icon(Icons.more_horiz),
+                    icon: const Icon(Icons.more_horiz),
                     onPressed: () {
                       //TODO
                     },

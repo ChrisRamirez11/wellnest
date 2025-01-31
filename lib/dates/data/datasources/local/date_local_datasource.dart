@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 import 'package:isar/isar.dart';
 import 'package:wellnest/core/local_dbs/isar_database.dart';
 import 'package:wellnest/core/errors/excpetions.dart';
 import 'package:wellnest/dates/data/models/date_model.dart';
 
 abstract class DateLocalDatasource {
-  Future<DateModel?> getDate(int id);
+  Future<DateModel?> getDate(DateTime date);
   Future<List<DateModel>> getEveryDate();
   Future<int> upsertDate(DateModel dateModel);
   Future<void> deleteDate(int id);
@@ -23,10 +25,14 @@ class DateLocalDatasourceImpl implements DateLocalDatasource {
   }
 
   @override
-  Future<DateModel?> getDate(int id) async {
+  Future<DateModel?> getDate(DateTime date) async {
     try {
       final isarInstance = await IsarDatabase().isar;
-      return await isarInstance.dateModels.get(id);
+      return await isarInstance.dateModels
+          .where()
+          .filter()
+          .dateEqualTo(date)
+          .findFirst();
     } catch (e) {
       throw CacheException(message: e.toString());
     }
@@ -44,11 +50,15 @@ class DateLocalDatasourceImpl implements DateLocalDatasource {
 
   @override
   Future<int> upsertDate(DateModel dateModel) async {
+    final d =
+        DateTime(dateModel.date.year, dateModel.date.month, dateModel.date.day);
+    dateModel.date = d;
     try {
       int? res;
       final isarInstance = await IsarDatabase().isar;
-      isarInstance.writeTxn(
+      await isarInstance.writeTxn(
           () async => res = await isarInstance.dateModels.put(dateModel));
+      log(res.toString());
       return res!;
     } catch (e) {
       throw CacheException(message: e.toString());

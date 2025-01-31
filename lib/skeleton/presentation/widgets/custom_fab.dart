@@ -12,10 +12,10 @@ class CustomFab extends ConsumerWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
         onPressed: () async => ref.watch(routineProvider).upsertRoutine(
             RoutineModel(
-                createdDate: DateTime.now(),
+                createdDate: DateTime(2025, 01, 27),
                 name: 'Meditacion',
                 finished: false,
                 days: [false, false, true, false, false, false, false])),
-        child: Icon(Icons.add));
+        child: const Icon(Icons.add));
   }
 }

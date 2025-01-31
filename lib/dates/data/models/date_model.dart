@@ -6,13 +6,13 @@ part 'date_model.g.dart';
 
 @collection
 class DateModel {
-  Id id;
+  Id? id;
   DateTime date;
   List<int> routinesId;
   int completedRoutineAmount;
 
   DateModel({
-    required this.id,
+    this.id,
     required this.date,
     required this.routinesId,
     required this.completedRoutineAmount,
@@ -27,7 +27,6 @@ class DateModel {
     );
   }
   DateEntity toEntity() => DateEntity(
-      id: id,
       date: date,
       routinesId: routinesId,
       completedRoutineAmount: completedRoutineAmount);

@@ -14,7 +14,7 @@ class CustomAppBar extends AppBar {
   static Text titleWidget(String titleString) {
     return Text(
           titleString,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         );
   }
 }

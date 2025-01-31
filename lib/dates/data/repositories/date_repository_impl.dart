@@ -18,17 +18,17 @@ class DateRepositoryImpl implements DateRepository {
   Future<Either<Failure, void>> deleteDate(int id) async {
     try {
       await dateLocalDatasource.deleteDate(id);
-      return Right(null);
+      return const Right(null);
     } on CacheFailure catch (e) {
       return Left(e);
     }
   }
 
   @override
-  Future<Either<Failure, DateEntity>> getDate(int id) async {
+  Future<Either<Failure, DateEntity?>> getDate(DateTime date) async {
     try {
-      final dateModel = await dateLocalDatasource.getDate(id);
-      return Right(dateModel!.toEntity());
+      final dateModel = await dateLocalDatasource.getDate(date);
+      return Right(dateModel?.toEntity());
     } on CacheFailure catch (e) {
       return Left(e);
     }
