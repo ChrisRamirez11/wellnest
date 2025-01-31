@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:wellnest/core/errors/failures.dart';
-import 'package:wellnest/dates/business/usecases/get_date.dart';
 import 'package:wellnest/dates/business/usecases/get_every_date.dart';
 import 'package:wellnest/dates/business/usecases/upsert_date.dart';
 import 'package:wellnest/dates/data/datasources/local/date_local_datasource.dart';
@@ -17,8 +16,8 @@ final dateProvider = ChangeNotifierProvider(
 
 class DateProvider extends ChangeNotifier {
   List<DateModel>? _dates;
-  DateModel? _date;
   Failure? _failure;
+  int currentIndex = 0;
 
   DateProvider() {
     getDates();
@@ -27,42 +26,27 @@ class DateProvider extends ChangeNotifier {
   final DateRepositoryImpl repositoryImpl =
       DateRepositoryImpl(dateLocalDatasource: DateLocalDatasourceImpl());
 
-  DateModel? get date => _date;
   List<DateModel>? get dates => _dates;
   Failure? get failure => _failure;
 
-  setDateToNull() {
-    _date = null;
-    notifyListeners();
-  }
 
-  getDate(DateTime date, DateTime currentSelectedDate) async {
-    //puede ser que a lo mejor lo primero que se haga sea adicionarlo a _dates y ya luego se mira si hace falta o no ponerlo en la BD
-    final failureOrDate = await GetDate(repositoryImpl).call(date);
-    failureOrDate.fold(
-      (l) => _failure = l,
-      (dateEntity) async {
-        if (dateEntity != null) {
-          _date = DateModel.fromEntity(dateEntity);
-        } else {
-          if (date.isBefore(DateTime(DateTime.now().year, DateTime.now().month,
-                  DateTime.now().day)) ||
-              date.isAtSameMomentAs(DateTime(DateTime.now().year,
-                  DateTime.now().month, DateTime.now().day))) {
-            await upsertDate(DateModel(
-                date: DateTime(currentSelectedDate.year,
-                    currentSelectedDate.month, currentSelectedDate.day),
-                routinesId: [],
-                completedRoutineAmount: 0));
-          } else {
-            _date = DateModel(
-                date: date, routinesId: [], completedRoutineAmount: 0);
-            _dates!.add(_date!);
-          }
-        }
-      },
-    );
+  Future<void> changeDate(DateTime d) async {
+    d = DateTime(d.year, d.month, d.day);
+    
+    //We check if d exists and in case true we set currentIndex to the date index
+    for (final dateModel in _dates!) {
+      if (dateModel.date.isAtSameMomentAs(d)) {
+        currentIndex = _dates!.indexOf(dateModel);
+        notifyListeners();
+        return;
+      }
+    }
+    //if d is not in the list then we insert it
+    _dates!.insert(
+        0, DateModel(date: d, routinesId: [], completedRoutineAmount: 0));
+    currentIndex = 0;
     notifyListeners();
+    return;
   }
 
   upsertDate(DateModel dateModel) async {
@@ -78,8 +62,8 @@ class DateProvider extends ChangeNotifier {
     } else {
       res.fold((l) => _failure = failure, (id) {
         dateModel.id = id;
-        _date = dateModel;
-        _dates!.add(dateModel);
+        _dates!.insert(0, dateModel);
+        currentIndex = 0;
       });
     }
     notifyListeners();

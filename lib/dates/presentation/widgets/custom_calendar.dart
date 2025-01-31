@@ -14,6 +14,7 @@ class CustomCalendar extends ConsumerStatefulWidget {
 }
 
 class _CustomCalendarState extends ConsumerState<CustomCalendar> {
+  
   @override
   Widget build(BuildContext context) {
     final currentSelectedDate = ref.watch(currentSelectedDateProvider);
@@ -24,10 +25,8 @@ class _CustomCalendarState extends ConsumerState<CustomCalendar> {
       fit: BoxFit.fill,
       child: HeatMapCalendar(
         onClick: (p0) async {
-          dateNotifier.setDateToNull();
           currentSelectedDate.changeDate(p0);
-          await dateNotifier.getDate(DateTime(p0.year, p0.month, p0.day),
-              currentSelectedDate.currentSelectedDate);
+          await dateNotifier.changeDate(p0);
         },
         currentSelectedDateColor: currentSelectedDateColor,
         currentSelectedDate: currentSelectedDate.currentSelectedDate,
