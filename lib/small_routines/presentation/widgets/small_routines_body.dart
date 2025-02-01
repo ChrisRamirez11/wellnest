@@ -4,36 +4,35 @@ import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/widgets/custom_error_widget.dart';
 import 'package:wellnest/dates/presentation/providers/date_provider.dart';
 import 'package:wellnest/dates/presentation/widgets/custom_calendar.dart';
+import 'package:wellnest/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/routines/presentation/widgets/routines_list_view.dart';
-class SmallRoutinesBody extends ConsumerStatefulWidget {
+class SmallRoutinesBody extends ConsumerWidget {
   const SmallRoutinesBody({
     super.key,
   });
 
-  @override
-  ConsumerState<SmallRoutinesBody> createState() => _SmallRoutinesBodyState();
-}
-
-class _SmallRoutinesBodyState extends ConsumerState<SmallRoutinesBody> {
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final dateNotifier = ref.watch(dateProvider);
     final dates = ref.watch(dateProvider).dates;
     final failure = ref.watch(dateProvider).failure;
+    final routines = ref.watch(routineProvider).routines;
     late Widget widget;
-    if (dates != null) {
+    if (dates != null && routines != null) {
       widget = Column(
         children: [
           Container(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               height: size(context).width * .7,
               width: size(context).width,
-              child: const CustomCalendar()),
+              child: CustomCalendar(
+                routines: routines,
+              )),
           Expanded(
-            child: dates.isNotEmpty
+            child: dateNotifier.date != null
                 ? RoutinesListView(
-                    dateModel: dates[dateNotifier.currentIndex],
+                    dateModel: dateNotifier.date!
                   )
                 : const SizedBox(),
           )

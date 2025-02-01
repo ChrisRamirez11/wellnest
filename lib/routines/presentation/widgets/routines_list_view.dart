@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/core/utils/routines_assignment.dart';
 
 import 'package:wellnest/core/widgets/custom_error_widget.dart';
 import 'package:wellnest/dates/data/models/date_model.dart';
@@ -26,7 +25,6 @@ class RoutinesListView extends ConsumerWidget {
 
     if (routines != null) {
       log('routinesListView ${dateModel.id.toString()}');
-      routineAssignment(ref, routines, dateModel);
       widget = ListView.builder(
           itemCount: routines.length,
           itemBuilder: (context, index) {

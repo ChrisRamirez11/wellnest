@@ -27,6 +27,7 @@ class DateModel {
     );
   }
   DateEntity toEntity() => DateEntity(
+      id: id,
       date: date,
       routinesId: routinesId,
       completedRoutineAmount: completedRoutineAmount);

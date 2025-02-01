@@ -6,6 +6,7 @@ class DateEntity {
   int completedRoutineAmount;
   
   DateEntity({
+    this.id,
     required this.date,
     required this.routinesId,
     required this.completedRoutineAmount,

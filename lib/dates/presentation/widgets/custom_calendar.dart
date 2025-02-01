@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/theme/theme.dart';
+import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
 import 'package:wellnest/dates/data/models/date_model.dart';
 import 'package:wellnest/dates/presentation/providers/date_provider.dart';
 import 'package:wellnest/flutter_heatmap_calendar/src/heatmap_calendar.dart';
+import 'package:wellnest/routines/data/models/routine_model.dart';
 import 'package:wellnest/small_routines/presentation/providers/current_selected_date_provider.dart';
 
-class CustomCalendar extends ConsumerStatefulWidget {
-  const CustomCalendar({super.key});
+class CustomCalendar extends ConsumerWidget {
+  final List<RoutineModel> routines;
+  const CustomCalendar({super.key, required this.routines});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CustomCalendarState();
-}
-
-class _CustomCalendarState extends ConsumerState<CustomCalendar> {
-  
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final currentSelectedDate = ref.watch(currentSelectedDateProvider);
-    final dateNotifier = ref.watch(dateProvider);
     final dates = ref.watch(dateProvider).dates;
     final currentSelectedDateColor = coffe;
     return FittedBox(
@@ -26,7 +22,7 @@ class _CustomCalendarState extends ConsumerState<CustomCalendar> {
       child: HeatMapCalendar(
         onClick: (p0) async {
           currentSelectedDate.changeDate(p0);
-          await dateNotifier.changeDate(p0);
+          await validateDateModel(routines, p0, ref);
         },
         currentSelectedDateColor: currentSelectedDateColor,
         currentSelectedDate: currentSelectedDate.currentSelectedDate,

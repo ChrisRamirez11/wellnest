@@ -17,7 +17,7 @@ final dateProvider = ChangeNotifierProvider(
 class DateProvider extends ChangeNotifier {
   List<DateModel>? _dates;
   Failure? _failure;
-  int currentIndex = 0;
+  DateModel? _date;
 
   DateProvider() {
     getDates();
@@ -27,26 +27,12 @@ class DateProvider extends ChangeNotifier {
       DateRepositoryImpl(dateLocalDatasource: DateLocalDatasourceImpl());
 
   List<DateModel>? get dates => _dates;
+  DateModel? get date => _date;
   Failure? get failure => _failure;
 
-
-  Future<void> changeDate(DateTime d) async {
-    d = DateTime(d.year, d.month, d.day);
-    
-    //We check if d exists and in case true we set currentIndex to the date index
-    for (final dateModel in _dates!) {
-      if (dateModel.date.isAtSameMomentAs(d)) {
-        currentIndex = _dates!.indexOf(dateModel);
-        notifyListeners();
-        return;
-      }
-    }
-    //if d is not in the list then we insert it
-    _dates!.insert(
-        0, DateModel(date: d, routinesId: [], completedRoutineAmount: 0));
-    currentIndex = 0;
+  setDate(DateModel d) {
+    _date = d;
     notifyListeners();
-    return;
   }
 
   upsertDate(DateModel dateModel) async {
@@ -63,9 +49,9 @@ class DateProvider extends ChangeNotifier {
       res.fold((l) => _failure = failure, (id) {
         dateModel.id = id;
         _dates!.insert(0, dateModel);
-        currentIndex = 0;
       });
     }
+    _date = dateModel;
     notifyListeners();
   }
 
