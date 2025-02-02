@@ -101,12 +101,12 @@ class Routine {
       finished: finished!,
       createdDate: createdDate!);
 
-  factory Routine.fromModel(RoutineModel routinEntity) => Routine(
-      id: routinEntity.id,
-      name: routinEntity.name,
-      days: routinEntity.days,
-      finished: routinEntity.finished,
-      createdDate: routinEntity.createdDate);
+  factory Routine.fromModel(RoutineModel routineModel) => Routine(
+      id: routineModel.id,
+      name: routineModel.name,
+      days: routineModel.days,
+      finished: routineModel.finished,
+      createdDate: routineModel.createdDate);
 
   RoutineModel toModel() => RoutineModel(
       id: id,
