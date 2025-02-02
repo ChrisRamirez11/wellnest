@@ -28,7 +28,8 @@ class RoutinesListView extends ConsumerWidget {
       widget = ListView.builder(
           itemCount: routines.length,
           itemBuilder: (context, index) {
-            if (dateModel.routinesId.contains(routines[index].id)) {
+            //it must be checked if its currently working (Routines Update)
+            if (dateModel.routines.contains(routines[index])) {
               return RoutineTile(routineModel: routines[index]);
             } else {
               return const SizedBox();

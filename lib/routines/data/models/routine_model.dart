@@ -34,4 +34,22 @@ class RoutineModel {
       days: days,
       finished: finished,
       createdDate: createdDate);
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'days': days,
+      'finished': finished,
+      'createdDate': createdDate,
+    };
+  }
+
+  factory RoutineModel.fromMap(Map<String, dynamic> map) => RoutineModel(
+        id: map['id'],
+        name: map['name'] as String,
+        days: List<bool>.from((map['days'] as List<bool>)),
+        finished: map['finished'] as bool,
+        createdDate: DateTime.parse(map['createdDate']),
+      );
 }

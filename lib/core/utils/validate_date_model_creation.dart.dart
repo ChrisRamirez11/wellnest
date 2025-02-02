@@ -3,14 +3,17 @@ import 'package:wellnest/dates/data/models/date_model.dart';
 import 'package:wellnest/dates/presentation/providers/date_provider.dart';
 import 'package:wellnest/routines/data/models/routine_model.dart';
 
+//I made a change in th routinesId, now is not storing th IDs is storing the routine itself
+//TO BE CHECKED
+
 Future<void> validateDateModel(
     List<RoutineModel> routines, DateTime date, WidgetRef ref) async {
   final dateNotifier = ref.watch(dateProvider);
-  List<int> routinesList = [];
+  List<RoutineModel> routinesList = [];
   final today =
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   DateModel dateModel =
-      DateModel(date: date, routinesId: [], completedRoutineAmount: 0);
+      DateModel(date: date, routines: [], completedRoutineAmount: 0);
 
   for (final d in dateNotifier.dates!) {
     if (d.date.isAtSameMomentAs(date)) {
@@ -31,11 +34,11 @@ Future<void> validateDateModel(
             routine.createdDate.isAtSameMomentAs(date) &&
                 routines.first.createdDate.isBefore(date) ||
             routines.first.createdDate.isAtSameMomentAs(date)) {
-          routinesList.add(routine.id!);
+          routinesList.add(routine);
         }
       }
 
-      dateModel.routinesId = routinesList;
+      dateModel.routines = routinesList.map((e) => Routine.fromModel(e),).toList();
       await dateNotifier.upsertDate(dateModel);
     } else {
       dateNotifier.setDate(dateModel);
