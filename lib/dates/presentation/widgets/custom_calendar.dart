@@ -23,10 +23,10 @@ class CustomCalendar extends ConsumerWidget {
           currentSelectedDate.changeDate(p0);
           await validateDateModel(routines, p0, ref);
         },
-        currentSelectedDateColor: secondary,
+        currentSelectedDateColor: coffe,
         currentSelectedDate: currentSelectedDate.currentSelectedDate,
         showColorTip: false,
-        defaultColor: ghostWhite,
+        defaultColor: secondary,
         textColor: obsidian,
         weekFontSize: 20,
         monthFontSize: 25,

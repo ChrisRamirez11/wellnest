@@ -48,7 +48,7 @@ class HeatMapContainer extends StatelessWidget {
                     color: _selectedDateValidation()
                         ? currentSelectedDateColor ?? Colors.blue
                         : Colors.transparent,
-                    width: 5)),
+                    width: 7)),
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeInOutQuad,
             width: size,
@@ -63,12 +63,8 @@ class HeatMapContainer extends StatelessWidget {
                 ? Text(
                     date.day.toString(),
                     style: TextStyle(
-                        color: _selectedDateValidation()
-                            ? currentSelectedDateColor ?? Colors.blue
-                            : textColor ?? const Color(0xFF8A8A8A),
-                        fontWeight: _selectedDateValidation()
-                            ? FontWeight.w900
-                            : FontWeight.normal,
+                        color: textColor ?? const Color(0xFF8A8A8A),
+                        fontWeight: FontWeight.normal,
                         fontSize: _selectedDateValidation()
                             ? fontSize! + 2
                             : fontSize),
