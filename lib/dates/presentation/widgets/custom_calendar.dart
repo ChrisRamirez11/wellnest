@@ -20,7 +20,10 @@ class CustomCalendar extends ConsumerWidget {
       fit: BoxFit.fill,
       child: HeatMapCalendar(
         onClick: (p0) async {
+          //changes the current selected date so it gets marked
           currentSelectedDate.changeDate(p0);
+          //validates DateModel and in any case it'll add the date to _dates and also _date
+          //gets updated so you can see its routines and will not break
           await validateDateModel(routines, p0, ref);
         },
         currentSelectedDateColor: coffe,
