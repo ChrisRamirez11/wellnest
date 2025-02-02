@@ -22,18 +22,15 @@ class RoutinesListView extends ConsumerWidget {
     final routines = ref.watch(routineProvider).routines;
     final failure = ref.watch(routineProvider).failure;
     late Widget widget;
+//Ya aqui no se puede depender de routines, solo de dateModel, routines solo sera para ver las rutinas exisentes, crearlas, etc(CRUD)
 
     if (routines != null) {
       log('routinesListView ${dateModel.id.toString()}');
       widget = ListView.builder(
-          itemCount: routines.length,
+          itemCount: dateModel.routines.length,
           itemBuilder: (context, index) {
-            //it must be checked if its currently working (Routines Update)
-            if (dateModel.routines.contains(routines[index])) {
-              return RoutineTile(routineModel: routines[index]);
-            } else {
-              return const SizedBox();
-            }
+              return RoutineTile(routine: dateModel.routines[index], index: index,);
+            
           });
     } else if (failure != null) {
       widget = CustomErrorWidget(errorMessage: failure.errorMessage);

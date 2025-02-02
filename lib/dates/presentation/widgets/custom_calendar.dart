@@ -16,7 +16,6 @@ class CustomCalendar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentSelectedDate = ref.watch(currentSelectedDateProvider);
     final dates = ref.watch(dateProvider).dates;
-    final currentSelectedDateColor = coffe;
     return FittedBox(
       fit: BoxFit.fill,
       child: HeatMapCalendar(
@@ -24,15 +23,14 @@ class CustomCalendar extends ConsumerWidget {
           currentSelectedDate.changeDate(p0);
           await validateDateModel(routines, p0, ref);
         },
-        currentSelectedDateColor: currentSelectedDateColor,
+        currentSelectedDateColor: secondary,
         currentSelectedDate: currentSelectedDate.currentSelectedDate,
         showColorTip: false,
-        defaultColor: secondary,
+        defaultColor: ghostWhite,
         textColor: obsidian,
         weekFontSize: 20,
         monthFontSize: 25,
         borderRadius: 15,
-        // colorMode: ColorMode.color,
         colorTipCount: 5,
         colorTipSize: 20,
         fontSize: 20,

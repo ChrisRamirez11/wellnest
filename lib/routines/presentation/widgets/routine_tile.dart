@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/routines/data/models/routine_model.dart';
-import 'package:wellnest/routines/presentation/providers/routine_provider.dart';
+import 'package:wellnest/dates/data/models/date_model.dart';
+import 'package:wellnest/dates/presentation/providers/date_provider.dart';
 
 class RoutineTile extends ConsumerWidget {
-  final RoutineModel routineModel;
+  final int index;
+  final Routine routine;
   const RoutineTile({
     super.key,
-    required this.routineModel,
+    required this.index,
+    required this.routine,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final routineNotifier = ref.watch(routineProvider);
+    final dateNotifier = ref.watch(dateProvider);
     return Card(
       margin: const EdgeInsets.all(10),
       child: Container(
@@ -22,16 +24,24 @@ class RoutineTile extends ConsumerWidget {
               Row(
                 children: [
                   Checkbox(
-                    value: routineModel.finished,
+                    value: routine.finished,
                     onChanged: (value) async {
-                      routineModel.finished = value!;
-                      await routineNotifier.upsertRoutine(routineModel);
+                      dateNotifier.date!.routines[index].finished = value;
+                      if (dateNotifier.date!.routines[index].finished!) {
+                        dateNotifier.date!.completedRoutineAmount =
+                            dateNotifier.date!.completedRoutineAmount + 1;
+                        await dateNotifier.upsertDate(dateNotifier.date!);
+                      } else {
+                        dateNotifier.date!.completedRoutineAmount =
+                            dateNotifier.date!.completedRoutineAmount - 1;
+                        await dateNotifier.upsertDate(dateNotifier.date!);
+                      }
                     },
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(routineModel.name),
+                      Text(routine.name!),
                     ],
                   ),
                   const Expanded(child: SizedBox()),

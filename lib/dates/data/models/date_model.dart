@@ -45,14 +45,13 @@ class DateModel {
           .toList(),
       completedRoutineAmount: completedRoutineAmount);
 
-
 //toMap and fromMap must be checked if its working correctlty (To be used with Supabase)
   Map<String, dynamic> toMap() => <String, dynamic>{
-      'id': id,
-      'date': date.millisecondsSinceEpoch,
-      'routines': routines.map((x) => x.toMap()).toList(),
-      'completedRoutineAmount': completedRoutineAmount,
-    };
+        'id': id,
+        'date': date.millisecondsSinceEpoch,
+        'routines': routines.map((x) => x.toMap()).toList(),
+        'completedRoutineAmount': completedRoutineAmount,
+      };
 
   factory DateModel.fromMap(Map<String, dynamic> map) {
     return DateModel(
@@ -67,7 +66,6 @@ class DateModel {
     );
   }
 }
-
 
 //THIS is for trying to save the RoutineModels into DateModel, and because of the isar database way,
 //i cant set embedded to the Model, insted I had to do this
@@ -87,12 +85,12 @@ class Routine {
     this.createdDate,
   });
 
-  factory Routine.fromEntity(RoutineEntity routinEntity) => Routine(
-      id: routinEntity.id,
-      name: routinEntity.name,
-      days: routinEntity.days,
-      finished: routinEntity.finished,
-      createdDate: routinEntity.createdDate);
+  factory Routine.fromEntity(RoutineEntity routineEntity) => Routine(
+      id: routineEntity.id,
+      name: routineEntity.name,
+      days: routineEntity.days,
+      finished: routineEntity.finished,
+      createdDate: routineEntity.createdDate);
 
   RoutineEntity toEntity() => RoutineEntity(
       id: id,
@@ -115,6 +113,14 @@ class Routine {
       finished: finished!,
       createdDate: createdDate!);
 
+  factory Routine.fromMap(Map<String, dynamic> map) => Routine(
+        id: map['id'],
+        name: map['name'] as String,
+        days: List<bool>.from((map['days'] as List<bool>)),
+        finished: map['finished'] as bool,
+        createdDate: DateTime.parse(map['createdDate']),
+      );
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
@@ -124,12 +130,4 @@ class Routine {
       'createdDate': createdDate,
     };
   }
-
-  factory Routine.fromMap(Map<String, dynamic> map) => Routine(
-        id: map['id'],
-        name: map['name'] as String,
-        days: List<bool>.from((map['days'] as List<bool>)),
-        finished: map['finished'] as bool,
-        createdDate: DateTime.parse(map['createdDate']),
-      );
 }
