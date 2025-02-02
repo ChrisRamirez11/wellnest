@@ -18,16 +18,10 @@ List<NavigationDestination> itemsList = [
       label: 'Week Scheduling'),
   const NavigationDestination(
       icon: Icon(
-        Icons.health_and_safety_outlined,
+        Icons.settings,
         color: obsidian,
       ),
-      label: 'Wellness'),
-  const NavigationDestination(
-      icon: Icon(
-        Icons.person,
-        color: obsidian,
-      ),
-      label: 'Account'),
+      label: 'Settings'),
 ];
 
 class CustomNavBar extends ConsumerWidget {

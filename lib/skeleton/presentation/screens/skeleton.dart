@@ -8,8 +8,7 @@ import 'package:wellnest/skeleton/presentation/widgets/custom_nav_bar.dart';
 List<Widget> pages = [
   const SmallRoutinesScreen(),
   const Center(child: Text('Week Scheduling')),
-  const Center(child: Text('Wellnes')),
-  const Center(child: Text('Account')),
+  const Center(child: Text('Settings')),
 ];
 
 class Skeleton extends ConsumerStatefulWidget {
@@ -32,7 +31,7 @@ class _SkeletonState extends ConsumerState<Skeleton> {
     return SafeArea(
         child: Scaffold(
             floatingActionButtonLocation:
-                FloatingActionButtonLocation.miniCenterDocked,
+                FloatingActionButtonLocation.miniEndFloat,
             floatingActionButton: const CustomFab(),
             bottomNavigationBar: const CustomNavBar(),
             body: PageView(

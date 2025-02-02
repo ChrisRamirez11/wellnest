@@ -26,7 +26,7 @@ class CustomCalendar extends ConsumerWidget {
         currentSelectedDateColor: coffe,
         currentSelectedDate: currentSelectedDate.currentSelectedDate,
         showColorTip: false,
-        defaultColor: secondary,
+        defaultColor: ghostWhite,
         textColor: obsidian,
         weekFontSize: 20,
         monthFontSize: 25,

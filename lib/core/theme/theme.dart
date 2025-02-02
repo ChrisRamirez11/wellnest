@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const Color primary = Color(0xFF008080); //Greenish Blue
-const Color secondary = Color(0xFFF4E1C1); //Sandy Beige
+const Color secondary = ghostWhite; //Sandy Beige Color(0xFFF4E1C1)
 const Color obsidian = Color(0xFF0B1215);
 const Color ghostWhite = Color(0xFFFFFAFA);
 const Color coffe = Color(0xFFA67B5B);
