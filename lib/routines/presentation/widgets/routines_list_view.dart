@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,7 +23,6 @@ class RoutinesListView extends ConsumerWidget {
 //Ya aqui no se puede depender de routines, solo de dateModel, routines solo sera para ver las rutinas exisentes, crearlas, etc(CRUD)
 
     if (routines != null) {
-      log('routinesListView ${dateModel.id.toString()}');
       widget = ListView.builder(
           itemCount: dateModel.routines.length,
           itemBuilder: (context, index) {

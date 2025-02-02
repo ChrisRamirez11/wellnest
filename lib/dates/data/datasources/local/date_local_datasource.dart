@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:isar/isar.dart';
 import 'package:wellnest/core/local_dbs/isar_database.dart';
 import 'package:wellnest/core/errors/excpetions.dart';
@@ -58,7 +56,6 @@ class DateLocalDatasourceImpl implements DateLocalDatasource {
       final isarInstance = await IsarDatabase().isar;
       await isarInstance.writeTxn(
           () async => res = await isarInstance.dateModels.put(dateModel));
-      log('upsertDate $res');
       return res!;
     } catch (e) {
       throw CacheException(message: e.toString());
