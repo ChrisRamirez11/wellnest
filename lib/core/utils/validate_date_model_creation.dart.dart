@@ -41,6 +41,15 @@ Future<void> validateDateModel(
       dateModel.routines = routinesList.map((e) => Routine.fromModel(e),).toList();
       await dateNotifier.upsertDate(dateModel);
     } else {
+      for (var routine in routines) {
+        if (routine.createdDate.isBefore(date) ||
+            routine.createdDate.isAtSameMomentAs(date) &&
+                routines.first.createdDate.isBefore(date) ||
+            routines.first.createdDate.isAtSameMomentAs(date)) {
+          routinesList.add(routine);
+        }
+      }
+      dateModel.routines = routinesList.map((e) => Routine.fromModel(e),).toList();
       dateNotifier.setDate(dateModel);
     }
   } else {
