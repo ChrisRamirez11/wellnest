@@ -40,87 +40,109 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
   }
 
   Widget backContainer() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      width: double.maxFinite,
-      height: double.maxFinite,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          IconButton(icon: Icon(Icons.edit_square), onPressed: () {}),
-          Padding(
-            padding: const EdgeInsets.only(right: 4),
-            child: SizedBox(width: 40, child: Divider()),
-          ),
-          IconButton(icon: Icon(Icons.delete), onPressed: () {}),
-        ],
+    return Card(
+      color: obsidian,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      margin: const EdgeInsets.all(10),
+      child: Container(
+        padding: EdgeInsets.all(20),
+        width: double.infinity,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            IconButton(
+                highlightColor: ghostWhite.withAlpha(100),
+                icon: Icon(
+                  Icons.edit_square,
+                  color: ghostWhite,
+                ),
+                onPressed: () {}),
+            Padding(
+              padding: const EdgeInsets.only(right: 4),
+              child: SizedBox(width: 40, child: Divider()),
+            ),
+            IconButton(
+                highlightColor: ghostWhite.withAlpha(100),
+                icon: Icon(
+                  Icons.delete,
+                  color: ghostWhite,
+                ),
+                onPressed: () {}),
+          ],
+        ),
       ),
     );
   }
 
   Widget frontContainer(
       WidgetRef ref, DateProvider dateNotifier, BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-      margin: const EdgeInsets.all(10),
-      child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          width: width,
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  widget.fromRoutinesScreen
-                      ? Checkbox(
-                          value: widget.routine.finished,
-                          //checks if date is after or same as today and if it is not, it wont let you edit it
-                          onChanged: canUpdateCheckbox(ref
-                                  .watch(currentSelectedDateProvider)
-                                  .currentSelectedDate)
-                              ? (value) async {
-                                  dateNotifier.date!.routines[widget.index]
-                                      .finished = value;
-                                  if (dateNotifier
-                                      .date!.routines[widget.index].finished!) {
-                                    dateNotifier.date!.completedRoutineAmount =
-                                        dateNotifier
-                                                .date!.completedRoutineAmount +
-                                            1;
-                                    await dateNotifier
-                                        .upsertDate(dateNotifier.date!);
-                                  } else {
-                                    dateNotifier.date!.completedRoutineAmount =
-                                        dateNotifier
-                                                .date!.completedRoutineAmount -
-                                            1;
-                                    await dateNotifier
-                                        .upsertDate(dateNotifier.date!);
+    return AnimatedPositioned(
+      duration: Duration(milliseconds: 250),
+      bottom: 0,
+      top: 0,
+      left: 0,
+      right: !flag ? width * 0.25 : 0,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        margin: const EdgeInsets.all(10),
+        child: Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              spacing: 15,
+              children: [
+                Row(
+                  children: [
+                    widget.fromRoutinesScreen
+                        ? Checkbox(
+                            value: widget.routine.finished,
+                            //checks if date is after or same as today and if it is not, it wont let you edit it
+                            onChanged: canUpdateCheckbox(ref
+                                    .watch(currentSelectedDateProvider)
+                                    .currentSelectedDate)
+                                ? (value) async {
+                                    dateNotifier.date!.routines[widget.index]
+                                        .finished = value;
+                                    if (dateNotifier.date!
+                                        .routines[widget.index].finished!) {
+                                      dateNotifier.date!
+                                          .completedRoutineAmount = dateNotifier
+                                              .date!.completedRoutineAmount +
+                                          1;
+                                      await dateNotifier
+                                          .upsertDate(dateNotifier.date!);
+                                    } else {
+                                      dateNotifier.date!
+                                          .completedRoutineAmount = dateNotifier
+                                              .date!.completedRoutineAmount -
+                                          1;
+                                      await dateNotifier
+                                          .upsertDate(dateNotifier.date!);
+                                    }
                                   }
-                                }
-                              : null,
-                        )
-                      : SizedBox(),
-                  //ROUTINE NAME
-                  Text(
-                    widget.routine.name!,
-                    style: textTheme(context).bodyLarge,
-                  ),
-                  const Expanded(child: SizedBox()),
-                  IconButton(
-                    icon: const Icon(Icons.more_horiz),
-                    onPressed: () {
-                      setState(() {
-                        flag = !flag;
-                      });
-                    },
-                  )
-                ],
-              ),
-              getWeekDays(context)
-            ],
-          )),
+                                : null,
+                          )
+                        : SizedBox(),
+                    //ROUTINE NAME
+                    Text(
+                      widget.routine.name!,
+                      style: textTheme(context).bodyLarge,
+                    ),
+                    const Expanded(child: SizedBox()),
+                    IconButton(
+                      icon: const Icon(Icons.more_horiz),
+                      onPressed: () {
+                        setState(() {
+                          flag = !flag;
+                        });
+                      },
+                    )
+                  ],
+                ),
+                getWeekDays(context)
+              ],
+            )),
+      ),
     );
   }
 
