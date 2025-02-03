@@ -9,13 +9,13 @@ List<NavigationDestination> itemsList = [
         Icons.check_box_outlined,
         color: obsidian,
       ),
-      label: 'Small Routines'),
+      label: 'Calendar'),
   const NavigationDestination(
       icon: Icon(
         Icons.schedule_outlined,
         color: obsidian,
       ),
-      label: 'Week Scheduling'),
+      label: 'Routines'),
   const NavigationDestination(
       icon: Icon(
         Icons.settings,

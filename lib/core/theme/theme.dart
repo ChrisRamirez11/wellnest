@@ -14,7 +14,6 @@ const double smallSize = 12;
 //ThemeData
 //
 ThemeData theme = ThemeData(
-  primaryColor: ghostWhite,
   textTheme: const TextTheme(
     bodyLarge: TextStyle(
         fontSize: largeSize,

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/routines/data/models/routine_model.dart';
-import 'package:wellnest/routines/presentation/providers/routine_provider.dart';
 
 class CustomFab extends ConsumerWidget {
   const CustomFab({super.key});
@@ -10,12 +8,7 @@ class CustomFab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return FloatingActionButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-        onPressed: () async => ref.watch(routineProvider).upsertRoutine(
-            RoutineModel(
-                createdDate: DateTime(2025, 01, 26),
-                name: 'Meditacion',
-                finished: false,
-                days: [false, false, true, false, false, false, false])),
+        onPressed: () => Navigator.of(context).pushNamed('/createRoutine'),
         child: const Icon(Icons.add));
   }
 }

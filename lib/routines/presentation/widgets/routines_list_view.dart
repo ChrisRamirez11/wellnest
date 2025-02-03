@@ -21,6 +21,7 @@ class RoutinesListView extends ConsumerWidget {
           return RoutineTile(
             routine: dateModel.routines[index],
             index: index,
+            fromRoutinesScreen: true,
           );
         });
   }

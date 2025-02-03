@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/theme/theme.dart';
+import 'package:wellnest/routines/presentation/screens/create_routine.dart';
 import 'package:wellnest/skeleton/presentation/screens/skeleton.dart';
 
 void main() {
@@ -19,7 +20,11 @@ class MyApp extends StatelessWidget {
         theme: theme,
         darkTheme: themeDark,
         themeMode: ThemeMode.system,
-        home: const Skeleton(),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const Skeleton(),
+          '/createRoutine': (context) => const CreateRoutineScreen(),
+        },
       ),
     );
   }
