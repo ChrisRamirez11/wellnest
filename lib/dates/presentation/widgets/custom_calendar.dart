@@ -29,7 +29,7 @@ class CustomCalendar extends ConsumerWidget {
         currentSelectedDateColor: coffe,
         currentSelectedDate: currentSelectedDate.currentSelectedDate,
         showColorTip: false,
-        defaultColor: ghostWhite,
+        defaultColor: secondary,
         textColor: obsidian,
         weekFontSize: 20,
         monthFontSize: 25,
@@ -41,11 +41,10 @@ class CustomCalendar extends ConsumerWidget {
         initDate: DateTime.now(),
         datasets: _getDataset(dates),
         colorsets: {
-          01: primary.withValues(alpha: 0.6),
-          03: primary.withValues(alpha: 0.7),
+          01: primary.withValues(alpha: 0.4),
+          03: primary.withValues(alpha: 0.6),
           05: primary.withValues(alpha: 0.8),
-          07: primary.withValues(alpha: 0.9),
-          09: primary,
+          07: primary.withValues(alpha: 1.0),
         },
       ),
     );
