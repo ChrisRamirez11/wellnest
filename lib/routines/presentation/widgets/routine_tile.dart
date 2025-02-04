@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/theme/theme.dart';
@@ -79,7 +81,11 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                   color: ghostWhite,
                 ),
                 onPressed: () async {
-                  await ref.watch(routineProvider).deleteRoutine(widget.routine.id!);
+//TODO Place a dialog telling the user that it will delete the routine from the DB,
+//and if you want to deleted from the current date, just edit it.
+                  await ref
+                      .watch(routineProvider)
+                      .deleteRoutine(widget.routine.id!);
                 }),
           ],
         ),
@@ -115,22 +121,10 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                                 ? (value) async {
                                     dateNotifier.date!.routines[widget.index]
                                         .finished = value;
-                                    if (dateNotifier.date!
-                                        .routines[widget.index].finished!) {
-                                      dateNotifier.date!
-                                          .completedRoutineAmount = dateNotifier
-                                              .date!.completedRoutineAmount +
-                                          1;
-                                      await dateNotifier
-                                          .upsertDate(dateNotifier.date!);
-                                    } else {
-                                      dateNotifier.date!
-                                          .completedRoutineAmount = dateNotifier
-                                              .date!.completedRoutineAmount -
-                                          1;
-                                      await dateNotifier
-                                          .upsertDate(dateNotifier.date!);
-                                    }
+                                    dateNotifier.date!.completedRoutineAmount =
+                                        _getCompletedQuantity(dateNotifier);
+                                    await dateNotifier
+                                        .upsertDate(dateNotifier.date!);
                                   }
                                 : null,
                           )
@@ -187,5 +181,15 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
         ),
       ),
     );
+  }
+
+  int _getCompletedQuantity(DateProvider dateNotifier) {
+    int result = 0;
+    for (var routine in dateNotifier.date!.routines) {
+      log(routine.toString());
+      result += routine.finished! ? 1 : 0;
+    }
+    log(result.toString());
+    return result;
   }
 }
