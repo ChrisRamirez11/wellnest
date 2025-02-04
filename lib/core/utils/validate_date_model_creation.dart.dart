@@ -3,9 +3,6 @@ import 'package:wellnest/dates/data/models/date_model.dart';
 import 'package:wellnest/dates/presentation/providers/date_provider.dart';
 import 'package:wellnest/routines/data/models/routine_model.dart';
 
-//I made a change in th routinesId, now is not storing th IDs is storing the routine itself
-//TO BE CHECKED
-
 Future<void> validateDateModel(
     List<RoutineModel> routines, DateTime date, WidgetRef ref) async {
   final dateNotifier = ref.watch(dateProvider);
@@ -22,9 +19,11 @@ Future<void> validateDateModel(
     }
   }
 
+  //routines list sorting
   routines.sort(
     (a, b) => a.createdDate.compareTo(b.createdDate),
   );
+
   if (routines.isNotEmpty) {
     if ((date.isBefore(today) || date.isAtSameMomentAs(today)) &&
         (routines.first.createdDate.isBefore(date) ||
@@ -34,11 +33,19 @@ Future<void> validateDateModel(
             routine.createdDate.isAtSameMomentAs(date) &&
                 routines.first.createdDate.isBefore(date) ||
             routines.first.createdDate.isAtSameMomentAs(date)) {
-          routinesList.add(routine);
+          for (int i = 0; i < routine.days.length; i++) {
+            if (routine.days[i] && (adjustedWeekday(date) == (i + 1))) {
+              routinesList.add(routine);
+            }
+          }
         }
       }
 
-      dateModel.routines = routinesList.map((e) => Routine.fromModel(e),).toList();
+      dateModel.routines = routinesList
+          .map(
+            (e) => Routine.fromModel(e),
+          )
+          .toList();
       await dateNotifier.upsertDate(dateModel);
     } else {
       for (var routine in routines) {
@@ -46,13 +53,26 @@ Future<void> validateDateModel(
             routine.createdDate.isAtSameMomentAs(date) &&
                 routines.first.createdDate.isBefore(date) ||
             routines.first.createdDate.isAtSameMomentAs(date)) {
-          routinesList.add(routine);
+          for (int i = 0; i < routine.days.length; i++) {
+            if (routine.days[i] && (adjustedWeekday(date) == (i + 1))) {
+              routinesList.add(routine);
+            }
+          }
         }
       }
-      dateModel.routines = routinesList.map((e) => Routine.fromModel(e),).toList();
+      dateModel.routines = routinesList
+          .map(
+            (e) => Routine.fromModel(e),
+          )
+          .toList();
       dateNotifier.setDate(dateModel);
     }
   } else {
     dateNotifier.setDate(dateModel);
   }
+}
+
+int adjustedWeekday(DateTime date) {
+  int weekday = date.weekday;
+  return weekday == 7 ? 1 : weekday + 1;
 }
