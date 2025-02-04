@@ -6,6 +6,8 @@ import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/dates/data/models/date_model.dart';
 import 'package:wellnest/dates/presentation/providers/date_provider.dart';
 import 'package:wellnest/flutter_heatmap_calendar/src/util/date_util.dart';
+import 'package:wellnest/routines/presentation/providers/routine_provider.dart';
+import 'package:wellnest/routines/presentation/screens/create_routine.dart';
 import 'package:wellnest/small_routines/presentation/providers/current_selected_date_provider.dart';
 
 class RoutineTile extends ConsumerStatefulWidget {
@@ -57,7 +59,15 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                   Icons.edit_square,
                   color: ghostWhite,
                 ),
-                onPressed: () {}),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CreateRoutineScreen(
+                          routineModel: widget.routine.toModel(),
+                        ),
+                      ));
+                }),
             Padding(
               padding: const EdgeInsets.only(right: 4),
               child: SizedBox(width: 40, child: Divider()),
@@ -68,7 +78,9 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                   Icons.delete,
                   color: ghostWhite,
                 ),
-                onPressed: () {}),
+                onPressed: () async {
+                  await ref.watch(routineProvider).deleteRoutine(widget.routine.id!);
+                }),
           ],
         ),
       ),

@@ -13,7 +13,11 @@ import 'package:wellnest/routines/data/models/routine_model.dart';
 import 'package:wellnest/routines/presentation/providers/routine_provider.dart';
 
 class CreateRoutineScreen extends ConsumerStatefulWidget {
-  const CreateRoutineScreen({super.key});
+  final RoutineModel? routineModel;
+  const CreateRoutineScreen({
+    super.key,
+    this.routineModel,
+  });
 
   @override
   ConsumerState createState() => _CreateRoutineScreenState();
@@ -26,8 +30,13 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController();
-    _days = List.generate(7, (index) => false);
+    if (widget.routineModel == null) {
+      _nameController = TextEditingController();
+      _days = List.generate(7, (index) => false);
+    } else {
+      _days = widget.routineModel!.days;
+      _nameController = TextEditingController(text: widget.routineModel!.name);
+    }
   }
 
   @override
@@ -128,12 +137,19 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
           onClick: () async {
             if (_nameController.text.isNotEmpty &&
                 _days.any((element) => element)) {
-              final routineModel = RoutineModel(
-                  name: _nameController.text,
-                  days: _days,
-                  createdDate: DateTime(DateTime.now().year,
-                      DateTime.now().month, DateTime.now().day),
-                  finished: false);
+              final routineModel = widget.routineModel == null
+                  ? RoutineModel(
+                      name: _nameController.text,
+                      days: _days,
+                      createdDate: DateTime(DateTime.now().year,
+                          DateTime.now().month, DateTime.now().day),
+                      finished: false)
+                  : RoutineModel(
+                      id: widget.routineModel!.id,
+                      name: _nameController.text,
+                      days: _days,
+                      createdDate: widget.routineModel!.createdDate,
+                      finished: false);
               await routineNotifier.upsertRoutine(routineModel);
               await _validateActualDayRoutineAddition(
                   routineModel, dateNotifier);
@@ -154,17 +170,30 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
 
   Future<void> _validateActualDayRoutineAddition(
       RoutineModel routine, DateProvider dateNotifier) async {
+
+    if (dateNotifier.dates!.isEmpty) {
+      await dateNotifier.upsertDate(DateModel(
+          date: DateTime(
+              DateTime.now().year, DateTime.now().month, DateTime.now().day),
+          routines: [],
+          completedRoutineAmount: 0));
+    }
+
     final dateNow =
         DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     final dateModel = dateNotifier.dates!
         .where((element) => element.date.isAtSameMomentAs(dateNow))
         .first;
 
+    dateModel.routines.removeWhere(
+      (element) => element.id == routine.id,
+    );
+
     for (int i = 0; i < routine.days.length; i++) {
       if (routine.days[i] && (adjustedWeekday(dateModel.date) == (i + 1))) {
         dateModel.routines.add(Routine.fromModel(routine));
       }
+      await dateNotifier.upsertDate(dateModel);
     }
-    await dateNotifier.upsertDate(dateModel);
   }
 }

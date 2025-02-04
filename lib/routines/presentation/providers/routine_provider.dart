@@ -45,7 +45,6 @@ class RoutineProvider extends ChangeNotifier {
   }
 
   deleteRoutine(int id) async {
-    
     final failureOrVoid = await DeleteRoutine(repositoryImpl).call(id);
 
     failureOrVoid.fold(
@@ -60,8 +59,12 @@ class RoutineProvider extends ChangeNotifier {
     final failureOrRoutine =
         await UpsertRoutine(repositoryImpl).call(routineModel.toEntity());
 
-    if (_routines!.contains(routineModel)) {
-      final routineIndex = _routines!.indexOf(routineModel);
+    if (_routines!.any(
+      (element) => element.id == routineModel.id,
+    )) {
+      final routineIndex = _routines!.indexWhere(
+        (element) => element.id == routineModel.id,
+      );
 
       failureOrRoutine.fold((l) => _failure = failure, (r) {
         _routines!.removeAt(routineIndex);
