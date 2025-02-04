@@ -3,8 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/utils.dart';
+import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
 import 'package:wellnest/core/widgets/custom_app_bar.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
+import 'package:wellnest/dates/data/models/date_model.dart';
+import 'package:wellnest/dates/presentation/providers/date_provider.dart';
 import 'package:wellnest/flutter_heatmap_calendar/src/util/date_util.dart';
 import 'package:wellnest/routines/data/models/routine_model.dart';
 import 'package:wellnest/routines/presentation/providers/routine_provider.dart';
@@ -36,9 +39,11 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   @override
   Widget build(BuildContext context) {
     final routineNotifier = ref.watch(routineProvider);
+    final dateNotifier = ref.watch(dateProvider);
 
     return Scaffold(
-      bottomNavigationBar: getCreateButton(routineNotifier, context),
+      bottomNavigationBar:
+          getCreateButton(routineNotifier, context, dateNotifier),
       appBar: CustomAppBar(titleString: 'Create Routine'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -80,51 +85,47 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
 
   Wrap weekDays(BuildContext context) {
     return Wrap(
-              runSpacing: 10,
-              alignment: WrapAlignment.center,
-              spacing: 8,
-              children: List.generate(
-                7,
-                (index) => ConstrainedBox(
-                  constraints: const BoxConstraints(
-                      minWidth: 20,
-                      maxWidth: 40,
-                      minHeight: 20,
-                      maxHeight: 40),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () => setState(() {
-                      _days[index] = !_days[index];
-                    }),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: _days[index] ? primary : catColor,
-                      ),
-                      child: Center(
-                        child: Text(
-                          DateUtil.WEEK_LABEL[index + 1][0].toUpperCase(),
-                          style: textTheme(context)
-                              .bodyMedium!
-                              .copyWith(color: obsidian),
-                        ),
-                      ),
-                    ),
-                  ),
+      runSpacing: 10,
+      alignment: WrapAlignment.center,
+      spacing: 8,
+      children: List.generate(
+        7,
+        (index) => ConstrainedBox(
+          constraints: const BoxConstraints(
+              minWidth: 20, maxWidth: 40, minHeight: 20, maxHeight: 40),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(100),
+            onTap: () => setState(() {
+              _days[index] = !_days[index];
+            }),
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: _days[index] ? primary : catColor,
+              ),
+              child: Center(
+                child: Text(
+                  DateUtil.WEEK_LABEL[index + 1][0].toUpperCase(),
+                  style:
+                      textTheme(context).bodyMedium!.copyWith(color: obsidian),
                 ),
               ),
-            );
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
-  Widget getCreateButton(
-      RoutineProvider routineNotifier, BuildContext context) {
+  Widget getCreateButton(RoutineProvider routineNotifier, BuildContext context,
+      DateProvider dateNotifier) {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: CustomButton(
           color: primary,
           textColor: secondary,
           text: 'SAVE',
-          onClick: () {
+          onClick: () async {
             if (_nameController.text.isNotEmpty &&
                 _days.any((element) => element)) {
               final routineModel = RoutineModel(
@@ -133,8 +134,12 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   createdDate: DateTime(DateTime.now().year,
                       DateTime.now().month, DateTime.now().day),
                   finished: false);
-              routineNotifier.upsertRoutine(routineModel);
-              Navigator.of(context).pop();
+              await routineNotifier.upsertRoutine(routineModel);
+              await _validateActualDayRoutineAddition(
+                  routineModel, dateNotifier);
+              if (context.mounted) {
+                Navigator.of(context).pop();
+              }
             } else {
               ScaffoldMessenger.of(context).clearSnackBars();
               ScaffoldMessenger.of(context).showSnackBar(
@@ -145,5 +150,21 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
             }
           }),
     );
+  }
+
+  Future<void> _validateActualDayRoutineAddition(
+      RoutineModel routine, DateProvider dateNotifier) async {
+    final dateNow =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    final dateModel = dateNotifier.dates!
+        .where((element) => element.date.isAtSameMomentAs(dateNow))
+        .first;
+
+    for (int i = 0; i < routine.days.length; i++) {
+      if (routine.days[i] && (adjustedWeekday(dateModel.date) == (i + 1))) {
+        dateModel.routines.add(Routine.fromModel(routine));
+      }
+    }
+    await dateNotifier.upsertDate(dateModel);
   }
 }
