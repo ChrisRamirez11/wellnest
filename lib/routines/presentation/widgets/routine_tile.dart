@@ -161,11 +161,11 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
             child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: widget.routine.days![index] ? coffe : secondary,
+                color: widget.routine.days![index] ? primary : catColor,
               ),
               child: Center(
                 child: Text(
-                  DateUtil.WEEK_LABEL[index + 1],
+                  DateUtil.WEEK_LABEL[index + 1][0].toUpperCase(),
                   style:
                       textTheme(context).bodySmall!.copyWith(color: obsidian),
                 ),

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
+import 'package:wellnest/core/theme/theme.dart';
+import 'package:wellnest/core/utils/utils.dart';
+import 'package:wellnest/core/widgets/custom_app_bar.dart';
+import 'package:wellnest/core/widgets/custom_button.dart';
 import 'package:wellnest/flutter_heatmap_calendar/src/util/date_util.dart';
 import 'package:wellnest/routines/data/models/routine_model.dart';
 import 'package:wellnest/routines/presentation/providers/routine_provider.dart';
@@ -33,69 +38,112 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
     final routineNotifier = ref.watch(routineProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create Routine'),
-      ),
+      bottomNavigationBar: getCreateButton(routineNotifier, context),
+      appBar: CustomAppBar(titleString: 'Create Routine'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
+            spacing: 20,
             children: [
+              const SizedBox(),
               TextField(
                 controller: _nameController,
                 textCapitalization: TextCapitalization.words,
                 decoration: const InputDecoration(
-                  labelText: 'Name',
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  labelText: '',
+                  hintText: 'Routine name',
+                  errorBorder: OutlineInputBorder(borderSide: BorderSide.none),
+                  focusedBorder:
+                      OutlineInputBorder(borderSide: BorderSide.none),
+                  disabledBorder:
+                      OutlineInputBorder(borderSide: BorderSide.none),
+                  focusedErrorBorder:
+                      OutlineInputBorder(borderSide: BorderSide.none),
                 ),
               ),
-              const SizedBox(height: 16),
-              Wrap(
-                spacing: 8,
-                children: List.generate(
-                  7,
-                  (index) => CheckboxListTile(
-                    title: Text(
-                      DateUtil.WEEK_LABEL[index + 1],
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    value: _days[index],
-                    onChanged: (value) {
-                      setState(() {
-                        _days[index] = value!;
-                      });
-                    },
-                  ),
-                ),
+              const SizedBox(
+                height: 60,
               ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  if (_nameController.text.isNotEmpty &&
-                      _days.any((element) => element)) {
-                    final routineModel = RoutineModel(
-                      name: _nameController.text,
-                      days: _days,
-                      createdDate: DateTime(DateTime.now().year,
-                          DateTime.now().month, DateTime.now().day),
-                          finished: false
-                    );
-                    routineNotifier.upsertRoutine(routineModel);
-                    Navigator.of(context).pop();
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Please fill name and select at least one day'),
-                      ),
-                    );
-                  }
-                },
-                child: const Text('Create'),
-              ),
+              weekDays(context),
+              Padding(
+                padding: const EdgeInsets.only(right: 70.0, top: 40),
+                child: Lottie.asset('assets/lotties/green-cat.json'),
+              )
             ],
           ),
         ),
       ),
     );
   }
-}
 
+  Wrap weekDays(BuildContext context) {
+    return Wrap(
+              runSpacing: 10,
+              alignment: WrapAlignment.center,
+              spacing: 8,
+              children: List.generate(
+                7,
+                (index) => ConstrainedBox(
+                  constraints: const BoxConstraints(
+                      minWidth: 20,
+                      maxWidth: 40,
+                      minHeight: 20,
+                      maxHeight: 40),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(100),
+                    onTap: () => setState(() {
+                      _days[index] = !_days[index];
+                    }),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _days[index] ? primary : catColor,
+                      ),
+                      child: Center(
+                        child: Text(
+                          DateUtil.WEEK_LABEL[index + 1][0].toUpperCase(),
+                          style: textTheme(context)
+                              .bodyMedium!
+                              .copyWith(color: obsidian),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+  }
+
+  Widget getCreateButton(
+      RoutineProvider routineNotifier, BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(15),
+      child: CustomButton(
+          color: primary,
+          textColor: secondary,
+          text: 'SAVE',
+          onClick: () {
+            if (_nameController.text.isNotEmpty &&
+                _days.any((element) => element)) {
+              final routineModel = RoutineModel(
+                  name: _nameController.text,
+                  days: _days,
+                  createdDate: DateTime(DateTime.now().year,
+                      DateTime.now().month, DateTime.now().day),
+                  finished: false);
+              routineNotifier.upsertRoutine(routineModel);
+              Navigator.of(context).pop();
+            } else {
+              ScaffoldMessenger.of(context).clearSnackBars();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Please fill name and select at least one day'),
+                ),
+              );
+            }
+          }),
+    );
+  }
+}
