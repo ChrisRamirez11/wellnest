@@ -6,3 +6,7 @@ abstract class Failure {
 class CacheFailure extends Failure {
   CacheFailure({required super.errorMessage});
 }
+
+class ServerFailure extends Failure {
+  ServerFailure({required super.errorMessage});
+}

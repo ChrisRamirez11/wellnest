@@ -10,3 +10,16 @@ class CacheException implements Exception {
   // factory CacheException.fromMap(Map<String, dynamic> map) =>
   //     CacheException(message: map['error']);
 }
+
+class ServerException implements Exception {
+  final String message;
+  ServerException({
+    required this.message,
+  });
+
+  // factory ServerException.fromMap(Map<String, dynamic> map) {
+  //   return ServerException(
+  //     message: map['error'] as String,
+  //   );
+  // }
+}

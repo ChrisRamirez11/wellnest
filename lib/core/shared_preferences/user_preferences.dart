@@ -19,4 +19,11 @@ class UserPreferences {
     return _prefs.getBool('DarkMode') ?? true;
   }
 
+  set cacheUser(String user) {
+    _prefs.setString('CachedUser', user);
+  }
+
+  String get cacheUser {
+    return _prefs.getString('CachedUser') ?? '';
+  }
 }

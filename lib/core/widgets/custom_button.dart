@@ -21,7 +21,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        minHeight: 70,
+        minHeight: 65,
         maxHeight: 120,
         minWidth: 200,
         maxWidth: 250,
