@@ -4,8 +4,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:wellnest/core/consts/consts.dart';
 import 'package:wellnest/core/shared_preferences/user_preferences.dart';
 import 'package:wellnest/core/theme/theme.dart';
-import 'package:wellnest/routines/presentation/screens/create_routine.dart';
-import 'package:wellnest/skeleton/presentation/screens/skeleton.dart';
+import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
+import 'package:wellnest/feature/presentation/screens/skeleton.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
