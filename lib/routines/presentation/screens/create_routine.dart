@@ -53,7 +53,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
     return Scaffold(
       bottomNavigationBar:
           getCreateButton(routineNotifier, context, dateNotifier),
-      appBar: CustomAppBar(titleString: 'Create Routine'),
+      appBar: CustomAppBar(titleString: 'NEW ROUTINE'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
