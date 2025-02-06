@@ -5,8 +5,6 @@ class CustomAppBar extends AppBar {
   final String titleString;
   CustomAppBar({super.key, required this.titleString})
       : super(
-          centerTitle: true,
-          backgroundColor: primary,
           foregroundColor: secondary,
           title: titleWidget(titleString),
         );

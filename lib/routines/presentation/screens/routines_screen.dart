@@ -29,7 +29,7 @@ class RoutinesScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      appBar: CustomAppBar(titleString: 'Routines'),
+      appBar: CustomAppBar(titleString: 'ROUTINES'),
       body: widget,
     );
   }
