@@ -29,7 +29,7 @@ class _SmallRoutinesScreenState extends ConsumerState<SmallRoutinesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        titleString: 'CALENDAR',
+        titleString: 'Small Routines',
       ),
       body: const SmallRoutinesBody(),
     );
