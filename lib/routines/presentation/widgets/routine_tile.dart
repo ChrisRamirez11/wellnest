@@ -47,7 +47,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       margin: const EdgeInsets.all(10),
       child: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         width: double.infinity,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -55,7 +55,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
           children: [
             IconButton(
                 highlightColor: ghostWhite.withAlpha(100),
-                icon: Icon(
+                icon: const Icon(
                   Icons.edit_square,
                   color: ghostWhite,
                 ),
@@ -68,13 +68,13 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                         ),
                       ));
                 }),
-            Padding(
-              padding: const EdgeInsets.only(right: 4),
+            const Padding(
+              padding: EdgeInsets.only(right: 4),
               child: SizedBox(width: 40, child: Divider()),
             ),
             IconButton(
                 highlightColor: ghostWhite.withAlpha(100),
-                icon: Icon(
+                icon: const Icon(
                   Icons.delete,
                   color: ghostWhite,
                 ),
@@ -94,7 +94,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
   Widget frontContainer(
       WidgetRef ref, DateProvider dateNotifier, BuildContext context) {
     return AnimatedPositioned(
-      duration: Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 250),
       bottom: 0,
       top: 0,
       left: 0,
@@ -126,7 +126,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                                   }
                                 : null,
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                     //ROUTINE NAME
                     Text(
                       widget.routine.name!,

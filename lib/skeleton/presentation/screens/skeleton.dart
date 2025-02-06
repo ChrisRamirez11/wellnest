@@ -35,7 +35,7 @@ class _SkeletonState extends ConsumerState<Skeleton> {
         child: Scaffold(
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.miniEndFloat,
-            floatingActionButton: showFab ? const CustomFab() : SizedBox(),
+            floatingActionButton: showFab ? const CustomFab() : const SizedBox(),
             bottomNavigationBar: const CustomNavBar(),
             body: PageView(
               controller: index.pageController,

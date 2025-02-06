@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:wellnest/core/theme/theme.dart';
-import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
-import 'package:wellnest/settings/presentation/widgets/dark_mode_button.dart';
 
 final _cardColor = primary.withValues(alpha: 150);
 
@@ -13,47 +12,34 @@ class SettingsBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Column(
-        spacing: 10,
-        children: [
-          getSignInBox(context),
-          getGoDeluxButton(),
-          getSettigsBox(context)
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          spacing: 10,
+          children: [
+            getSignInBox(context),
+            getGoDeluxButton(),
+            getSettigsBox(context),
+            SizedBox(
+                height: 250,
+                width: double.infinity,
+                child: Lottie.asset('assets/lotties/sleepy-cat.json'))
+          ],
+        ),
       ),
-    );
-  }
-
-  Widget getGoDeluxButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-      child: SizedBox(
-          width: double.infinity,
-          child: CustomButton(
-            icon: Icon(
-              Icons.workspace_premium,
-              size: 30,
-              color: Colors.white,
-            ),
-            onClick: () {},
-            text: 'GO DELUXE',
-            color: secondary.withValues(alpha: 150),
-          )),
     );
   }
 
   Card getSignInBox(BuildContext context) {
     return Card(
       color: _cardColor,
-      child: SizedBox(
+      child: const SizedBox(
         width: double.infinity,
-        height: size(context).height * 0.1,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: Align(
             alignment: Alignment.centerLeft,
             child: ListTile(
-              trailing: const Icon(
+              trailing: Icon(
                 Icons.lock,
                 size: 25,
               ),
@@ -65,27 +51,51 @@ class SettingsBody extends StatelessWidget {
     );
   }
 
+  Widget getGoDeluxButton() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: SizedBox(
+          width: double.infinity,
+          child: CustomButton(
+            icon: const Icon(
+              Icons.workspace_premium,
+              size: 30,
+              color: Colors.white,
+            ),
+            onClick: () {},
+            text: 'GO DELUXE',
+            color: secondary.withValues(alpha: 150),
+          )),
+    );
+  }
+
   Card getSettigsBox(BuildContext context) {
     return Card(
       color: _cardColor,
-      child: SizedBox(
+      child: const SizedBox(
         width: double.infinity,
         child: Column(
           children: [
-            DarkModeButton(),
+            ListTile(
+              leading: Icon(
+                Icons.star,
+                size: 25,
+              ),
+              title: Text('Rate Us'),
+            ),
             Divider(),
             ListTile(
-              leading: const Icon(
+              leading: Icon(
                 Icons.feedback,
               ),
               title: Text('Feedback'),
             ),
             Divider(),
             ListTile(
-              leading: const Icon(
+              leading: Icon(
                 Icons.share,
               ),
-              title: Text('Sahre'),
+              title: Text('Share'),
             ),
           ],
         ),
