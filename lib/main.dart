@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/shared_preferences/user_preferences.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/routines/presentation/screens/create_routine.dart';
 import 'package:wellnest/skeleton/presentation/screens/skeleton.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  await UserPreferences().initPrefs();
   runApp(const MyApp());
 }
 
