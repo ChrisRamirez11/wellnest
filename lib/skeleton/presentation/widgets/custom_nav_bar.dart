@@ -18,10 +18,10 @@ List<NavigationDestination> itemsList = [
       label: 'Routines'),
   const NavigationDestination(
       icon: Icon(
-        Icons.settings,
+        Icons.person,
         color: obsidian,
       ),
-      label: 'Settings'),
+      label: 'Me'),
 ];
 
 class CustomNavBar extends ConsumerWidget {

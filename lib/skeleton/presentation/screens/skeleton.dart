@@ -9,7 +9,7 @@ import 'package:wellnest/skeleton/presentation/widgets/custom_nav_bar.dart';
 List<Widget> pages = [
   const SmallRoutinesScreen(),
   const RoutinesScreen(),
-  const Center(child: Text('Settings')),
+  const Center(child: Text('Me')),
 ];
 
 class Skeleton extends ConsumerStatefulWidget {
