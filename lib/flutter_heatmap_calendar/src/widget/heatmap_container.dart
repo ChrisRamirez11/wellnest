@@ -43,12 +43,13 @@ class HeatMapContainer extends StatelessWidget {
           ),
           child: AnimatedContainer(
             foregroundDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(borderRadius ?? 10),
-                border: Border.all(
-                    color: _selectedDateValidation()
-                        ? currentSelectedDateColor ?? Colors.blue
-                        : Colors.transparent,
-                    width: 7)),
+                borderRadius: BorderRadius.circular(borderRadius ?? 5),
+                border: Border(
+                    bottom: BorderSide(
+                        color: _selectedDateValidation()
+                            ? currentSelectedDateColor ?? Colors.blue
+                            : Colors.transparent,
+                        width: 15))),
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeInOutQuad,
             width: size,
@@ -64,7 +65,9 @@ class HeatMapContainer extends StatelessWidget {
                     date.day.toString(),
                     style: TextStyle(
                         color: textColor ?? const Color(0xFF8A8A8A),
-                        fontWeight: FontWeight.normal,
+                        fontWeight: _selectedDateValidation()
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                         fontSize: _selectedDateValidation()
                             ? fontSize! + 2
                             : fontSize),

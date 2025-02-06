@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/theme/theme.dart';
@@ -186,10 +184,8 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
   int _getCompletedQuantity(DateProvider dateNotifier) {
     int result = 0;
     for (var routine in dateNotifier.date!.routines) {
-      log(routine.toString());
       result += routine.finished! ? 1 : 0;
     }
-    log(result.toString());
     return result;
   }
 }
