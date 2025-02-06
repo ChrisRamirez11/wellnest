@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/routines/presentation/screens/routines_screen.dart';
+import 'package:wellnest/settings/presentation/screens/settings_screen.dart';
 import 'package:wellnest/small_routines/presentation/screens/small_routines_screen.dart';
 import 'package:wellnest/skeleton/presentation/providers/index_provider.dart';
 import 'package:wellnest/skeleton/presentation/widgets/custom_fab.dart';
@@ -9,7 +10,7 @@ import 'package:wellnest/skeleton/presentation/widgets/custom_nav_bar.dart';
 List<Widget> pages = [
   const SmallRoutinesScreen(),
   const RoutinesScreen(),
-  const Center(child: Text('Me')),
+  const SettingsScreen(),
 ];
 
 class Skeleton extends ConsumerStatefulWidget {

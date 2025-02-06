@@ -8,12 +8,14 @@ class CustomButton extends StatelessWidget {
     required this.text,
     this.textColor,
     this.color,
+    this.icon
   });
 
   final Function() onClick;
   final String text;
   final Color? color;
   final Color? textColor;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +26,14 @@ class CustomButton extends StatelessWidget {
         minWidth: 200,
         maxWidth: 250,
       ),
-      child: ElevatedButton(
+      child: ElevatedButton.icon(
+        icon: icon ?? const SizedBox(),
         style: ButtonStyle(
-          backgroundColor: WidgetStatePropertyAll(color),
+            backgroundColor: WidgetStatePropertyAll(color),
             shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(100)))),
         onPressed: onClick,
-        child: Text(
+        label: Text(
           text,
           style: textTheme(context)
               .bodyLarge!
