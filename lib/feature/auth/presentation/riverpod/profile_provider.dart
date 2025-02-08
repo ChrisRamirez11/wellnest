@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/feature/auth/business/usecases/get_user_data_use_case.dart';
 import 'package:wellnest/feature/auth/business/usecases/sign_out_use_case.dart';
-import 'package:wellnest/feature/auth/business/usecases/upate_profile_use_case.dart';
 import 'package:wellnest/feature/auth/data/datasources/profile_local_datasource.dart';
 import 'package:wellnest/feature/auth/data/datasources/profile_remote_datasource.dart';
 import 'package:wellnest/feature/auth/data/models/profile_model.dart';
@@ -42,26 +41,6 @@ class ProfileProvider extends ChangeNotifier {
       (user) {
         failure = null;
         profile = ProfileModel.fromEntity(user);
-        notifyListeners();
-      },
-    );
-  }
-
-  Future<void> updateProfile(BuildContext context, String name) async {
-    final updatedProfileOrFailure =
-        await UpdateProfileUseCase(profileRepository: _profileRepositoryImpl)
-            .call(name);
-
-    updatedProfileOrFailure.fold(
-      (newFailure) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(newFailure.errorMessage)));
-
-        return;
-      },
-      (updated) {
-        failure = null;
-        profile!.fullName = name;
         notifyListeners();
       },
     );

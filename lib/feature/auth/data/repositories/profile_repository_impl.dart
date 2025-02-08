@@ -34,19 +34,6 @@ class ProfileRepositoryImpl extends ProfileRepository {
   }
 
   @override
-  Future<Either<Failure, void>> updateProfile(String name) async {
-    try {
-      await profileRemoteDatasource.upsertProfile(name);
-      ProfileModel profileModel = await profileLocalDatasource.getCachedUser();
-      profileModel.fullName = name;
-      await profileLocalDatasource.cacheUser(profileModel.toJson());
-      return const Right(null);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(errorMessage: e.message));
-    }
-  }
-
-  @override
   Future<Either<Failure, void>> signOut() async {
     try {
       await profileRemoteDatasource.signOut();

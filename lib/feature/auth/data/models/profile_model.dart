@@ -7,7 +7,8 @@ class ProfileModel extends ProfileEntity {
       {required super.id,
       required super.fullName,
       required super.email,
-      required super.role});
+      required super.role,
+      required super.avatarUrl});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -15,6 +16,7 @@ class ProfileModel extends ProfileEntity {
       'fullname': fullName,
       'email': email,
       'role': role,
+      'avatar_url': avatarUrl,
     };
   }
 
@@ -24,6 +26,7 @@ class ProfileModel extends ProfileEntity {
       fullName: map['fullname'] as String,
       email: map['email'] as String,
       role: map['role'] as String,
+      avatarUrl: map['avatar_url'] as String,
     );
   }
 
@@ -36,5 +39,6 @@ class ProfileModel extends ProfileEntity {
       id: profileEntity.id,
       fullName: profileEntity.fullName,
       email: profileEntity.email,
-      role: profileEntity.role);
+      role: profileEntity.role,
+      avatarUrl: profileEntity.avatarUrl);
 }

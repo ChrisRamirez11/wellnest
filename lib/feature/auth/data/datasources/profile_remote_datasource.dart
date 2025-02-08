@@ -8,7 +8,6 @@ import '../../../../../main.dart';
 
 abstract class ProfileRemoteDatasource {
   Future<ProfileModel> getUserData();
-  Future<void> upsertProfile(String name);
   Future<void> signOut();
 }
 
@@ -28,30 +27,14 @@ class ProfileRemoteDatasourceImpl extends ProfileRemoteDatasource {
           id: profileMap['id'],
           fullName: profileMap['fullname'] ?? '',
           email: profileMap['email'],
-          role: role['role']);
+          role: role['role'],
+          avatarUrl: profileMap['avatar_url']);
 
       return profile;
     } on PostgrestException catch (error) {
       throw ServerException(message: error.message);
     } catch (error) {
       log('get user data $error');
-      throw ServerException(message: 'Ha ocurrido un error de red');
-    }
-  }
-
-  //updateProfile
-  @override
-  Future<void> upsertProfile(String name) async {
-    final fullName = name;
-    final user = supabase.auth.currentUser;
-    final updates = {'id': user!.id, 'fullname': fullName, 'email': user.email};
-
-    try {
-      await supabase.from('profiles').upsert(updates);
-    } on PostgrestException catch (error) {
-      throw ServerException(message: error.message);
-    } catch (error) {
-      log('upsert user $error');
       throw ServerException(message: 'Ha ocurrido un error de red');
     }
   }
