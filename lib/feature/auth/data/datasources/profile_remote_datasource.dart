@@ -26,7 +26,7 @@ class ProfileRemoteDatasourceImpl extends ProfileRemoteDatasource {
 
       ProfileModel profile = ProfileModel(
           id: profileMap['id'],
-          fullName: profileMap['fullName'] ?? '',
+          fullName: profileMap['fullname'] ?? '',
           email: profileMap['email'],
           role: role['role']);
 
@@ -44,7 +44,7 @@ class ProfileRemoteDatasourceImpl extends ProfileRemoteDatasource {
   Future<void> upsertProfile(String name) async {
     final fullName = name;
     final user = supabase.auth.currentUser;
-    final updates = {'id': user!.id, 'fullName': fullName, 'email': user.email};
+    final updates = {'id': user!.id, 'fullname': fullName, 'email': user.email};
 
     try {
       await supabase.from('profiles').upsert(updates);

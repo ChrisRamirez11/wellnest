@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
+import 'package:wellnest/feature/auth/presentation/riverpod/google_native_signin.dart';
+import 'package:wellnest/main.dart';
 
 final _cardColor = primary.withValues(alpha: 150);
 
-class SettingsBody extends StatelessWidget {
+class SettingsBody extends StatefulWidget {
   const SettingsBody({super.key});
 
+  @override
+  State<SettingsBody> createState() => _SettingsBodyState();
+}
+
+class _SettingsBodyState extends State<SettingsBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,21 +37,31 @@ class SettingsBody extends StatelessWidget {
   }
 
   Card getSignInBox(BuildContext context) {
+    //!adapt it to use the profileProvider, and if profile == null shows the signIn button
+    //nah, because of the way it works, you must listen to any change
+    final user = supabase.auth.currentUser;
+
     return Card(
       color: _cardColor,
-      child: const SizedBox(
+      child: SizedBox(
         width: double.infinity,
         child: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: ListTile(
-              trailing: Icon(
-                Icons.lock,
-                size: 25,
-              ),
-              title: Text('Google Sign In'),
-            ),
+            child: user == null
+                ? ListTile(
+                    trailing: const Icon(
+                      Icons.lock,
+                      size: 25,
+                    ),
+                    title: const Text('Google Sign In'),
+                    onTap: () async {
+                      await googleNativeSignIn();
+                      setState(() {});
+                    },
+                  )
+                : const SizedBox(),
           ),
         ),
       ),
