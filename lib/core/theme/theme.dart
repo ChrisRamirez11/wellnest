@@ -6,7 +6,8 @@ const Color catColor = Color(0xFFEAC381);
 const Color obsidian = Color(0xFF0B1215);
 const Color ghostWhite = Color(0xFFFFFAFA);
 const Color coffe = Color(0xFFA67B5B);
-Color errorColor = const Color(0xFFE57373);
+const Color gold = Color(0xFFEFBF04); //Bright Gold
+const Color errorColor = Color(0xFFE57373);
 
 const double largeSize = 20;
 const double mediumSize = 16;
