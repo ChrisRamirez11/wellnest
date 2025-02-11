@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/theme/theme.dart';
-import 'package:wellnest/feature/presentation/providers/index_provider.dart';
+import 'package:wellnest/feature/skeleton/presentation/providers/index_provider.dart';
 
 List<NavigationDestination> itemsList = [
   const NavigationDestination(

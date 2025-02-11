@@ -41,14 +41,14 @@ class RoutineModel {
       'name': name,
       'days': days,
       'finished': finished,
-      'createdDate': createdDate,
+      'createdDate': createdDate.toIso8601String(),
     };
   }
 
   factory RoutineModel.fromMap(Map<String, dynamic> map) => RoutineModel(
         id: map['id'],
         name: map['name'] as String,
-        days: List<bool>.from((map['days'] as List<bool>)),
+        days: List<bool>.from((map['days'] as List)),
         finished: map['finished'] as bool,
         createdDate: DateTime.parse(map['createdDate']),
       );
