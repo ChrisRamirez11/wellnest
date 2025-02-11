@@ -7,6 +7,7 @@ abstract class DateLocalDatasource {
   Future<DateModel?> getDate(DateTime date);
   Future<List<DateModel>> getEveryDate();
   Future<int> upsertDate(DateModel dateModel);
+  Future<void> upsertAllDates(List<DateModel> dateModels);
   Future<void> deleteDate(int id);
 }
 
@@ -57,6 +58,17 @@ class DateLocalDatasourceImpl implements DateLocalDatasource {
       await isarInstance.writeTxn(
           () async => res = await isarInstance.dateModels.put(dateModel));
       return res!;
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
+  }
+  
+  @override
+  Future<void> upsertAllDates(List<DateModel> dateModels) async {
+    try {
+      final isarInstance = await IsarDatabase().isar;
+      await isarInstance.writeTxn(
+          () async => await isarInstance.dateModels.putAll(dateModels));
     } catch (e) {
       throw CacheException(message: e.toString());
     }

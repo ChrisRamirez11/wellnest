@@ -55,4 +55,19 @@ class DateRepositoryImpl implements DateRepository {
       return Left(e);
     }
   }
+
+  @override
+  Future<Either<Failure, void>> upsertAllDates(
+      List<DateEntity> dateEntities) async {
+    try {
+      await dateLocalDatasource.upsertAllDates(dateEntities
+          .map(
+            (e) => DateModel.fromEntity(e),
+          )
+          .toList());
+      return const Right(null);
+    } on CacheFailure catch (e) {
+      return Left(e);
+    }
+  }
 }
