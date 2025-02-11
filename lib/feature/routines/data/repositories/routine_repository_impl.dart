@@ -52,10 +52,25 @@ class RoutineRepositoryImpl implements RoutineRepository {
     try {
       final d = DateTime(routine.createdDate.year, routine.createdDate.month,
           routine.createdDate.day);
-          routine.createdDate = d;
+      routine.createdDate = d;
       final res = await routineLocalDatasource
           .upsertRoutine(RoutineModel.fromEntity(routine));
       return Right(res);
+    } on CacheException catch (e) {
+      return Left(CacheFailure(errorMessage: e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> upsertAllRoutines(
+      List<RoutineEntity> routines) async {
+    try {
+      await routineLocalDatasource.upsertAllRoutines(routines
+          .map(
+            (e) => RoutineModel.fromEntity(e),
+          )
+          .toList());
+      return const Right(null);
     } on CacheException catch (e) {
       return Left(CacheFailure(errorMessage: e.message));
     }
