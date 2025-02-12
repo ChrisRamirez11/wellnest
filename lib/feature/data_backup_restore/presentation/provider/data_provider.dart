@@ -105,18 +105,21 @@ class DataProvider extends ChangeNotifier {
     //! To avoid recovering deleted data, the back up just happens once, from there evrey time it will create the restore point
     //! so if you uninstall the app is when will only need to back it up.
     if (data != null && !preferences.backedupData) {
-      /*
-      TODO
-      Creo que es aqui donde si se contiene un DateModel con una fecha(supuestamente solo se pueden tener la de hoy y la de 
-      dias anteriores), vamos a dichas fechas alterarlas y dejarle el id y la fecha, pero a la lista de rutinas le vamos a añadir
-      la del DateModel que esta entrando y sumamos las completedRoutines de ambos DateModel.
-      Por lo tanto ya no se puede usar el addAll, hay que hacerlo con un for y en c ada iteracion ir comprobando, si existe
-      se juntan los DateModels(editar el DateModel dentro de dates), si no existe se añade el DateModel de data.dates
-      */
-      dates.addAll(data!.dates.map((e) => DateModel.fromMap(e)).toList());
+      for (var i = 0; i < data!.dates.length; i++) {
+        if(dates.any((element) => element.date == DateModel.fromMap(data!.dates[i]).date)){//we check if the date exists
+          //we tak the index of the existent date
+          final index = dates.indexWhere((element) => element.date == DateModel.fromMap(data!.dates[i]).date);
+          //merge the existent with the incoming
+          dates[index].routines.addAll(DateModel.fromMap(data!.dates[i]).routines);
+          dates[index].completedRoutineAmount += DateModel.fromMap(data!.dates[i]).completedRoutineAmount;
+        }else{
+          dates.add(DateModel.fromMap(data!.dates[i]));
+        }
+      }
+
       routines
           .addAll(data!.routines.map((e) => RoutineModel.fromMap(e)).toList());
-          preferences.backedupData = true;
+      preferences.backedupData = true;
     }
 
     //updates data to how it should if is backing up or just creating the restore point
