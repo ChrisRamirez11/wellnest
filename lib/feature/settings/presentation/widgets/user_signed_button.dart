@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/utils/utils.dart';
+import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/profile_provider.dart';
 import 'package:wellnest/feature/data_backup_restore/presentation/provider/data_provider.dart';
+import 'package:wellnest/feature/dates/data/models/date_model.dart';
+import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
+import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
+import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
 
 class UserSignedButton extends ConsumerStatefulWidget {
   const UserSignedButton({super.key});
@@ -27,6 +32,8 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
     if (profile != null) {
       widget = InkWell(
         onTap: () async {
+          final dateNotifier = ref.watch(dateProvider);
+          final selectedDateNotifier = ref.watch(currentSelectedDateProvider);
           showDialog(
             barrierDismissible: false,
             context: context,
@@ -44,7 +51,24 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
               ],
             ),
           );
+          //TODO if no connection, wont do and will show a no connection snackbar
           await ref.watch(dataProvider).backupRestore(ref);
+
+          //updating the DateModel
+          selectedDateNotifier.changeDate(DateTime.now());
+          dateNotifier.setDate(dateNotifier.dates!
+                  .where(
+                    (element) => element.date.isAtSameMomentAs(
+                        selectedDateNotifier.currentSelectedDate),
+                  )
+                  .firstOrNull ??
+              DateModel(
+                  date: selectedDateNotifier.currentSelectedDate,
+                  routines: [],
+                  completedRoutineAmount: 0));
+          await validateDateModel(ref.watch(routineProvider).routines!,
+              selectedDateNotifier.currentSelectedDate, ref);
+              
           if (context.mounted) {
             Navigator.of(context).pop();
           }
@@ -62,7 +86,8 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                         const Icon(Icons.person_off),
                   )),
             ),
-            title: Text(profile.fullName),
+            title: Text(
+                profile.fullName), //TODO add the log out or cancel bottom sheet
             subtitle: Text(profile.email),
             trailing: const Icon(Icons.autorenew),
           ),
