@@ -61,7 +61,7 @@ class RoutineLocalDatasourceImpl implements RoutineLocalDatasource {
   @override
   Future<void> upsertAllRoutines(List<RoutineModel> routineModels) async {
     try{
-      final isarInstance = await  IsarDatabase().isar;
+      final isarInstance = await IsarDatabase().isar;
       await isarInstance.writeTxn(
         () async => await isarInstance.routineModels.putAll(routineModels),
       );

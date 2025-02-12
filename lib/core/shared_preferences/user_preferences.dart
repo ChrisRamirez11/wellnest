@@ -26,4 +26,12 @@ class UserPreferences {
   String get cacheUser {
     return _prefs.getString('CachedUser') ?? '';
   }
+
+  set backedupData(bool value) {
+    _prefs.setBool('BackedupData', value);
+  }
+
+  bool get backedupData {
+    return _prefs.getBool('BackedupData') ?? false;
+  }
 }

@@ -46,7 +46,11 @@ class DateModel {
       completedRoutineAmount: completedRoutineAmount);
 
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'id': id,
+    /*
+    id commented because im using toMap only for storing in supabase the data and to avoid having the repeated Ids when
+    backup happens i'll store it in the cloud without id
+    */
+        // 'id': id,
         'date': date.toIso8601String(),
         'routines': routines.map((x) => x.toMap()).toList(),
         'completedRoutineAmount': completedRoutineAmount,

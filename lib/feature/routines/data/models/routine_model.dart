@@ -37,7 +37,11 @@ class RoutineModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
+    /*
+    id commented because im using toMap only for storing in supabase the data and to avoid having the repeated Ids when
+    backup happens i'll store it in the cloud without id
+    */
+      // 'id': id,
       'name': name,
       'days': days,
       'finished': finished,

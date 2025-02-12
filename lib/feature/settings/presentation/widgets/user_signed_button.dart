@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/profile_provider.dart';
+import 'package:wellnest/feature/data_backup_restore/presentation/provider/data_provider.dart';
 
 class UserSignedButton extends ConsumerStatefulWidget {
   const UserSignedButton({super.key});
@@ -24,7 +26,29 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
 
     if (profile != null) {
       widget = InkWell(
-        onTap: () {},
+        onTap: () async {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) => SimpleDialog(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              children: [
+                SizedBox(
+                  height: size(context).height * 0.09,
+                  width: size(context).width,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              ],
+            ),
+          );
+          await ref.watch(dataProvider).backupRestore(ref);
+          if (context.mounted) {
+            Navigator.of(context).pop();
+          }
+        },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
@@ -32,7 +56,11 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
             leading: CircleAvatar(
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
-                  child: Image.network(profile.avatarUrl)),
+                  child: Image.network(
+                    profile.avatarUrl,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Icon(Icons.person_off),
+                  )),
             ),
             title: Text(profile.fullName),
             subtitle: Text(profile.email),

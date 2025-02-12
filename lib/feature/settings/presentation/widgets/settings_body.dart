@@ -47,7 +47,9 @@ class _SettingsBodyState extends State<SettingsBody> {
           ? InkWell(
               onTap: () async {
                 await googleNativeSignIn();
-                setState(() {});
+                if(mounted){
+                  setState(() {});
+                }
               },
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
