@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/errors/failures.dart';
-import 'package:wellnest/core/shared_preferences/user_preferences.dart';
+import 'package:wellnest/core/preferences/user_preferences.dart';
 import 'package:wellnest/feature/data_backup_restore/business/usecases/get_data_usecase.dart';
 import 'package:wellnest/feature/data_backup_restore/business/usecases/update_data_usecase.dart';
 import 'package:wellnest/feature/data_backup_restore/data/datasources/data_remote_datasource.dart';

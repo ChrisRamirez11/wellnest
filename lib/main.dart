@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:wellnest/core/consts/consts.dart';
-import 'package:wellnest/core/shared_preferences/user_preferences.dart';
+import 'package:wellnest/core/preferences/user_preferences.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
 import 'package:wellnest/feature/skeleton/presentation/screens/skeleton.dart';

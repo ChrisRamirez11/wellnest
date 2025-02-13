@@ -2,7 +2,7 @@
 
 import 'package:wellnest/feature/auth/data/models/profile_model.dart';
 import 'package:wellnest/core/errors/excpetions.dart';
-import 'package:wellnest/core/shared_preferences/user_preferences.dart';
+import 'package:wellnest/core/preferences/user_preferences.dart';
 
 abstract class ProfileLocalDatasource {
   Future<ProfileModel> getCachedUser();
