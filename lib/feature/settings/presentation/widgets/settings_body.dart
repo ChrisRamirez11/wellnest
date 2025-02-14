@@ -6,7 +6,7 @@ import 'package:wellnest/feature/auth/presentation/riverpod/google_native_signin
 import 'package:wellnest/feature/settings/presentation/widgets/user_signed_button.dart';
 import 'package:wellnest/main.dart';
 
-final _cardColor = primary.withValues(alpha: 150);
+final _cardColor = primary.withAlpha(150);
 
 class SettingsBody extends StatefulWidget {
   const SettingsBody({super.key});
@@ -81,7 +81,7 @@ class _SettingsBodyState extends State<SettingsBody> {
             ),
             onClick: () {},
             text: 'GO DELUXE',
-            color: secondary.withValues(alpha: 150),
+            color: secondary.withAlpha(150),
           )),
     );
   }
