@@ -25,6 +25,9 @@ dependencies:
   shared_preferences: ^2.5.1
   supabase_flutter: ^2.8.3
   google_sign_in: ^6.2.2
+  flutter_local_notifications: ^18.0.1
+  flutter_timezone: ^4.1.0
+  timezone: ^0.10.0
 
 dev_dependencies:
   flutter_test:
@@ -43,6 +46,7 @@ flutter:
   assets:
     - assets/
     - assets/lotties/
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # To add custom fonts to your application, add a fonts section here,
