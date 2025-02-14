@@ -107,7 +107,7 @@ class DataProvider extends ChangeNotifier {
     if (data != null && !preferences.backedupData) {
       for (var i = 0; i < data!.dates.length; i++) {
         if(dates.any((element) => element.date == DateModel.fromMap(data!.dates[i]).date)){//we check if the date exists
-          //we tak the index of the existent date
+          //we take the index of the existent date
           final index = dates.indexWhere((element) => element.date == DateModel.fromMap(data!.dates[i]).date);
           //merge the existent with the incoming
           dates[index].routines.addAll(DateModel.fromMap(data!.dates[i]).routines);
