@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:wellnest/core/errors/failures.dart';
+import 'package:wellnest/feature/dates/business/usecases/delete_date.dart';
 import 'package:wellnest/feature/dates/business/usecases/get_every_date.dart';
 import 'package:wellnest/feature/dates/business/usecases/upsert_date.dart';
 import 'package:wellnest/feature/dates/data/datasources/local/date_local_datasource.dart';
@@ -62,6 +63,22 @@ class DateProvider extends ChangeNotifier {
       (dateEntities) =>
           _dates = dateEntities.map((e) => DateModel.fromEntity(e)).toList(),
     );
+    notifyListeners();
+  }
+
+  deleteDate(int id) async {
+    final now = DateTime.now();
+    final res = await DeleteDate(repositoryImpl).call(id);
+    res.fold(
+      (l) => log('error loading the dates ${l.errorMessage}'),
+      (r) => debugPrint('date succesfully deleted'),
+    );
+
+    _dates!.removeWhere(
+      (element) =>
+          element.date.isAtSameMomentAs(DateTime(now.year, now.month, now.day)),
+    );
+    
     notifyListeners();
   }
 }
