@@ -56,10 +56,6 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
 
           //updating the DateModel
           selectedDateNotifier.changeDate(DateTime.now());
-
-          await validateDateModel(ref.watch(routineProvider).routines!,
-              selectedDateNotifier.currentSelectedDate, ref);
-
           dateNotifier.setDate(dateNotifier.dates!
                   .where(
                     (element) => element.date.isAtSameMomentAs(
@@ -70,7 +66,9 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                   date: selectedDateNotifier.currentSelectedDate,
                   routines: [],
                   completedRoutineAmount: 0));
-
+          await validateDateModel(ref.watch(routineProvider).routines!,
+              selectedDateNotifier.currentSelectedDate, ref);
+              
           if (context.mounted) {
             Navigator.of(context).pop();
           }
