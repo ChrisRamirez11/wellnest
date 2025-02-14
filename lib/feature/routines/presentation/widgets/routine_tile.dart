@@ -143,7 +143,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                     )
                   ],
                 ),
-                getWeekDays(context)
+                FittedBox(child: getWeekDays(context),)
               ],
             )),
       ),
