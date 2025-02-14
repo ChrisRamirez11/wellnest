@@ -27,7 +27,6 @@ Future<void> main() async {
 
   await UserPreferences().initPrefs();
   await NotiService().initNotifications();
-  await NotiService().checkScheduledNoti();
   
   await AndroidFlutterLocalNotificationsPlugin().requestExactAlarmsPermission();
 

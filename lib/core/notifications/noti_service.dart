@@ -84,34 +84,6 @@ class NotiService {
     debugPrint('Scheduled Date: $scheduledDate');
   }
 
-  Future<void> periodicalNotification({
-    int id = 0,
-    required String title,
-    required String body,
-    required int hour,
-    required int minute,
-  }) async {
-    final now = tz.TZDateTime.now(tz.local);
-
-    var scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
-
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
-    }
-
-    await notificationsPlugin.periodicallyShow(
-      id,
-      title,
-      body,
-      RepeatInterval.daily,
-      notificationDetails(),
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-    );
-
-    debugPrint('Scheduled Date: $scheduledDate');
-  }
-
   Future<void> showTestNotification() async {
     await notificationsPlugin.show(
       0,
@@ -125,7 +97,7 @@ class NotiService {
     await notificationsPlugin.cancelAll();
   }
 
-  Future<List<PendingNotificationRequest>> checkScheduledNoti() async {
+  Future<List<PendingNotificationRequest>> checkScheduledNotis() async {
     final list = await notificationsPlugin.pendingNotificationRequests();
     
     log(list.length.toString());
