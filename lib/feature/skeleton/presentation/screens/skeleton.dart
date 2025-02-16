@@ -10,7 +10,6 @@ import 'package:wellnest/feature/settings/presentation/screens/settings_screen.d
 import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
 import 'package:wellnest/feature/small_routines/presentation/screens/small_routines_screen.dart';
 import 'package:wellnest/feature/skeleton/presentation/providers/index_provider.dart';
-import 'package:wellnest/feature/skeleton/presentation/widgets/custom_fab.dart';
 import 'package:wellnest/feature/skeleton/presentation/widgets/custom_nav_bar.dart';
 
 List<Widget> pages = [
@@ -65,13 +64,8 @@ class _SkeletonState extends ConsumerState<Skeleton> {
   @override
   Widget build(BuildContext context) {
     final index = ref.watch(indexProvider);
-    final showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
     return SafeArea(
         child: Scaffold(
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.miniEndFloat,
-            floatingActionButton:
-                showFab ? const CustomFab() : const SizedBox(),
             bottomNavigationBar: const CustomNavBar(),
             body: PageView(
               controller: index.pageController,

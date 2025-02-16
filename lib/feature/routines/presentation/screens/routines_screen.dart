@@ -4,6 +4,7 @@ import 'package:wellnest/core/widgets/custom_app_bar.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/feature/routines/presentation/widgets/routine_tile.dart';
+import 'package:wellnest/core/widgets/custom_fab.dart';
 
 class RoutinesScreen extends ConsumerWidget {
   const RoutinesScreen({super.key});
@@ -21,15 +22,21 @@ class RoutinesScreen extends ConsumerWidget {
         itemCount: routines.length,
         itemBuilder: (context, index) {
           return RoutineTile(
-              routine: Routine.fromModel(routines[index]), index: index, fromRoutinesScreen: false,);
+            routine: Routine.fromModel(routines[index]),
+            index: index,
+            fromRoutinesScreen: false,
+          );
         },
       );
     } else {
       widget = const Center(child: CircularProgressIndicator());
     }
 
+    final showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
     return Scaffold(
       appBar: CustomAppBar(titleString: 'ROUTINES'),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      floatingActionButton: showFab ? const CustomFab() : const SizedBox(),
       body: widget,
     );
   }

@@ -33,11 +33,13 @@ class CustomButton extends StatelessWidget {
             shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(100)))),
         onPressed: onClick,
-        label: Text(
-          text,
-          style: textTheme(context)
-              .bodyLarge!
-              .copyWith(color: textColor ?? Colors.white),
+        label: FittedBox(
+          child: Text(
+            text,
+            style: textTheme(context)
+                .bodyLarge!
+                .copyWith(color: textColor ?? Colors.white),
+          ),
         ),
       ),
     );

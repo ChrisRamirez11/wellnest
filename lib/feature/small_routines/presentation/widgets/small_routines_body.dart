@@ -21,6 +21,7 @@ class SmallRoutinesBody extends ConsumerWidget {
     late Widget widget;
     if (dates != null && routines != null) {
       widget = SingleChildScrollView(
+        primary: true,
         child: Column(
           children: [
             Container(
@@ -39,7 +40,7 @@ class SmallRoutinesBody extends ConsumerWidget {
               child: dateNotifier.date != null
                   ? RoutinesListView(dateModel: dateNotifier.date!)
                   : const SizedBox(),
-            )
+            ),
           ],
         ),
       );

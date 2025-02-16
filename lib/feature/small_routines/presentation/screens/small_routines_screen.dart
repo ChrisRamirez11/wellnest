@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/widgets/custom_app_bar.dart';
 import 'package:wellnest/feature/small_routines/presentation/widgets/small_routines_body.dart';
 
@@ -12,11 +13,28 @@ class SmallRoutinesScreen extends ConsumerStatefulWidget {
 }
 
 class _SmallRoutinesScreenState extends ConsumerState<SmallRoutinesScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
+        actionsList: [
+          InkWell(
+            onTap: () => Navigator.of(context).pushNamed('/createRoutine'),
+            child: Container(
+              margin: EdgeInsets.only(right: 10),
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(shape: BoxShape.circle, color: primary),
+              child: Icon(
+                Icons.add,
+                color: secondary,
+                size: 20,
+                grade: 100,
+                fill: 1,
+              ),
+            ),
+          )
+        ],
         titleString: 'CALENDAR',
       ),
       body: const SmallRoutinesBody(),

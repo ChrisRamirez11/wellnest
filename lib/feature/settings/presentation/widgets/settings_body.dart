@@ -94,9 +94,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
         child: Column(
           children: [
             getNotificationsTile(prefs),
-            Divider(
-              height: 0,
-            ),
+            getDivider(),
             ListTile(
               minTileHeight: 70,
               leading: Icon(
@@ -104,9 +102,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
               ),
               title: Text('Feedback'),
             ),
-            Divider(
-              height: 0,
-            ),
+            getDivider(),
             ListTile(
               minTileHeight: 70,
               leading: Icon(
@@ -117,6 +113,16 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
           ],
         ),
       ),
+    );
+  }
+
+  Divider getDivider() {
+    return Divider(
+      indent: 10,
+      endIndent: 10,
+      thickness: 1,
+      height: 0,
+      color: Colors.grey,
     );
   }
 
