@@ -68,7 +68,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                   completedRoutineAmount: 0));
 
           if (dateNotifier.date!.id != null) {
-            dateNotifier.deleteDate(dateNotifier.date!.id!);
+            await dateNotifier.deleteDate(dateNotifier.date!.id!);
           }
 
           await validateDateModel(ref.watch(routineProvider).routines!,

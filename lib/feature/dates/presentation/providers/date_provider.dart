@@ -37,7 +37,7 @@ class DateProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  upsertDate(DateModel dateModel) async {
+  Future<void> upsertDate(DateModel dateModel) async {
     final res = await UpsertDate(repositoryImpl).call(dateModel.toEntity());
 
     if (_dates!.contains(dateModel)) {
@@ -57,7 +57,7 @@ class DateProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  getDates() async {
+  Future<void> getDates() async {
     final res = await GetEveryDate(repositoryImpl).call();
     res.fold(
       (l) => log('error loading the dates ${l.errorMessage}'),
@@ -67,8 +67,7 @@ class DateProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  deleteDate(int id) async {
-    final now = DateTime.now();
+  Future<void> deleteDate(int id) async {
     final res = await DeleteDate(repositoryImpl).call(id);
     res.fold(
       (l) => log('error loading the dates ${l.errorMessage}'),
@@ -77,13 +76,12 @@ class DateProvider extends ChangeNotifier {
 
     _dates!.removeWhere(
       (element) =>
-          element.date.isAtSameMomentAs(DateTime(now.year, now.month, now.day)),
-    );
+          element.id == id);
 
     notifyListeners();
   }
 
-  upsertAllDates(List<DateModel> list) async {
+  Future<void> upsertAllDates(List<DateModel> list) async {
     final res = await UpsertAllDates(repositoryImpl).call(list
         .map(
           (e) => e.toEntity(),

@@ -106,13 +106,19 @@ class DataProvider extends ChangeNotifier {
     //! so if you uninstall the app is when will only need to back it up.
     if (data != null && !preferences.backedupData) {
       for (var i = 0; i < data!.dates.length; i++) {
-        if(dates.any((element) => element.date == DateModel.fromMap(data!.dates[i]).date)){//we check if the date exists
+        if (dates.any((element) =>
+            element.date == DateModel.fromMap(data!.dates[i]).date)) {
+          //we check if the date exists
           //we take the index of the existent date
-          final index = dates.indexWhere((element) => element.date == DateModel.fromMap(data!.dates[i]).date);
+          final index = dates.indexWhere((element) =>
+              element.date == DateModel.fromMap(data!.dates[i]).date);
           //merge the existent with the incoming
-          dates[index].routines.addAll(DateModel.fromMap(data!.dates[i]).routines);
-          dates[index].completedRoutineAmount += DateModel.fromMap(data!.dates[i]).completedRoutineAmount;
-        }else{
+          dates[index]
+              .routines
+              .addAll(DateModel.fromMap(data!.dates[i]).routines);
+          dates[index].completedRoutineAmount +=
+              DateModel.fromMap(data!.dates[i]).completedRoutineAmount;
+        } else {
           dates.add(DateModel.fromMap(data!.dates[i]));
         }
       }
@@ -146,28 +152,8 @@ class DataProvider extends ChangeNotifier {
     );
 
     //updates the local datas(the backup)
-    final routinesUpdatedOrFailure =
-        await _routineRepository.upsertAllRoutines(routines
-            .map(
-              (e) => e.toEntity(),
-            )
-            .toList());
-
-    routinesUpdatedOrFailure.fold(
-      (l) => _failure = l,
-      (r) => debugPrint('routines backup succesful'),
-    );
-
-    final datesUpdatedOrFailure = await _dateRepository.upsertAllDates(dates
-        .map(
-          (e) => e.toEntity(),
-        )
-        .toList());
-
-    datesUpdatedOrFailure.fold(
-      (l) => _failure = l,
-      (r) => debugPrint('dates backup succesful'),
-    );
+    await ref.watch(routineProvider).upsertAllRoutines(routines);
+    await ref.watch(dateProvider).upsertAllDates(dates);
 
     //updating the providers
     await ref.watch(dateProvider).getDates();
