@@ -110,9 +110,9 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
             ListTile(
               minTileHeight: 70,
               leading: Icon(
-                Icons.share,
+                Icons.info,
               ),
-              title: Text('Share'),
+              title: Text('About Us'),
             ),
           ],
         ),
