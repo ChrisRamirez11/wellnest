@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
+import 'package:wellnest/core/preferences/user_preferences.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
@@ -28,23 +29,26 @@ class Skeleton extends ConsumerStatefulWidget {
 class _SkeletonState extends ConsumerState<Skeleton> {
   @override
   Future<void> didChangeDependencies() async {
+    final prefs = UserPreferences();
     super.didChangeDependencies();
 
     //scheduled notifications
-    await NotiService().scheduleNotification(
-        title: 'Good Morning',
-        body:
-            'Review your daily routines and finish them as you go. Dont forget mark them as done',
-        hour: 6,
-        minute: 0);
+    if (!prefs.firstTimeNotiSetted) {
+      await NotiService().scheduleNotification(
+          title: 'Good Morning',
+          body:
+              'Review your daily routines and finish them as you go. Dont forget mark them as done',
+          hour: 6,
+          minute: 0);
 
-    await NotiService().scheduleNotification(
-        title: 'Hey There',
-        body:
-            'End your day by reviewing unfinished tasks and wrapping them up.',
-        hour: 17,
-        minute: 0);
-
+      await NotiService().scheduleNotification(
+          title: 'Hey There',
+          body:
+              'End your day by reviewing unfinished tasks and wrapping them up.',
+          hour: 17,
+          minute: 0);
+          prefs.firstTimeNotiSetted = true;
+    }
     //dates and routines related
     await ref.watch(routineProvider).getRoutines();
     await ref.watch(dateProvider).getDates();

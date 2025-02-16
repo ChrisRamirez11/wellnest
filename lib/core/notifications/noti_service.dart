@@ -93,8 +93,9 @@ class NotiService {
     );
   }
 
-  Future<void> cancelNotification() async {
+  Future<void> cancelNotifications() async {
     await notificationsPlugin.cancelAll();
+    debugPrint('Notifications Cancelled');
   }
 
   Future<List<PendingNotificationRequest>> checkScheduledNotis() async {

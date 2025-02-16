@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/notifications/noti_service.dart';
+import 'package:wellnest/core/notifications/notifications_provider.dart';
+import 'package:wellnest/core/preferences/user_preferences.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/google_native_signin.dart';
@@ -7,14 +11,14 @@ import 'package:wellnest/main.dart';
 
 final _cardColor = primary.withAlpha(150);
 
-class SettingsBody extends StatefulWidget {
+class SettingsBody extends ConsumerStatefulWidget {
   const SettingsBody({super.key});
 
   @override
-  State<SettingsBody> createState() => _SettingsBodyState();
+  ConsumerState<SettingsBody> createState() => _SettingsBodyState();
 }
 
-class _SettingsBodyState extends State<SettingsBody> {
+class _SettingsBodyState extends ConsumerState<SettingsBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -42,7 +46,7 @@ class _SettingsBodyState extends State<SettingsBody> {
           ? InkWell(
               onTap: () async {
                 await googleNativeSignIn();
-                if(mounted){
+                if (mounted) {
                   setState(() {});
                 }
               },
@@ -82,20 +86,14 @@ class _SettingsBodyState extends State<SettingsBody> {
   }
 
   Card getSettigsBox(BuildContext context) {
+    final prefs = UserPreferences();
     return Card(
       color: _cardColor,
-      child: const SizedBox(
+      child: SizedBox(
         width: double.infinity,
         child: Column(
           children: [
-            ListTile(
-              minTileHeight: 70,
-              leading: Icon(
-                Icons.star,
-                size: 25,
-              ),
-              title: Text('Rate Us'),
-            ),
+            getNotificationsTile(prefs),
             Divider(
               height: 0,
             ),
@@ -119,6 +117,40 @@ class _SettingsBodyState extends State<SettingsBody> {
           ],
         ),
       ),
+    );
+  }
+
+  ListTile getNotificationsTile(UserPreferences prefs) {
+    return ListTile(
+      minTileHeight: 70,
+      leading: Icon(
+        Icons.notifications,
+        size: 25,
+      ),
+      title: Text('Notification'),
+      trailing: Switch(
+          value: prefs.notiOption,
+          onChanged: (value) async {
+            if (value) {
+              await NotiService().scheduleNotification(
+                  title: 'Good Morning',
+                  body:
+                      'Review your daily routines and finish them as you go. Dont forget mark them as done',
+                  hour: 6,
+                  minute: 0);
+
+              await NotiService().scheduleNotification(
+                  title: 'Hey There',
+                  body:
+                      'End your day by reviewing unfinished tasks and wrapping them up.',
+                  hour: 17,
+                  minute: 0);
+              ref.watch(notificationProvider).changeValue(value);
+            } else {
+              NotiService().cancelNotifications();
+              ref.watch(notificationProvider).changeValue(value);
+            }
+          }),
     );
   }
 }
