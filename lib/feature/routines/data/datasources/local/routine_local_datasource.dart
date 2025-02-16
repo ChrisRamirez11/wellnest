@@ -7,7 +7,7 @@ abstract class RoutineLocalDatasource {
   Future<RoutineModel?> getRoutine(int id);
   Future<List<RoutineModel>> getEveryRoutine();
   Future<int> upsertRoutine(RoutineModel routineModel);
-  Future<void> upsertAllRoutines(List<RoutineModel> routineModels);
+  Future<List<int>> upsertAllRoutines(List<RoutineModel> routineModels);
   Future<void> deleteRoutine(int id);
 }
 
@@ -59,12 +59,13 @@ class RoutineLocalDatasourceImpl implements RoutineLocalDatasource {
   }
   
   @override
-  Future<void> upsertAllRoutines(List<RoutineModel> routineModels) async {
+  Future<List<int>> upsertAllRoutines(List<RoutineModel> routineModels) async {
     try{
       final isarInstance = await IsarDatabase().isar;
-      await isarInstance.writeTxn(
+      final res = await isarInstance.writeTxn(
         () async => await isarInstance.routineModels.putAll(routineModels),
       );
+      return res;
     } catch (e) {
       throw CacheException(message: e.toString());
     }

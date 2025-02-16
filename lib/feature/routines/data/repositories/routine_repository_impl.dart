@@ -62,15 +62,15 @@ class RoutineRepositoryImpl implements RoutineRepository {
   }
 
   @override
-  Future<Either<Failure, void>> upsertAllRoutines(
+  Future<Either<Failure, List<int>>> upsertAllRoutines(
       List<RoutineEntity> routines) async {
     try {
-      await routineLocalDatasource.upsertAllRoutines(routines
+      final res = await routineLocalDatasource.upsertAllRoutines(routines
           .map(
             (e) => RoutineModel.fromEntity(e),
           )
           .toList());
-      return const Right(null);
+      return Right(res);
     } on CacheException catch (e) {
       return Left(CacheFailure(errorMessage: e.message));
     }

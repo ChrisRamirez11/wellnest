@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/errors/failures.dart';
 import 'package:wellnest/feature/routines/business/usecases/delete_routine.dart';
 import 'package:wellnest/feature/routines/business/usecases/get_every_routine.dart';
+import 'package:wellnest/feature/routines/business/usecases/upsert_all_routines.dart';
 import 'package:wellnest/feature/routines/business/usecases/upsert_routine.dart';
 import 'package:wellnest/feature/routines/data/datasources/local/routine_local_datasource.dart';
 import 'package:wellnest/feature/routines/data/models/routine_model.dart';
@@ -76,6 +77,30 @@ class RoutineProvider extends ChangeNotifier {
         _routines!.add(routineModel);
       });
     }
+    notifyListeners();
+  }
+  
+  upsertAllRoutines(List<RoutineModel> routines) async {
+    final failureOrRoutine =
+        await UpsertAllRoutines(repositoryImpl).call(routines.map((e) => e.toEntity(),).toList());
+
+    for(int i = 0; i < routines.length; i++){if (_routines!.any(
+      (element) => element.id == routines[i].id,
+    )) {
+      final routineIndex = _routines!.indexWhere(
+        (element) => element.id == routines[i].id,
+      );
+
+      failureOrRoutine.fold((l) => _failure = failure, (r) {
+        _routines!.removeAt(routineIndex);
+        _routines!.insert(routineIndex, routines[i]);
+      });
+    } else {
+      failureOrRoutine.fold((l) => _failure = failure, (r) {
+        routines[i].id = routines[i].id;
+        _routines!.add(routines[i]);
+      });
+    }}
     notifyListeners();
   }
 }

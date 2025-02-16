@@ -47,6 +47,7 @@ Future<void> validateDateModel(
           )
           .toList();
       await dateNotifier.upsertDate(dateModel);
+      dateNotifier.setDate(dateModel);
     } else {
       for (var routine in routines) {
         if (routine.createdDate.isBefore(date) ||

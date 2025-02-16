@@ -8,7 +8,7 @@ class UpsertAllDates {
 
   UpsertAllDates(this._dateRepository);
 
-  Future<Either<Failure, void>> call(List<DateEntity> dateEntities) async {
+  Future<Either<Failure, List<int>>> call(List<DateEntity> dateEntities) async {
     return await _dateRepository.upsertAllDates(dateEntities);
   }
 }

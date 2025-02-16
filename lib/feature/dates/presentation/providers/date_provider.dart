@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/errors/failures.dart';
 import 'package:wellnest/feature/dates/business/usecases/delete_date.dart';
 import 'package:wellnest/feature/dates/business/usecases/get_every_date.dart';
+import 'package:wellnest/feature/dates/business/usecases/upsert_all_dates.dart';
 import 'package:wellnest/feature/dates/business/usecases/upsert_date.dart';
 import 'package:wellnest/feature/dates/data/datasources/local/date_local_datasource.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
@@ -78,7 +79,32 @@ class DateProvider extends ChangeNotifier {
       (element) =>
           element.date.isAtSameMomentAs(DateTime(now.year, now.month, now.day)),
     );
-    
+
+    notifyListeners();
+  }
+
+  upsertAllDates(List<DateModel> list) async {
+    final res = await UpsertAllDates(repositoryImpl).call(list
+        .map(
+          (e) => e.toEntity(),
+        )
+        .toList());
+
+    for (int i = 0; i < list.length; i++) {
+      if (_dates!.contains(list[i])) {
+        final dateIndex = _dates!.indexOf(list[i]);
+
+        res.fold((l) => log('error upserting ${l.errorMessage}'), (r) {
+          _dates!.removeAt(dateIndex);
+          _dates!.insert(dateIndex, list[i]);
+        });
+      } else {
+        res.fold((l) => _failure = failure, (id) {
+          list[i].id = list[i].id;
+          _dates!.insert(0, list[i]);
+        });
+      }
+    }
     notifyListeners();
   }
 }

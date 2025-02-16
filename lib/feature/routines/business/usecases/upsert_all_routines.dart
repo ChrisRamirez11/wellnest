@@ -8,7 +8,7 @@ class UpsertAllRoutines {
 
   UpsertAllRoutines(this._routineRepository);
 
-  Future<Either<Failure, void>> call(List<RoutineEntity> routineEntities) async {
+  Future<Either<Failure, List<int>>> call(List<RoutineEntity> routineEntities) async {
     return await _routineRepository.upsertAllRoutines(routineEntities);
   }
 }
