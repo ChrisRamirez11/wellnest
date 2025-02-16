@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/google_native_signin.dart';
@@ -27,10 +26,6 @@ class _SettingsBodyState extends State<SettingsBody> {
             getSignInBox(context),
             getGoDeluxButton(),
             getSettigsBox(context),
-            SizedBox(
-                height: 250,
-                width: double.infinity,
-                child: Lottie.asset('assets/lotties/sleepy-cat.json'))
           ],
         ),
       ),

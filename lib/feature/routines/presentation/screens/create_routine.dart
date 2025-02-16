@@ -82,8 +82,11 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               ),
               weekDays(context),
               Padding(
-                padding: const EdgeInsets.only(right: 70.0, top: 40),
-                child: Lottie.asset('assets/lotties/green-cat.json'),
+                padding: const EdgeInsets.only(top: 80),
+                child: SizedBox(
+                    height: 250,
+                    width: double.infinity,
+                    child: Lottie.asset('assets/lotties/sleepy-cat.json')),
               )
             ],
           ),
@@ -170,7 +173,6 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
 
   Future<void> _validateActualDayRoutineAddition(
       RoutineModel routine, DateProvider dateNotifier) async {
-
     if (dateNotifier.dates!.isEmpty) {
       await dateNotifier.upsertDate(DateModel(
           date: DateTime(
