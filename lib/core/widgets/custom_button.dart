@@ -11,7 +11,7 @@ class CustomButton extends StatelessWidget {
     this.icon
   });
 
-  final Function() onClick;
+  final Function()? onClick;
   final String text;
   final Color? color;
   final Color? textColor;

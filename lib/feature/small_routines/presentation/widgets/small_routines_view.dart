@@ -31,7 +31,7 @@ class SmallRoutinesView extends ConsumerWidget {
         children: [
           ...list,
           Container(
-            padding: EdgeInsets.only(top: 10, bottom: 10, left: 60, right: 60),
+            margin: EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 30),
             width: double.infinity,
             child: CustomButton(
               onClick: () => Navigator.of(context).pushNamed('/createRoutine'),

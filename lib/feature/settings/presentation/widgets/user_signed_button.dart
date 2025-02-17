@@ -94,9 +94,17 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                         const Icon(Icons.person_off),
                   )),
             ),
-            title: Text(
-                profile.fullName), //TODO add the log out or cancel bottom sheet
-            subtitle: Text(profile.email),
+            title: SizedBox(
+              height: 30,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: FittedBox(
+                  child: Text(
+                      profile.fullName),
+                ),
+              ),
+            ), //TODO add the log out or cancel bottom sheet
+            subtitle: FittedBox(child: Text(profile.email)),
             trailing: const Icon(Icons.autorenew),
           ),
         ),

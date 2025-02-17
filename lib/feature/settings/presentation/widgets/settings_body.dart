@@ -98,9 +98,19 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
             ListTile(
               minTileHeight: 70,
               leading: Icon(
+                Icons.hub,
+              ),
+              title: Text('Contributors'),
+              onTap: () => Navigator.pushNamed(context, '/community'),
+            ),
+            getDivider(),
+            ListTile(
+              minTileHeight: 70,
+              leading: Icon(
                 Icons.feedback,
               ),
               title: Text('Feedback'),
+              onTap: () => Navigator.pushNamed(context, '/feedback'),
             ),
             getDivider(),
             ListTile(
@@ -109,6 +119,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
                 Icons.info,
               ),
               title: Text('About Us'),
+              onTap: () => Navigator.pushNamed(context, '/about'),
             ),
           ],
         ),
