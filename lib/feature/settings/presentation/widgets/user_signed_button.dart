@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/utils/utils.dart';
@@ -85,9 +86,11 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
             leading: CircleAvatar(
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
-                  child: Image.network(
-                    profile.avatarUrl,
-                    errorBuilder: (context, error, stackTrace) =>
+                  child: CachedNetworkImage(
+                    fadeInCurve: Curves.ease,
+                    fadeOutCurve: Curves.ease,
+                    imageUrl: profile.avatarUrl,
+                    errorWidget: (context, url, error) =>
                         const Icon(Icons.person_off),
                   )),
             ),
