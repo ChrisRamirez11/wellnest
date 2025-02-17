@@ -18,13 +18,14 @@ class _SmallRoutinesScreenState extends ConsumerState<SmallRoutinesScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         actionsList: [
-          InkWell(
-            onTap: () => Navigator.of(context).pushNamed('/createRoutine'),
-            child: Container(
-              margin: EdgeInsets.only(right: 10),
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: primary),
+          Container(
+            margin: EdgeInsets.only(right: 10),
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(shape: BoxShape.circle, color: primary),
+            child: InkWell(
+              customBorder: CircleBorder(),
+              onTap: () => Navigator.of(context).pushNamed('/createRoutine'),
               child: Icon(
                 Icons.add,
                 color: secondary,

@@ -146,7 +146,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
             child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: widget.routine.days![index] ? primary : catColor,
+                color: widget.routine.days![index] ? primary : secondary,
               ),
               child: Center(
                 child: Text(

@@ -113,7 +113,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
             child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: _days[index] ? primary : catColor,
+                color: _days[index] ? primary : secondary,
               ),
               child: Center(
                 child: Text(
