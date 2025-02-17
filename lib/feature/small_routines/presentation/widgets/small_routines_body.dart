@@ -26,8 +26,14 @@ class SmallRoutinesBody extends ConsumerWidget {
           children: [
             Container(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
-                height: size(context).width * .7,
-                width: size(context).width,
+                height:
+                    MediaQuery.of(context).orientation == Orientation.portrait
+                        ? size(context).width * .7
+                        : size(context).width * .4,
+                width:
+                    MediaQuery.of(context).orientation == Orientation.portrait
+                        ? size(context).width
+                        : size(context).width * .5,
                 child: CustomCalendar(
                   routines: routines,
                 )),

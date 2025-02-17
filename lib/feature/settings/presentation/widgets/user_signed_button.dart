@@ -100,11 +100,11 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                 alignment: Alignment.centerLeft,
                 child: FittedBox(
                   child: Text(
-                      profile.fullName),
+                      profile.fullName, style: textTheme(context).bodyLarge,),
                 ),
               ),
             ), //TODO add the log out or cancel bottom sheet
-            subtitle: FittedBox(child: Text(profile.email)),
+            subtitle: FittedBox(child: Text(profile.email, style: textTheme(context).bodyMedium,)),
             trailing: const Icon(Icons.autorenew),
           ),
         ),

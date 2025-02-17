@@ -4,6 +4,7 @@ import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/notifications/notifications_provider.dart';
 import 'package:wellnest/core/preferences/user_preferences.dart';
 import 'package:wellnest/core/theme/theme.dart';
+import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/google_native_signin.dart';
 import 'package:wellnest/feature/settings/presentation/widgets/user_signed_button.dart';
@@ -28,7 +29,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
           spacing: 10,
           children: [
             getSignInBox(context),
-            getGoDeluxButton(),
+            // getGoDeluxeButton(),
             getSettigsBox(context),
           ],
         ),
@@ -50,14 +51,29 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
                   setState(() {});
                 }
               },
-              child: const Padding(
+              child: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: ListTile(
                     minTileHeight: 70,
-                    title: Text('Google Sign In'),
-                    subtitle: Text('Sign in to sync and backup data'),
+                    title: Text(
+                      'Google Sign In',
+                      style: textTheme(context).bodyLarge,
+                    ),
+                    subtitle: Align(
+                      alignment: Alignment.centerLeft,
+                      child: SizedBox(
+                        height: 20,
+                        child: FittedBox(
+                            child: Text(
+                          'Sign in to sync and backup data',
+                          style: textTheme(context)
+                              .bodyMedium!
+                              .copyWith(color: Colors.grey),
+                        )),
+                      ),
+                    ),
                     trailing: Icon(Icons.backup),
                   ),
                 ),
@@ -67,7 +83,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
     );
   }
 
-  Widget getGoDeluxButton() {
+  Widget getGoDeluxeButton() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: SizedBox(
@@ -100,7 +116,10 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
               leading: Icon(
                 Icons.hub,
               ),
-              title: Text('Contributors'),
+              title: Text(
+                'Contributors',
+                style: textTheme(context).bodyMedium,
+              ),
               onTap: () => Navigator.pushNamed(context, '/community'),
             ),
             getDivider(),
@@ -109,7 +128,10 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
               leading: Icon(
                 Icons.feedback,
               ),
-              title: Text('Feedback'),
+              title: Text(
+                'Feedback',
+                style: textTheme(context).bodyMedium,
+              ),
               onTap: () => Navigator.pushNamed(context, '/feedback'),
             ),
             getDivider(),
@@ -118,7 +140,10 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
               leading: Icon(
                 Icons.info,
               ),
-              title: Text('About Us'),
+              title: Text(
+                'About Us',
+                style: textTheme(context).bodyMedium,
+              ),
               onTap: () => Navigator.pushNamed(context, '/about'),
             ),
           ],
@@ -144,7 +169,10 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
         Icons.notifications,
         size: 25,
       ),
-      title: Text('Notification'),
+      title: Text(
+        'Notification',
+        style: textTheme(context).bodyMedium,
+      ),
       trailing: Switch(
           value: prefs.notiOption,
           onChanged: (value) async {

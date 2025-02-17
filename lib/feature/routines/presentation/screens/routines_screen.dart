@@ -18,14 +18,17 @@ class RoutinesScreen extends ConsumerWidget {
     if (failure != null) {
       widget = Center(child: Text('Error: $failure'));
     } else if (routines != null) {
-      widget = ListView.builder(
-        itemCount: routines.length,
-        itemBuilder: (context, index) {
-          return RoutineTile(
-            routine: Routine.fromModel(routines[index]),
-            index: index,
-          );
-        },
+      widget = Padding(
+        padding: const EdgeInsets.only(bottom: 30.0),
+        child: ListView.builder(
+          itemCount: routines.length,
+          itemBuilder: (context, index) {
+            return RoutineTile(
+              routine: Routine.fromModel(routines[index]),
+              index: index,
+            );
+          },
+        ),
       );
     } else {
       widget = const Center(child: CircularProgressIndicator());
