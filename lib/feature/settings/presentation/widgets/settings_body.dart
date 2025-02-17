@@ -118,8 +118,8 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
 
   Divider getDivider() {
     return Divider(
-      indent: 10,
-      endIndent: 10,
+      indent: 50,
+      endIndent: 20,
       thickness: 1,
       height: 0,
       color: Colors.grey,
