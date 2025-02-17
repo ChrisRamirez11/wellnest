@@ -5,12 +5,12 @@ import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
 
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
-import 'package:wellnest/feature/routines/presentation/widgets/routine_tile.dart';
+import 'package:wellnest/feature/small_routines/presentation/widgets/small_routine_tile.dart';
 
-class RoutinesListView extends ConsumerWidget {
+class SmallRoutinesView extends ConsumerWidget {
   final DateModel dateModel;
 
-  const RoutinesListView({
+  const SmallRoutinesView({
     super.key,
     required this.dateModel,
   });
@@ -20,10 +20,9 @@ class RoutinesListView extends ConsumerWidget {
 
     var list = [];
     for (var i = 0; i < dateModel.routines.length; i++) {
-      list.add(RoutineTile(
+      list.add(SmallRoutineTile(
         routine: dateModel.routines[i],
         index: i,
-        fromRoutinesScreen: true,
       ));
     }
 
@@ -32,7 +31,7 @@ class RoutinesListView extends ConsumerWidget {
         children: [
           ...list,
           Container(
-            padding: EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 30),
+            padding: EdgeInsets.only(top: 10, bottom: 10, left: 60, right: 60),
             width: double.infinity,
             child: CustomButton(
               onClick: () => Navigator.of(context).pushNamed('/createRoutine'),

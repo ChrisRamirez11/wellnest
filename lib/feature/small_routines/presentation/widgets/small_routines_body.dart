@@ -5,7 +5,7 @@ import 'package:wellnest/core/widgets/custom_error_widget.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
 import 'package:wellnest/feature/dates/presentation/widgets/custom_calendar.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
-import 'package:wellnest/feature/routines/presentation/widgets/routines_list_view.dart';
+import 'package:wellnest/feature/small_routines/presentation/widgets/small_routines_view.dart';
 
 class SmallRoutinesBody extends ConsumerWidget {
   const SmallRoutinesBody({
@@ -38,7 +38,7 @@ class SmallRoutinesBody extends ConsumerWidget {
                 maxWidth: MediaQuery.sizeOf(context).width,
               ),
               child: dateNotifier.date != null
-                  ? RoutinesListView(dateModel: dateNotifier.date!)
+                  ? SmallRoutinesView(dateModel: dateNotifier.date!)
                   : const SizedBox(),
             ),
           ],

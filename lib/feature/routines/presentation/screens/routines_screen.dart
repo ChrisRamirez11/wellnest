@@ -24,7 +24,6 @@ class RoutinesScreen extends ConsumerWidget {
           return RoutineTile(
             routine: Routine.fromModel(routines[index]),
             index: index,
-            fromRoutinesScreen: false,
           );
         },
       );

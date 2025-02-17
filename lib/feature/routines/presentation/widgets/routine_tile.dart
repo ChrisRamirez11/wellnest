@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/theme/theme.dart';
-import 'package:wellnest/core/utils/can_update_checkbox.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
 import 'package:wellnest/feature/flutter_heatmap_calendar/src/util/date_util.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
-import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
 
 class RoutineTile extends ConsumerStatefulWidget {
   final int index;
   final Routine routine;
-  final bool fromRoutinesScreen;
   const RoutineTile({
     super.key,
     required this.index,
     required this.routine,
-    required this.fromRoutinesScreen,
   });
 
   @override
@@ -94,7 +90,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
   Widget frontContainer(
       WidgetRef ref, DateProvider dateNotifier, BuildContext context) {
     return AnimatedPositioned(
-      duration: const Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 200),
       bottom: 0,
       top: 0,
       left: 0,
@@ -109,28 +105,12 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
               children: [
                 Row(
                   children: [
-                    widget.fromRoutinesScreen
-                        ? Checkbox(
-                            value: widget.routine.finished,
-                            //checks if date is after or same as today and if it is not, it wont let you edit it
-                            onChanged: canUpdateCheckbox(ref
-                                    .watch(currentSelectedDateProvider)
-                                    .currentSelectedDate)
-                                ? (value) async {
-                                    dateNotifier.date!.routines[widget.index]
-                                        .finished = value;
-                                    dateNotifier.date!.completedRoutineAmount =
-                                        _getCompletedQuantity(dateNotifier);
-                                    await dateNotifier
-                                        .upsertDate(dateNotifier.date!);
-                                  }
-                                : null,
-                          )
-                        : const SizedBox(),
                     //ROUTINE NAME
-                    Text(
-                      widget.routine.name!,
-                      style: textTheme(context).bodyLarge,
+                    FittedBox(
+                      child: Text(
+                        widget.routine.name!,
+                        style: textTheme(context).bodyLarge,
+                      ),
                     ),
                     const Expanded(child: SizedBox()),
                     IconButton(
@@ -143,7 +123,9 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                     )
                   ],
                 ),
-                FittedBox(child: getWeekDays(context),)
+                FittedBox(
+                  child: getWeekDays(context),
+                )
               ],
             )),
       ),
@@ -155,8 +137,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
       scrollDirection: Axis.horizontal,
       child: Row(
         spacing: 10,
-        mainAxisSize:
-            widget.fromRoutinesScreen ? MainAxisSize.min : MainAxisSize.max,
+        mainAxisSize: MainAxisSize.max,
         children: List.generate(
           7,
           (index) => ConstrainedBox(
@@ -179,13 +160,5 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
         ),
       ),
     );
-  }
-
-  int _getCompletedQuantity(DateProvider dateNotifier) {
-    int result = 0;
-    for (var routine in dateNotifier.date!.routines) {
-      result += routine.finished! ? 1 : 0;
-    }
-    return result;
   }
 }
