@@ -39,8 +39,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     hintStyle: textTheme(context)
                         .bodyMedium!
                         .copyWith(color: Colors.grey),
-                    hintText:
-                        "Give us feedback or any suggestion.",
+                    hintText: "Give us feedback or any suggestion.",
                     border: OutlineInputBorder(),
                   ),
                   minLines: 5,
@@ -64,15 +63,17 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                                 'body': feedback,
                               },
                             );
-      
+
                             if (await canLaunchUrl(emailLaunchUri)) {
                               await launchUrl(emailLaunchUri);
                             } else {
                               if (context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                      content:
-                                          Text('Could not launch email client')),
+                                      content: Text(
+                                    'Could not launch email client',
+                                    style: textTheme(context).labelMedium,
+                                  )),
                                 );
                               }
                             }
