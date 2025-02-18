@@ -55,7 +55,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  "We are a small team trying to give our users the best we can. Your feedback and ideas are the cornerstone of our innovation. By sharing your thoughts, you're not just using Wellnest – you're helping shape its future. Contributors like you are acknowledged in our 'Contributors' list",
+                  "We are a small team trying to give our users the best we can. Your feedback and ideas are the cornerstone of our innovation. By sharing your thoughts, you're not just using Wellnest – you're helping shape its future. Contributors like you, are acknowledged in our 'Contributors' list",
                   style: textTheme(context).bodyMedium,
                 ),
                 SizedBox(height: 8),

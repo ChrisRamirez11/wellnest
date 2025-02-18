@@ -26,6 +26,7 @@ class CreateRoutineScreen extends ConsumerStatefulWidget {
 class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   late TextEditingController _nameController;
   late List<bool> _days;
+  var loading = false;
 
   @override
   void initState() {
@@ -137,37 +138,49 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
           color: primary,
           textColor: secondary,
           text: 'SAVE',
-          onClick: () async {
-            if (_nameController.text.isNotEmpty &&
-                _days.any((element) => element)) {
-              final routineModel = widget.routineModel == null
-                  ? RoutineModel(
-                      name: _nameController.text,
-                      days: _days,
-                      createdDate: DateTime(DateTime.now().year,
-                          DateTime.now().month, DateTime.now().day),
-                      finished: false)
-                  : RoutineModel(
-                      id: widget.routineModel!.id,
-                      name: _nameController.text,
-                      days: _days,
-                      createdDate: widget.routineModel!.createdDate,
-                      finished: false);
-              await routineNotifier.upsertRoutine(routineModel);
-              await _validateActualDayRoutineAddition(
-                  routineModel, dateNotifier);
-              if (context.mounted) {
-                Navigator.of(context).pop();
-              }
-            } else {
-              ScaffoldMessenger.of(context).clearSnackBars();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Please fill name and select at least one day'),
-                ),
-              );
-            }
-          }),
+          onClick: !loading
+              ? () async {
+                  setState(() {
+                    loading = true;
+                  });
+                  if (_nameController.text.isNotEmpty &&
+                      _days.any((element) => element)) {
+                    final routineModel = widget.routineModel == null
+                        ? RoutineModel(
+                            name: _nameController.text,
+                            days: _days,
+                            createdDate: DateTime(DateTime.now().year,
+                                DateTime.now().month, DateTime.now().day),
+                            finished: false)
+                        : RoutineModel(
+                            id: widget.routineModel!.id,
+                            name: _nameController.text,
+                            days: _days,
+                            createdDate: widget.routineModel!.createdDate,
+                            finished: false);
+                    await routineNotifier.upsertRoutine(routineModel);
+                    await _validateActualDayRoutineAddition(
+                        routineModel, dateNotifier);
+                    setState(() {
+                      loading = false;
+                    });
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+                    }
+                  } else {
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                            'Please fill name and select at least one day'),
+                      ),
+                    );
+                    setState(() {
+                      loading = false;
+                    });
+                  }
+                }
+              : null),
     );
   }
 
