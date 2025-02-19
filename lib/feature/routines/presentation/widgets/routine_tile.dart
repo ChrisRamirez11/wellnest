@@ -80,6 +80,9 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                   await ref
                       .watch(routineProvider)
                       .deleteRoutine(widget.routine.id!);
+                  setState(() {
+                    flag = !flag;
+                  });
                 }),
           ],
         ),
