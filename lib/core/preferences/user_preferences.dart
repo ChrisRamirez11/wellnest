@@ -5,10 +5,13 @@ class UserPreferences {
   factory UserPreferences() {
     return _instancia;
   }
+  
   UserPreferences._internal();
-  late SharedPreferences _prefs;
+  late SharedPreferencesWithCache _prefs;
+
   initPrefs() async {
-    _prefs = await SharedPreferences.getInstance();
+    _prefs = await SharedPreferencesWithCache.create(
+        cacheOptions: SharedPreferencesWithCacheOptions());
   }
 
   set darkMode(bool value) {
