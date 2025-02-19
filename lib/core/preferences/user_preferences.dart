@@ -39,11 +39,11 @@ class UserPreferences {
   }
 
   set firstTimeNotiSetted(bool value) {
-    _prefs.setBool('NotiSetted', value);
+    _prefs.setBool('firstTimeNotiSetted', value);
   }
 
   bool get firstTimeNotiSetted {
-    return _prefs.getBool('NotiSetted') ?? false;
+    return _prefs.getBool('firstTimeNotiSetted') ?? false;
   }
 
   set notiOption(bool value) {

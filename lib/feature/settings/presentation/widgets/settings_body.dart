@@ -174,7 +174,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
         style: textTheme(context).bodyMedium,
       ),
       trailing: Switch(
-          value: prefs.notiOption,
+          value: ref.watch(notificationProvider).setted,
           onChanged: (value) async {
             if (value) {
               await NotiService().scheduleNotification(
