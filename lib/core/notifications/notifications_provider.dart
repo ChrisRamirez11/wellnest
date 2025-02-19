@@ -3,20 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/preferences/user_preferences.dart';
 
-final notificationProvider = ChangeNotifierProvider((ref) => NotificationsProvider(),);
+final notificationProvider = ChangeNotifierProvider(
+  (ref) => NotificationsProvider(),
+);
 
 class NotificationsProvider extends ChangeNotifier {
   late bool setted;
   final _prefs = UserPreferences();
 
-  NotificationsProvider(){
+  NotificationsProvider() {
     setted = _prefs.notiOption;
   }
 
-changeValue(bool value){
-  setted = value;
-  _prefs.notiOption = value;
-  notifyListeners();
-}
-
+  changeValue(bool value) {
+    setted = value;
+    _prefs.notiOption = value;
+    notifyListeners();
+  }
 }

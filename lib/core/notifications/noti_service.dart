@@ -78,7 +78,7 @@ class NotiService {
         id ?? UniqueKey().hashCode, title, body, scheduledDate, notificationDetails(),
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         matchDateTimeComponents: DateTimeComponents.time);
 
     debugPrint('Scheduled Date: $scheduledDate');
