@@ -11,6 +11,7 @@ import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart
 import 'package:wellnest/feature/flutter_heatmap_calendar/src/util/date_util.dart';
 import 'package:wellnest/feature/routines/data/models/routine_model.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
+import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
 
 class CreateRoutineScreen extends ConsumerStatefulWidget {
   final RoutineModel? routineModel;
@@ -161,6 +162,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                     await routineNotifier.upsertRoutine(routineModel);
                     await _validateActualDayRoutineAddition(
                         routineModel, dateNotifier);
+                        ref.watch(currentSelectedDateProvider).changeDate(DateTime.now());
                     setState(() {
                       loading = false;
                     });
