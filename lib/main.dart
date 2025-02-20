@@ -30,6 +30,11 @@ Future<void> main() async {
   }
 
   MobileAds.instance.initialize();
+  //TODO COMENT BELOW FOR PRODUCTION
+  RequestConfiguration requestConfiguration = RequestConfiguration(
+    testDeviceIds: ['abc94859-5979-4bd3-89bb-45b984a86e20']
+  );
+  MobileAds.instance.updateRequestConfiguration(requestConfiguration);
 
   await UserPreferences().initPrefs();
   await NotiService().initNotifications();

@@ -1,11 +1,9 @@
-import 'dart:developer';
-
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:wellnest/ads/ad_test.dart';
+import 'package:wellnest/ads/ad_helper.dart';
 
 class AppOpenAdManager {
-  String adUnitId = AdTest.openAppAdUnitId;
+  String adUnitId = AdHelper.openAppAdUnitId;
 
   final Duration maxCacheDuration = Duration(hours: 4);
   DateTime? _appOpenLoadTime;
@@ -21,7 +19,6 @@ class AppOpenAdManager {
       request: AdRequest(),
       adLoadCallback: AppOpenAdLoadCallback(
         onAdLoaded: (ad) {
-          log('AppOpenAd loaded');
           _appOpenLoadTime = DateTime.now();
           _appOpenAd = ad;
           if (!_adShowed) {
@@ -29,7 +26,7 @@ class AppOpenAdManager {
           }
         },
         onAdFailedToLoad: (error) {
-          log('AppOpenAd failed to load: $error');
+          debugPrint('AppOpenAd failed to load: $error');
         },
       ),
     );
@@ -48,7 +45,7 @@ class AppOpenAdManager {
       return;
     }
     if (DateTime.now().subtract(maxCacheDuration).isAfter(_appOpenLoadTime!)) {
-      log('Maximum cache duration exceeded. Loading another ad.');
+      debugPrint('Maximum cache duration exceeded. Loading another ad.');
       _appOpenAd!.dispose();
       _appOpenAd = null;
       loadAd();
@@ -61,13 +58,13 @@ class AppOpenAdManager {
         _adShowed = true;
       },
       onAdFailedToShowFullScreenContent: (ad, error) {
-        log('$ad onAdFailedToShowFullScreenContent: $error');
+        debugPrint('$ad onAdFailedToShowFullScreenContent: $error');
         _isShowingAd = false;
         ad.dispose();
         _appOpenAd = null;
       },
       onAdDismissedFullScreenContent: (ad) {
-        log('$ad onAdDismissedFullScreenContent');
+        debugPrint('$ad onAdDismissedFullScreenContent');
         _isShowingAd = false;
         ad.dispose();
         _appOpenAd = null;
