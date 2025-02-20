@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:wellnest/ads/ad_helper.dart';
+import 'package:wellnest/ads/ad_test.dart';
 
 class BannerAdWidget extends StatefulWidget {
   const BannerAdWidget({super.key});
@@ -21,7 +21,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
 
   void _loadBannerAd() {
     _bannerAd = BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: AdTest.bannerAdUnitId,
       request: AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(
@@ -47,11 +47,18 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
   @override
   Widget build(BuildContext context) {
     return _isAdLoaded
-        ? Container(
-            alignment: Alignment.center,
-            width: _bannerAd!.size.width.toDouble(),
-            height: _bannerAd!.size.height.toDouble(),
-            child: AdWidget(ad: _bannerAd!),
+        ? Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            margin: const EdgeInsets.all(10),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                  minHeight: _bannerAd!.size.height.toDouble(), maxHeight: 110),
+              child: Container(
+                  padding: const EdgeInsets.all(20),
+                  width: double.infinity,
+                  child: AdWidget(ad: _bannerAd!)),
+            ),
           )
         : SizedBox.shrink();
   }

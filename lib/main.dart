@@ -51,7 +51,7 @@ class MyApp extends ConsumerWidget {
       title: 'WellNest',
       theme: theme,
       darkTheme: themeDark,
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       initialRoute: '/',
       routes: {
         '/': (context) => const Skeleton(),
