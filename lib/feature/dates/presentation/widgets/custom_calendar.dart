@@ -26,7 +26,7 @@ class CustomCalendar extends ConsumerWidget {
           //gets updated so you can see its routines and will not break
           await validateDateModel(routines, p0, ref);
         },
-        currentSelectedDateColor: Colors.blue,
+        currentSelectedDateColor: secondary,
         currentSelectedDate: currentSelectedDate.currentSelectedDate,
         showColorTip: false,
         defaultColor: Colors.transparent,
@@ -41,10 +41,10 @@ class CustomCalendar extends ConsumerWidget {
         initDate: DateTime.now(),
         datasets: _getDataset(dates),
         colorsets: {
-          01: primary.withValues(alpha: 0.4),
-          03: primary.withValues(alpha: 0.6),
-          05: primary.withValues(alpha: 0.8),
-          07: primary.withValues(alpha: 1.0),
+          01: Colors.lightBlue.withValues(alpha: 0.4),
+          03: Colors.lightBlue.withValues(alpha: 0.6),
+          05: Colors.lightBlue.withValues(alpha: 0.8),
+          07: Colors.lightBlue.withValues(alpha: 1.0),
         },
       ),
     );
