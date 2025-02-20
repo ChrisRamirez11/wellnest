@@ -115,13 +115,13 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
             child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: _days[index] ? primary : secondary,
+                color: _days[index] ? primary : Colors.transparent,
               ),
               child: Center(
                 child: Text(
                   DateUtil.WEEK_LABEL[index + 1][0].toUpperCase(),
                   style:
-                      textTheme(context).bodyMedium!.copyWith(color: obsidian),
+                      textTheme(context).bodyMedium!.copyWith(color: secondary),
                 ),
               ),
             ),
@@ -162,7 +162,9 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                     await routineNotifier.upsertRoutine(routineModel);
                     await _validateActualDayRoutineAddition(
                         routineModel, dateNotifier);
-                        ref.watch(currentSelectedDateProvider).changeDate(DateTime.now());
+                    ref
+                        .watch(currentSelectedDateProvider)
+                        .changeDate(DateTime.now());
                     setState(() {
                       loading = false;
                     });
@@ -210,7 +212,16 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
       if (routine.days[i] && (adjustedWeekday(dateModel.date) == (i + 1))) {
         dateModel.routines.add(Routine.fromModel(routine));
       }
+      dateModel.completedRoutineAmount = _getCompletedQuantity(dateNotifier);
       await dateNotifier.upsertDate(dateModel);
     }
+  }
+
+  int _getCompletedQuantity(DateProvider dateNotifier) {
+    int result = 0;
+    for (var routine in dateNotifier.date!.routines) {
+      result += routine.finished! ? 1 : 0;
+    }
+    return result;
   }
 }

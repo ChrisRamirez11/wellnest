@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/notifications/notifications_provider.dart';
-import 'package:wellnest/core/preferences/user_preferences.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
@@ -10,7 +9,7 @@ import 'package:wellnest/feature/auth/presentation/riverpod/google_native_signin
 import 'package:wellnest/feature/settings/presentation/widgets/user_signed_button.dart';
 import 'package:wellnest/main.dart';
 
-final _cardColor = primary.withAlpha(150);
+final _cardColor = primary.withAlpha(200);
 
 class SettingsBody extends ConsumerStatefulWidget {
   const SettingsBody({super.key});
@@ -102,14 +101,13 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
   }
 
   Card getSettigsBox(BuildContext context) {
-    final prefs = UserPreferences();
     return Card(
       color: _cardColor,
       child: SizedBox(
         width: double.infinity,
         child: Column(
           children: [
-            getNotificationsTile(prefs),
+            getNotificationsTile(),
             getDivider(),
             ListTile(
               minTileHeight: 70,
@@ -162,7 +160,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
     );
   }
 
-  ListTile getNotificationsTile(UserPreferences prefs) {
+  ListTile getNotificationsTile() {
     return ListTile(
       minTileHeight: 70,
       leading: Icon(
@@ -170,10 +168,15 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
         size: 25,
       ),
       title: Text(
-        'Notification',
+        'Notifications',
         style: textTheme(context).bodyMedium,
       ),
       trailing: Switch(
+          thumbIcon: WidgetStatePropertyAll(Icon(
+            ref.watch(notificationProvider).setted
+                ? Icons.notifications
+                : Icons.notifications_off,
+          )),
           value: ref.watch(notificationProvider).setted,
           onChanged: (value) async {
             if (value) {

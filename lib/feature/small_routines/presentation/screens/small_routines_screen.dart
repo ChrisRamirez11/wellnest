@@ -22,7 +22,7 @@ class _SmallRoutinesScreenState extends ConsumerState<SmallRoutinesScreen> {
             margin: EdgeInsets.only(right: 10),
             height: 40,
             width: 40,
-            decoration: BoxDecoration(shape: BoxShape.circle, color: primary),
+            decoration: BoxDecoration(shape: BoxShape.circle, color: Color(0xFF004C63)),
             child: InkWell(
               customBorder: CircleBorder(),
               onTap: () => Navigator.of(context).pushNamed('/createRoutine'),

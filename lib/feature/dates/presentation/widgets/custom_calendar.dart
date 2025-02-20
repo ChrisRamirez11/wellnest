@@ -26,11 +26,11 @@ class CustomCalendar extends ConsumerWidget {
           //gets updated so you can see its routines and will not break
           await validateDateModel(routines, p0, ref);
         },
-        currentSelectedDateColor: Colors.lightBlueAccent,
+        currentSelectedDateColor: Colors.blue,
         currentSelectedDate: currentSelectedDate.currentSelectedDate,
         showColorTip: false,
-        defaultColor: secondary,
-        textColor: obsidian,
+        defaultColor: Colors.transparent,
+        textColor: secondary,
         weekFontSize: 20,
         monthFontSize: 25,
         borderRadius: 12,

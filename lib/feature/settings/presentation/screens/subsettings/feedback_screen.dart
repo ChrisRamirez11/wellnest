@@ -34,6 +34,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               children: [
                 TextField(
                   onChanged: (value) => setState(() {}),
+                  style: textTheme(context).labelMedium,
                   controller: feedbackController,
                   decoration: InputDecoration(
                     hintStyle: textTheme(context)
