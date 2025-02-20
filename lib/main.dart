@@ -32,8 +32,8 @@ Future<void> main() async {
   MobileAds.instance.initialize();
   RequestConfiguration requestConfiguration = RequestConfiguration(
       testDeviceIds: [
-        'abc94859-5979-4bd3-89bb-45b984a86e20',
-        'eca52a22-7476-497c-86b3-0ee936374d83'
+        Consts.pixel7,
+        Consts.samsung
       ]);
   MobileAds.instance.updateRequestConfiguration(requestConfiguration);
 
