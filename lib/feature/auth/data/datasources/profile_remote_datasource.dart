@@ -35,7 +35,7 @@ class ProfileRemoteDatasourceImpl extends ProfileRemoteDatasource {
       throw ServerException(message: error.message);
     } catch (error) {
       log('get user data $error');
-      throw ServerException(message: 'Ha ocurrido un error de red');
+      throw ServerException(message: 'Network Error');
     }
   }
 
@@ -48,7 +48,7 @@ class ProfileRemoteDatasourceImpl extends ProfileRemoteDatasource {
       throw ServerException(message: error.message);
     } catch (error) {
       log('sign out $error');
-      throw ServerException(message: 'Ha ocurrido un error de red');
+      throw ServerException(message: 'Network Error');
     }
   }
 }

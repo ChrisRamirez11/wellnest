@@ -114,7 +114,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
           minTileHeight: 70,
-          title: Text(failure.errorMessage),
+          title: Text(failure.errorMessage, style: textTheme(context).bodyMedium,),
         ),
       );
     } else {
