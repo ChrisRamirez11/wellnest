@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:wellnest/core/consts/consts.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
@@ -28,6 +29,8 @@ Future<void> main() async {
     }
   }
 
+  MobileAds.instance.initialize();
+
   await UserPreferences().initPrefs();
   await NotiService().initNotifications();
   
@@ -48,7 +51,7 @@ class MyApp extends ConsumerWidget {
       title: 'WellNest',
       theme: theme,
       darkTheme: themeDark,
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.light,
       initialRoute: '/',
       routes: {
         '/': (context) => const Skeleton(),

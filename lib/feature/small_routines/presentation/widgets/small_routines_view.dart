@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/ads/banner_ad.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
 
@@ -38,7 +39,8 @@ class SmallRoutinesView extends ConsumerWidget {
               text: 'CREATE A NEW ROUTINE',
               icon: Icon(Icons.add, size: 30, color: secondary,),
             ),
-          )
+          ),
+          BannerAdWidget()
         ],
       ),
     );
