@@ -112,8 +112,15 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                       padding: const EdgeInsets.only(left: 20),
                       child: FittedBox(
                         child: Text(
-                          widget.routine.name!,
-                          style: textTheme(context).bodyLarge,
+                          '  ${widget.routine.name!}${'\u00A0'*2}',
+                          style: textTheme(context).bodyLarge!.copyWith(
+                              color:
+                                  widget.routine.finished! ? Colors.grey : null,
+                              decorationThickness: 2,
+                              decorationStyle: TextDecorationStyle.solid,
+                              decoration: widget.routine.finished!
+                                  ? TextDecoration.lineThrough
+                                  : null),
                         ),
                       ),
                     ),

@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/ads/banner_ad.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
@@ -8,7 +7,7 @@ import 'package:wellnest/core/widgets/custom_button.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
 import 'package:wellnest/feature/small_routines/presentation/widgets/small_routine_tile.dart';
 
-class SmallRoutinesView extends ConsumerWidget {
+class SmallRoutinesView extends StatefulWidget {
   final DateModel dateModel;
 
   const SmallRoutinesView({
@@ -17,15 +16,26 @@ class SmallRoutinesView extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<SmallRoutinesView> createState() => _SmallRoutinesViewState();
+}
 
-    var list = [];
-    for (var i = 0; i < dateModel.routines.length; i++) {
+class _SmallRoutinesViewState extends State<SmallRoutinesView> {
+
+
+  @override
+  Widget build(BuildContext context) {
+      var list = <SmallRoutineTile>[];
+      
+    for (var i = 0; i < widget.dateModel.routines.length; i++) {
       list.add(SmallRoutineTile(
-        routine: dateModel.routines[i],
+        routine: widget.dateModel.routines[i],
         index: i,
       ));
     }
+
+    list.sort(
+      (a, b) => a.routine.finished! ? 1 : (b.routine.finished! ? -1 : 0),
+    );
 
     return SingleChildScrollView(
       child: Column(
@@ -37,7 +47,11 @@ class SmallRoutinesView extends ConsumerWidget {
             child: CustomButton(
               onClick: () => Navigator.of(context).pushNamed('/createRoutine'),
               text: 'CREATE A NEW ROUTINE',
-              icon: Icon(Icons.add, size: 30, color: secondary,),
+              icon: Icon(
+                Icons.add,
+                size: 30,
+                color: secondary,
+              ),
             ),
           ),
           BannerAdWidget()

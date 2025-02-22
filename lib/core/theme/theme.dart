@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color primary = Colors.blueGrey;
+const Color primary = Color(0xFF607D8B);
 const Color secondary = Color(0xFFF4E1C1); //Sandy Beige 
 const Color green = Color(0xFF008060); //Tropical Rain Forest
 const Color obsidian = Color(0xFF0B1215);
