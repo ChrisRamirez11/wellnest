@@ -174,7 +174,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
       trailing: Switch(
           thumbIcon: WidgetStatePropertyAll(Icon(
             ref.watch(notificationProvider).setted
-                ? Icons.notifications
+                ? Icons.notifications_active
                 : Icons.notifications_off,
           )),
           value: ref.watch(notificationProvider).setted,

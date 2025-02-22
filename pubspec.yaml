@@ -32,6 +32,8 @@ dependencies:
   package_info_plus: ^8.2.1
   url_launcher: ^6.3.1
   google_mobile_ads: ^5.3.1
+  flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.4
 
 dev_dependencies:
   flutter_test:
@@ -43,6 +45,22 @@ dev_dependencies:
     hosted: https://pub.isar-community.dev
     version: 3.1.8
 
+flutter_native_splash:
+  image: assets/app/icon.jpg
+  color: "#151515"
+  #background_image:
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/app/icon.jpg"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/app/icon.jpg"
+
+
 flutter:
   uses-material-design: true
 
@@ -51,6 +69,7 @@ flutter:
     - assets/
     - assets/lotties/
     - assets/images/
+    - assets/app/
   #   - images/a_dot_ham.jpeg
 
   # To add custom fonts to your application, add a fonts section here,
