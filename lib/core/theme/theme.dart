@@ -102,6 +102,8 @@ ThemeData theme = ThemeData(
 //ThemeData
 //
 ThemeData themeDark = ThemeData.dark().copyWith(
+  scaffoldBackgroundColor: obsidian,
+
     textTheme: const TextTheme(
       bodyLarge: TextStyle(
           fontWeight: FontWeight.bold,

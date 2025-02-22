@@ -65,11 +65,9 @@ class HeatMapContainer extends StatelessWidget {
                     date.day.toString(),
                     style: TextStyle(
                         color: textColor ?? const Color(0xFF8A8A8A),
-                        fontWeight: _selectedDateValidation()
-                            ? FontWeight.bold
-                            : FontWeight.normal,
+                        fontWeight: FontWeight.bold,
                         fontSize: _selectedDateValidation()
-                            ? fontSize! + 2
+                            ? fontSize! + 4
                             : fontSize),
                   )
                 : null,
