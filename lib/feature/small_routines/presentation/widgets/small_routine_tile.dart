@@ -113,8 +113,8 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                       child: AnimatedContainer(
                         duration: Duration(milliseconds: 210),
                         width: flag
-                            ? size(context).width * .55
-                            : size(context).width * .35,
+                            ? size(context).width * .50
+                            : size(context).width * .30,
                         child: Tooltip(
                           triggerMode: TooltipTriggerMode.tap,
                           message: widget.routine.name,

@@ -112,8 +112,8 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                     AnimatedContainer(
                       duration: Duration(milliseconds: 210),
                       width: flag
-                          ? size(context).width * .7
-                          : size(context).width * .5,
+                          ? size(context).width * .65
+                          : size(context).width * .4,
                       child: Tooltip(
                         triggerMode: TooltipTriggerMode.tap,
                         message: widget.routine.name,
