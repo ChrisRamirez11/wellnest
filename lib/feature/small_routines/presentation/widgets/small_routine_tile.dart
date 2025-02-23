@@ -109,18 +109,37 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                     getCheckbox(dateNotifier),
                     //ROUTINE NAME
                     Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: FittedBox(
-                        child: Text(
-                          '  ${widget.routine.name!}${'\u00A0'*2}',
-                          style: textTheme(context).bodyLarge!.copyWith(
-                              color:
-                                  widget.routine.finished! ? Colors.grey : null,
-                              decorationThickness: 2,
-                              decorationStyle: TextDecorationStyle.solid,
-                              decoration: widget.routine.finished!
-                                  ? TextDecoration.lineThrough
-                                  : null),
+                      padding: const EdgeInsets.only(left: 5),
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 210),
+                        width: flag
+                            ? size(context).width * .55
+                            : size(context).width * .35,
+                        child: Tooltip(
+                          triggerMode: TooltipTriggerMode.tap,
+                          message: widget.routine.name,
+                          showDuration: Duration(seconds: 5),
+                          decoration: BoxDecoration(color: obsidian),
+                          textStyle: textTheme(context)
+                              .labelMedium!
+                              .copyWith(color: secondary),
+                          child: Text(
+                            widget.routine.finished!
+                                ? '  ${widget.routine.name!}${'\u00A0' * 2}'
+                                : widget.routine.name!,
+                                maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: textTheme(context).bodyLarge!.copyWith(
+                                fontSize: 18,
+                                color: widget.routine.finished!
+                                    ? Colors.grey
+                                    : null,
+                                decorationThickness: 2,
+                                decorationStyle: TextDecorationStyle.solid,
+                                decoration: widget.routine.finished!
+                                    ? TextDecoration.lineThrough
+                                    : null),
+                          ),
                         ),
                       ),
                     ),

@@ -109,15 +109,30 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                 Row(
                   children: [
                     //ROUTINE NAME
-                    FittedBox(
-                      child: Text(
-                        widget.routine.name!,
-                        style: textTheme(context).bodyLarge,
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 210),
+                      width: flag
+                          ? size(context).width * .7
+                          : size(context).width * .5,
+                      child: Tooltip(
+                        triggerMode: TooltipTriggerMode.tap,
+                        message: widget.routine.name,
+                        showDuration: Duration(seconds: 5),
+                        decoration: BoxDecoration(color: obsidian),
+                        textStyle: textTheme(context)
+                            .labelMedium!
+                            .copyWith(color: secondary),
+                        child: Text(
+                          overflow: TextOverflow.ellipsis,
+                          widget.routine.name!,
+                          maxLines: 1,
+                          style: textTheme(context).bodyLarge!.copyWith(fontSize: 18),
+                        ),
                       ),
                     ),
                     const Expanded(child: SizedBox()),
                     IconButton(
-                      icon: const Icon(Icons.more_horiz),
+                      icon: const Icon(Icons.more_horiz,),
                       onPressed: () {
                         setState(() {
                           flag = !flag;
@@ -155,9 +170,8 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
               child: Center(
                 child: Text(
                   DateUtil.WEEK_LABEL[index + 1][0].toUpperCase(),
-                  style: textTheme(context)
-                      .bodySmall!
-                      .copyWith(color: secondary),
+                  style:
+                      textTheme(context).bodySmall!.copyWith(color: secondary),
                 ),
               ),
             ),
