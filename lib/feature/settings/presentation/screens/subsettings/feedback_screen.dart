@@ -21,9 +21,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var orientation = MediaQuery.of(context).orientation;
     return SafeArea(
       child: Scaffold(
-        bottomNavigationBar: getSendButton(context),
         appBar: CustomAppBar(
           titleString: 'Feedback',
         ),
@@ -44,10 +44,11 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     hintText: "Give us feedback or any suggestion.",
                     border: OutlineInputBorder(),
                   ),
-                  minLines: 5,
-                  maxLines: 20,
+                  minLines: orientation == Orientation.portrait ? 5 : 2,
+                  maxLines: orientation == Orientation.portrait ? 15 : 5,
                 ),
                 SizedBox(height: 20),
+                getSendButton(context),
               ],
             ),
           ),
