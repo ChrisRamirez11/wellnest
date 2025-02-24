@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class DateUtil {
   static const int DAYS_IN_WEEK = 7;
 
