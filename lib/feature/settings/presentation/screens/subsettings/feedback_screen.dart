@@ -23,6 +23,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        bottomNavigationBar: getSendButton(context),
         appBar: CustomAppBar(
           titleString: 'Feedback',
         ),
@@ -47,46 +48,48 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   maxLines: 20,
                 ),
                 SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: CustomButton(
-                    color: feedbackController.text.isNotEmpty
-                        ? primary
-                        : Colors.grey.shade700,
-                    onClick: feedbackController.text.isNotEmpty
-                        ? () async {
-                            final String feedback = feedbackController.text;
-                            final Uri emailLaunchUri = Uri(
-                              scheme: 'mailto',
-                              path: email,
-                              queryParameters: {
-                                'subject': subject,
-                                'body': feedback,
-                              },
-                            );
-
-                            if (await canLaunchUrl(emailLaunchUri)) {
-                              await launchUrl(emailLaunchUri);
-                            } else {
-                              if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: Text(
-                                    'Could not launch email client',
-                                    style: textTheme(context).labelMedium,
-                                  )),
-                                );
-                              }
-                            }
-                          }
-                        : null,
-                    text: 'SEND',
-                  ),
-                ),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Padding getSendButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: CustomButton(
+        color:
+            feedbackController.text.isNotEmpty ? primary : Colors.grey.shade700,
+        onClick: feedbackController.text.isNotEmpty
+            ? () async {
+                final String feedback = feedbackController.text;
+                final Uri emailLaunchUri = Uri(
+                  scheme: 'mailto',
+                  path: email,
+                  queryParameters: {
+                    'subject': subject,
+                    'body': feedback,
+                  },
+                );
+
+                if (await canLaunchUrl(emailLaunchUri)) {
+                  await launchUrl(emailLaunchUri);
+                } else {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text(
+                        'Could not launch email client',
+                        style: textTheme(context).labelMedium,
+                      )),
+                    );
+                  }
+                }
+              }
+            : null,
+        text: 'SEND',
       ),
     );
   }

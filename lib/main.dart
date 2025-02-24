@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -16,7 +17,11 @@ import 'package:wellnest/feature/skeleton/presentation/screens/skeleton.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    await Supabase.initialize(url: Consts.supabaseUrl, anonKey: Consts.anonKey);
+    await Supabase.initialize(
+        url: Consts.supabaseUrl,
+        anonKey: Consts.anonKey,
+        authOptions:
+            const FlutterAuthClientOptions(authFlowType: AuthFlowType.pkce));
   } catch (e) {
     debugPrint(e.toString());
   }
@@ -30,11 +35,8 @@ Future<void> main() async {
   }
 
   MobileAds.instance.initialize();
-  RequestConfiguration requestConfiguration = RequestConfiguration(
-      testDeviceIds: [
-        Consts.pixel7,
-        Consts.samsung
-      ]);
+  RequestConfiguration requestConfiguration =
+      RequestConfiguration(testDeviceIds: [Consts.pixel7, Consts.samsung]);
   MobileAds.instance.updateRequestConfiguration(requestConfiguration);
 
   await UserPreferences().initPrefs();
@@ -42,7 +44,11 @@ Future<void> main() async {
 
   await AndroidFlutterLocalNotificationsPlugin().requestExactAlarmsPermission();
 
-  runApp(const ProviderScope(child: MyApp()));
+  SystemChrome.setPreferredOrientations([
+    // DeviceOrientation.portraitUp,
+  ]).then(
+    (value) => runApp(const ProviderScope(child: MyApp())),
+  );
 }
 
 final supabase = Supabase.instance.client;

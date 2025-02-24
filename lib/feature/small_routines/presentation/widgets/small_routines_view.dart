@@ -40,6 +40,10 @@ class _SmallRoutinesViewState extends State<SmallRoutinesView> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          //an animatedlist can be set, and when you update a checkbox
+          //it will do the removing and inserting in the list
+          //MAYBE using a provider where a list = this.list and the list from
+          //the provider will be used in the animatedList
           ...list,
           Container(
             margin: EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 30),
