@@ -104,7 +104,6 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                 child: FittedBox(
                   child: InkWell(
                     onTap: () => showModalBottomSheet(
-                        isDismissible: false,
                         backgroundColor: Colors.grey.shade900,
                         useSafeArea: true,
                         showDragHandle: true,
