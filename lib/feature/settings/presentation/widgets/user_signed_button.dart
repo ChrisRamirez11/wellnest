@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
+import 'package:wellnest/core/widgets/custom_button.dart';
+import 'package:wellnest/feature/auth/data/models/profile_model.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/profile_provider.dart';
 import 'package:wellnest/feature/data_backup_restore/presentation/provider/data_provider.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
@@ -99,12 +102,43 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: FittedBox(
-                  child: Text(
-                      profile.fullName, style: textTheme(context).bodyLarge,),
+                  child: InkWell(
+                    onTap: () => showModalBottomSheet(
+                        isDismissible: false,
+                        backgroundColor: Colors.grey.shade900,
+                        useSafeArea: true,
+                        showDragHandle: true,
+                        constraints: BoxConstraints(
+                            maxHeight: size(context).height * .4),
+                        context: context,
+                        builder: (context) =>
+                            getLogOutBottomSheet(context, profile)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          profile.fullName,
+                          style: textTheme(context).bodyLarge,
+                        ),
+                        Icon(
+                          Icons.arrow_drop_down,
+                          size: 25,
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ), //TODO add the log out or cancel bottom sheet
-            subtitle: FittedBox(child: Text(profile.email, style: textTheme(context).bodyMedium,)),
+            ),
+            subtitle: SizedBox(
+                height: 20,
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: FittedBox(
+                        child: Text(
+                      profile.email,
+                      style: textTheme(context).bodyMedium,
+                    )))),
             trailing: const Icon(Icons.autorenew),
           ),
         ),
@@ -114,7 +148,10 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
           minTileHeight: 70,
-          title: Text(failure.errorMessage, style: textTheme(context).bodyMedium,),
+          title: Text(
+            failure.errorMessage,
+            style: textTheme(context).bodyMedium,
+          ),
         ),
       );
     } else {
@@ -129,5 +166,86 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
       );
     }
     return widget;
+  }
+
+  Widget getLogOutBottomSheet(BuildContext context, ProfileModel profile) {
+    return SizedBox(
+      width: size(context).width,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          spacing: 20,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ListTile(
+                leading: CircleAvatar(
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: CachedNetworkImage(
+                        fadeInCurve: Curves.ease,
+                        fadeOutCurve: Curves.ease,
+                        imageUrl: profile.avatarUrl,
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.person_off),
+                      )),
+                ),
+                title: SizedBox(
+                    height: 30,
+                    child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: FittedBox(
+                          child: Text(
+                            profile.fullName,
+                            style: textTheme(context).bodyLarge,
+                          ),
+                        ))),
+                subtitle: SizedBox(
+                    height: 20,
+                    child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: FittedBox(
+                            child: Text(
+                          profile.email,
+                          style: textTheme(context).bodyMedium,
+                        )))),
+              ),
+            ),
+            SizedBox(
+              height: 1,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              width: size(context).width,
+              height: 50,
+              child: CustomButton(
+                onClick: () async {
+                  await ref.watch(profileProvider).signOut(context);
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                  }
+                },
+                text: 'Log Out',
+                color: errorColor,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              width: size(context).width,
+              height: 50,
+              child: CustomButton(
+                onClick: () => Navigator.of(context).pop(),
+                text: 'Cancel',
+                color: Colors.grey.shade600,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

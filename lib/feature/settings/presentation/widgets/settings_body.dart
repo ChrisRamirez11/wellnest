@@ -6,6 +6,7 @@ import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/google_native_signin.dart';
+import 'package:wellnest/feature/auth/presentation/riverpod/profile_provider.dart';
 import 'package:wellnest/feature/settings/presentation/widgets/user_signed_button.dart';
 import 'package:wellnest/main.dart';
 
@@ -38,11 +39,12 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
 
   Widget getSignInBox(BuildContext context) {
     final user = supabase.auth.currentUser;
+    final profile = ref.watch(profileProvider).profile;
 
     return Card(
       clipBehavior: Clip.antiAlias,
       color: _cardColor,
-      child: user == null
+      child: (user == null && profile == null)
           ? InkWell(
               onTap: () async {
                 await googleNativeSignIn();

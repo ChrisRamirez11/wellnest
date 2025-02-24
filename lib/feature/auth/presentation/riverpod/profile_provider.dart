@@ -21,7 +21,7 @@ class ProfileProvider extends ChangeNotifier {
       profileRemoteDatasource: ProfileRemoteDatasourceImpl(),
       profileLocalDatasource: ProfileLocalDatasourceImpl());
 
-  void setToNull(){
+  void setToNull() {
     profile = null;
     failure = null;
     notifyListeners();
@@ -52,15 +52,16 @@ class ProfileProvider extends ChangeNotifier {
 
     signedOutOrFailure.fold(
       (newFailure) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(newFailure.errorMessage)));
+        if (context.mounted) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(newFailure.errorMessage)));
+        }
         notifyListeners();
         return;
       },
       (signedOut) async {
         profile = null;
         failure = null;
-        Navigator.of(context).pushReplacementNamed('/');
         notifyListeners();
       },
     );

@@ -74,19 +74,65 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                   Icons.delete,
                   color: ghostWhite,
                 ),
-                onPressed: () async {
-//TODO Place a dialog telling the user that it will delete the routine from the DB,
-//and if you want to deleted from the current date, just edit it.
-                  await ref
-                      .watch(routineProvider)
-                      .deleteRoutine(widget.routine.id!);
-                  setState(() {
-                    flag = !flag;
-                  });
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => getDeletionDialog(context),
+                  );
                 }),
           ],
         ),
       ),
+    );
+  }
+
+  SimpleDialog getDeletionDialog(BuildContext context) {
+    return SimpleDialog(
+      title: Text(
+        'Are you sure to delete this routine?',
+        style: textTheme(context).bodyMedium,
+      ),
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Text(
+            'Deleting this routine will simply remove it from your routines list.',
+            style: textTheme(context).bodySmall!.copyWith(color: Colors.grey),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 20.0, left: 15),
+          child: Row(
+            children: [
+              TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(
+                    'Cancel',
+                    style: textTheme(context).bodyMedium,
+                  )),
+              Spacer(),
+              TextButton(
+                  onPressed: () async {
+                    await ref
+                        .watch(routineProvider)
+                        .deleteRoutine(widget.routine.id!);
+                    setState(() {
+                      flag = !flag;
+                    });
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  child: Text(
+                    'Delete',
+                    style: textTheme(context)
+                        .bodyMedium!
+                        .copyWith(color: errorColor),
+                  )),
+            ],
+          ),
+        )
+      ],
     );
   }
 
@@ -126,13 +172,17 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                           overflow: TextOverflow.ellipsis,
                           widget.routine.name!,
                           maxLines: 1,
-                          style: textTheme(context).bodyLarge!.copyWith(fontSize: 18),
+                          style: textTheme(context)
+                              .bodyLarge!
+                              .copyWith(fontSize: 18),
                         ),
                       ),
                     ),
                     const Expanded(child: SizedBox()),
                     IconButton(
-                      icon: const Icon(Icons.more_horiz,),
+                      icon: const Icon(
+                        Icons.more_horiz,
+                      ),
                       onPressed: () {
                         setState(() {
                           flag = !flag;

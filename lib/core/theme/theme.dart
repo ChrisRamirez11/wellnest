@@ -9,9 +9,9 @@ const Color coffe = Color(0xFFA67B5B);
 const Color gold = Color(0xFFEFBF04); //Bright Gold
 const Color errorColor = Color(0xFFE57373);
 
-const double largeSize = 20;
-const double mediumSize = 16;
-const double smallSize = 12;
+const double largeSize = 19;
+const double mediumSize = 17;
+const double smallSize = 14;
 
 //ThemeData
 //
