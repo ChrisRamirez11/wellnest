@@ -77,6 +77,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
                 if (await canLaunchUrl(emailLaunchUri)) {
                   await launchUrl(emailLaunchUri);
+                  feedbackController.clear();
                 } else {
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
