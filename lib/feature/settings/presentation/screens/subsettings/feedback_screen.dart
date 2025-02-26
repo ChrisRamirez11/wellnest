@@ -13,7 +13,7 @@ class FeedbackScreen extends StatefulWidget {
 }
 
 class _FeedbackScreenState extends State<FeedbackScreen> {
-  final String email = 'dynamicjobs@gmail.com';
+  final String email = 'dynamicjobs.ch@gmail.com';
 
   final String subject = 'Wellnest Feedback';
 
