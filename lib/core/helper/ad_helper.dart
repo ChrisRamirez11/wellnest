@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:wellnest/ads/ads_consts.dart';
+import 'package:wellnest/core/consts/ads_consts.dart';
 
 class AdHelper {
   static String get bannerAdUnitId {

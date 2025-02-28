@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:wellnest/ads/ad_helper.dart';
+import 'package:wellnest/core/helper/ad_helper.dart';
 
 class AppOpenAdManager {
   String adUnitId = AdHelper.openAppAdUnitId;
