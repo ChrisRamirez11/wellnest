@@ -24,19 +24,22 @@ class SmallRoutinesBody extends ConsumerWidget {
         primary: true,
         child: Column(
           children: [
-            Container(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                height:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? size(context).width * .7
-                        : size(context).width * .4,
-                width:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? size(context).width
-                        : size(context).width * .5,
-                child: CustomCalendar(
-                  routines: routines,
-                )),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).orientation == Orientation.portrait
+                ? size(context).width * .8
+                : size(context).width * .4,
+              maxWidth: MediaQuery.of(context).orientation == Orientation.portrait
+                ? size(context).width
+                : size(context).width * .45,
+              ),
+              child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: CustomCalendar(
+                routines: routines,
+              ),
+              ),
+            ),
             ConstrainedBox(
               constraints: BoxConstraints(
                 maxHeight: MediaQuery.sizeOf(context).height * .45,

@@ -69,10 +69,19 @@ class HeatMapCalendar extends StatefulWidget {
   /// Paratmeter gives [DateTime] value of current month.
   final Function(DateTime)? onMonthChange;
 
+  /// Function that will be called when when return to actual date is clicked is clicked.
+  ///
+  final Function()? onReturnToActualDate;
+
   /// Show color tip which represents the color range at the below.
   ///
   /// Default value is true.
   final bool? showColorTip;
+
+  /// Show color tip which represents the color range at the below.
+  ///
+  /// Default value is false.
+  final bool? showReturnActualDate;
 
   /// Widgets which shown at left and right side of colorTip.
   ///
@@ -117,6 +126,8 @@ class HeatMapCalendar extends StatefulWidget {
     this.colorTipSize,
     this.currentSelectedDate,
     this.currentSelectedDateColor,
+    this.showReturnActualDate = false,
+    this.onReturnToActualDate,
   });
 
   @override
@@ -144,6 +155,15 @@ class _HeatMapCalendar extends State<HeatMapCalendar> {
           DateUtil.changeMonth(_currentDate ?? DateTime.now(), direction);
     });
     if (widget.onMonthChange != null) widget.onMonthChange!(_currentDate!);
+  }
+
+  void goToCurrentDate() {
+    DateTime actualDate = DateTime.now();
+    setState(() {
+      _currentDate = actualDate;
+    });
+    if (widget.onMonthChange != null) widget.onMonthChange!(_currentDate!);
+    if (widget.onReturnToActualDate != null) widget.onReturnToActualDate!();
   }
 
   /// Header widget which shows left, right buttons and year/month text.
@@ -245,6 +265,21 @@ class _HeatMapCalendar extends State<HeatMapCalendar> {
               rightWidget: widget.colorTipHelper?[1],
               containerCount: widget.colorTipCount,
               size: widget.colorTipSize,
+            ),
+          if (widget.showReturnActualDate == true)
+            Tooltip(
+              message: 'Select current date',
+              textStyle: TextStyle(
+                  color: widget.textColor,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 16),
+              decoration: BoxDecoration(color: Colors.black),
+              child: TextButton(
+                  onPressed: goToCurrentDate,
+                  child: Icon(
+                    Icons.today,
+                    size: 50,
+                  )),
             ),
         ],
       ),

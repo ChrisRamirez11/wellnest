@@ -14,20 +14,36 @@ class CustomCalendar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentSelectedDate = ref.watch(currentSelectedDateProvider);
+    final selectedDateNotifier = ref.watch(currentSelectedDateProvider);
     final dates = ref.watch(dateProvider).dates;
+    final dateNotifier = ref.watch(dateProvider);
     return FittedBox(
       fit: BoxFit.fill,
       child: HeatMapCalendar(
         onClick: (p0) async {
           //changes the current selected date so it gets marked
-          currentSelectedDate.changeDate(p0);
+          selectedDateNotifier.changeDate(p0);
           //validates DateModel and in any case it'll add the date to _dates and also _date
           //gets updated so you can see its routines and will not break
           await validateDateModel(routines, p0, ref);
         },
+        onReturnToActualDate: () {
+          selectedDateNotifier.changeDate(DateTime.now());
+          dateNotifier.setDate(dateNotifier.dates!
+                  .where(
+                    (element) => element.date.isAtSameMomentAs(
+                        selectedDateNotifier.currentSelectedDate),
+                  )
+                  .firstOrNull ??
+              DateModel(
+                  date: selectedDateNotifier.currentSelectedDate,
+                  routines: [],
+                  completedRoutineAmount: 0));
+        },
+        showReturnActualDate: true,
+        weekTextColor: ghostWhite,
         currentSelectedDateColor: secondary,
-        currentSelectedDate: currentSelectedDate.currentSelectedDate,
+        currentSelectedDate: selectedDateNotifier.currentSelectedDate,
         showColorTip: false,
         defaultColor: Colors.transparent,
         textColor: secondary,
