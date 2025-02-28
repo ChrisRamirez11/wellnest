@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:wellnest/core/notifications/notifications_provider.dart';
 import 'package:wellnest/feature/ads/app_open_ad/app_lifecycle.dart';
 import 'package:wellnest/feature/ads/app_open_ad/app_open_ad.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
@@ -59,6 +61,7 @@ class _SkeletonState extends ConsumerState<Skeleton> {
           hour: 17,
           minute: 0);
           prefs.firstTimeNotiSetted = true;
+          ref.watch(notificationProvider).changeValue(await Permission.notification.isGranted);
     }
     //dates and routines related
     await ref.watch(routineProvider).getRoutines();
