@@ -4,9 +4,9 @@ import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/notifications/notifications_provider.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/utils.dart';
-import 'package:wellnest/core/widgets/custom_button.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/google_native_signin.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/profile_provider.dart';
+import 'package:wellnest/feature/settings/presentation/widgets/go_deluxe_button.dart';
 import 'package:wellnest/feature/settings/presentation/widgets/user_signed_button.dart';
 import 'package:wellnest/main.dart';
 
@@ -87,18 +87,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
   Widget getGoDeluxeButton() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
-      child: SizedBox(
-          width: double.infinity,
-          child: CustomButton(
-            icon: const Icon(
-              Icons.workspace_premium,
-              size: 30,
-              color: Colors.white,
-            ),
-            onClick: () {},
-            text: 'GO DELUXE',
-            color: secondary.withAlpha(150),
-          )),
+      child: GoDeluxeButton(),
     );
   }
 

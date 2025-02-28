@@ -1,5 +1,5 @@
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:wellnest/ads/app_open_ad/app_open_ad.dart';
+import 'package:wellnest/feature/ads/app_open_ad/app_open_ad.dart';
 
 /// Listens for app foreground events and shows app open ads.
 class AppLifecycleReactor {

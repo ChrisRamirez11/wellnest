@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/ads/app_open_ad/app_lifecycle.dart';
-import 'package:wellnest/ads/app_open_ad/app_open_ad.dart';
+import 'package:wellnest/feature/ads/app_open_ad/app_lifecycle.dart';
+import 'package:wellnest/feature/ads/app_open_ad/app_open_ad.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/preferences/user_preferences.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
