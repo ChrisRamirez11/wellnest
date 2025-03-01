@@ -266,20 +266,27 @@ class _HeatMapCalendar extends State<HeatMapCalendar> {
               containerCount: widget.colorTipCount,
               size: widget.colorTipSize,
             ),
-          if (widget.showReturnActualDate == true)
-            Tooltip(
-              message: 'Select current date',
-              textStyle: TextStyle(
-                  color: widget.textColor,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 16),
-              decoration: BoxDecoration(color: Colors.black),
-              child: TextButton(
-                  onPressed: goToCurrentDate,
-                  child: Icon(
-                    Icons.today,
-                    size: 50,
-                  )),
+          if (widget.showReturnActualDate == true &&
+              !widget.currentSelectedDate!.isAtSameMomentAs(DateTime(
+                  DateTime.now().year,
+                  DateTime.now().month,
+                  DateTime.now().day)))
+            Align(
+              alignment: Alignment.centerRight,
+              child: Tooltip(
+                message: 'Go to Today',
+                textStyle: TextStyle(
+                    color: widget.textColor,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 16),
+                decoration: BoxDecoration(color: Colors.black),
+                child: TextButton(
+                    onPressed: goToCurrentDate,
+                    child: Icon(
+                      Icons.today_outlined,
+                      size: 50,
+                    )),
+              ),
             ),
         ],
       ),

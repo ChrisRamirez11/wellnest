@@ -26,20 +26,23 @@ class SmallRoutinesBody extends ConsumerWidget {
           children: [
             ConstrainedBox(
               constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).orientation == Orientation.portrait
-                ? size(context).width * .8
-                : size(context).width * .4,
-              maxWidth: MediaQuery.of(context).orientation == Orientation.portrait
-                ? size(context).width
-                : size(context).width * .45,
+                maxHeight:
+                    MediaQuery.of(context).orientation == Orientation.portrait
+                        ? size(context).width * .8
+                        : size(context).width * .4,
+                maxWidth:
+                    MediaQuery.of(context).orientation == Orientation.portrait
+                        ? size(context).width
+                        : size(context).width * .45,
               ),
               child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: CustomCalendar(
-                routines: routines,
-              ),
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: CustomCalendar(
+                  routines: routines,
+                ),
               ),
             ),
+            //By removing this ConstrainedBox everything is slideable like an all
             ConstrainedBox(
               constraints: BoxConstraints(
                 maxHeight: MediaQuery.sizeOf(context).height * .45,
