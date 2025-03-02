@@ -81,7 +81,7 @@ class HeatMapCalendar extends StatefulWidget {
   /// Show a calendar button for going to today date.
   ///
   /// Default value is false.
-  final bool? showReturnActualDate;
+  final bool? showReturnToActualDate;
 
   /// Widgets which shown at left and right side of colorTip.
   ///
@@ -126,7 +126,7 @@ class HeatMapCalendar extends StatefulWidget {
     this.colorTipSize,
     this.currentSelectedDate,
     this.currentSelectedDateColor,
-    this.showReturnActualDate = false,
+    this.showReturnToActualDate = false,
     this.onReturnToActualDate,
   });
 
@@ -137,6 +137,7 @@ class HeatMapCalendar extends StatefulWidget {
 class _HeatMapCalendar extends State<HeatMapCalendar> {
   // The DateTime value of first day of the current month.
   DateTime? _currentDate;
+  bool _showReturnToToday = false;
 
   @override
   void initState() {
@@ -153,6 +154,7 @@ class _HeatMapCalendar extends State<HeatMapCalendar> {
     setState(() {
       _currentDate =
           DateUtil.changeMonth(_currentDate ?? DateTime.now(), direction);
+      _showReturnToToday = true;
     });
     if (widget.onMonthChange != null) widget.onMonthChange!(_currentDate!);
   }
@@ -161,6 +163,7 @@ class _HeatMapCalendar extends State<HeatMapCalendar> {
     DateTime actualDate = DateTime.now();
     setState(() {
       _currentDate = actualDate;
+      _showReturnToToday = false;
     });
     if (widget.onMonthChange != null) widget.onMonthChange!(_currentDate!);
     if (widget.onReturnToActualDate != null) widget.onReturnToActualDate!();
@@ -266,28 +269,29 @@ class _HeatMapCalendar extends State<HeatMapCalendar> {
               containerCount: widget.colorTipCount,
               size: widget.colorTipSize,
             ),
-          if (widget.showReturnActualDate == true &&
-              !widget.currentSelectedDate!.isAtSameMomentAs(DateTime(
-                  DateTime.now().year,
-                  DateTime.now().month,
-                  DateTime.now().day)))
-            Align(
-              alignment: Alignment.centerRight,
-              child: Tooltip(
-                message: 'Go to Today',
-                textStyle: TextStyle(
-                    color: widget.textColor,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 16),
-                decoration: BoxDecoration(color: Colors.black),
-                child: TextButton(
-                    onPressed: goToCurrentDate,
-                    child: Icon(
-                      Icons.today_outlined,
-                      size: 50,
-                    )),
+          if (widget.showReturnToActualDate == true)
+            if (_showReturnToToday == true ||
+                !widget.currentSelectedDate!.isAtSameMomentAs(DateTime(
+                    DateTime.now().year,
+                    DateTime.now().month,
+                    DateTime.now().day)))
+              Align(
+                alignment: Alignment.centerRight,
+                child: Tooltip(
+                  message: 'Go to Today',
+                  textStyle: TextStyle(
+                      color: widget.textColor,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 16),
+                  decoration: BoxDecoration(color: Colors.black),
+                  child: TextButton(
+                      onPressed: goToCurrentDate,
+                      child: Icon(
+                        Icons.today_outlined,
+                        size: 50,
+                      )),
+                ),
               ),
-            ),
         ],
       ),
     );

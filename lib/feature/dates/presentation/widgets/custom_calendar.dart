@@ -40,7 +40,7 @@ class CustomCalendar extends ConsumerWidget {
                   routines: [],
                   completedRoutineAmount: 0));
         },
-        showReturnActualDate: true,
+        showReturnToActualDate: true,
         weekTextColor: ghostWhite,
         currentSelectedDateColor: secondary,
         currentSelectedDate: selectedDateNotifier.currentSelectedDate,
