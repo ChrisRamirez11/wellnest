@@ -31,7 +31,7 @@ Future<void> main() async {
   await AndroidFlutterLocalNotificationsPlugin().requestExactAlarmsPermission();
 
   SystemChrome.setPreferredOrientations([
-    // DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitUp,
   ]).then(
     (value) => runApp(const ProviderScope(child: MyApp())),
   );

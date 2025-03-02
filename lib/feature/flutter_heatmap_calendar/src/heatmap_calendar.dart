@@ -78,7 +78,7 @@ class HeatMapCalendar extends StatefulWidget {
   /// Default value is true.
   final bool? showColorTip;
 
-  /// Show color tip which represents the color range at the below.
+  /// Show a calendar button for going to today date.
   ///
   /// Default value is false.
   final bool? showReturnActualDate;
