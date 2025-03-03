@@ -60,6 +60,6 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
                   child: AdWidget(ad: _bannerAd!)),
             ),
           )
-        : SizedBox.shrink();
+        : SizedBox(height: 20,);
   }
 }

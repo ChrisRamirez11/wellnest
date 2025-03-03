@@ -10,59 +10,58 @@ import 'package:wellnest/feature/small_routines/presentation/providers/current_s
 
 class CustomCalendar extends ConsumerWidget {
   final List<RoutineModel> routines;
-  const CustomCalendar({super.key, required this.routines});
+  final Widget? heatmapChild;
+  const CustomCalendar({super.key, required this.routines, this.heatmapChild});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedDateNotifier = ref.watch(currentSelectedDateProvider);
     final dates = ref.watch(dateProvider).dates;
     final dateNotifier = ref.watch(dateProvider);
-    return FittedBox(
-      fit: BoxFit.fill,
-      child: HeatMapCalendar(
-        onClick: (p0) async {
-          //changes the current selected date so it gets marked
-          selectedDateNotifier.changeDate(p0);
-          //validates DateModel and in any case it'll add the date to _dates and also _date
-          //gets updated so you can see its routines and will not break
-          await validateDateModel(routines, p0, ref);
-        },
-        onReturnToActualDate: () {
-          selectedDateNotifier.changeDate(DateTime.now());
-          dateNotifier.setDate(dateNotifier.dates!
-                  .where(
-                    (element) => element.date.isAtSameMomentAs(
-                        selectedDateNotifier.currentSelectedDate),
-                  )
-                  .firstOrNull ??
-              DateModel(
-                  date: selectedDateNotifier.currentSelectedDate,
-                  routines: [],
-                  completedRoutineAmount: 0));
-        },
-        showReturnToActualDate: true,
-        weekTextColor: ghostWhite,
-        currentSelectedDateColor: secondary,
-        currentSelectedDate: selectedDateNotifier.currentSelectedDate,
-        showColorTip: false,
-        defaultColor: Colors.transparent,
-        textColor: secondary,
-        weekFontSize: 20,
-        monthFontSize: 25,
-        borderRadius: 12,
-        colorTipCount: 5,
-        colorTipSize: 20,
-        fontSize: 20,
-        size: 70,
-        initDate: DateTime.now(),
-        datasets: _getDataset(dates),
-        colorsets: {
-          01: Colors.lightBlue.withValues(alpha: 0.4),
-          03: Colors.lightBlue.withValues(alpha: 0.6),
-          05: Colors.lightBlue.withValues(alpha: 0.8),
-          07: Colors.lightBlue.withValues(alpha: 1.0),
-        },
-      ),
+    return HeatMapCalendar(
+      onClick: (p0) async {
+        //changes the current selected date so it gets marked
+        selectedDateNotifier.changeDate(p0);
+        //validates DateModel and in any case it'll add the date to _dates and also _date
+        //gets updated so you can see its routines and will not break
+        await validateDateModel(routines, p0, ref);
+      },
+      onReturnToActualDate: () {
+        selectedDateNotifier.changeDate(DateTime.now());
+        dateNotifier.setDate(dateNotifier.dates!
+                .where(
+                  (element) => element.date.isAtSameMomentAs(
+                      selectedDateNotifier.currentSelectedDate),
+                )
+                .firstOrNull ??
+            DateModel(
+                date: selectedDateNotifier.currentSelectedDate,
+                routines: [],
+                completedRoutineAmount: 0));
+      },
+      showReturnToActualDate: true,
+      weekTextColor: ghostWhite,
+      currentSelectedDateColor: secondary,
+      currentSelectedDate: selectedDateNotifier.currentSelectedDate,
+      showColorTip: false,
+      defaultColor: Colors.transparent,
+      textColor: secondary,
+      weekFontSize: 20,
+      monthFontSize: 25,
+      borderRadius: 12,
+      colorTipCount: 5,
+      colorTipSize: 20,
+      fontSize: 20,
+      size: 70,
+      initDate: DateTime.now(),
+      datasets: _getDataset(dates),
+      colorsets: {
+        01: Colors.lightBlue.withValues(alpha: 0.4),
+        03: Colors.lightBlue.withValues(alpha: 0.6),
+        05: Colors.lightBlue.withValues(alpha: 0.8),
+        07: Colors.lightBlue.withValues(alpha: 1.0),
+      },
+      child: heatmapChild,
     );
   }
 

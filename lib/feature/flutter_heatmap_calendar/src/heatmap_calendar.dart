@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wellnest/core/theme/theme.dart';
+import 'package:wellnest/core/utils/utils.dart';
+import 'package:wellnest/core/widgets/custom_app_bar.dart';
+import 'package:wellnest/feature/flutter_heatmap_calendar/src/widget/custom_fab_location.dart';
 import 'data/heatmap_color_mode.dart';
 import 'widget/heatmap_calendar_page.dart';
 import 'widget/heatmap_color_tip.dart';
@@ -102,6 +106,9 @@ class HeatMapCalendar extends StatefulWidget {
   /// The color of the currently selected day.
   final Color? currentSelectedDateColor;
 
+  /// A widget that'll be under the heatmap calendar.
+  final Widget? child;
+
   const HeatMapCalendar({
     super.key,
     required this.colorsets,
@@ -128,6 +135,7 @@ class HeatMapCalendar extends StatefulWidget {
     this.currentSelectedDateColor,
     this.showReturnToActualDate = false,
     this.onReturnToActualDate,
+    this.child,
   });
 
   @override
@@ -238,62 +246,143 @@ class _HeatMapCalendar extends State<HeatMapCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    return _intrinsicWidth(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          _header(),
-          _weekLabel(),
-          HeatMapCalendarPage(
-            currentSelectedDate: widget.currentSelectedDate,
-            currentSelectedDateColor: widget.currentSelectedDateColor,
-            baseDate: _currentDate ?? DateTime.now(),
-            colorMode: widget.colorMode,
-            flexible: widget.flexible,
-            size: widget.size,
-            fontSize: widget.fontSize,
-            defaultColor: widget.defaultColor,
-            textColor: widget.textColor,
-            margin: widget.margin,
-            datasets: widget.datasets,
-            colorsets: widget.colorsets,
-            borderRadius: widget.borderRadius,
-            onClick: widget.onClick,
-          ),
-          if (widget.showColorTip == true)
-            HeatMapColorTip(
-              colorMode: widget.colorMode,
-              colorsets: widget.colorsets,
-              leftWidget: widget.colorTipHelper?[0],
-              rightWidget: widget.colorTipHelper?[1],
-              containerCount: widget.colorTipCount,
-              size: widget.colorTipSize,
+    return Scaffold(
+      appBar: CustomAppBar(
+        actionsList: [
+          Container(
+            margin: EdgeInsets.only(right: 10),
+            height: 40,
+            width: 40,
+            decoration:
+                BoxDecoration(shape: BoxShape.circle, color: Color(0xFF004C63)),
+            child: InkWell(
+              customBorder: CircleBorder(),
+              onTap: () => Navigator.of(context).pushNamed('/createRoutine'),
+              child: Icon(
+                Icons.add,
+                color: secondary,
+                size: 20,
+                grade: 100,
+                fill: 1,
+              ),
             ),
-          if (widget.showReturnToActualDate == true)
-            if (_showReturnToToday == true ||
-                !widget.currentSelectedDate!.isAtSameMomentAs(DateTime(
-                    DateTime.now().year,
-                    DateTime.now().month,
-                    DateTime.now().day)))
-              Align(
-                alignment: Alignment.centerRight,
-                child: Tooltip(
-                  message: 'Go to Today',
-                  textStyle: TextStyle(
-                      color: widget.textColor,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 16),
-                  decoration: BoxDecoration(color: Colors.black),
-                  child: TextButton(
-                      onPressed: goToCurrentDate,
-                      child: Icon(
-                        Icons.today_outlined,
-                        size: 50,
-                      )),
+          )
+        ],
+        titleString: 'CALENDAR',
+      ),
+      floatingActionButton: getFab(),
+      floatingActionButtonLocation:
+          CustomFABLocation(offset: Offset(15, -(size(context).height * .085))),
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
+      body: SingleChildScrollView(
+        primary: true,
+        child: Column(
+          children: [
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight:
+                    MediaQuery.of(context).orientation == Orientation.portrait
+                        ? size(context).width * .8
+                        : size(context).width * .4,
+                maxWidth:
+                    MediaQuery.of(context).orientation == Orientation.portrait
+                        ? size(context).width
+                        : size(context).width * .45,
+              ),
+              child: FittedBox(
+                fit: BoxFit.fill,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: _intrinsicWidth(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        _header(),
+                        _weekLabel(),
+                        HeatMapCalendarPage(
+                          currentSelectedDate: widget.currentSelectedDate,
+                          currentSelectedDateColor:
+                              widget.currentSelectedDateColor,
+                          baseDate: _currentDate ?? DateTime.now(),
+                          colorMode: widget.colorMode,
+                          flexible: widget.flexible,
+                          size: widget.size,
+                          fontSize: widget.fontSize,
+                          defaultColor: widget.defaultColor,
+                          textColor: widget.textColor,
+                          margin: widget.margin,
+                          datasets: widget.datasets,
+                          colorsets: widget.colorsets,
+                          borderRadius: widget.borderRadius,
+                          onClick: widget.onClick,
+                        ),
+                        if (widget.showColorTip == true)
+                          HeatMapColorTip(
+                            colorMode: widget.colorMode,
+                            colorsets: widget.colorsets,
+                            leftWidget: widget.colorTipHelper?[0],
+                            rightWidget: widget.colorTipHelper?[1],
+                            containerCount: widget.colorTipCount,
+                            size: widget.colorTipSize,
+                          ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-        ],
+            ),
+            ConstrainedBox(
+                //By removing this ConstrainedBox everything is slideable like an all
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.sizeOf(context).height * .45,
+                  minHeight: MediaQuery.sizeOf(context).height * .2,
+                  maxWidth: MediaQuery.sizeOf(context).width,
+                ),
+                child: widget.child ?? SizedBox.shrink())
+          ],
+        ),
       ),
     );
+  }
+
+  Widget getFab() {
+    late Widget fab;
+    if (widget.showReturnToActualDate == true &&
+        (_showReturnToToday == true ||
+            !widget.currentSelectedDate!.isAtSameMomentAs(DateTime(
+                DateTime.now().year,
+                DateTime.now().month,
+                DateTime.now().day)))) {
+      fab = SizedBox(
+        height: 50,
+        width: 120,
+        child: FloatingActionButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(40),
+              bottomLeft: Radius.circular(40),
+            ),
+          ),
+          onPressed: goToCurrentDate,
+          child: Row(
+            spacing: 5,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FittedBox(
+                child: Text(
+                  'TODAY',
+                  style:
+                      textTheme(context).bodyLarge!.copyWith(color: secondary),
+                ),
+              ),
+              Icon(Icons.today_outlined),
+            ],
+          ),
+        ),
+      );
+    } else {
+      fab = SizedBox.shrink();
+    }
+    return fab;
   }
 }
