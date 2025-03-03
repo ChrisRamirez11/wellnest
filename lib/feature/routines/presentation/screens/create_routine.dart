@@ -82,6 +82,22 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               const SizedBox(
                 height: 60,
               ),
+              Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: FittedBox(
+                    child: Text(
+                      overflow: TextOverflow.ellipsis,
+                      'Select Week Days: ',
+                      maxLines: 1,
+                      style: textTheme(context)
+                          .bodyLarge!
+                          .copyWith(color: Colors.grey.shade400),
+                    ),
+                  ),
+                ),
+              ),
               weekDays(context),
               Padding(
                 padding: const EdgeInsets.only(top: 80),
@@ -97,31 +113,36 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
     );
   }
 
-  Wrap weekDays(BuildContext context) {
-    return Wrap(
-      runSpacing: 10,
-      alignment: WrapAlignment.center,
-      spacing: 8,
-      children: List.generate(
-        7,
-        (index) => ConstrainedBox(
-          constraints: const BoxConstraints(
-              minWidth: 20, maxWidth: 40, minHeight: 20, maxHeight: 40),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(100),
-            onTap: () => setState(() {
-              _days[index] = !_days[index];
-            }),
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: _days[index] ? primary : Colors.transparent,
-              ),
-              child: Center(
-                child: Text(
-                  DateUtil.WEEK_LABEL[index + 1][0].toUpperCase(),
-                  style:
-                      textTheme(context).bodyMedium!.copyWith(color: secondary),
+  Widget weekDays(BuildContext context) {
+    return FittedBox(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        child: Wrap(
+          runSpacing: 10,
+          alignment: WrapAlignment.center,
+          spacing: 8,
+          children: List.generate(
+            7,
+            (index) => ConstrainedBox(
+              constraints: const BoxConstraints(
+                  minWidth: 20, maxWidth: 50, minHeight: 20, maxHeight: 50),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(100),
+                onTap: () => setState(() {
+                  _days[index] = !_days[index];
+                }),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _days[index] ? primary : Colors.transparent,
+                  ),
+                  child: Center(
+                    child: Text(
+                      DateUtil.WEEK_LABEL[index + 1][0].toUpperCase(),
+                      style:
+                          textTheme(context).bodyMedium!.copyWith(color: secondary),
+                    ),
+                  ),
                 ),
               ),
             ),
