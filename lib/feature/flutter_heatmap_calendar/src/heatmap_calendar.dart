@@ -159,10 +159,22 @@ class _HeatMapCalendar extends State<HeatMapCalendar> {
   }
 
   void changeMonth(int direction) {
+    DateTime actualMonthYear =
+        DateTime(DateTime.now().year, DateTime.now().month);
+
     setState(() {
       _currentDate =
           DateUtil.changeMonth(_currentDate ?? DateTime.now(), direction);
-      _showReturnToToday = true;
+
+      DateTime currentSelectedMonthYear = DateTime(
+          _currentDate?.year ?? DateTime.now().year,
+          _currentDate?.month ?? DateTime.now().month);
+
+      if (actualMonthYear.isAtSameMomentAs(currentSelectedMonthYear)) {
+        _showReturnToToday = false;
+      } else {
+        _showReturnToToday = true;
+      }
     });
     if (widget.onMonthChange != null) widget.onMonthChange!(_currentDate!);
   }
