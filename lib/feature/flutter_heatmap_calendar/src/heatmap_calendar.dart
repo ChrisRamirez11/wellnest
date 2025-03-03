@@ -369,6 +369,7 @@ class _HeatMapCalendar extends State<HeatMapCalendar> {
         height: 50,
         width: 120,
         child: FloatingActionButton(
+          backgroundColor: widget.colorsets.entries.last.value,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(40),
@@ -380,14 +381,17 @@ class _HeatMapCalendar extends State<HeatMapCalendar> {
             spacing: 5,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Icon(
+                Icons.today_outlined,
+                color: secondary,
+              ),
               FittedBox(
                 child: Text(
                   'TODAY',
                   style:
-                      textTheme(context).bodyLarge!.copyWith(color: secondary),
+                      textTheme(context).bodyMedium!.copyWith(color: ghostWhite),
                 ),
               ),
-              Icon(Icons.today_outlined),
             ],
           ),
         ),
