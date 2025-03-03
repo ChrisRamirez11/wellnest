@@ -272,7 +272,7 @@ class _HeatMapCalendar extends State<HeatMapCalendar> {
       ),
       floatingActionButton: getFab(),
       floatingActionButtonLocation:
-          CustomFABLocation(offset: Offset(15, -(size(context).height * .085))),
+          CustomFABLocation(offset: Offset(15, -(size(context).height * .1))),
       floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
       body: SingleChildScrollView(
         primary: true,
