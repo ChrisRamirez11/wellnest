@@ -4,6 +4,7 @@ import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/notifications/notifications_provider.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/utils.dart';
+import 'package:wellnest/feature/ads/banner_ad.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/google_native_signin.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/profile_provider.dart';
 import 'package:wellnest/feature/settings/presentation/widgets/go_deluxe_button.dart';
@@ -31,6 +32,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
             getSignInBox(context),
             // getGoDeluxeButton(),
             getSettigsBox(context),
+            BannerAdWidget(cardColor: _cardColor,)
           ],
         ),
       ),

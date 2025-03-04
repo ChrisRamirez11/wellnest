@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wellnest/core/notifications/notifications_provider.dart';
 import 'package:wellnest/feature/ads/app_open_ad/app_lifecycle.dart';
-import 'package:wellnest/feature/ads/app_open_ad/app_open_ad.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/preferences/user_preferences.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
@@ -35,11 +34,14 @@ class _SkeletonState extends ConsumerState<Skeleton> {
   @override
   void initState() {
     super.initState();
+    //TODO make this ad available agai for when the app have a lot of users
+    /*
     AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
     appLifecycleReactor = AppLifecycleReactor(
       appOpenAdManager: appOpenAdManager);
+      */
   }
-  
+
   @override
   Future<void> didChangeDependencies() async {
     final prefs = UserPreferences();
@@ -60,8 +62,10 @@ class _SkeletonState extends ConsumerState<Skeleton> {
               'End your day by reviewing unfinished tasks and wrapping them up.',
           hour: 17,
           minute: 0);
-          prefs.firstTimeNotiSetted = true;
-          ref.watch(notificationProvider).changeValue(await Permission.notification.isGranted);
+      prefs.firstTimeNotiSetted = true;
+      ref
+          .watch(notificationProvider)
+          .changeValue(await Permission.notification.isGranted);
     }
     //dates and routines related
     await ref.watch(routineProvider).getRoutines();

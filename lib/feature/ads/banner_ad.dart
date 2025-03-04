@@ -1,9 +1,16 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+
 import 'package:wellnest/core/helper/ad_helper.dart';
 
 class BannerAdWidget extends StatefulWidget {
-  const BannerAdWidget({super.key});
+  final Color? cardColor;
+
+  const BannerAdWidget({
+    super.key,
+    this.cardColor,
+  });
 
   @override
   State<BannerAdWidget> createState() => _BannerAdWidgetState();
@@ -48,6 +55,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
   Widget build(BuildContext context) {
     return _isAdLoaded
         ? Card(
+          color: widget.cardColor,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             margin: const EdgeInsets.all(10),
@@ -60,6 +68,8 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
                   child: AdWidget(ad: _bannerAd!)),
             ),
           )
-        : SizedBox(height: 20,);
+        : SizedBox(
+            height: 20,
+          );
   }
 }
