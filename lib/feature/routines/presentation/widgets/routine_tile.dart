@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/theme/theme.dart';
+import 'package:wellnest/core/utils/delete_routine_date_today.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
 import 'package:wellnest/feature/flutter_heatmap_calendar/src/util/date_util.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
+import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
 
 class RoutineTile extends ConsumerStatefulWidget {
   final int index;
@@ -116,12 +118,20 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                     await ref
                         .watch(routineProvider)
                         .deleteRoutine(widget.routine.id!);
+                        //deletes the routine for today if it exists
+                    await deleteRoutineDateToday(ref, widget.routine);
+                    ref
+                        .watch(currentSelectedDateProvider)
+
+                        //update the selected date to today
+                        .changeDate(DateTime.now());
                     setState(() {
                       flag = !flag;
                     });
                     if (context.mounted) {
                       Navigator.of(context).pop();
                     }
+                    
                   },
                   child: Text(
                     'Delete',
