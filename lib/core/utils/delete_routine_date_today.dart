@@ -2,7 +2,8 @@ import 'package:wellnest/feature/dates/data/models/date_model.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
 import 'package:wellnest/main_imports.dart';
 
-Future<void> deleteRoutineDateToday(WidgetRef ref, Routine routineToDelete) async {
+Future<void> deleteRoutineDateToday(
+    WidgetRef ref, Routine routineToDelete) async {
   final dateNotifier = ref.watch(dateProvider);
   final dates = ref.watch(dateProvider).dates;
 
@@ -24,11 +25,13 @@ Future<void> deleteRoutineDateToday(WidgetRef ref, Routine routineToDelete) asyn
   if (dateModelIndex == -1) return;
 
   final DateModel dateModelToday = dates[dateModelIndex];
-  
+
   //deletes the routine
   dateModelToday.routines.removeWhere(
     (routine) => routine.id == routineToDelete.id,
   );
+
+  dateModelToday.completedRoutineAmount = _getCompletedQuantity(dateModelToday);
 
   //replaces the dateModel in the provider
   dates.removeAt(dateModelIndex);
@@ -36,4 +39,12 @@ Future<void> deleteRoutineDateToday(WidgetRef ref, Routine routineToDelete) asyn
 
   //updates in the local database
   await dateNotifier.upsertDate(dateModelToday);
+}
+
+int _getCompletedQuantity(DateModel dateModel) {
+  int result = 0;
+  for (var routine in dateModel.routines) {
+    result += routine.finished! ? 1 : 0;
+  }
+  return result;
 }

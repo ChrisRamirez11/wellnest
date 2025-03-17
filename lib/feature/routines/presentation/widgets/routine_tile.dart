@@ -118,20 +118,18 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                     await ref
                         .watch(routineProvider)
                         .deleteRoutine(widget.routine.id!);
-                        //deletes the routine for today if it exists
+                    //deletes the routine for today if it exists
                     await deleteRoutineDateToday(ref, widget.routine);
+                    
+                    //update the selected date to today
                     ref
                         .watch(currentSelectedDateProvider)
-
-                        //update the selected date to today
                         .changeDate(DateTime.now());
+
                     setState(() {
                       flag = !flag;
                     });
-                    if (context.mounted) {
-                      Navigator.of(context).pop();
-                    }
-                    
+                    if (context.mounted) Navigator.of(context).pop();
                   },
                   child: Text(
                     'Delete',
