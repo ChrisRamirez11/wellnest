@@ -30,7 +30,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
           spacing: 10,
           children: [
             getSignInBox(context),
-            // getGoDeluxeButton(),
+            getGoDeluxeButton(),
             getSettigsBox(context),
             BannerAdWidget(cardColor: _cardColor,)
           ],

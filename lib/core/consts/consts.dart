@@ -5,4 +5,5 @@ class Consts {
   static const iosClient = String.fromEnvironment('iosClient');
   static const pixel7 = String.fromEnvironment('pixel7');
   static const samsung = String.fromEnvironment('samsung');
+  static const adaptyKey = String.fromEnvironment('adaptyKey');
 }

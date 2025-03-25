@@ -1,3 +1,8 @@
+import 'dart:developer';
+
+import 'package:wellnest/core/utils/is_premium_user_provider.dart';
+import 'package:wellnest/purshase_observer.dart';
+
 import 'main_imports.dart';
 
 Future<void> main() async {
@@ -39,11 +44,33 @@ Future<void> main() async {
 
 final supabase = Supabase.instance.client;
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  @override
+  void initState() {
+    PurchasesObserver().initialize();
+    super.initState();
+  }
+
+  @override
+  Future<void> didChangeDependencies() async {
+    final isPremiumNotifier = ref.watch(isPremiumUser);
+    await isPremiumNotifier.premiumSetter();
+    final res = isPremiumNotifier.isPremium;
+    
+    log('isPremiumUser? $res');
+
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'WellNest',
