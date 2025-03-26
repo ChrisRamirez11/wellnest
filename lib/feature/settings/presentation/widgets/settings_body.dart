@@ -27,7 +27,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
       padding: const EdgeInsets.all(10.0),
       child: SingleChildScrollView(
         child: Column(
-          spacing: 10,
+          spacing: 5,
           children: [
             getSignInBox(context),
             getGoDeluxeButton(),

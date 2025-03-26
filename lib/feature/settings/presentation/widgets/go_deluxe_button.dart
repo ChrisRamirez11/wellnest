@@ -1,28 +1,42 @@
 import 'package:adapty_flutter/adapty_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:wellnest/core/theme/theme.dart';
+import 'package:wellnest/core/utils/is_premium_user_provider.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
 
-class GoDeluxeButton extends StatelessWidget {
+class GoDeluxeButton extends ConsumerWidget {
   const GoDeluxeButton({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isPremiumNotifier = ref.watch(isPremiumUser);
+    final isPremium = isPremiumNotifier.isPremium;
+    final isLifetime = isPremiumNotifier.isLifetime;
+
+    return !isLifetime! ? SizedBox(
         width: double.infinity,
         child: CustomButton(
-          icon: const Icon(
-            Icons.workspace_premium,
-            size: 30,
-            color: Colors.white,
-          ),
+          icon: !isPremium!
+              ? Icon(
+                  Icons.workspace_premium,
+                  size: 30,
+                  color: Colors.white,
+                )
+              : FaIcon(
+                  FontAwesomeIcons.crown,
+                  size: 30,
+                  color: Colors.white,
+                ),
           onClick: () async {
             final paywall =
                 await Adapty().getPaywall(placementId: 'settings_placement');
             await AdaptyUI().presentPaywallView(
                 await AdaptyUI().createPaywallView(paywall: paywall));
           },
-          text: 'GO DELUXE',
-          color: Colors.blue,
-        ));
+          text: !isPremium ? 'GO DELUXE' : 'DELUXE USER',
+          color: !isPremium ? Colors.blue : gold,
+        )): SizedBox.shrink();
   }
 }

@@ -1,10 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:wellnest/core/helper/ad_helper.dart';
+import 'package:wellnest/core/utils/is_premium_user_provider.dart';
 
-class BannerAdWidget extends StatefulWidget {
+class BannerAdWidget extends ConsumerStatefulWidget {
   final Color? cardColor;
 
   const BannerAdWidget({
@@ -13,10 +14,10 @@ class BannerAdWidget extends StatefulWidget {
   });
 
   @override
-  State<BannerAdWidget> createState() => _BannerAdWidgetState();
+  ConsumerState<BannerAdWidget> createState() => _BannerAdWidgetState();
 }
 
-class _BannerAdWidgetState extends State<BannerAdWidget> {
+class _BannerAdWidgetState extends ConsumerState<BannerAdWidget> {
   BannerAd? _bannerAd;
   bool _isAdLoaded = false;
 
@@ -53,7 +54,9 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return _isAdLoaded
+    final isPremium = ref.watch(isPremiumUser).isPremium ?? true;
+
+    return (_isAdLoaded && !isPremium)
         ? Card(
           color: widget.cardColor,
             shape:

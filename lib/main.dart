@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:wellnest/core/utils/is_premium_user_provider.dart';
-import 'package:wellnest/purshase_observer.dart';
+import 'package:wellnest/purchase_observer.dart';
 
 import 'main_imports.dart';
 
@@ -54,7 +54,7 @@ class MyApp extends ConsumerStatefulWidget {
 class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
-    PurchasesObserver().initialize();
+    PurchasesObserver(ref: ref).initialize();
     super.initState();
   }
 

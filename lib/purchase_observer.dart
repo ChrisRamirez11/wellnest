@@ -2,18 +2,24 @@ import 'dart:async' show Future;
 import 'dart:io' show Platform;
 import 'package:adapty_flutter/adapty_flutter.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wellnest/core/consts/consts.dart';
+import 'package:wellnest/core/utils/is_premium_user_provider.dart';
 
 class PurchasesObserver implements AdaptyUIObserver {
   void Function(AdaptyError)? onAdaptyErrorOccurred;
   void Function(Object)? onUnknownErrorOccurred;
 
+  late final WidgetRef ref;
   final adapty = Adapty();
 
   static final PurchasesObserver _instance = PurchasesObserver._internal();
 
-  factory PurchasesObserver() {
+  factory PurchasesObserver({WidgetRef? ref}) {
+    if (ref != null) {
+      _instance.ref = ref;
+    }
     return _instance;
   }
 
@@ -256,13 +262,14 @@ class PurchasesObserver implements AdaptyUIObserver {
   }
 
   @override
-  void paywallViewDidFinishPurchase(AdaptyUIView view,
-      AdaptyPaywallProduct product, AdaptyPurchaseResult purchaseResult) {
+  Future<void> paywallViewDidFinishPurchase(AdaptyUIView view,
+      AdaptyPaywallProduct product, AdaptyPurchaseResult purchaseResult) async {
     debugPrint('#Example# paywallViewDidFinishPurchase of $view');
 
     switch (purchaseResult) {
       case AdaptyPurchaseResultSuccess(profile: final profile):
         if (profile.accessLevels['premium']?.isActive ?? false) {
+          await ref.watch(isPremiumUser).premiumSetter();
           view.dismiss();
         }
         break;
@@ -301,6 +308,7 @@ class PurchasesObserver implements AdaptyUIObserver {
     );
 
     if (profile.accessLevels['premium']?.isActive ?? false) {
+      await ref.watch(isPremiumUser).premiumSetter();
       await view.dismiss();
     }
   }
