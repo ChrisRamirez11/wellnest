@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:wellnest/core/utils/is_premium_user_provider.dart';
 import 'package:wellnest/purchase_observer.dart';
 
@@ -62,9 +60,6 @@ class _MyAppState extends ConsumerState<MyApp> {
   Future<void> didChangeDependencies() async {
     final isPremiumNotifier = ref.watch(isPremiumUser);
     await isPremiumNotifier.premiumSetter();
-    final res = isPremiumNotifier.isPremium;
-    
-    log('isPremiumUser? $res');
 
     super.didChangeDependencies();
   }
