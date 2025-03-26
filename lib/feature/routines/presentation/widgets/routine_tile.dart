@@ -115,12 +115,6 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
               Spacer(),
               TextButton(
                   onPressed: () async {
-                    await ref
-                        .watch(routineProvider)
-                        .deleteRoutine(widget.routine.id!);
-                    //deletes the routine for today if it exists
-                    await deleteRoutineDateToday(ref, widget.routine);
-                    
                     //update the selected date to today
                     ref
                         .watch(currentSelectedDateProvider)
@@ -129,6 +123,13 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                     setState(() {
                       flag = !flag;
                     });
+                    
+                    await ref
+                        .watch(routineProvider)
+                        .deleteRoutine(widget.routine.id!);
+                    //deletes the routine for today if it exists
+                    await deleteRoutineDateToday(ref, widget.routine);
+
                     if (context.mounted) Navigator.of(context).pop();
                   },
                   child: Text(
