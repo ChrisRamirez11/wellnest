@@ -6,13 +6,14 @@ import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
 import 'package:wellnest/feature/flutter_heatmap_calendar/src/util/date_util.dart';
+import 'package:wellnest/feature/routines/data/models/routine_model.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
 import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
 
 class RoutineTile extends ConsumerStatefulWidget {
   final int index;
-  final Routine routine;
+  final RoutineModel routine;
   const RoutineTile({
     super.key,
     required this.index,
@@ -62,7 +63,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => CreateRoutineScreen(
-                          routineModel: widget.routine.toModel(),
+                          routineModel: widget.routine,
                         ),
                       ));
                 }),
@@ -123,12 +124,12 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                     setState(() {
                       flag = !flag;
                     });
-                    
+
                     await ref
                         .watch(routineProvider)
                         .deleteRoutine(widget.routine.id!);
                     //deletes the routine for today if it exists
-                    await deleteRoutineDateToday(ref, widget.routine);
+                    await deleteRoutineDateToday(ref, Routine.fromModel(widget.routine));
 
                     if (context.mounted) Navigator.of(context).pop();
                   },
@@ -179,7 +180,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                             .copyWith(color: secondary),
                         child: Text(
                           overflow: TextOverflow.ellipsis,
-                          widget.routine.name!,
+                          widget.routine.name,
                           maxLines: 1,
                           style: textTheme(context)
                               .bodyLarge!
@@ -224,7 +225,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color:
-                    widget.routine.days![index] ? primary : Colors.transparent,
+                    widget.routine.days[index] ? primary : Colors.transparent,
               ),
               child: Center(
                 child: Text(

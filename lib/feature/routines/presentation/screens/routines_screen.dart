@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/widgets/custom_app_bar.dart';
-import 'package:wellnest/feature/dates/data/models/date_model.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
-import 'package:wellnest/feature/routines/presentation/widgets/routine_tile.dart';
+import 'package:wellnest/feature/routines/presentation/widgets/routine_model_tile.dart';
 import 'package:wellnest/core/widgets/custom_fab.dart';
 
 class RoutinesScreen extends ConsumerWidget {
@@ -24,7 +23,7 @@ class RoutinesScreen extends ConsumerWidget {
           itemCount: routines.length,
           itemBuilder: (context, index) {
             return RoutineTile(
-              routine: Routine.fromModel(routines[index]),
+              routine: routines[index],
               index: index,
             );
           },
