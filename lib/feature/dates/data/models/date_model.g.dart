@@ -621,28 +621,33 @@ const RoutineSchema = Schema(
   name: r'Routine',
   id: 9144663503541703680,
   properties: {
-    r'createdDate': PropertySchema(
+    r'colorValue': PropertySchema(
       id: 0,
+      name: r'colorValue',
+      type: IsarType.long,
+    ),
+    r'createdDate': PropertySchema(
+      id: 1,
       name: r'createdDate',
       type: IsarType.dateTime,
     ),
     r'days': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'days',
       type: IsarType.boolList,
     ),
     r'finished': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'finished',
       type: IsarType.bool,
     ),
     r'id': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'id',
       type: IsarType.long,
     ),
     r'name': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'name',
       type: IsarType.string,
     )
@@ -680,11 +685,12 @@ void _routineSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTime(offsets[0], object.createdDate);
-  writer.writeBoolList(offsets[1], object.days);
-  writer.writeBool(offsets[2], object.finished);
-  writer.writeLong(offsets[3], object.id);
-  writer.writeString(offsets[4], object.name);
+  writer.writeLong(offsets[0], object.colorValue);
+  writer.writeDateTime(offsets[1], object.createdDate);
+  writer.writeBoolList(offsets[2], object.days);
+  writer.writeBool(offsets[3], object.finished);
+  writer.writeLong(offsets[4], object.id);
+  writer.writeString(offsets[5], object.name);
 }
 
 Routine _routineDeserialize(
@@ -694,11 +700,12 @@ Routine _routineDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Routine(
-    createdDate: reader.readDateTimeOrNull(offsets[0]),
-    days: reader.readBoolList(offsets[1]),
-    finished: reader.readBoolOrNull(offsets[2]),
-    id: reader.readLongOrNull(offsets[3]),
-    name: reader.readStringOrNull(offsets[4]),
+    colorValue: reader.readLongOrNull(offsets[0]),
+    createdDate: reader.readDateTimeOrNull(offsets[1]),
+    days: reader.readBoolList(offsets[2]),
+    finished: reader.readBoolOrNull(offsets[3]),
+    id: reader.readLongOrNull(offsets[4]),
+    name: reader.readStringOrNull(offsets[5]),
   );
   return object;
 }
@@ -711,14 +718,16 @@ P _routineDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTimeOrNull(offset)) as P;
-    case 1:
-      return (reader.readBoolList(offset)) as P;
-    case 2:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 3:
       return (reader.readLongOrNull(offset)) as P;
+    case 1:
+      return (reader.readDateTimeOrNull(offset)) as P;
+    case 2:
+      return (reader.readBoolList(offset)) as P;
+    case 3:
+      return (reader.readBoolOrNull(offset)) as P;
     case 4:
+      return (reader.readLongOrNull(offset)) as P;
+    case 5:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -727,6 +736,75 @@ P _routineDeserializeProp<P>(
 
 extension RoutineQueryFilter
     on QueryBuilder<Routine, Routine, QFilterCondition> {
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> colorValueIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'colorValue',
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> colorValueIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'colorValue',
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> colorValueEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'colorValue',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> colorValueGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'colorValue',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> colorValueLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'colorValue',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> colorValueBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'colorValue',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Routine, Routine, QAfterFilterCondition> createdDateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(

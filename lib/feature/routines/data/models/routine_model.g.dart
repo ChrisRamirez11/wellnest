@@ -17,23 +17,28 @@ const RoutineModelSchema = CollectionSchema(
   name: r'RoutineModel',
   id: -1626869750065799181,
   properties: {
-    r'createdDate': PropertySchema(
+    r'colorValue': PropertySchema(
       id: 0,
+      name: r'colorValue',
+      type: IsarType.long,
+    ),
+    r'createdDate': PropertySchema(
+      id: 1,
       name: r'createdDate',
       type: IsarType.dateTime,
     ),
     r'days': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'days',
       type: IsarType.boolList,
     ),
     r'finished': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'finished',
       type: IsarType.bool,
     ),
     r'name': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'name',
       type: IsarType.string,
     )
@@ -69,10 +74,11 @@ void _routineModelSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTime(offsets[0], object.createdDate);
-  writer.writeBoolList(offsets[1], object.days);
-  writer.writeBool(offsets[2], object.finished);
-  writer.writeString(offsets[3], object.name);
+  writer.writeLong(offsets[0], object.colorValue);
+  writer.writeDateTime(offsets[1], object.createdDate);
+  writer.writeBoolList(offsets[2], object.days);
+  writer.writeBool(offsets[3], object.finished);
+  writer.writeString(offsets[4], object.name);
 }
 
 RoutineModel _routineModelDeserialize(
@@ -82,11 +88,12 @@ RoutineModel _routineModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = RoutineModel(
-    createdDate: reader.readDateTime(offsets[0]),
-    days: reader.readBoolList(offsets[1]) ?? [],
-    finished: reader.readBool(offsets[2]),
+    colorValue: reader.readLong(offsets[0]),
+    createdDate: reader.readDateTime(offsets[1]),
+    days: reader.readBoolList(offsets[2]) ?? [],
+    finished: reader.readBool(offsets[3]),
     id: id,
-    name: reader.readString(offsets[3]),
+    name: reader.readString(offsets[4]),
   );
   return object;
 }
@@ -99,12 +106,14 @@ P _routineModelDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 1:
-      return (reader.readBoolList(offset) ?? []) as P;
+      return (reader.readDateTime(offset)) as P;
     case 2:
-      return (reader.readBool(offset)) as P;
+      return (reader.readBoolList(offset) ?? []) as P;
     case 3:
+      return (reader.readBool(offset)) as P;
+    case 4:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -205,6 +214,62 @@ extension RoutineModelQueryWhere
 
 extension RoutineModelQueryFilter
     on QueryBuilder<RoutineModel, RoutineModel, QFilterCondition> {
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      colorValueEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'colorValue',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      colorValueGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'colorValue',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      colorValueLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'colorValue',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      colorValueBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'colorValue',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
       createdDateEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
@@ -583,6 +648,19 @@ extension RoutineModelQueryLinks
 
 extension RoutineModelQuerySortBy
     on QueryBuilder<RoutineModel, RoutineModel, QSortBy> {
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> sortByColorValue() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'colorValue', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy>
+      sortByColorValueDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'colorValue', Sort.desc);
+    });
+  }
+
   QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> sortByCreatedDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdDate', Sort.asc);
@@ -623,6 +701,19 @@ extension RoutineModelQuerySortBy
 
 extension RoutineModelQuerySortThenBy
     on QueryBuilder<RoutineModel, RoutineModel, QSortThenBy> {
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> thenByColorValue() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'colorValue', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy>
+      thenByColorValueDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'colorValue', Sort.desc);
+    });
+  }
+
   QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> thenByCreatedDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdDate', Sort.asc);
@@ -675,6 +766,12 @@ extension RoutineModelQuerySortThenBy
 
 extension RoutineModelQueryWhereDistinct
     on QueryBuilder<RoutineModel, RoutineModel, QDistinct> {
+  QueryBuilder<RoutineModel, RoutineModel, QDistinct> distinctByColorValue() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'colorValue');
+    });
+  }
+
   QueryBuilder<RoutineModel, RoutineModel, QDistinct> distinctByCreatedDate() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'createdDate');
@@ -706,6 +803,12 @@ extension RoutineModelQueryProperty
   QueryBuilder<RoutineModel, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<RoutineModel, int, QQueryOperations> colorValueProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'colorValue');
     });
   }
 

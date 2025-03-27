@@ -11,6 +11,7 @@ import 'package:wellnest/feature/small_routines/presentation/providers/current_s
 class SmallRoutineTile extends ConsumerStatefulWidget {
   final int index;
   final Routine routine;
+  
   const SmallRoutineTile({
     super.key,
     required this.index,

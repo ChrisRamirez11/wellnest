@@ -46,7 +46,7 @@ class DateModel {
       completedRoutineAmount: completedRoutineAmount);
 
   Map<String, dynamic> toMap() => <String, dynamic>{
-    /*
+        /*
     id commented because im using toMap only for storing in supabase the data and to avoid having the repeated Ids when
     backup happens i'll store it in the cloud without id
     */
@@ -77,6 +77,7 @@ class Routine {
   List<bool>? days;
   bool? finished;
   DateTime? createdDate;
+  int? colorValue;
 
   Routine({
     this.id,
@@ -84,6 +85,7 @@ class Routine {
     this.days,
     this.finished,
     this.createdDate,
+    this.colorValue,
   });
 
   factory Routine.fromEntity(RoutineEntity routineEntity) => Routine(
@@ -91,28 +93,32 @@ class Routine {
       name: routineEntity.name,
       days: routineEntity.days,
       finished: routineEntity.finished,
-      createdDate: routineEntity.createdDate);
+      createdDate: routineEntity.createdDate,
+      colorValue: routineEntity.colorValue);
 
   RoutineEntity toEntity() => RoutineEntity(
       id: id,
       name: name!,
       days: days!,
       finished: finished!,
-      createdDate: createdDate!);
+      createdDate: createdDate!,
+      colorValue: colorValue!);
 
   factory Routine.fromModel(RoutineModel routineModel) => Routine(
       id: routineModel.id,
       name: routineModel.name,
       days: routineModel.days,
       finished: routineModel.finished,
-      createdDate: routineModel.createdDate);
+      createdDate: routineModel.createdDate,
+      colorValue: routineModel.colorValue);
 
   RoutineModel toModel() => RoutineModel(
       id: id,
       name: name!,
       days: days!,
       finished: finished!,
-      createdDate: createdDate!);
+      createdDate: createdDate!,
+      colorValue: colorValue!);
 
   factory Routine.fromMap(Map<String, dynamic> map) => Routine(
         id: map['id'],
@@ -120,6 +126,7 @@ class Routine {
         days: List<bool>.from((map['days'] as List)),
         finished: map['finished'] as bool,
         createdDate: DateTime.parse(map['createdDate']),
+        colorValue: map['colorValue'] as int,
       );
 
   Map<String, dynamic> toMap() {
@@ -129,6 +136,7 @@ class Routine {
       'days': days,
       'finished': finished,
       'createdDate': createdDate!.toIso8601String(),
+      'colorValue': colorValue
     };
   }
 }

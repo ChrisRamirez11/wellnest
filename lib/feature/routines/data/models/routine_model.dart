@@ -12,32 +12,35 @@ class RoutineModel {
   List<bool> days;
   bool finished;
   DateTime createdDate;
+  int colorValue;
 
-  RoutineModel({
-    this.id,
-    required this.name,
-    required this.days,
-    required this.finished,
-    required this.createdDate,
-  });
+  RoutineModel(
+      {this.id,
+      required this.name,
+      required this.days,
+      required this.finished,
+      required this.createdDate,
+      required this.colorValue});
 
-  factory RoutineModel.fromEntity(RoutineEntity routinEntity) => RoutineModel(
-      id: routinEntity.id,
-      name: routinEntity.name,
-      days: routinEntity.days,
-      finished: routinEntity.finished,
-      createdDate: routinEntity.createdDate);
+  factory RoutineModel.fromEntity(RoutineEntity routineEntity) => RoutineModel(
+      id: routineEntity.id,
+      name: routineEntity.name,
+      days: routineEntity.days,
+      finished: routineEntity.finished,
+      createdDate: routineEntity.createdDate,
+      colorValue: routineEntity.colorValue);
 
   RoutineEntity toEntity() => RoutineEntity(
       id: id,
       name: name,
       days: days,
       finished: finished,
-      createdDate: createdDate);
+      createdDate: createdDate,
+      colorValue: colorValue);
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-    /*
+      /*
     id commented because im using toMap only for storing in supabase the data and to avoid having the repeated Ids when
     backup happens i'll store it in the cloud without id
     */
@@ -46,6 +49,7 @@ class RoutineModel {
       'days': days,
       'finished': finished,
       'createdDate': createdDate.toIso8601String(),
+      'colorValue': colorValue
     };
   }
 
@@ -55,5 +59,6 @@ class RoutineModel {
         days: List<bool>.from((map['days'] as List)),
         finished: map['finished'] as bool,
         createdDate: DateTime.parse(map['createdDate']),
+        colorValue: map['colorValue'] as int,
       );
 }
