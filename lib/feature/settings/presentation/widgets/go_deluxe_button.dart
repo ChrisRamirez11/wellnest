@@ -12,13 +12,13 @@ class GoDeluxeButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isPremiumNotifier = ref.watch(isPremiumUser);
-    final isPremium = isPremiumNotifier.isPremium;
-    final isLifetime = isPremiumNotifier.isLifetime;
+    final isPremium = isPremiumNotifier.isPremium ?? false;
+    final isLifetime = isPremiumNotifier.isLifetime ?? false;
 
-    return !isLifetime! ? SizedBox(
+    return !isLifetime ? SizedBox(
         width: double.infinity,
         child: CustomButton(
-          icon: !isPremium!
+          icon: !isPremium
               ? Icon(
                   Icons.workspace_premium,
                   size: 30,
