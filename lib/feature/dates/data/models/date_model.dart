@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 
 import 'package:wellnest/feature/dates/business/entity/date_entity.dart';
@@ -94,7 +95,7 @@ class Routine {
       days: routineEntity.days,
       finished: routineEntity.finished,
       createdDate: routineEntity.createdDate,
-      colorValue: routineEntity.colorValue);
+      colorValue: routineEntity.colorValue ?? Colors.blue.value);
 
   RoutineEntity toEntity() => RoutineEntity(
       id: id,
@@ -102,7 +103,7 @@ class Routine {
       days: days!,
       finished: finished!,
       createdDate: createdDate!,
-      colorValue: colorValue!);
+      colorValue: colorValue ?? Colors.blue.value);
 
   factory Routine.fromModel(RoutineModel routineModel) => Routine(
       id: routineModel.id,
@@ -110,7 +111,7 @@ class Routine {
       days: routineModel.days,
       finished: routineModel.finished,
       createdDate: routineModel.createdDate,
-      colorValue: routineModel.colorValue);
+      colorValue: routineModel.colorValue ?? Colors.blue.value);
 
   RoutineModel toModel() => RoutineModel(
       id: id,
@@ -118,7 +119,7 @@ class Routine {
       days: days!,
       finished: finished!,
       createdDate: createdDate!,
-      colorValue: colorValue!);
+      colorValue: colorValue ?? Colors.blue.value);
 
   factory Routine.fromMap(Map<String, dynamic> map) => Routine(
         id: map['id'],
@@ -136,7 +137,7 @@ class Routine {
       'days': days,
       'finished': finished,
       'createdDate': createdDate!.toIso8601String(),
-      'colorValue': colorValue
+      'colorValue': colorValue  ?? Colors.blue.value
     };
   }
 }

@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 
 import 'package:wellnest/feature/routines/business/entity/routine_entity.dart';
@@ -12,7 +13,7 @@ class RoutineModel {
   List<bool> days;
   bool finished;
   DateTime createdDate;
-  int colorValue;
+  int? colorValue;
 
   RoutineModel(
       {this.id,
@@ -28,7 +29,7 @@ class RoutineModel {
       days: routineEntity.days,
       finished: routineEntity.finished,
       createdDate: routineEntity.createdDate,
-      colorValue: routineEntity.colorValue);
+      colorValue: routineEntity.colorValue ?? Colors.blue.value);
 
   RoutineEntity toEntity() => RoutineEntity(
       id: id,
@@ -36,7 +37,7 @@ class RoutineModel {
       days: days,
       finished: finished,
       createdDate: createdDate,
-      colorValue: colorValue);
+      colorValue: colorValue ?? Colors.blue.value);
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -49,7 +50,7 @@ class RoutineModel {
       'days': days,
       'finished': finished,
       'createdDate': createdDate.toIso8601String(),
-      'colorValue': colorValue
+      'colorValue': colorValue ?? Colors.blue.value
     };
   }
 

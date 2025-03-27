@@ -88,7 +88,7 @@ RoutineModel _routineModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = RoutineModel(
-    colorValue: reader.readLong(offsets[0]),
+    colorValue: reader.readLongOrNull(offsets[0]),
     createdDate: reader.readDateTime(offsets[1]),
     days: reader.readBoolList(offsets[2]) ?? [],
     finished: reader.readBool(offsets[3]),
@@ -106,7 +106,7 @@ P _routineModelDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLong(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 1:
       return (reader.readDateTime(offset)) as P;
     case 2:
@@ -215,7 +215,25 @@ extension RoutineModelQueryWhere
 extension RoutineModelQueryFilter
     on QueryBuilder<RoutineModel, RoutineModel, QFilterCondition> {
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
-      colorValueEqualTo(int value) {
+      colorValueIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'colorValue',
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      colorValueIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'colorValue',
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      colorValueEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'colorValue',
@@ -226,7 +244,7 @@ extension RoutineModelQueryFilter
 
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
       colorValueGreaterThan(
-    int value, {
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -240,7 +258,7 @@ extension RoutineModelQueryFilter
 
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
       colorValueLessThan(
-    int value, {
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -254,8 +272,8 @@ extension RoutineModelQueryFilter
 
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
       colorValueBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -806,7 +824,7 @@ extension RoutineModelQueryProperty
     });
   }
 
-  QueryBuilder<RoutineModel, int, QQueryOperations> colorValueProperty() {
+  QueryBuilder<RoutineModel, int?, QQueryOperations> colorValueProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'colorValue');
     });

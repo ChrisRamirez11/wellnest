@@ -6,7 +6,7 @@ class RoutineEntity {
   List<bool> days;
   bool finished;
   DateTime createdDate;
-  int colorValue;
+  int? colorValue;
   
   RoutineEntity({
     this.id,

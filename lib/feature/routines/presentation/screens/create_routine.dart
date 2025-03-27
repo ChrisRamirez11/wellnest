@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
-import 'package:wellnest/core/theme/theme.dart';
+import 'package:wellnest/core/utils/is_premium_user_provider.dart';
+import 'package:wellnest/core/utils/show_paywall.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
 import 'package:wellnest/core/widgets/custom_app_bar.dart';
@@ -12,6 +13,8 @@ import 'package:wellnest/feature/flutter_heatmap_calendar/src/util/date_util.dar
 import 'package:wellnest/feature/routines/data/models/routine_model.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
+
+import '../../../../core/theme/theme.dart';
 
 class CreateRoutineScreen extends ConsumerStatefulWidget {
   final RoutineModel? routineModel;
@@ -27,6 +30,7 @@ class CreateRoutineScreen extends ConsumerStatefulWidget {
 class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   late TextEditingController _nameController;
   late List<bool> _days;
+  late Color _selectedColor;
   var loading = false;
 
   @override
@@ -35,9 +39,12 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
     if (widget.routineModel == null) {
       _nameController = TextEditingController();
       _days = List.generate(7, (index) => false);
+      _selectedColor = Colors.blue;
     } else {
       _days = widget.routineModel!.days;
       _nameController = TextEditingController(text: widget.routineModel!.name);
+      _selectedColor =
+          Color(widget.routineModel!.colorValue ?? Colors.blue.value);
     }
   }
 
@@ -80,7 +87,22 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                 ),
               ),
               const SizedBox(
-                height: 60,
+                height: 20,
+              ),
+              ListTile(
+                title: Text(
+                  'Select Color',
+                  style:
+                      textTheme(context).bodyLarge!.copyWith(color: ghostWhite),
+                ),
+                trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                leading: CircleAvatar(
+                  backgroundColor: _selectedColor,
+                ),
+                onTap: () => _showColorPicker(context),
+              ),
+              const SizedBox(
+                height: 30,
               ),
               Padding(
                 padding: EdgeInsets.only(left: 10),
@@ -99,17 +121,62 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                 ),
               ),
               weekDays(context),
-              Padding(
-                padding: const EdgeInsets.only(top: 80),
-                child: SizedBox(
-                    height: 250,
-                    width: double.infinity,
-                    child: Lottie.asset('assets/lotties/sleepy-cat.json')),
-              )
+              SizedBox(
+                  height: 250,
+                  width: double.infinity,
+                  child: Lottie.asset('assets/lotties/sleepy-cat.json'))
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void _showColorPicker(BuildContext context) {
+    final isPremium = ref.watch(isPremiumUser).isPremium ?? false;
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              ...Colors.primaries.asMap().entries.map((entry) {
+                final index = entry.key;
+                final color = entry.value;
+                final isLocked = (index >= 6 && !isPremium);
+
+                return GestureDetector(
+                  onTap: () {
+                    if (isLocked) {
+                      showPaywall();
+                    } else {
+                      setState(() {
+                        _selectedColor = color;
+                      });
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: color,
+                        radius: 24,
+                        child: isLocked
+                            ? const Icon(Icons.lock, color: Colors.white)
+                            : null,
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -139,8 +206,9 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   child: Center(
                     child: Text(
                       DateUtil.WEEK_LABEL[index + 1][0].toUpperCase(),
-                      style:
-                          textTheme(context).bodyMedium!.copyWith(color: secondary),
+                      style: textTheme(context)
+                          .bodyMedium!
+                          .copyWith(color: secondary),
                     ),
                   ),
                 ),
@@ -173,13 +241,15 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                             days: _days,
                             createdDate: DateTime(DateTime.now().year,
                                 DateTime.now().month, DateTime.now().day),
-                            finished: false)
+                            finished: false,
+                            colorValue: _selectedColor.value)
                         : RoutineModel(
                             id: widget.routineModel!.id,
                             name: _nameController.text,
                             days: _days,
                             createdDate: widget.routineModel!.createdDate,
-                            finished: false);
+                            finished: false,
+                            colorValue: _selectedColor.value);
                     await routineNotifier.upsertRoutine(routineModel);
                     await _validateActualDayRoutineAddition(
                         routineModel, dateNotifier);

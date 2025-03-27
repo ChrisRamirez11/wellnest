@@ -54,9 +54,9 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
           children: [
             IconButton(
                 highlightColor: ghostWhite.withAlpha(100),
-                icon: const Icon(
+                icon: Icon(
                   Icons.edit_square,
-                  color: ghostWhite,
+                  color: !flag ? ghostWhite : Colors.transparent,
                 ),
                 onPressed: () {
                   Navigator.push(
@@ -73,9 +73,9 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
             ),
             IconButton(
                 highlightColor: ghostWhite.withAlpha(100),
-                icon: const Icon(
+                icon: Icon(
                   Icons.delete,
-                  color: ghostWhite,
+                  color:  !flag ? ghostWhite : Colors.transparent,
                 ),
                 onPressed: () {
                   showDialog(
@@ -155,6 +155,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
       left: 0,
       right: !flag ? width * 0.25 : 0,
       child: Card(
+        color: Color(widget.routine.colorValue ?? Colors.blue.value).withAlpha(200),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         margin: const EdgeInsets.all(10),
         child: Container(
@@ -166,7 +167,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                   children: [
                     //ROUTINE NAME
                     AnimatedContainer(
-                      duration: Duration(milliseconds: 210),
+                      duration: Duration(milliseconds: 150),
                       width: flag
                           ? size(context).width * .65
                           : size(context).width * .4,
@@ -225,7 +226,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color:
-                    widget.routine.days[index] ? primary : Colors.transparent,
+                    widget.routine.days[index] ? Color(widget.routine.colorValue ?? Colors.blue.value) : Colors.transparent,
               ),
               child: Center(
                 child: Text(

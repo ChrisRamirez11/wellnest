@@ -11,7 +11,7 @@ import 'package:wellnest/feature/small_routines/presentation/providers/current_s
 class SmallRoutineTile extends ConsumerStatefulWidget {
   final int index;
   final Routine routine;
-  
+
   const SmallRoutineTile({
     super.key,
     required this.index,
@@ -30,7 +30,9 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
 
   @override
   Widget build(BuildContext context) {
-    color = widget.routine.finished! ? Colors.brown : Colors.transparent;
+    color = widget.routine.finished!
+        ? Color(widget.routine.colorValue!).withAlpha(200)
+        : Colors.transparent;
     final dateNotifier = ref.watch(dateProvider);
     width = !flag ? size(context).width * 0.8 : size(context).width;
     return Stack(
@@ -40,20 +42,23 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
 
   Checkbox getCheckbox(DateProvider dateNotifier) {
     return Checkbox(
-      fillColor: WidgetStatePropertyAll(widget.routine.finished! ? ghostWhite.withAlpha(150) : null),
+      fillColor: WidgetStatePropertyAll(
+          widget.routine.finished! ? ghostWhite.withAlpha(150) : null),
       value: widget.routine.finished,
       onChanged: canUpdateCheckbox(
               ref.watch(currentSelectedDateProvider).currentSelectedDate)
           ? (value) async {
               setState(() {
-                scale = value! ? 1.05 : 0.95;
+                scale = value! ? 1.05 : 1.0;
               });
-              await Future.delayed(const Duration(milliseconds: 200));
+              await Future.delayed(const Duration(milliseconds: 150));
               setState(() {
                 scale = 1.0;
               });
-              //Handles the color change
-              color = value! ? Colors.brown : Colors.transparent;
+              // Handles the color change
+              color = value!
+                  ? Color(widget.routine.colorValue!).withAlpha(200)
+                  : Colors.transparent;
 
               dateNotifier.date!.routines[widget.index].finished = value;
               dateNotifier.date!.completedRoutineAmount =
@@ -81,9 +86,9 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
             children: [
               IconButton(
                   highlightColor: ghostWhite.withAlpha(100),
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.edit_square,
-                    color: ghostWhite,
+                    color: !flag ? ghostWhite : Colors.transparent,
                   ),
                   onPressed: () {
                     Navigator.push(
@@ -111,7 +116,7 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
       right: !flag ? width * 0.25 : 0,
       child: AnimatedScale(
         scale: scale,
-        duration: const Duration(milliseconds: 220),
+        duration: const Duration(milliseconds: 150),
         curve: Curves.linear,
         child: Card(
           shape:
@@ -120,8 +125,8 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: AnimatedContainer(
-            color: color,
-            duration: const Duration(milliseconds: 300),
+              color: color,
+              duration: const Duration(milliseconds: 250),
               padding: const EdgeInsets.all(20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -132,7 +137,7 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                       Padding(
                         padding: const EdgeInsets.only(left: 5),
                         child: AnimatedContainer(
-                          duration: Duration(milliseconds: 210),
+                          duration: Duration(milliseconds: 150),
                           width: flag
                               ? size(context).width * .50
                               : size(context).width * .30,
@@ -166,7 +171,7 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                       ),
                       const Expanded(child: SizedBox()),
                       IconButton(
-                        icon: const Icon(Icons.more_horiz, color: ghostWhite,),
+                        icon: const Icon(Icons.more_horiz, color: ghostWhite),
                         onPressed: () {
                           setState(() {
                             flag = !flag;
