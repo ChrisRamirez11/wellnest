@@ -71,7 +71,7 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
 
   Widget backContainer() {
     return Card(
-      color: obsidian,
+      color: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       margin: const EdgeInsets.all(10),
       child: ConstrainedBox(
@@ -149,23 +149,24 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                             textStyle: textTheme(context)
                                 .labelMedium!
                                 .copyWith(color: secondary),
-                            child: Text(widget.routine.name!,
+                            child: Text(
+                              widget.routine.name!,
                               // widget.routine.finished!
                               //     ? '  ${widget.routine.name!}${'\u00A0' * 2}'
                               //     : widget.routine.name!,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: textTheme(context).bodyLarge!.copyWith(
-                                  fontSize: 18,
-                                  color: widget.routine.finished!
-                                      ? ghostWhite.withAlpha(150)
-                                      : null,
-                                  decorationThickness: 2,
-                                  decorationStyle: TextDecorationStyle.solid,
-                                  // decoration: widget.routine.finished!
-                                  //     ? TextDecoration.lineThrough
-                                  //     : null
-                                      ),
+                                    fontSize: 18,
+                                    color: widget.routine.finished!
+                                        ? ghostWhite.withAlpha(150)
+                                        : null,
+                                    decorationThickness: 2,
+                                    decorationStyle: TextDecorationStyle.solid,
+                                    // decoration: widget.routine.finished!
+                                    //     ? TextDecoration.lineThrough
+                                    //     : null
+                                  ),
                             ),
                           ),
                         ),

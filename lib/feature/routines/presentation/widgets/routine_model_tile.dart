@@ -42,7 +42,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
 
   Widget backContainer() {
     return Card(
-      color: obsidian,
+      color: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       margin: const EdgeInsets.all(10),
       child: Container(
@@ -67,15 +67,19 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                         ),
                       ));
                 }),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(right: 4),
-              child: SizedBox(width: 40, child: Divider()),
+              child: SizedBox(
+                  width: 40,
+                  child: Divider(
+                    color: !flag ? ghostWhite : Colors.transparent,
+                  )),
             ),
             IconButton(
                 highlightColor: ghostWhite.withAlpha(100),
                 icon: Icon(
                   Icons.delete,
-                  color:  !flag ? ghostWhite : Colors.transparent,
+                  color: !flag ? ghostWhite : Colors.transparent,
                 ),
                 onPressed: () {
                   showDialog(
@@ -129,7 +133,8 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                         .watch(routineProvider)
                         .deleteRoutine(widget.routine.id!);
                     //deletes the routine for today if it exists
-                    await deleteRoutineDateToday(ref, Routine.fromModel(widget.routine));
+                    await deleteRoutineDateToday(
+                        ref, Routine.fromModel(widget.routine));
 
                     if (context.mounted) Navigator.of(context).pop();
                   },
@@ -155,7 +160,8 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
       left: 0,
       right: !flag ? width * 0.25 : 0,
       child: Card(
-        color: Color(widget.routine.colorValue ?? Colors.blue.value).withAlpha(200),
+        color: Color(widget.routine.colorValue ?? Colors.blue.value)
+            .withAlpha(200),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         margin: const EdgeInsets.all(10),
         child: Container(
@@ -225,8 +231,9 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
             child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color:
-                    widget.routine.days[index] ? Color(widget.routine.colorValue ?? Colors.blue.value) : Colors.transparent,
+                color: widget.routine.days[index]
+                    ? Color(widget.routine.colorValue ?? Colors.blue.value)
+                    : Colors.transparent,
               ),
               child: Center(
                 child: Text(
