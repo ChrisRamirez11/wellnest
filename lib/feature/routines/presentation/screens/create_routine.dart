@@ -62,7 +62,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
     return Scaffold(
       bottomNavigationBar:
           getCreateButton(routineNotifier, context, dateNotifier),
-      appBar: CustomAppBar(titleString: 'NEW ROUTINE'),
+      appBar: CustomAppBar(titleString: localization(context).newRoutine.toUpperCase()),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -73,10 +73,10 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               TextField(
                 controller: _nameController,
                 textCapitalization: TextCapitalization.words,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   labelText: '',
-                  hintText: 'Routine name',
+                  hintText: localization(context).routineName,
                   errorBorder: OutlineInputBorder(borderSide: BorderSide.none),
                   focusedBorder:
                       OutlineInputBorder(borderSide: BorderSide.none),
@@ -91,7 +91,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               ),
               ListTile(
                 title: Text(
-                  'Select Color',
+                  localization(context).selectColor,
                   style:
                       textTheme(context).bodyLarge!.copyWith(color: ghostWhite),
                 ),
@@ -111,7 +111,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   child: FittedBox(
                     child: Text(
                       overflow: TextOverflow.ellipsis,
-                      'Select Week Days: ',
+                      '${localization(context).selectWeekDays} ',
                       maxLines: 1,
                       style: textTheme(context)
                           .bodyLarge!
@@ -227,7 +227,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
       child: CustomButton(
           color: primary,
           textColor: secondary,
-          text: 'SAVE',
+          text: localization(context).save.toUpperCase(),
           onClick: !loading
               ? () async {
                   setState(() {

@@ -225,7 +225,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                     Navigator.of(context).pop();
                   }
                 },
-                text: 'Log Out',
+                text: localization(context).logOut,
                 color: errorColor,
               ),
             ),
@@ -235,7 +235,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
               height: 50,
               child: CustomButton(
                 onClick: () => Navigator.of(context).pop(),
-                text: 'Cancel',
+                text: localization(context).cancel,
                 color: Colors.grey.shade600,
               ),
             ),

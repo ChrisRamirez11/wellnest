@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/ads/banner_ad.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
@@ -48,7 +49,7 @@ class _SmallRoutinesViewState extends State<SmallRoutinesView> {
             width: double.infinity,
             child: CustomButton(
               onClick: () => Navigator.of(context).pushNamed('/createRoutine'),
-              text: 'CREATE A NEW ROUTINE',
+              text: localization(context).createNewRoutine.toUpperCase(),
               icon: Icon(
                 Icons.add,
                 size: 30,

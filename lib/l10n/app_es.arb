@@ -1,5 +1,6 @@
 {
     "language": "Español",
+    "languageTitle": "Idioma",
     "calendar": "Calendario",
     "routines": "Rutinas",
     "me": "Yo",
@@ -10,11 +11,22 @@
     "about": "Sobre nosotros",
     "notifications": "Notificaciones",
     "signIn": "Iniciar sesión con Google",
-    "backupRestoreComment": "Inicia sesión para sincronizar y respaldar tus datos",
+    "backupRestoreComment": "Inicia sesión para sincronizar y guardar tus datos",
     "send": "Enviar",
     "feedbackComment": "Danos tu opinión o cualquier sugerencia",
     "save": "Guardar",
     "selectWeekDays": "Seleccionar días de la semana",
     "selectColor": "Seleccionar color",
-    "routineName": "Nombre de la rutina"
+    "routineName": "Nombre de la rutina",
+    "selectLanguage": "Seleccionar Idioma",
+    "goDeluxe": "Ve Premium",
+    "premiumUser": "Usuario Premium",
+    "deleteReoutineQuestion": "Desea eliminar esta rutina?",
+    "deleteReoutineAwareness": "Al eliminar esta rutina la removerá de su lista de rutinas.",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "logOut": "Cerrar Sesión",
+    "wellnestWhatIs": "Wellnest es una aplicación diseñada para ayudarte a gestionar tu bienestar y crecimiento presonal. Nuestra misión es proporcionarte las herramientas y recursos que necesitas para vivir una vida más saludable y feliz.",  
+    "whoWeAre": "Somos un equipo pequeño que intenta dar lo mejor de sí a nuestros usuarios. Tus comentarios e ideas son la base de nuestra innovación. Al compartir tus pensamientos, no solo estás usando Wellnest, sino que también estás ayudando a darle forma a su futuro. Los colaboradores como tú son reconocidos en nuestra lista de 'Contribuidores'.",
+    "supportUsWithIdeas": "¿Tienes una idea para mejorar Wellnest? ¡Nos encantaría escucharte! Contáctanos a través de nuestro buzón de sugerencias dentro de la aplicación."
 }

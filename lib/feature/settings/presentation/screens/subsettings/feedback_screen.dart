@@ -25,7 +25,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: CustomAppBar(
-          titleString: 'Feedback',
+          titleString: localization(context).feedback,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -41,7 +41,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     hintStyle: textTheme(context)
                         .bodyMedium!
                         .copyWith(color: Colors.grey),
-                    hintText: "Give us feedback or any suggestion.",
+                    hintText: localization(context).feedbackComment,
                     border: OutlineInputBorder(),
                   ),
                   minLines: orientation == Orientation.portrait ? 5 : 2,
@@ -91,7 +91,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 }
               }
             : null,
-        text: 'SEND',
+        text: localization(context).send.toUpperCase(),
       ),
     );
   }

@@ -8,6 +8,7 @@ import 'package:wellnest/feature/ads/banner_ad.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/google_native_signin.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/profile_provider.dart';
 import 'package:wellnest/feature/settings/presentation/widgets/go_deluxe_button.dart';
+import 'package:wellnest/feature/settings/presentation/widgets/language_selection_dialog.dart';
 import 'package:wellnest/feature/settings/presentation/widgets/user_signed_button.dart';
 import 'package:wellnest/main.dart';
 
@@ -32,7 +33,9 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
             getSignInBox(context),
             getGoDeluxeButton(),
             getSettigsBox(context),
-            BannerAdWidget(cardColor: _cardColor,)
+            BannerAdWidget(
+              cardColor: _cardColor,
+            )
           ],
         ),
       ),
@@ -61,7 +64,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
                   child: ListTile(
                     minTileHeight: 70,
                     title: Text(
-                      'Google Sign In',
+                      localization(context).signIn,
                       style: textTheme(context).bodyLarge,
                     ),
                     subtitle: Align(
@@ -70,7 +73,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
                         height: 20,
                         child: FittedBox(
                             child: Text(
-                          'Sign in to sync and backup data',
+                          localization(context).backupRestoreComment,
                           style: textTheme(context)
                               .bodyMedium!
                               .copyWith(color: Colors.grey),
@@ -105,10 +108,25 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
             ListTile(
               minTileHeight: 70,
               leading: Icon(
+                Icons.translate,
+              ),
+              title: Text(
+                localization(context).languageTitle,
+                style: textTheme(context).bodyMedium,
+              ),
+              onTap: () => showDialog(
+                context: context,
+                builder: (context) => LanguageSelectionDialog(),
+              ),
+            ),
+            getDivider(),
+            ListTile(
+              minTileHeight: 70,
+              leading: Icon(
                 Icons.hub,
               ),
               title: Text(
-                'Contributors',
+                localization(context).contributors,
                 style: textTheme(context).bodyMedium,
               ),
               onTap: () => Navigator.pushNamed(context, '/community'),
@@ -120,7 +138,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
                 Icons.feedback,
               ),
               title: Text(
-                'Feedback',
+                localization(context).feedback,
                 style: textTheme(context).bodyMedium,
               ),
               onTap: () => Navigator.pushNamed(context, '/feedback'),
@@ -132,7 +150,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
                 Icons.info,
               ),
               title: Text(
-                'About Us',
+                localization(context).about,
                 style: textTheme(context).bodyMedium,
               ),
               onTap: () => Navigator.pushNamed(context, '/about'),
@@ -161,7 +179,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
         size: 25,
       ),
       title: Text(
-        'Notifications',
+        localization(context).notifications,
         style: textTheme(context).bodyMedium,
       ),
       trailing: Switch(

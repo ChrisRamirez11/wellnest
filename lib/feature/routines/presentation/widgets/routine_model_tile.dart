@@ -96,14 +96,14 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
   SimpleDialog getDeletionDialog(BuildContext context) {
     return SimpleDialog(
       title: Text(
-        'Are you sure to delete this routine?',
+        localization(context).deleteReoutineQuestion,
         style: textTheme(context).bodyMedium,
       ),
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
-            'Deleting this routine will simply remove it from your routines list.',
+            localization(context).deleteReoutineAwareness,
             style: textTheme(context).bodySmall!.copyWith(color: Colors.grey),
           ),
         ),
@@ -114,7 +114,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
               TextButton(
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text(
-                    'Cancel',
+                    localization(context).cancel,
                     style: textTheme(context).bodyMedium,
                   )),
               Spacer(),
@@ -139,7 +139,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                     if (context.mounted) Navigator.of(context).pop();
                   },
                   child: Text(
-                    'Delete',
+                    localization(context).delete,
                     style: textTheme(context)
                         .bodyMedium!
                         .copyWith(color: errorColor),

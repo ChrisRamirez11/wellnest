@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/widgets/custom_app_bar.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/feature/routines/presentation/widgets/routine_model_tile.dart';
@@ -35,7 +36,7 @@ class RoutinesScreen extends ConsumerWidget {
 
     final showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
     return Scaffold(
-      appBar: CustomAppBar(titleString: 'ROUTINES'),
+      appBar: CustomAppBar(titleString: localization(context).routines.toUpperCase()),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: showFab ? const CustomFab() : const SizedBox(),
       body: widget,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/widgets/custom_app_bar.dart';
 import 'package:wellnest/feature/settings/data/datasources/community_list.dart';
 
@@ -9,7 +10,7 @@ class CommunityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      appBar: CustomAppBar(titleString: 'Contributors'),
+      appBar: CustomAppBar(titleString: localization(context).contributors),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView.builder(

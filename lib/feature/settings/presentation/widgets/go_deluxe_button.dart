@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/global_providers/is_premium_user_provider.dart';
 import 'package:wellnest/core/utils/show_paywall.dart';
+import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
 
 class GoDeluxeButton extends ConsumerWidget {
@@ -31,7 +32,9 @@ class GoDeluxeButton extends ConsumerWidget {
                       color: Colors.white,
                     ),
               onClick: showPaywall,
-              text: !isPremium ? 'GO DELUXE' : 'DELUXE USER',
+              text: !isPremium
+                  ? localization(context).goDeluxe.toUpperCase()
+                  : localization(context).premiumUser.toUpperCase(),
               color: !isPremium ? Colors.blue : gold,
             ))
         : SizedBox.shrink();

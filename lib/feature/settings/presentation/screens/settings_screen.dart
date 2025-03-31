@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/widgets/custom_app_bar.dart';
 import 'package:wellnest/feature/settings/presentation/widgets/settings_body.dart';
 
@@ -8,6 +9,6 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(titleString: 'ME'), body: const SettingsBody(),);
+      appBar: CustomAppBar(titleString: localization(context).me.toUpperCase()), body: const SettingsBody(),);
   }
 }
