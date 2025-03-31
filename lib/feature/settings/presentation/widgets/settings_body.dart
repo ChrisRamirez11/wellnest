@@ -118,6 +118,10 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
                 context: context,
                 builder: (context) => LanguageSelectionDialog(),
               ),
+              trailing: Text(
+                localization(context).language,
+                style: textTheme(context).bodySmall,
+              ),
             ),
             getDivider(),
             ListTile(
