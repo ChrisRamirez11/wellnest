@@ -1,0 +1,20 @@
+{
+    "language": "Español",
+    "calendar": "Calendario",
+    "routines": "Rutinas",
+    "me": "Yo",
+    "createNewRoutine": "Crear nueva rutina",
+    "newRoutine": "Nueva rutina",
+    "contributors": "Contribuidores",
+    "feedback": "Comentarios",
+    "about": "Sobre nosotros",
+    "notifications": "Notificaciones",
+    "signIn": "Iniciar sesión con Google",
+    "backupRestoreComment": "Inicia sesión para sincronizar y respaldar tus datos",
+    "send": "Enviar",
+    "feedbackComment": "Danos tu opinión o cualquier sugerencia",
+    "save": "Guardar",
+    "selectWeekDays": "Seleccionar días de la semana",
+    "selectColor": "Seleccionar color",
+    "routineName": "Nombre de la rutina"
+}

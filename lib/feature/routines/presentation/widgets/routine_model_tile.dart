@@ -154,7 +154,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
   Widget frontContainer(
       WidgetRef ref, DateProvider dateNotifier, BuildContext context) {
     return AnimatedPositioned(
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 150),
       bottom: 0,
       top: 0,
       left: 0,

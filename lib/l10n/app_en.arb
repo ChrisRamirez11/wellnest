@@ -1,0 +1,74 @@
+{
+    "language": "English",
+    "@language": {
+        "description": "The current language"
+    },
+    "calendar": "Calendar",
+    "@calendar": {
+        "description": "The calendar appbar title"
+    },
+    "routines": "Routines",
+    "@routines": {
+        "description": "The routines appbar title"
+    },
+    "me": "Me",
+    "@me": {
+        "description": "The me appbar title"
+    },
+    "createNewRoutine": "Create New Routine",
+    "@createNewRoutine": {
+        "description": "Create a new routine button"
+    },
+    "newRoutine": "New Routine",
+    "@newRoutine": {
+        "description": "New routine appbar title"
+    },
+    "contributors": "Contributors",
+    "@contributors": {
+        "description": "Contributors title"
+    },
+    "feedback": "Feedback",
+    "@feedback": {
+        "description": "Feedback title"
+    },
+    "about": "About Us",
+    "@about": {
+        "description": "About Us title"
+    },
+    "notifications": "Notifications",
+    "@notifications": {
+        "description": "Notifications title"
+    },
+    "signIn": "Google Sign In",
+    "@signIn": {
+        "description": "Google Sign In title"
+    },
+    "backupRestoreComment": "Sign in to sync and backup data",
+    "@backupRestoreComment": {
+        "description": "backupRestoreComment title"
+    },
+    "send": "Send",
+    "@send": {
+        "description": "Send button"
+    },
+    "feedbackComment": "Give us feedback or any suggestion.",
+    "@feedbackComment": {
+        "description": "Feedback or suggestion comment"
+    },
+    "save": "Save",
+    "@save": {
+        "description": "Save button"
+    },
+    "selectWeekDays": "Select Week Days",
+    "@selectWeekDays": {
+        "description": "Select Week Days"
+    },
+    "selectColor": "Select Color",
+    "@selectColor": {
+        "description": "Select Color"
+    },
+    "routineName": "Routine name",
+    "@routineName": {
+        "description": "Routine name"
+    }
+}

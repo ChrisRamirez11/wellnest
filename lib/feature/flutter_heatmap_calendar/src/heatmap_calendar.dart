@@ -280,7 +280,7 @@ class _HeatMapCalendar extends State<HeatMapCalendar> {
             ),
           )
         ],
-        titleString: 'CALENDAR',
+        titleString: localization(context).calendar.toUpperCase(),
       ),
       floatingActionButton: getFab(),
       floatingActionButtonLocation:

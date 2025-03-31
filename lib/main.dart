@@ -1,5 +1,6 @@
 import 'package:wellnest/core/utils/is_premium_user_provider.dart';
 import 'package:wellnest/purchase_observer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'main_imports.dart';
 
@@ -69,9 +70,15 @@ class _MyAppState extends ConsumerState<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'WellNest',
+
       theme: theme,
       darkTheme: themeDark,
       themeMode: ThemeMode.dark,
+
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: const Locale('en'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+
       initialRoute: '/',
       routes: {
         '/': (context) => const Skeleton(),

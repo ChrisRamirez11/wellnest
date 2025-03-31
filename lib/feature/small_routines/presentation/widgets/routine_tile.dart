@@ -109,7 +109,7 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
   Widget frontContainer(
       WidgetRef ref, DateProvider dateNotifier, BuildContext context) {
     return AnimatedPositioned(
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 150),
       bottom: 0,
       top: 0,
       left: 0,
@@ -154,7 +154,7 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                               // widget.routine.finished!
                               //     ? '  ${widget.routine.name!}${'\u00A0' * 2}'
                               //     : widget.routine.name!,
-                              maxLines: 2,
+                              maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: textTheme(context).bodyLarge!.copyWith(
                                     fontSize: 18,

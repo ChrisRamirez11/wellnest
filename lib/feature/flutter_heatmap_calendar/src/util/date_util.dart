@@ -18,23 +18,7 @@ class DateUtil {
     'November',
     'December',
   ];
-
-  static const List<String> SHORT_MONTH_LABEL = [
-    '',
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-
+  
   static const List<String> WEEK_LABEL = [
     '',
     'Sun',
