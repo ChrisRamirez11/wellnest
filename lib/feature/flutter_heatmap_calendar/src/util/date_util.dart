@@ -1,34 +1,31 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:wellnest/core/global_providers/locale_provider.dart';
+import 'package:wellnest/core/utils/capitalize_first_letter.dart';
+
 class DateUtil {
+  final WidgetRef ref;
+  late final String locale;
+
+  DateUtil(this.ref) {
+    locale = ref.watch(localeProvider).locale; // Access the locale from the provider
+  }
+
   static const int DAYS_IN_WEEK = 7;
 
-  static const List<String> MONTH_LABEL = [
-    '',
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-  
-  static const List<String> WEEK_LABEL = [
-    '',
-    'Sun',
-    'Mon',
-    'Tue',
-    'Wed',
-    'Thu',
-    'Fri',
-    'Sat',
-  ];
+  // Get localized month names
+  List<String> get monthLabel => List.generate(12, (index) {
+    return capitalizeFirstLetter(
+        DateFormat.MMMM(locale).format(DateTime(2024, index + 1, 1)));
+  });
+
+  // Get localized weekday names (starting from Monday, only first 3 letters)
+  List<String> get weekLabel => List.generate(7, (index) {
+    String shortName = DateFormat.EEEE(locale).format(DateTime(2024, 1, index));
+    return capitalizeFirstLetter(shortName).substring(0, 3);
+  });
 
   /// Get start day of month.
   static DateTime startDayOfMonth(final DateTime referenceDate) =>

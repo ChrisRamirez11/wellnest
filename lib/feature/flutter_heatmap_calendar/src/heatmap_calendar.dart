@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/widgets/custom_app_bar.dart';
@@ -9,7 +10,7 @@ import 'widget/heatmap_color_tip.dart';
 import 'util/date_util.dart';
 import 'util/widget_util.dart';
 
-class HeatMapCalendar extends StatefulWidget {
+class HeatMapCalendar extends ConsumerStatefulWidget {
   /// The datasets which fill blocks based on its value.
   final Map<DateTime, int>? datasets;
 
@@ -139,10 +140,10 @@ class HeatMapCalendar extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() => _HeatMapCalendar();
+  ConsumerState<HeatMapCalendar> createState() => _HeatMapCalendar();
 }
 
-class _HeatMapCalendar extends State<HeatMapCalendar> {
+class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
   // The DateTime value of first day of the current month.
   DateTime? _currentDate;
   bool _showReturnToToday = false;
@@ -204,8 +205,10 @@ class _HeatMapCalendar extends State<HeatMapCalendar> {
         ),
 
         // Text which shows the current year and month
+        //If currentDate isn't null and month is valid then show the month name and year, otherwise show empty string.
+        // This shows the month and year in a format like "January 2022", "February 2023" etc.
         Text(
-          '${DateUtil.MONTH_LABEL[_currentDate?.month ?? 0]} ${_currentDate?.year}',
+          '${_currentDate?.month != null ? DateUtil(ref).monthLabel[_currentDate!.month - 1] : ''} ${_currentDate?.year}',
           style: TextStyle(
             fontSize: widget.monthFontSize ?? 12,
           ),
@@ -227,7 +230,7 @@ class _HeatMapCalendar extends State<HeatMapCalendar> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        for (String label in DateUtil.WEEK_LABEL.skip(1))
+        for (String label in DateUtil(ref).weekLabel)
           WidgetUtil.flexibleContainer(
             widget.flexible ?? false,
             false,
@@ -388,8 +391,9 @@ class _HeatMapCalendar extends State<HeatMapCalendar> {
               FittedBox(
                 child: Text(
                   'TODAY',
-                  style:
-                      textTheme(context).bodyMedium!.copyWith(color: ghostWhite),
+                  style: textTheme(context)
+                      .bodyMedium!
+                      .copyWith(color: ghostWhite),
                 ),
               ),
             ],

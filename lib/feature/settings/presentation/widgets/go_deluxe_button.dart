@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:wellnest/core/theme/theme.dart';
-import 'package:wellnest/core/utils/is_premium_user_provider.dart';
+import 'package:wellnest/core/global_providers/is_premium_user_provider.dart';
 import 'package:wellnest/core/utils/show_paywall.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
 

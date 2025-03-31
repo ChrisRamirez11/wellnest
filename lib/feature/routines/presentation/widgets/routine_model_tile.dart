@@ -237,7 +237,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
               ),
               child: Center(
                 child: Text(
-                  DateUtil.WEEK_LABEL[index + 1][0].toUpperCase(),
+                  DateUtil(ref).weekLabel[index][0].toUpperCase(),
                   style:
                       textTheme(context).bodySmall!.copyWith(color: secondary),
                 ),

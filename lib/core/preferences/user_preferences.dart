@@ -53,4 +53,12 @@ class UserPreferences {
   bool get notiOption {
     return _prefs.getBool('NotiSetted') ?? true;
   }
+
+  set locale(String value) {
+    _prefs.setString('locale', value);
+  }
+
+  String get locale {
+    return _prefs.getString('locale') ?? 'en';
+  }
 }

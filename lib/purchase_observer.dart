@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wellnest/core/consts/consts.dart';
-import 'package:wellnest/core/utils/is_premium_user_provider.dart';
+import 'package:wellnest/core/global_providers/is_premium_user_provider.dart';
 
 class PurchasesObserver implements AdaptyUIObserver {
   void Function(AdaptyError)? onAdaptyErrorOccurred;

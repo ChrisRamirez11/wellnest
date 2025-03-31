@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
-import 'package:wellnest/core/utils/is_premium_user_provider.dart';
+import 'package:wellnest/core/global_providers/is_premium_user_provider.dart';
 import 'package:wellnest/core/utils/show_paywall.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
@@ -205,7 +205,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   ),
                   child: Center(
                     child: Text(
-                      DateUtil.WEEK_LABEL[index + 1][0].toUpperCase(),
+                      DateUtil(ref).weekLabel[index][0].toUpperCase(),
                       style: textTheme(context)
                           .bodyMedium!
                           .copyWith(color: secondary),

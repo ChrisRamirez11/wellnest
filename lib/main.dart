@@ -1,4 +1,6 @@
-import 'package:wellnest/core/utils/is_premium_user_provider.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:wellnest/core/global_providers/is_premium_user_provider.dart';
+import 'package:wellnest/core/global_providers/locale_provider.dart';
 import 'package:wellnest/purchase_observer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -59,6 +61,11 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   Future<void> didChangeDependencies() async {
+    // Set your desired locale
+    String locale = ref.watch(localeProvider).locale; // Spanish
+    // Initialize locale data
+    await initializeDateFormatting(locale, null);
+
     final isPremiumNotifier = ref.watch(isPremiumUser);
     await isPremiumNotifier.premiumSetter();
 
@@ -70,15 +77,13 @@ class _MyAppState extends ConsumerState<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'WellNest',
-
       theme: theme,
       darkTheme: themeDark,
       themeMode: ThemeMode.dark,
-
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('en'),
+      locale: Locale(
+          ref.watch(localeProvider).locale), // Use the locale from provider
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-
       initialRoute: '/',
       routes: {
         '/': (context) => const Skeleton(),

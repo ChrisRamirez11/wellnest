@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:wellnest/core/helper/ad_helper.dart';
-import 'package:wellnest/core/utils/is_premium_user_provider.dart';
+import 'package:wellnest/core/global_providers/is_premium_user_provider.dart';
 
 class BannerAdWidget extends ConsumerStatefulWidget {
   final Color? cardColor;
