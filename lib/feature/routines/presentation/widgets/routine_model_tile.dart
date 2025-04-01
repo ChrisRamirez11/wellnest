@@ -161,7 +161,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
       right: !flag ? width * 0.25 : 0,
       child: Card(
         color: Color(widget.routine.colorValue ?? Colors.blue.value)
-            .withAlpha(200),
+            .withAlpha(170),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         margin: const EdgeInsets.all(10),
         child: Container(
@@ -233,13 +233,15 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                 shape: BoxShape.circle,
                 color: widget.routine.days[index]
                     ? Color(widget.routine.colorValue ?? Colors.blue.value)
+                        .withAlpha(120)
                     : Colors.transparent,
               ),
               child: Center(
                 child: Text(
                   DateUtil(ref).weekLabel[index][0].toUpperCase(),
-                  style:
-                      textTheme(context).bodySmall!.copyWith(color: secondary),
+                  style: textTheme(context).bodySmall!.copyWith(
+                        color: secondary,
+                      ),
                 ),
               ),
             ),
