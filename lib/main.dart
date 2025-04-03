@@ -4,8 +4,22 @@ import 'package:wellnest/core/global_providers/locale_provider.dart';
 import 'package:wellnest/feature/onboarding/presentation/screens/onboarding.dart';
 import 'package:wellnest/purchase_observer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:wellnest/core/consts/consts.dart';
+import 'package:wellnest/core/notifications/noti_service.dart';
+import 'package:wellnest/core/preferences/user_preferences.dart';
+import 'package:wellnest/core/theme/theme.dart';
+import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
+import 'package:wellnest/feature/settings/presentation/screens/subsettings/about_us_screen.dart';
+import 'package:wellnest/feature/settings/presentation/screens/subsettings/community_screen.dart';
+import 'package:wellnest/feature/settings/presentation/screens/subsettings/feedback_screen.dart';
+import 'package:wellnest/feature/skeleton/presentation/screens/skeleton.dart';
 
-import 'main_imports.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

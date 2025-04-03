@@ -1,4 +1,6 @@
-import 'package:wellnest/main_imports.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/preferences/user_preferences.dart';
 
 final localeProvider =
     ChangeNotifierProvider<LocaleProvider>((ref) => LocaleProvider());

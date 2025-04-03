@@ -54,11 +54,35 @@ class UserPreferences {
     return _prefs.getBool('NotiSetted') ?? true;
   }
 
-  set locale(String value) {
-    _prefs.setString('locale', value);
+  set firstAppOpening(bool value) {
+    _prefs.setBool('firstOpening', value);
   }
 
-  String get locale {
-    return _prefs.getString('locale') ?? 'en';
+  bool get firstAppOpening {
+    return _prefs.getBool('firstOpening') ?? true;
+  }
+
+  set locale(String? value) {
+    _prefs.setString('locale', value!);
+  }
+
+  String? get locale {
+    return _prefs.getString('locale');
+  }
+
+  set startOfDay(String value) {
+    _prefs.setString('startOfDay', value);
+  }
+
+  String get startOfDay {
+    return _prefs.getString('startOfDay') ?? '06:00';
+  }
+
+  set endOfDay(String value) {
+    _prefs.setString('endOfDay', value);
+  }
+
+  String get endOfDay {
+    return _prefs.getString('endOfDay') ?? '06:00';
   }
 }
