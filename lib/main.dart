@@ -1,6 +1,7 @@
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:wellnest/core/global_providers/is_premium_user_provider.dart';
 import 'package:wellnest/core/global_providers/locale_provider.dart';
+import 'package:wellnest/feature/onboarding/presentation/screens/onboarding.dart';
 import 'package:wellnest/purchase_observer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -62,7 +63,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Future<void> didChangeDependencies() async {
     // Set your desired locale
-    String locale = ref.watch(localeProvider).locale; // Spanish
+    String? locale = ref.watch(localeProvider).locale?.languageCode; // Spanish
     // Initialize locale data
     await initializeDateFormatting(locale, null);
 
@@ -81,12 +82,13 @@ class _MyAppState extends ConsumerState<MyApp> {
       darkTheme: themeDark,
       themeMode: ThemeMode.dark,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: Locale(
-          ref.watch(localeProvider).locale), // Use the locale from provider
+      locale: ref.watch(localeProvider).locale, // Use the locale from provider
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      initialRoute: '/',
+      // initialRoute: ref.watch(firstTimeOpening).firstTimeOpening ? 'onboarding' : '/',
+      initialRoute: 'onboarding',
       routes: {
         '/': (context) => const Skeleton(),
+        'onboarding': (context) => OnboardingScreen(),
         '/createRoutine': (context) => const CreateRoutineScreen(),
         '/about': (context) => const AboutUsScreen(),
         '/feedback': (context) => FeedbackScreen(),

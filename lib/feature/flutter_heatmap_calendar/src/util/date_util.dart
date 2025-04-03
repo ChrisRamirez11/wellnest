@@ -7,10 +7,10 @@ import 'package:wellnest/core/utils/capitalize_first_letter.dart';
 
 class DateUtil {
   final WidgetRef ref;
-  late final String locale;
+  late final String? locale;
 
   DateUtil(this.ref) {
-    locale = ref.watch(localeProvider).locale; // Access the locale from the provider
+    locale = ref.watch(localeProvider).locale?.languageCode; // Access the locale from the provider
   }
 
   static const int DAYS_IN_WEEK = 7;

@@ -5,18 +5,18 @@ final localeProvider =
 
 class LocaleProvider extends ChangeNotifier {
   final prefs = UserPreferences();
-  late String _locale;
+  late Locale? _locale;
 
   LocaleProvider() {
-    _locale = prefs.locale;
+    _locale = prefs.locale != null ? Locale(prefs.locale!) : null;
   }
 
-  String get locale => _locale;
+  Locale? get locale => _locale;
 
-  void changeLocale(String newLocale) {
+  void changeLocale(String localeLanguageCode) {
     // This method changes the locale and updates the UserPreferences
-    _locale = newLocale;
-    prefs.locale = newLocale; // Update the stored locale
+    _locale = Locale(localeLanguageCode);
+    prefs.locale = localeLanguageCode; // Update the stored locale
     notifyListeners();
   }
 }
