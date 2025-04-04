@@ -21,14 +21,14 @@ class OnboardingPageOne extends ConsumerWidget {
         children: [
           SizedBox(height: 30,),
           Text(
-            'What time do you usually wake up?',
-            style: textTheme(context).bodyLarge,
+            localization(context).wakeUpQuestion,
+            style: textTheme(context).bodyLarge!.copyWith(fontSize: 25),
             textAlign: TextAlign.center,
           ),
           SizedBox(
             width: size(context).width * 0.6,
             child: Text(
-              'Choose the time you usually start a new day.',
+              localization(context).wakeUpMessage,
               style: textTheme(context).labelMedium,
               textAlign: TextAlign.center,
             ),

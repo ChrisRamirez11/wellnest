@@ -118,5 +118,21 @@
     "supportUsWithIdeas": "Have an idea to make Wellnest even better? We'd love to hear from you! Reach out to us through our in-app suggestion box.",
     "@supportUsWithIdeas": {
         "description": "Exhort to support with ideas or suggestions"
+    },
+    "wakeUpQuestion": "What time do you usually wake up?",
+    "@wakeUpQuestion": {
+        "description": "Question for onboarding, page 1, select wake up time."
+    },
+    "wakeUpMessage": "Choose the time you usually start a new day.",
+    "@wakeUpMessage": {
+        "description": "Message for onboarding, page 1."
+    },
+    "sleepQuestion": "What time do you usually end your day?",
+    "@sleepQuestion": {
+        "description": "Question for onboarding, page 2, select sleep time."
+    },
+    "sleepMessage": "Choose the time you usually end your day.",
+    "@sleepMessage": {
+        "description": "Message for onboarding, page 2."
     }
 }

@@ -23,14 +23,14 @@ class OnboardingPageTwo extends ConsumerWidget {
             height: 30,
           ),
           Text(
-            'What time do you usually end your day?',
-            style: textTheme(context).bodyLarge,
+            localization(context).sleepQuestion,
+            style: textTheme(context).bodyLarge!.copyWith(fontSize: 25),
             textAlign: TextAlign.center,
           ),
           SizedBox(
             width: size(context).width * 0.6,
             child: Text(
-              'Choose the time you usually end your day.',
+              localization(context).sleepMessage,
               style: textTheme(context).labelMedium,
               textAlign: TextAlign.center,
             ),
