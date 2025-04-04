@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -101,9 +99,8 @@ class NotiService {
   Future<List<PendingNotificationRequest>> checkScheduledNotis() async {
     final list = await notificationsPlugin.pendingNotificationRequests();
     
-    log(list.length.toString());
   for(var e in list){
-    log(e.body ?? 'xd');
+    debugPrint('cancelNotifications for: ${e.body ?? 'xd'}');
   }
     return list;
   }

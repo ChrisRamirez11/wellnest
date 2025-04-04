@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
 import 'package:wellnest/feature/onboarding/presentation/provider/first_app_opening.dart';
 import 'package:wellnest/feature/onboarding/presentation/widgets/onboarding_page_one.dart';
@@ -25,6 +26,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   @override
   void initState() {
     super.initState();
+    NotiService().cancelNotifications();
     _controller.addListener(() {
       setState(() {
         _currentPageIndex = _controller.page?.round() ?? 0;
@@ -36,15 +38,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-
-  @override
-  Future<void> didChangeDependencies() async {
-    super.didChangeDependencies();
-
-    if (mounted) {
-      ref.watch(firstTimeOpening).appOpened();
-    }
   }
 
   @override
@@ -83,7 +76,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   Padding getButtons(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(15),
-      child: _currentPageIndex != (_pages.length -1)
+      child: _currentPageIndex != (_pages.length - 1)
           ? CustomButton(
               color: primary,
               textColor: secondary,
@@ -98,6 +91,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               color: primary,
               textColor: secondary,
               onClick: () {
+                // when FINISH is hitted, is when it understands the first step of the app was succesful
+                ref.watch(firstTimeOpening).appOpened();
+                
                 Navigator.of(context).pushNamed('/');
               },
               text: 'FINISH'),
