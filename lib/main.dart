@@ -1,6 +1,7 @@
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:wellnest/core/global_providers/is_premium_user_provider.dart';
 import 'package:wellnest/core/global_providers/locale_provider.dart';
+import 'package:wellnest/feature/onboarding/presentation/provider/first_app_opening.dart';
 import 'package:wellnest/feature/onboarding/presentation/screens/onboarding.dart';
 import 'package:wellnest/purchase_observer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -98,8 +99,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       supportedLocales: AppLocalizations.supportedLocales,
       locale: ref.watch(localeProvider).locale, // Use the locale from provider
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      // initialRoute: ref.watch(firstTimeOpening).firstTimeOpening ? 'onboarding' : '/',
-      initialRoute: 'onboarding',
+      initialRoute: ref.watch(firstTimeOpening).firstTimeOpening ? 'onboarding' : '/',
       routes: {
         '/': (context) => const Skeleton(),
         'onboarding': (context) => OnboardingScreen(),
@@ -111,3 +111,5 @@ class _MyAppState extends ConsumerState<MyApp> {
     );
   }
 }
+
+//TODO screen for notifications where you can change the time you want to be notified
