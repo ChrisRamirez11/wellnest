@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/notifications/global_app_notification.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/notifications/notifications_provider.dart';
 import 'package:wellnest/core/theme/theme.dart';
@@ -195,19 +196,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
           value: ref.watch(notificationProvider).setted,
           onChanged: (value) async {
             if (value) {
-              await NotiService().scheduleNotification(
-                  title: 'Good Morning',
-                  body:
-                      'Review your daily routines and finish them as you go. Dont forget mark them as done',
-                  hour: 6,
-                  minute: 0);
-
-              await NotiService().scheduleNotification(
-                  title: 'Hey There',
-                  body:
-                      'End your day by reviewing unfinished tasks and wrapping them up.',
-                  hour: 17,
-                  minute: 0);
+              setGlobalAppNotification(ref);
               ref.watch(notificationProvider).changeValue(value);
             } else {
               NotiService().cancelNotifications();

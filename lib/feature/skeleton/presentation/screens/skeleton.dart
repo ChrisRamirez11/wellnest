@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:wellnest/core/notifications/global_app_notification.dart';
 import 'package:wellnest/core/notifications/notifications_provider.dart';
 import 'package:wellnest/feature/ads/app_open_ad/app_lifecycle.dart';
-import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/preferences/user_preferences.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
@@ -49,19 +49,8 @@ class _SkeletonState extends ConsumerState<Skeleton> {
 
     //scheduled notifications
     if (!prefs.firstTimeNotiSetted) {
-      await NotiService().scheduleNotification(
-          title: 'Good Morning',
-          body:
-              'Review your daily routines and finish them as you go. Dont forget mark them as done',
-          hour: 6,
-          minute: 0);
+      setGlobalAppNotification(ref);
 
-      await NotiService().scheduleNotification(
-          title: 'Hey There',
-          body:
-              'End your day by reviewing unfinished tasks and wrapping them up.',
-          hour: 17,
-          minute: 0);
       prefs.firstTimeNotiSetted = true;
       ref
           .watch(notificationProvider)
