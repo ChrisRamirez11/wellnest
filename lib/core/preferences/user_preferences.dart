@@ -83,6 +83,6 @@ class UserPreferences {
   }
 
   String get endOfDay {
-    return _prefs.getString('endOfDay') ?? '06:00';
+    return _prefs.getString('endOfDay') ?? '22:00';
   }
 }
