@@ -35,7 +35,7 @@ class GoDeluxeButton extends ConsumerWidget {
               text: !isPremium
                   ? localization(context).goDeluxe.toUpperCase()
                   : localization(context).premiumUser.toUpperCase(),
-              color: !isPremium ? Colors.blue : gold,
+              color: !isPremium ? gold.withAlpha(150) : gold.withAlpha(250),
             ))
         : SizedBox.shrink();
   }
