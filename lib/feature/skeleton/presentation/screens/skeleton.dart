@@ -34,7 +34,7 @@ class _SkeletonState extends ConsumerState<Skeleton> {
   @override
   void initState() {
     super.initState();
-    //TODO make this ad available agai for when the app have a lot of users
+    //TODO make this ad available again for when the app have a lot of users
     /*
     AppOpenAdManager appOpenAdManager = AppOpenAdManager()..loadAd();
     appLifecycleReactor = AppLifecycleReactor(
