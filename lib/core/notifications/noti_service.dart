@@ -100,7 +100,7 @@ class NotiService {
     final list = await notificationsPlugin.pendingNotificationRequests();
     
   for(var e in list){
-    debugPrint('cancelNotifications for: ${e.body ?? 'xd'}');
+    debugPrint('checkScheduledNotis for: ${e.body ?? 'xd'}');
   }
     return list;
   }

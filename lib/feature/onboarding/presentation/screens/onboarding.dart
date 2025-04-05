@@ -26,12 +26,17 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   @override
   void initState() {
     super.initState();
-    NotiService().cancelNotifications();
     _controller.addListener(() {
       setState(() {
         _currentPageIndex = _controller.page?.round() ?? 0;
       });
     });
+  }
+
+  @override
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+    await NotiService().cancelNotifications();
   }
 
   @override

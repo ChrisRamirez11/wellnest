@@ -49,7 +49,7 @@ class _SkeletonState extends ConsumerState<Skeleton> {
 
     //scheduled notifications
     if (!prefs.firstTimeNotiSetted) {
-      setGlobalAppNotification(ref);
+      await setGlobalAppNotification(ref);
 
       prefs.firstTimeNotiSetted = true;
       ref

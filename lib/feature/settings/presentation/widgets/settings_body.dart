@@ -196,7 +196,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
           value: ref.watch(notificationProvider).setted,
           onChanged: (value) async {
             if (value) {
-              setGlobalAppNotification(ref);
+              await setGlobalAppNotification(ref);
               ref.watch(notificationProvider).changeValue(value);
             } else {
               NotiService().cancelNotifications();
