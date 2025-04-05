@@ -94,7 +94,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 // when FINISH is hitted, is when it understands the first step of the app was succesful
                 ref.watch(firstTimeOpening).appOpened();
                 
-                Navigator.of(context).pushNamed('/');
+                Navigator.of(context).pushReplacementNamed('/');
               },
               text: 'FINISH'),
     );
