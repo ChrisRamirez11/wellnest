@@ -134,5 +134,21 @@
     "sleepMessage": "Choose the time you usually end your day.",
     "@sleepMessage": {
         "description": "Message for onboarding, page 2."
+    },
+    "morningNotiTitle": "Good Morning",
+    "@morningNotiTitle": {
+        "description": "Morning notification greeting"
+    },
+    "morningNotiBody": "Review your daily routines and finish them as you go. Don't forget mark them as done",
+    "@morningNotiBody": {
+        "description": "Morning notification body"
+    },
+    "nightNotiTitle": "Hey There",
+    "@nightNotiTitle": {
+        "description": "Night notification greeting"
+    },
+    "nightNotiBody": "End your day by reviewing unfinished tasks and wrapping them up.",
+    "@nightNotiBody": {
+        "description": "Night notification body"
     }
 }

@@ -32,5 +32,9 @@
     "wakeUpQuestion": "¿A qué hora sueles despertarte?",
     "wakeUpMessage": "Elige la hora en la que sueles comenzar el día.",
     "sleepQuestion": "¿A qué hora sueles acostarte?",
-    "sleepMessage": "Elige la hora en la que sueles terminar el día."
+    "sleepMessage": "Elige la hora en la que sueles terminar el día.",
+    "morningNotiTitle": "Buenos días",
+    "morningNotiBody": "Revisa tus rutinas diarias y complétalas sobre la marcha. No olvides marcarlas como hechas.",
+    "nightNotiTitle": "Hola",
+    "nightNotiBody": "Termina tu día revisando las tareas pendientes y finalizándolas."
 }

@@ -32,5 +32,9 @@
     "wakeUpQuestion": "普段何時に起きますか？",
     "wakeUpMessage": "一日を始める通常の時間を選んでください。",
     "sleepQuestion": "普段何時に寝ますか？",
-    "sleepMessage": "一日を終える通常の時間を選んでください。"
+    "sleepMessage": "一日を終える通常の時間を選んでください。",
+    "morningNotiTitle": "おはようございます",
+    "morningNotiBody": "日々のルーティンを確認し、進めながら完了させましょう。完了したらチェックを忘れずに。",
+    "nightNotiTitle": "こんばんは",
+    "nightNotiBody": "未完了のタスクを確認し、まとめて1日を終えましょう。"
 }
