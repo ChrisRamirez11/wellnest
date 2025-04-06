@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wellnest/core/global_providers/locale_provider.dart';
+import 'package:wellnest/core/notifications/global_app_notification.dart';
+import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/utils/utils.dart';
 
 class LanguageSelectionDialog extends ConsumerWidget {
@@ -28,14 +30,29 @@ class LanguageSelectionDialog extends ConsumerWidget {
                   getLanguageFromCode(AppLocalizations.supportedLocales[index]),
                   style: textTheme(context).labelMedium,
                 ),
-                trailing: ref.watch(localeProvider).locale ==
+                //if provider locale null, it'll compare with device's
+                trailing: (ref.watch(localeProvider).locale?.languageCode ??
+                            View.of(context)
+                                .platformDispatcher
+                                .locale
+                                .languageCode) ==
                         AppLocalizations.supportedLocales[index].languageCode
                     ? Icon(Icons.done)
                     : SizedBox.shrink(),
-                onTap: () {
+                onTap: () async {
+                  //Cancels all notifications
+                  await NotiService().cancelNotifications();
+
+                  //Changes the language
                   ref.watch(localeProvider).changeLocale(
                       AppLocalizations.supportedLocales[index].languageCode);
-                  Navigator.pop(context);
+
+                  //Sets again the notifications, so it's translated
+                  if (context.mounted) {
+                    await setGlobalAppNotification(ref, context);
+                  }
+                  
+                  if (context.mounted) Navigator.pop(context);
                 },
               ),
             ),

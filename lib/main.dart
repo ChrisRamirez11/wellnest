@@ -97,7 +97,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       darkTheme: themeDark,
       themeMode: ThemeMode.dark,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: ref.watch(localeProvider).locale, // Use the locale from provider
+      locale: ref.watch(localeProvider).locale, // Use the locale from provider, if null, uses device language as default
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       initialRoute: ref.watch(firstTimeOpening).firstTimeOpening ? 'onboarding' : '/',
       routes: {

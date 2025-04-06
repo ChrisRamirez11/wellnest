@@ -49,7 +49,7 @@ class _DigitalClockState extends State<DigitalClock> {
                 letterSpacing: 2,
                 shadows: [
                   Shadow(
-                    color: Colors.tealAccent.withOpacity(0.8),
+                    color: Colors.tealAccent.withValues(alpha: 0.8),
                     blurRadius: 10,
                   ),
                 ],
