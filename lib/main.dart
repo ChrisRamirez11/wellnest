@@ -3,6 +3,7 @@ import 'package:wellnest/core/global_providers/is_premium_user_provider.dart';
 import 'package:wellnest/core/global_providers/locale_provider.dart';
 import 'package:wellnest/feature/onboarding/presentation/provider/first_app_opening.dart';
 import 'package:wellnest/feature/onboarding/presentation/screens/onboarding.dart';
+import 'package:wellnest/feature/settings/presentation/screens/subsettings/notifications_screen.dart';
 import 'package:wellnest/purchase_observer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,6 @@ import 'package:wellnest/feature/settings/presentation/screens/subsettings/about
 import 'package:wellnest/feature/settings/presentation/screens/subsettings/community_screen.dart';
 import 'package:wellnest/feature/settings/presentation/screens/subsettings/feedback_screen.dart';
 import 'package:wellnest/feature/skeleton/presentation/screens/skeleton.dart';
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -90,24 +90,33 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'WellNest',
-      theme: theme,
-      darkTheme: themeDark,
-      themeMode: ThemeMode.dark,
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: ref.watch(localeProvider).locale, // Use the locale from provider, if null, uses device language as default
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      initialRoute: ref.watch(firstTimeOpening).firstTimeOpening ? 'onboarding' : '/',
-      routes: {
-        '/': (context) => const Skeleton(),
-        'onboarding': (context) => OnboardingScreen(),
-        '/createRoutine': (context) => const CreateRoutineScreen(),
-        '/about': (context) => const AboutUsScreen(),
-        '/feedback': (context) => FeedbackScreen(),
-        '/community': (context) => CommunityScreen(),
-      },
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(
+        alwaysUse24HourFormat: true,
+      ),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'WellNest',
+        theme: theme,
+        darkTheme: themeDark,
+        themeMode: ThemeMode.dark,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: ref
+            .watch(localeProvider)
+            .locale, // Use the locale from provider, if null, uses device language as default
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        initialRoute:
+            ref.watch(firstTimeOpening).firstTimeOpening ? 'onboarding' : '/',
+        routes: {
+          '/': (context) => const Skeleton(),
+          'onboarding': (context) => OnboardingScreen(),
+          '/createRoutine': (context) => const CreateRoutineScreen(),
+          '/about': (context) => const AboutUsScreen(),
+          '/feedback': (context) => FeedbackScreen(),
+          '/community': (context) => CommunityScreen(),
+          '/notifications': (context) => NotificationsScreen(),
+        },
+      ),
     );
   }
 }

@@ -19,7 +19,9 @@ class OnboardingPageOne extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         spacing: 16,
         children: [
-          SizedBox(height: 30,),
+          SizedBox(
+            height: 30,
+          ),
           Text(
             localization(context).wakeUpQuestion,
             style: textTheme(context).bodyLarge!.copyWith(fontSize: 25),
@@ -35,17 +37,28 @@ class OnboardingPageOne extends ConsumerWidget {
           ),
           Spacer(),
           DigitalClock(
-            selectedTime: startOfDayTime,
-            onPressed:  () async {
-              final time = await showTimePicker(
-                initialEntryMode: TimePickerEntryMode.input,
-                context: context,
-                initialTime: startOfDayTime,
-              );
-              if (time != null) {
-                timeOfDayNotifier.setStartOfDay(time);
-              }
-            }),
+              selectedTime: startOfDayTime,
+              onPressed: () async {
+                final time = await showTimePicker(
+                  builder: (context, child) {
+                    return Theme(
+                      data: Theme.of(context).copyWith(
+                        textTheme: TextTheme(
+                          labelLarge: TextStyle(
+                              fontSize: 15), // Ajusta el tamaño de fuente
+                        ),
+                      ),
+                      child: child!,
+                    );
+                  },
+                  initialEntryMode: TimePickerEntryMode.input,
+                  context: context,
+                  initialTime: startOfDayTime,
+                );
+                if (time != null) {
+                  timeOfDayNotifier.setStartOfDay(time);
+                }
+              }),
           Spacer(),
         ],
       ),

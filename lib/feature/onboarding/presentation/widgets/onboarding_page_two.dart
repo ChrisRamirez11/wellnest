@@ -39,6 +39,17 @@ class OnboardingPageTwo extends ConsumerWidget {
           DigitalClock(
               onPressed: () async {
                 final time = await showTimePicker(
+                  builder: (context, child) {
+                    return Theme(
+                      data: Theme.of(context).copyWith(
+                        textTheme: TextTheme(
+                          labelLarge: TextStyle(
+                              fontSize: 15), // Ajusta el tamaño de fuente
+                        ),
+                      ),
+                      child: child!,
+                    );
+                  },
                   initialEntryMode: TimePickerEntryMode.input,
                   context: context,
                   initialTime: endOfDayTime,
