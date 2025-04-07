@@ -36,5 +36,7 @@
     "morningNotiTitle": "おはようございます",
     "morningNotiBody": "日々のルーティンを確認し、進めながら完了させましょう。完了したらチェックを忘れずに。",
     "nightNotiTitle": "こんばんは",
-    "nightNotiBody": "未完了のタスクを確認し、まとめて1日を終えましょう。"
+    "nightNotiBody": "未完了のタスクを確認し、まとめて1日を終えましょう。",
+    "morningNoti": "朝の通知",
+    "nightNoti": "夜の通知"
 }

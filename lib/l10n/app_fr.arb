@@ -31,10 +31,12 @@
     "supportUsWithIdeas": "Vous avez une idée pour améliorer Wellnest ? Nous serions ravis de vous entendre ! Contactez-nous via notre boîte à suggestions dans l'application.",
     "wakeUpQuestion": "À quelle heure vous réveillez-vous habituellement ?",
     "wakeUpMessage": "Choisissez l'heure à laquelle vous commencez généralement votre journée.",
-    "sleepQuestion": "À quelle heure vous couchez-vous habituellement ?",
+    "sleepQuestion": "À quelle heure vous couchez-vous habituellement?",
     "sleepMessage": "Choisissez l'heure à laquelle vous terminez généralement votre journée.",
     "morningNotiTitle": "Bonjour",
     "morningNotiBody": "Passez en revue vos routines quotidiennes et terminez-les au fur et à mesure. N'oubliez pas de les marquer comme terminées.",
     "nightNotiTitle": "Bonsoir",
-    "nightNotiBody": "Terminez votre journée en examinant les tâches inachevées et en les finalisant."
+    "nightNotiBody": "Terminez votre journée en examinant les tâches inachevées et en les finalisant.",
+    "morningNoti": "Notification du matin",
+    "nightNoti": "Notification du soir"
 }

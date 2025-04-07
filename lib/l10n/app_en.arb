@@ -150,5 +150,13 @@
     "nightNotiBody": "End your day by reviewing unfinished tasks and wrapping them up.",
     "@nightNotiBody": {
         "description": "Night notification body"
+    },
+    "morningNoti": "Morning Notification",
+    "@morningNoti": {
+        "description": "Morning Notification"
+    },
+    "nightNoti": "Night Notification",
+    "@nightNoti": {
+        "description": "Night Notification"
     }
 }

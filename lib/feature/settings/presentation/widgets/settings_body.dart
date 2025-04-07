@@ -178,6 +178,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
 
   ListTile getNotificationsTile() {
     return ListTile(
+      onTap: () => Navigator.pushNamed(context, '/notifications'),
       minTileHeight: 70,
       leading: Icon(
         Icons.notifications,
@@ -187,22 +188,28 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
         localization(context).notifications,
         style: textTheme(context).bodyMedium,
       ),
-      trailing: Switch(
-          thumbIcon: WidgetStatePropertyAll(Icon(
-            ref.watch(notificationProvider).setted
-                ? Icons.notifications_active
-                : Icons.notifications_off,
-          )),
-          value: ref.watch(notificationProvider).setted,
-          onChanged: (value) async {
-            if (value) {
-              await setGlobalAppNotification(ref, context);
-              ref.watch(notificationProvider).changeValue(value);
-            } else {
-              NotiService().cancelNotifications();
-              ref.watch(notificationProvider).changeValue(value);
-            }
-          }),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Switch(
+              thumbIcon: WidgetStatePropertyAll(Icon(
+                ref.watch(notificationProvider).setted
+                    ? Icons.notifications_active
+                    : Icons.notifications_off,
+              )),
+              value: ref.watch(notificationProvider).setted,
+              onChanged: (value) async {
+                if (value) {
+                  await setGlobalAppNotification(ref, context);
+                  ref.watch(notificationProvider).changeValue(value);
+                } else {
+                  NotiService().cancelNotifications();
+                  ref.watch(notificationProvider).changeValue(value);
+                }
+              }),
+          Icon(Icons.arrow_forward_ios)
+        ],
+      ),
     );
   }
 }

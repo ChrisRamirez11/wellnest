@@ -36,5 +36,7 @@
     "morningNotiTitle": "Buenos días",
     "morningNotiBody": "Revisa tus rutinas diarias y complétalas sobre la marcha. No olvides marcarlas como hechas.",
     "nightNotiTitle": "Hola",
-    "nightNotiBody": "Termina tu día revisando las tareas pendientes y finalizándolas."
+    "nightNotiBody": "Termina tu día revisando las tareas pendientes y finalizándolas.",
+    "morningNoti": "Notificación Matutina",
+    "nightNoti": "Notificación Nocturna"
 }
