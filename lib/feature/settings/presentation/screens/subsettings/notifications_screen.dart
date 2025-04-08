@@ -56,7 +56,9 @@ class NotificationsScreen extends ConsumerWidget {
         _NotificationCard(
           icon: Icons.nights_stay_outlined,
           title: localization(context).nightNoti,
-          time: stringToTimeOfDay(timeNotifier.end),
+          time: TimeOfDay(
+              hour: ((stringToTimeOfDay(timeNotifier.end).hour - 2) % 24),
+              minute: stringToTimeOfDay(timeNotifier.end).minute),
           onPressed: () async {
             //TODO every timepicker will use a common time picker, no repeating the same thing so many times
             //shows the time picker

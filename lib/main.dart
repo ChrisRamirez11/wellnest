@@ -120,5 +120,3 @@ class _MyAppState extends ConsumerState<MyApp> {
     );
   }
 }
-
-//TODO screen for notifications where you can change the time you want to be notified

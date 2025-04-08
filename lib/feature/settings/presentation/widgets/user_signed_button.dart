@@ -55,7 +55,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
               ],
             ),
           );
-          //TODO if no connection, wont do and will show a no connection snackbar
+          //TODO if no connection, won't do and will show a no connection snackbar
           await ref.watch(dataProvider).backupRestore(ref);
 
           //updating the DateModel
