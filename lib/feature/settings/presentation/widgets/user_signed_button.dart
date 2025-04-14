@@ -70,7 +70,16 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                   date: selectedDateNotifier.currentSelectedDate,
                   routines: [],
                   completedRoutineAmount: 0));
+    /* no se por que estoy eliminando el datemodel si existe, lo que hay que probar es que si:
+    dateNotifier.date!.id == null{
+    await validateDateModel(ref.watch(routineProvider).routines!,
+                  selectedDateNotifier.currentSelectedDate, ref);
 
+    }
+    en vez de eliminar el date, porque creo que lo estaba eliminando por un conflicto al usar validateDateModel()
+
+    TODO test it
+    */
           if (dateNotifier.date!.id != null) {
             await dateNotifier.deleteDate(dateNotifier.date!.id!);
           }

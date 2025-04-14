@@ -102,7 +102,7 @@ class DataProvider extends ChangeNotifier {
 
     //if data not null will add the fetched data to local datas(eg. List<DateModel>)
     //GOOD TO KNOW that here is were really is backing up by adding data to the local
-    //! To avoid recovering deleted data, the back up just happens once, from there evrey time it will create the restore point
+    //! To avoid recovering deleted data, the back up just happens once, from there every time it will create the restore point
     //! so if you uninstall the app is when will only need to back it up.
     if (data != null && !preferences.backedupData) {
       for (var i = 0; i < data!.dates.length; i++) {
@@ -128,7 +128,7 @@ class DataProvider extends ChangeNotifier {
       preferences.backedupData = true;
     }
 
-    //updates data to how it should if is backing up or just creating the restore point
+    //updates data to how it should depending on if is backing up or just creating the restore point
     data = DataModel(
         id: data!.id,
         userId: userId,
@@ -156,8 +156,8 @@ class DataProvider extends ChangeNotifier {
     await ref.watch(dateProvider).upsertAllDates(dates);
 
     //updating the providers
-    await ref.watch(dateProvider).getDates();
     await ref.watch(routineProvider).getRoutines();
+    await ref.watch(dateProvider).getDates();
 
     notifyListeners();
     debugPrint('Backup and Restore Succesful');

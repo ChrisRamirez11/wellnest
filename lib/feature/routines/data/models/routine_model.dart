@@ -117,6 +117,7 @@ class RoutineModel {
     );
   }
 
+//TODO use it, if it fits
   bool _isCompleted() {
     switch (RoutineType.values.byName(type)) {
       case RoutineType.counted:
