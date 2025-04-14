@@ -79,6 +79,11 @@ class Routine {
   bool? finished;
   DateTime? createdDate;
   int? colorValue;
+  String? type;
+  int? targetCount;
+  int? currentCount;
+  int? targetDurationSeconds;
+  int? elapsedTimeSeconds;
 
   Routine({
     this.id,
@@ -87,57 +92,96 @@ class Routine {
     this.finished,
     this.createdDate,
     this.colorValue,
+    this.type,
+    this.targetCount,
+    this.currentCount,
+    this.targetDurationSeconds,
+    this.elapsedTimeSeconds,
   });
 
-  factory Routine.fromEntity(RoutineEntity routineEntity) => Routine(
-      id: routineEntity.id,
-      name: routineEntity.name,
-      days: routineEntity.days,
-      finished: routineEntity.finished,
-      createdDate: routineEntity.createdDate,
-      colorValue: routineEntity.colorValue ?? Colors.blue.value);
-
-  RoutineEntity toEntity() => RoutineEntity(
-      id: id,
-      name: name!,
-      days: days!,
-      finished: finished!,
-      createdDate: createdDate!,
-      colorValue: colorValue ?? Colors.blue.value);
-
-  factory Routine.fromModel(RoutineModel routineModel) => Routine(
-      id: routineModel.id,
-      name: routineModel.name,
-      days: routineModel.days,
-      finished: routineModel.finished,
-      createdDate: routineModel.createdDate,
-      colorValue: routineModel.colorValue ?? Colors.blue.value);
-
-  RoutineModel toModel() => RoutineModel(
-      id: id,
-      name: name!,
-      days: days!,
-      finished: finished!,
-      createdDate: createdDate!,
-      colorValue: colorValue ?? Colors.blue.value);
-
-  factory Routine.fromMap(Map<String, dynamic> map) => Routine(
-        id: map['id'],
-        name: map['name'] as String,
-        days: List<bool>.from((map['days'] as List)),
-        finished: map['finished'] as bool,
-        createdDate: DateTime.parse(map['createdDate']),
-        colorValue: map['colorValue'] as int,
+  factory Routine.fromModel(RoutineModel model) => Routine(
+        id: model.id,
+        name: model.name,
+        days: model.days,
+        finished: model.finished,
+        createdDate: model.createdDate,
+        colorValue: model.colorValue,
+        type: model.type,
+        targetCount: model.targetCount,
+        currentCount: model.currentCount,
+        targetDurationSeconds: model.targetDurationSeconds,
+        elapsedTimeSeconds: model.elapsedTimeSeconds,
       );
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'name': name,
-      'days': days,
-      'finished': finished,
-      'createdDate': createdDate!.toIso8601String(),
-      'colorValue': colorValue  ?? Colors.blue.value
-    };
-  }
+  factory Routine.fromEntity(RoutineEntity entity) => Routine(
+        id: entity.id,
+        name: entity.name,
+        days: entity.days,
+        finished: entity.finished,
+        createdDate: entity.createdDate,
+        colorValue: entity.colorValue,
+        type: entity.type,
+        targetCount: entity.targetCount,
+        currentCount: entity.currentCount,
+        targetDurationSeconds: entity.targetDuration,
+        elapsedTimeSeconds: entity.elapsedTime,
+      );
+
+  RoutineEntity toEntity() => RoutineEntity(
+        id: id,
+        name: name!,
+        days: days!,
+        finished: finished!,
+        createdDate: createdDate!,
+        colorValue: colorValue,
+        type: type!,
+        targetCount: targetCount,
+        currentCount: currentCount!,
+        targetDuration: targetDurationSeconds,
+        elapsedTime: elapsedTimeSeconds!,
+      );
+
+  RoutineModel toModel() => RoutineModel(
+        id: id,
+        name: name ?? 'Nueva Rutina',
+        days: days ?? List.filled(7, false),
+        finished: finished ?? false,
+        createdDate: createdDate ?? DateTime.now(),
+        colorValue: colorValue ?? Colors.blue.value,
+        type: type!,
+        targetCount: targetCount,
+        currentCount: currentCount ?? 0,
+        targetDurationSeconds: targetDurationSeconds,
+        elapsedTimeSeconds: elapsedTimeSeconds ?? 0,
+      );
+
+  factory Routine.fromMap(Map<String, dynamic> map) => Routine(
+        id: map['id'] as int?,
+        name: map['name'] as String?,
+        days: List<bool>.from(map['days'] as List? ?? []),
+        finished: map['finished'] as bool? ?? false,
+        createdDate: map['createdDate'] != null
+            ? DateTime.parse(map['createdDate'] as String)
+            : null,
+        colorValue: map['colorValue'] as int?,
+        type: map['type'] as String,
+        targetCount: map['targetCount'] as int?,
+        currentCount: map['currentCount'] as int? ?? 0,
+        targetDurationSeconds: map['targetDuration'] as int?,
+        elapsedTimeSeconds: map['elapsedTime'] as int? ?? 0,
+      );
+
+  Map<String, dynamic> toMap() => <String, dynamic>{
+        'id': id,
+        'name': name,
+        'days': days,
+        'finished': finished,
+        'createdDate': createdDate?.toIso8601String(),
+        'colorValue': colorValue,
+        'type': type,
+        'targetCount': targetCount,
+        'currentCount': currentCount,
+        'targetDuration': targetDurationSeconds,
+        'elapsedTime': elapsedTimeSeconds,
+      };
 }

@@ -1,5 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+
+// routine_type.dart
+enum RoutineType {
+  task,
+  timed,
+  counted;
+
+  String get name => toString().split('.').last;
+}
+// routine_entity.dart
 class RoutineEntity {
   int? id;
   String name;
@@ -7,7 +17,12 @@ class RoutineEntity {
   bool finished;
   DateTime createdDate;
   int? colorValue;
-  
+  String type;
+  int? targetCount;
+  int currentCount;
+  int? targetDuration;
+  int elapsedTime;
+
   RoutineEntity({
     this.id,
     required this.name,
@@ -15,5 +30,10 @@ class RoutineEntity {
     required this.finished,
     required this.createdDate,
     required this.colorValue,
+    required this.type,
+    this.targetCount,
+    this.currentCount = 0,
+    this.targetDuration,
+    this.elapsedTime = 0,
   });
 }
