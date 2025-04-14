@@ -77,6 +77,7 @@ flutter:
     - assets/lotties/
     - assets/images/
     - assets/app/
+    - assets/adapty/
   #   - images/a_dot_ham.jpeg
 
   # To add custom fonts to your application, add a fonts section here,

@@ -41,7 +41,7 @@ class PurchasesObserver implements AdaptyUIObserver {
         await Adapty().activate(
           configuration: AdaptyConfiguration(
               apiKey: Consts.adaptyKey)
-            ..withLogLevel(AdaptyLogLevel.debug)
+            ..withLogLevel(AdaptyLogLevel.error)
             ..withObserverMode(false)
             ..withCustomerUserId(null)
             ..withIpAddressCollectionDisabled(false)
@@ -77,8 +77,8 @@ class PurchasesObserver implements AdaptyUIObserver {
 
   Future<void> _setFallbackPaywalls() async {
     final assetId = Platform.isIOS
-        ? 'assets/fallback_ios.json'
-        : 'assets/fallback_android.json';
+        ? 'assets/adapty/fallback_ios.json'
+        : 'assets/adapty/fallback_android.json';
     return _withErrorHandling(() async {
       await adapty.setFallbackPaywalls(assetId);
     });
