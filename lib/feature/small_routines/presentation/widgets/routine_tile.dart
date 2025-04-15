@@ -77,7 +77,7 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
       child: ConstrainedBox(
         constraints: BoxConstraints(minHeight: 110, maxHeight: 200),
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(15),
           width: double.infinity,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -113,7 +113,7 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
       bottom: 0,
       top: 0,
       left: 0,
-      right: !flag ? width * 0.25 : 0,
+      right: !flag ? width * 0.20 : 0,
       child: AnimatedScale(
         scale: scale,
         duration: const Duration(milliseconds: 150),
