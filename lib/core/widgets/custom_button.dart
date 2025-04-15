@@ -7,15 +7,17 @@ class CustomButton extends StatelessWidget {
     required this.onClick,
     required this.text,
     this.textColor,
+    this.radius,
     this.color,
-    this.icon
+    this.icon,
   });
 
   final Function()? onClick;
-  final String text;
-  final Color? color;
   final Color? textColor;
+  final double? radius;
   final Widget? icon;
+  final Color? color;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +33,12 @@ class CustomButton extends StatelessWidget {
         style: ButtonStyle(
             backgroundColor: WidgetStatePropertyAll(color),
             shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100)))),
+                borderRadius: BorderRadius.circular(radius ?? 100)))),
         onPressed: onClick,
         label: FittedBox(
           child: Text(
             text,
-            style: textTheme(context)
-                .bodyLarge!
-                .copyWith(color: textColor),
+            style: textTheme(context).bodyLarge!.copyWith(color: textColor),
           ),
         ),
       ),

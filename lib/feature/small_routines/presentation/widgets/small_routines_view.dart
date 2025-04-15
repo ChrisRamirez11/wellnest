@@ -8,6 +8,8 @@ import 'package:wellnest/core/widgets/custom_button.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
 import 'package:wellnest/feature/small_routines/presentation/widgets/routine_tile.dart';
 
+const indentSize = 20.0;
+
 class SmallRoutinesView extends StatefulWidget {
   final DateModel dateModel;
 
@@ -21,12 +23,10 @@ class SmallRoutinesView extends StatefulWidget {
 }
 
 class _SmallRoutinesViewState extends State<SmallRoutinesView> {
-
-
   @override
   Widget build(BuildContext context) {
-      var list = <SmallRoutineTile>[];
-      
+    var list = <SmallRoutineTile>[];
+
     for (var i = 0; i < widget.dateModel.routines.length; i++) {
       list.add(SmallRoutineTile(
         routine: widget.dateModel.routines[i],
@@ -44,12 +44,20 @@ class _SmallRoutinesViewState extends State<SmallRoutinesView> {
       child: Column(
         children: [
           ...list,
+          list.isNotEmpty
+              ? Divider(
+                  endIndent: indentSize,
+                  indent: indentSize,
+                )
+              : SizedBox.shrink(),
           Container(
-            margin: EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 30),
+            margin: EdgeInsets.only(top: 10, bottom: 10, left: 35, right: 35),
             width: double.infinity,
             child: CustomButton(
               onClick: () => Navigator.of(context).pushNamed('/createRoutine'),
               text: localization(context).createNewRoutine.toUpperCase(),
+              radius: 10,
+              textColor: secondary,
               icon: Icon(
                 Icons.add,
                 size: 30,

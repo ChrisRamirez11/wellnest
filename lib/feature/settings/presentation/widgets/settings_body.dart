@@ -92,7 +92,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
 
   Widget getGoDeluxeButton() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: GoDeluxeButton(),
     );
   }

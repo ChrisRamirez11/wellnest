@@ -20,6 +20,7 @@ class GoDeluxeButton extends ConsumerWidget {
         ? SizedBox(
             width: double.infinity,
             child: CustomButton(
+              radius: 10,
               icon: !isPremium
                   ? Icon(
                       Icons.workspace_premium,
