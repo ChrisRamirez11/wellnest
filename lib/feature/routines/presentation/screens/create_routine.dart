@@ -323,6 +323,8 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               DateTime.now().year, DateTime.now().month, DateTime.now().day),
           routines: [],
           completedRoutineAmount: 0));
+
+      return;
     }
 
     final dateNow =
@@ -332,9 +334,13 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
         .first;
 
     //storing the routine finished value before removing it from dateModel
-    final routineSave = dateModel.routines.where(
-      (element) => element.id == routine.id,
-    ).firstOrNull?.finished ?? false;
+    final routineSave = dateModel.routines
+            .where(
+              (element) => element.id == routine.id,
+            )
+            .firstOrNull
+            ?.finished ??
+        false;
 
     dateModel.routines.removeWhere(
       (element) => element.id == routine.id,
