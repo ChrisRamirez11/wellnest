@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
+import 'package:wellnest/core/utils/format_duration.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
 import 'package:wellnest/core/widgets/custom_app_bar.dart';
@@ -38,6 +39,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   var loading = false;
   RoutineType _selectedType = RoutineType.task;
   late TextEditingController _targetController;
+  late Map<RoutineType, String> _targetValues;
 
   @override
   void initState() {
@@ -46,10 +48,20 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
     if (widget.routineModel == null) {
       _nameController = TextEditingController();
       _days = List.generate(7, (index) => false);
+      _targetValues = {
+        RoutineType.counted: widget.routineModel?.targetCount.toString() ?? '',
+        RoutineType.timed:
+            widget.routineModel?.targetDurationSeconds.toString() ?? '',
+      };
     } else {
       _days = widget.routineModel!.days;
       _nameController = TextEditingController(text: widget.routineModel!.name);
       _selectedType = RoutineType.values.byName(widget.routineModel!.type);
+      _targetValues = {
+        RoutineType.counted: widget.routineModel!.targetCount?.toString() ?? '',
+        RoutineType.timed:
+            widget.routineModel!.targetDurationSeconds?.toString() ?? '',
+      };
       _initializeTargetValue();
     }
   }
@@ -67,18 +79,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
 
   void _initializeTargetValue() {
     if (widget.routineModel != null) {
-      switch (_selectedType) {
-        case RoutineType.counted:
-          _targetController.text =
-              widget.routineModel!.targetCount?.toString() ?? '';
-          break;
-        case RoutineType.timed:
-          _targetController.text =
-              (widget.routineModel!.targetDurationSeconds ?? 0).toString();
-          break;
-        case RoutineType.task:
-          break;
-      }
+      _targetController.text = _targetValues[_selectedType] ?? '';
     }
   }
 
@@ -167,18 +168,12 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
             )),
             const SizedBox(width: 8),
             Expanded(
-                child: _buildTypeButton(
-              RoutineType.counted,
-              'Amount',
-              FontAwesomeIcons.circleArrowUp
-            )),
+                child: _buildTypeButton(RoutineType.counted, 'Amount',
+                    FontAwesomeIcons.circleArrowUp)),
             const SizedBox(width: 8),
             Expanded(
                 child: _buildTypeButton(
-              RoutineType.timed,
-              'Time',
-              FontAwesomeIcons.solidClock
-            )),
+                    RoutineType.timed, 'Time', FontAwesomeIcons.solidClock)),
           ],
         ),
       ],
@@ -193,9 +188,12 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
         textColor: isSelected ? ghostWhite : Colors.grey.shade600,
         radius: 10,
         onClick: () {
+          // Save current target before switching
+          _targetValues[_selectedType] = _targetController.text;
           setState(() {
             _selectedType = type;
-            _targetController.clear();
+            // Load new type's target
+            _targetController.text = _targetValues[type] ?? '';
           });
         },
         text: label);
@@ -250,28 +248,18 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   }
 
   RoutineModel _createRoutineModel(ColorProvider colorNotifier) {
-    final baseModel = RoutineModel(
-      id: widget.routineModel?.id,
-      name: _nameController.text,
-      days: _days,
-      createdDate: widget.routineModel?.createdDate ??
-          DateTime(
-              DateTime.now().year, DateTime.now().month, DateTime.now().day),
-      finished: false,
-      colorValue: colorNotifier.color.value,
-      type: _selectedType.name,
-    );
-
-    switch (_selectedType) {
-      case RoutineType.counted:
-        return baseModel.copyWith(
-            targetCount: int.tryParse(_targetController.text) ?? 1);
-      case RoutineType.timed:
-        return baseModel.copyWith(
-            targetDurationSeconds: int.tryParse(_targetController.text) ?? 0);
-      case RoutineType.task:
-        return baseModel;
-    }
+    return RoutineModel(
+        id: widget.routineModel?.id,
+        name: _nameController.text,
+        days: _days,
+        createdDate: widget.routineModel?.createdDate ??
+            DateTime(
+                DateTime.now().year, DateTime.now().month, DateTime.now().day),
+        finished: false,
+        colorValue: colorNotifier.color.value,
+        type: _selectedType.name,
+        targetCount: widget.routineModel?.targetCount ?? 1,
+        targetDurationSeconds: widget.routineModel?.targetDurationSeconds ?? 1);
   }
 
   void _showErrorSnackbar(BuildContext context) {
@@ -318,7 +306,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                 onClick: () => _showTimePicker(context),
                 text: _targetController.text.isEmpty
                     ? 'Select Duration'
-                    : _formatDuration(int.parse(_targetController.text)),
+                    : formatDuration(int.parse(_targetController.text)),
               ),
             ),
           ],
@@ -326,16 +314,6 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
       case RoutineType.task:
         return const SizedBox.shrink();
     }
-  }
-
-  String _formatDuration(int seconds) {
-    final hours = seconds ~/ 3600;
-    final minutes = (seconds % 3600) ~/ 60;
-    final secs = seconds % 60;
-
-    return '${hours.toString().padLeft(2, '0')}:'
-        '${minutes.toString().padLeft(2, '0')}:'
-        '${secs.toString().padLeft(2, '0')}';
   }
 
   void _showAmountPicker(BuildContext context) {
@@ -380,6 +358,9 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   onClick: () {
                     setState(() {
                       _targetController.text = currentValue.toString();
+                      _targetValues[_selectedType] =
+                          currentValue.toString(); // Update map
+                      widget.routineModel?.targetCount = currentValue;
                     });
                     Navigator.pop(context);
                   },
@@ -474,8 +455,11 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   text: 'Confirm',
                   onClick: () {
                     setState(() {
-                      _targetController.text =
-                          (hours * 3600 + minutes * 60 + seconds).toString();
+                      int totalSeconds = hours * 3600 + minutes * 60 + seconds;
+                      _targetController.text = totalSeconds.toString();
+                      _targetValues[_selectedType] =
+                          totalSeconds.toString(); // Update map
+                      widget.routineModel?.targetDurationSeconds = totalSeconds;
                     });
                     Navigator.pop(context);
                   },
