@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/global_providers/is_premium_user_provider.dart';
-import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/show_paywall.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/routines/presentation/providers/color_provider.dart';
@@ -17,7 +16,7 @@ class ColorSelectorTile extends ConsumerWidget {
     return ListTile(
       title: Text(
         localization(context).selectColor,
-        style: textTheme(context).bodyLarge!.copyWith(color: ghostWhite),
+        style: textTheme(context).bodyLarge!.copyWith(color: Colors.grey.shade400),
       ),
       trailing: Icon(Icons.arrow_forward_ios, size: 16),
       leading: CircleAvatar(

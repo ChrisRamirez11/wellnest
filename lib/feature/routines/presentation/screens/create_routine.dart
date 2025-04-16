@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
@@ -151,7 +152,9 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
       children: [
         Text(
           'Track',
-          style: textTheme(context).bodyMedium,
+          style: textTheme(context)
+              .bodyMedium!
+              .copyWith(color: Colors.grey.shade400),
         ),
         const SizedBox(height: 8),
         Row(
@@ -160,18 +163,21 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                 child: _buildTypeButton(
               RoutineType.task,
               'Task',
+              FontAwesomeIcons.solidCircleCheck,
             )),
             const SizedBox(width: 8),
             Expanded(
                 child: _buildTypeButton(
               RoutineType.counted,
               'Amount',
+              FontAwesomeIcons.circleArrowUp
             )),
             const SizedBox(width: 8),
             Expanded(
                 child: _buildTypeButton(
               RoutineType.timed,
               'Time',
+              FontAwesomeIcons.solidClock
             )),
           ],
         ),
@@ -179,26 +185,20 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
     );
   }
 
-  Widget _buildTypeButton(RoutineType type, String label) {
+  Widget _buildTypeButton(RoutineType type, String label, IconData icon) {
     final isSelected = _selectedType == type;
-    return OutlinedButton(
-      style: OutlinedButton.styleFrom(
-        backgroundColor: isSelected ? primary : Colors.transparent,
-        side: BorderSide(color: isSelected ? primary : Colors.grey),
-      ),
-      onPressed: () {
-        setState(() {
-          _selectedType = type;
-          _targetController.clear();
-        });
-      },
-      child: Text(
-        label,
-        style: textTheme(context).bodyMedium?.copyWith(
-              color: isSelected ? Colors.white : Colors.black,
-            ),
-      ),
-    );
+    return CustomButton(
+        icon: Icon(icon, color: isSelected ? ghostWhite : Colors.grey.shade600),
+        color: isSelected ? primary : null,
+        textColor: isSelected ? ghostWhite : Colors.grey.shade600,
+        radius: 10,
+        onClick: () {
+          setState(() {
+            _selectedType = type;
+            _targetController.clear();
+          });
+        },
+        text: label);
   }
 
   Widget getCreateButton(RoutineProvider routineNotifier, BuildContext context,
@@ -298,6 +298,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               child: CustomButton(
                   radius: 15,
                   onClick: () => _showAmountPicker(context),
+                  color: primary.withAlpha(200),
                   text: _targetController.text.isEmpty
                       ? 'Select Amount'
                       : '${_targetController.text} times'),
@@ -313,6 +314,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               width: double.infinity,
               child: CustomButton(
                 radius: 15,
+                color: primary.withAlpha(200),
                 onClick: () => _showTimePicker(context),
                 text: _targetController.text.isEmpty
                     ? 'Select Duration'
