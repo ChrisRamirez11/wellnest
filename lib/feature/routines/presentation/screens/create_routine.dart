@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
@@ -112,11 +113,10 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               ),
               const SizedBox(height: 20),
               _buildTypeSelector(),
-              const SizedBox(height: 20),
               _buildTargetInput(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 5),
               ColorSelectorTile(),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: Align(
@@ -146,27 +146,58 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   }
 
   Widget _buildTypeSelector() {
-    return DropdownButtonFormField<RoutineType>(
-      value: _selectedType,
-      decoration: InputDecoration(
-        labelText: 'localization(context).routineType',
-        border: OutlineInputBorder(),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Track',
+          style: textTheme(context).bodyMedium,
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Expanded(
+                child: _buildTypeButton(
+              RoutineType.task,
+              'Task',
+            )),
+            const SizedBox(width: 8),
+            Expanded(
+                child: _buildTypeButton(
+              RoutineType.counted,
+              'Amount',
+            )),
+            const SizedBox(width: 8),
+            Expanded(
+                child: _buildTypeButton(
+              RoutineType.timed,
+              'Time',
+            )),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTypeButton(RoutineType type, String label) {
+    final isSelected = _selectedType == type;
+    return OutlinedButton(
+      style: OutlinedButton.styleFrom(
+        backgroundColor: isSelected ? primary : Colors.transparent,
+        side: BorderSide(color: isSelected ? primary : Colors.grey),
       ),
-      items: RoutineType.values.map((type) {
-        return DropdownMenuItem<RoutineType>(
-          value: type,
-          child: Text(
-            type.name.toUpperCase(),
-            style: textTheme(context).bodyMedium,
-          ),
-        );
-      }).toList(),
-      onChanged: (value) {
+      onPressed: () {
         setState(() {
-          _selectedType = value!;
+          _selectedType = type;
           _targetController.clear();
         });
       },
+      child: Text(
+        label,
+        style: textTheme(context).bodyMedium?.copyWith(
+              color: isSelected ? Colors.white : Colors.black,
+            ),
+      ),
     );
   }
 
@@ -258,21 +289,201 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   Widget _buildTargetInput() {
     switch (_selectedType) {
       case RoutineType.counted:
-        return CustomTextField(
-          controller: _targetController,
-          label: 'localization(context).targetCount',
-          keyboardType: TextInputType.number,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              width: double.infinity,
+              child: CustomButton(
+                  radius: 15,
+                  onClick: () => _showAmountPicker(context),
+                  text: _targetController.text.isEmpty
+                      ? 'Select Amount'
+                      : '${_targetController.text} times'),
+            ),
+          ],
         );
       case RoutineType.timed:
-        return CustomTextField(
-          controller: _targetController,
-          label: 'localization(context).targetDurationSeconds',
-          keyboardType: TextInputType.number,
-          suffixText: 'localization(context).seconds',
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              width: double.infinity,
+              child: CustomButton(
+                radius: 15,
+                onClick: () => _showTimePicker(context),
+                text: _targetController.text.isEmpty
+                    ? 'Select Duration'
+                    : _formatDuration(int.parse(_targetController.text)),
+              ),
+            ),
+          ],
         );
       case RoutineType.task:
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
     }
+  }
+
+  String _formatDuration(int seconds) {
+    final hours = seconds ~/ 3600;
+    final minutes = (seconds % 3600) ~/ 60;
+    final secs = seconds % 60;
+
+    return '${hours.toString().padLeft(2, '0')}:'
+        '${minutes.toString().padLeft(2, '0')}:'
+        '${secs.toString().padLeft(2, '0')}';
+  }
+
+  void _showAmountPicker(BuildContext context) {
+    int currentValue = int.tryParse(_targetController.text) ?? 1;
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          height: 250,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  'Select Amount',
+                  style: textTheme(context).headlineSmall,
+                ),
+              ),
+              Expanded(
+                child: CupertinoPicker(
+                  itemExtent: 40,
+                  onSelectedItemChanged: (value) {
+                    currentValue = value + 1;
+                  },
+                  children: List<Widget>.generate(1000, (index) {
+                    return Center(
+                      child: Text(
+                        '${index + 1}',
+                        style: textTheme(context).bodyLarge,
+                      ),
+                    );
+                  }),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: CustomButton(
+                  color: primary,
+                  textColor: secondary,
+                  text: 'Confirm',
+                  onClick: () {
+                    setState(() {
+                      _targetController.text = currentValue.toString();
+                    });
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showTimePicker(BuildContext context) {
+    int totalSeconds = int.tryParse(_targetController.text) ?? 0;
+    int hours = totalSeconds ~/ 3600;
+    int minutes = (totalSeconds % 3600) ~/ 60;
+    int seconds = totalSeconds % 60;
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          height: 300,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  'Select Duration',
+                  style: textTheme(context).headlineSmall,
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: CupertinoPicker(
+                        itemExtent: 40,
+                        onSelectedItemChanged: (value) {
+                          hours = value;
+                        },
+                        children: List<Widget>.generate(24, (index) {
+                          return Center(
+                            child: Text(
+                              '${index.toString().padLeft(2, '0')}h',
+                              style: textTheme(context).bodyLarge,
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                    Expanded(
+                      child: CupertinoPicker(
+                        itemExtent: 40,
+                        onSelectedItemChanged: (value) {
+                          minutes = value;
+                        },
+                        children: List<Widget>.generate(60, (index) {
+                          return Center(
+                            child: Text(
+                              '${index.toString().padLeft(2, '0')}m',
+                              style: textTheme(context).bodyLarge,
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                    Expanded(
+                      child: CupertinoPicker(
+                        itemExtent: 40,
+                        onSelectedItemChanged: (value) {
+                          seconds = value;
+                        },
+                        children: List<Widget>.generate(60, (index) {
+                          return Center(
+                            child: Text(
+                              '${index.toString().padLeft(2, '0')}s',
+                              style: textTheme(context).bodyLarge,
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: CustomButton(
+                  color: primary,
+                  textColor: secondary,
+                  text: 'Confirm',
+                  onClick: () {
+                    setState(() {
+                      _targetController.text =
+                          (hours * 3600 + minutes * 60 + seconds).toString();
+                    });
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget weekDays(BuildContext context) {
