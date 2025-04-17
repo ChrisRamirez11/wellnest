@@ -45,23 +45,20 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   void initState() {
     super.initState();
     _targetController = TextEditingController();
+    _targetValues = {
+      RoutineType.counted: widget.routineModel?.targetCount.toString() ?? '1',
+      RoutineType.timed:
+          widget.routineModel?.targetDurationSeconds.toString() ?? '0',
+    };
+
     if (widget.routineModel == null) {
       _nameController = TextEditingController();
       _days = List.generate(7, (index) => false);
-      _targetValues = {
-        RoutineType.counted: widget.routineModel?.targetCount.toString() ?? '',
-        RoutineType.timed:
-            widget.routineModel?.targetDurationSeconds.toString() ?? '',
-      };
     } else {
       _days = widget.routineModel!.days;
       _nameController = TextEditingController(text: widget.routineModel!.name);
       _selectedType = RoutineType.values.byName(widget.routineModel!.type);
-      _targetValues = {
-        RoutineType.counted: widget.routineModel!.targetCount?.toString() ?? '',
-        RoutineType.timed:
-            widget.routineModel!.targetDurationSeconds?.toString() ?? '',
-      };
+
       _initializeTargetValue();
     }
   }
@@ -258,8 +255,12 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
         finished: false,
         colorValue: colorNotifier.color.value,
         type: _selectedType.name,
-        targetCount: widget.routineModel?.targetCount ?? 1,
-        targetDurationSeconds: widget.routineModel?.targetDurationSeconds ?? 1);
+        targetCount: _targetValues[_selectedType] != null
+            ? int.tryParse(_targetValues[_selectedType]!) ?? 1
+            : 1,
+        targetDurationSeconds: _targetValues[RoutineType.counted] != null
+            ? int.tryParse(_targetValues[RoutineType.timed]!) ?? 0
+            : 0);
   }
 
   void _showErrorSnackbar(BuildContext context) {
@@ -287,9 +288,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   radius: 15,
                   onClick: () => _showAmountPicker(context),
                   color: primary.withAlpha(200),
-                  text: _targetController.text.isEmpty
-                      ? 'Select Amount'
-                      : '${_targetController.text} times'),
+                  text: '${_targetController.text} times'),
             ),
           ],
         );
@@ -304,9 +303,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                 radius: 15,
                 color: primary.withAlpha(200),
                 onClick: () => _showTimePicker(context),
-                text: _targetController.text.isEmpty
-                    ? 'Select Duration'
-                    : formatDuration(int.parse(_targetController.text)),
+                text: formatDuration(int.parse(_targetController.text)),
               ),
             ),
           ],
@@ -335,6 +332,8 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               ),
               Expanded(
                 child: CupertinoPicker(
+                  scrollController: FixedExtentScrollController(
+                      initialItem: currentValue - 1),
                   itemExtent: 40,
                   onSelectedItemChanged: (value) {
                     currentValue = value + 1;
@@ -360,7 +359,6 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                       _targetController.text = currentValue.toString();
                       _targetValues[_selectedType] =
                           currentValue.toString(); // Update map
-                      widget.routineModel?.targetCount = currentValue;
                     });
                     Navigator.pop(context);
                   },
@@ -398,6 +396,8 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   children: [
                     Expanded(
                       child: CupertinoPicker(
+                        scrollController:
+                            FixedExtentScrollController(initialItem: hours),
                         itemExtent: 40,
                         onSelectedItemChanged: (value) {
                           hours = value;
@@ -414,6 +414,8 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                     ),
                     Expanded(
                       child: CupertinoPicker(
+                        scrollController:
+                            FixedExtentScrollController(initialItem: minutes),
                         itemExtent: 40,
                         onSelectedItemChanged: (value) {
                           minutes = value;
@@ -430,6 +432,8 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                     ),
                     Expanded(
                       child: CupertinoPicker(
+                        scrollController:
+                            FixedExtentScrollController(initialItem: seconds),
                         itemExtent: 40,
                         onSelectedItemChanged: (value) {
                           seconds = value;
@@ -455,11 +459,10 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   text: 'Confirm',
                   onClick: () {
                     setState(() {
-                      int totalSeconds = hours * 3600 + minutes * 60 + seconds;
+                      totalSeconds = hours * 3600 + minutes * 60 + seconds;
                       _targetController.text = totalSeconds.toString();
                       _targetValues[_selectedType] =
                           totalSeconds.toString(); // Update map
-                      widget.routineModel?.targetDurationSeconds = totalSeconds;
                     });
                     Navigator.pop(context);
                   },
@@ -531,7 +534,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
         .first;
 
     //storing the routine finished value before removing it from dateModel
-    final routineSave = dateModel.routines
+    final routineFinished = dateModel.routines
             .where(
               (element) => element.id == routine.id,
             )
@@ -545,11 +548,29 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
 
     for (int i = 0; i < routine.days.length; i++) {
       if (routine.days[i] && (adjustedWeekday(dateModel.date) == (i + 1))) {
-        routine.finished = routineSave;
+        routine.finished = _isCompleted(
+            routineFinished: routineFinished,
+            type: routine.type,
+            routine: routine);
         dateModel.routines.add(Routine.fromModel(routine));
       }
       dateModel.completedRoutineAmount = _getCompletedQuantity(dateNotifier);
       await dateNotifier.upsertDate(dateModel);
+    }
+  }
+
+  bool _isCompleted(
+      {required bool routineFinished,
+      required String type,
+      required RoutineModel routine}) {
+    switch (RoutineType.values.byName(type)) {
+      case RoutineType.counted:
+        return (routine.currentCount) >= (routine.targetCount ?? 1);
+      case RoutineType.timed:
+        return (routine.elapsedTimeSeconds) >=
+            (routine.targetDurationSeconds ?? 1);
+      case RoutineType.task:
+        return routine.finished;
     }
   }
 

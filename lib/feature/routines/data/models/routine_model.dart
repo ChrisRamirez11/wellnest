@@ -116,16 +116,4 @@ class RoutineModel {
       elapsedTimeSeconds: elapsedTimeSeconds ?? this.elapsedTimeSeconds,
     );
   }
-
-//TODO use it, if it fits
-  bool _isCompleted() {
-    switch (RoutineType.values.byName(type)) {
-      case RoutineType.counted:
-        return currentCount >= (targetCount ?? 1);
-      case RoutineType.timed:
-        return elapsedTimeSeconds >= (targetDurationSeconds ?? 0);
-      case RoutineType.task:
-        return finished;
-    }
-  }
 }
