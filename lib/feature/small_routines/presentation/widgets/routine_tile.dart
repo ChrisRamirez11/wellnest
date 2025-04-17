@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/can_update_checkbox.dart';
+import 'package:wellnest/core/utils/format_duration.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
+import 'package:wellnest/feature/routines/business/entity/routine_entity.dart';
 import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
 import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
 
@@ -23,10 +27,18 @@ class SmallRoutineTile extends ConsumerStatefulWidget {
 }
 
 class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
+  Timer? _timer;
+  bool _isTimerRunning = false;
   var width = double.maxFinite;
   var flag = true;
   double scale = 1.0;
   Color color = Colors.transparent;
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,33 +52,83 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
     );
   }
 
-  Checkbox getCheckbox(DateProvider dateNotifier) {
-    return Checkbox(
-      fillColor: WidgetStatePropertyAll(
-          widget.routine.finished! ? ghostWhite.withAlpha(150) : null),
-      value: widget.routine.finished,
-      onChanged: canUpdateCheckbox(
-              ref.watch(currentSelectedDateProvider).currentSelectedDate)
-          ? (value) async {
-              setState(() {
-                scale = value! ? 1.05 : 1.0;
-              });
-              await Future.delayed(const Duration(milliseconds: 150));
-              setState(() {
-                scale = 1.0;
-              });
-              // Handles the color change
-              color = value!
-                  ? Color(widget.routine.colorValue!).withAlpha(200)
-                  : Colors.transparent;
+  Widget getControlWidget(DateProvider dateNotifier) {
+    final type = widget.routine.type ?? RoutineType.task.name;
 
-              dateNotifier.date!.routines[widget.index].finished = value;
-              dateNotifier.date!.completedRoutineAmount =
-                  _getCompletedQuantity(dateNotifier);
-              await dateNotifier.upsertDate(dateNotifier.date!);
-            }
-          : null,
-    );
+    switch (RoutineType.values.byName(type)) {
+      case RoutineType.task:
+        return Checkbox(
+          fillColor: WidgetStatePropertyAll(
+              widget.routine.finished! ? ghostWhite.withAlpha(150) : null),
+          value: widget.routine.finished,
+          onChanged: canUpdateCheckbox(
+                  ref.watch(currentSelectedDateProvider).currentSelectedDate)
+              ? (value) async {
+                  setState(() {
+                    scale = value! ? 1.05 : 1.0;
+                  });
+                  await Future.delayed(const Duration(milliseconds: 150));
+                  setState(() {
+                    scale = 1.0;
+                  });
+                  color = value!
+                      ? Color(widget.routine.colorValue!).withAlpha(200)
+                      : Colors.transparent;
+                  dateNotifier.date!.routines[widget.index].finished = value;
+                  dateNotifier.date!.completedRoutineAmount =
+                      _getCompletedQuantity(dateNotifier);
+                  await dateNotifier.upsertDate(dateNotifier.date!);
+                }
+              : null,
+        );
+      case RoutineType.counted:
+        return Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.add, color: ghostWhite),
+              onPressed: canUpdateCheckbox(ref
+                      .watch(currentSelectedDateProvider)
+                      .currentSelectedDate)
+                  ? () {
+                      final routine = dateNotifier.date!.routines[widget.index];
+                      if (routine.currentCount! < routine.targetCount!) {
+                        setState(() {
+                          routine.currentCount = routine.currentCount! + 1;
+                          if (routine.currentCount! >= routine.targetCount!) {
+                            routine.finished = true;
+                            color = Color(routine.colorValue!).withAlpha(200);
+                          }
+                        });
+                        dateNotifier.upsertDate(dateNotifier.date!);
+                      }
+                    }
+                  : null,
+            ),
+          ],
+        );
+      case RoutineType.timed:
+        return Row(
+          children: [
+            IconButton(
+              icon: Icon(
+                _isTimerRunning ? Icons.stop : Icons.play_arrow,
+                color: ghostWhite,
+              ),
+              onPressed: canUpdateCheckbox(ref
+                      .watch(currentSelectedDateProvider)
+                      .currentSelectedDate)
+                  ? () {
+                      if (_isTimerRunning) {
+                        _stopTimer(dateNotifier);
+                      } else {
+                        _startTimer(dateNotifier);
+                      }
+                    }
+                  : null,
+            ),
+          ],
+        );
+    }
   }
 
   Widget backContainer() {
@@ -128,60 +190,59 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
               color: color,
               duration: const Duration(milliseconds: 250),
               padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: Row(
                 children: [
-                  Row(
-                    children: [
-                      getCheckbox(dateNotifier),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5),
-                        child: AnimatedContainer(
-                          duration: Duration(milliseconds: 150),
-                          width: flag
-                              ? size(context).width * .50
-                              : size(context).width * .30,
-                          child: Tooltip(
-                            triggerMode: TooltipTriggerMode.tap,
-                            message: widget.routine.name,
-                            showDuration: Duration(seconds: 5),
-                            decoration: BoxDecoration(color: obsidian),
-                            textStyle: textTheme(context)
-                                .labelMedium!
-                                .copyWith(color: secondary),
-                            child: Text(
-                              widget.routine.name!,
-                              // widget.routine.finished!
-                              //     ? '  ${widget.routine.name!}${'\u00A0' * 2}'
-                              //     : widget.routine.name!,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: textTheme(context).bodyLarge!.copyWith(
-                                    fontSize: 18,
-                                    color: widget.routine.finished!
-                                        ? ghostWhite.withAlpha(150)
-                                        : null,
-                                    decorationThickness: 2,
-                                    decorationStyle: TextDecorationStyle.solid,
-                                    // decoration: widget.routine.finished!
-                                    //     ? TextDecoration.lineThrough
-                                    //     : null
-                                  ),
+                  getControlWidget(dateNotifier),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 150),
+                        width: flag
+                            ? size(context).width * .50
+                            : size(context).width * .30,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Tooltip(
+                              triggerMode: TooltipTriggerMode.tap,
+                              message: widget.routine.name,
+                              showDuration: Duration(seconds: 5),
+                              decoration: BoxDecoration(color: obsidian),
+                              textStyle: textTheme(context)
+                                  .labelMedium!
+                                  .copyWith(color: secondary),
+                              child: Text(
+                                widget.routine.name!,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: textTheme(context).bodyLarge!.copyWith(
+                                      fontSize: 18,
+                                      color: widget.routine.finished!
+                                          ? ghostWhite.withAlpha(150)
+                                          : null,
+                                    ),
+                              ),
                             ),
-                          ),
+                            if (widget.routine.type != RoutineType.task.name)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4.0),
+                                child: _buildProgressIndicator(dateNotifier),
+                              ),
+                          ],
                         ),
                       ),
-                      const Expanded(child: SizedBox()),
-                      IconButton(
-                        icon: const Icon(Icons.more_horiz, color: ghostWhite),
-                        onPressed: () {
-                          setState(() {
-                            flag = !flag;
-                          });
-                        },
-                      )
-                    ],
+                    ),
                   ),
+                  IconButton(
+                    icon: const Icon(Icons.more_horiz, color: ghostWhite),
+                    onPressed: () {
+                      setState(() {
+                        flag = !flag;
+                      });
+                    },
+                  )
                 ],
               ),
             ),
@@ -189,6 +250,60 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
         ),
       ),
     );
+  }
+
+  Widget _buildProgressIndicator(DateProvider dateNotifier) {
+    final routine = widget.routine;
+    final textStyle = textTheme(context).bodySmall!.copyWith(
+          color: ghostWhite.withAlpha(150),
+        );
+
+    switch (RoutineType.values.byName(routine.type!)) {
+      case RoutineType.counted:
+        return Text(
+          '${routine.currentCount}/${routine.targetCount}',
+          style: textStyle,
+        );
+      case RoutineType.timed:
+        return Row(
+          children: [
+            Text(
+              formatDuration(routine.elapsedTimeSeconds!),
+              style: textStyle,
+            ),
+            Text(
+              ' / ${formatDuration(routine.targetDurationSeconds!)}',
+              style: textStyle,
+            ),
+          ],
+        );
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+
+  void _startTimer(DateProvider dateNotifier) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      final routine = dateNotifier.date!.routines[widget.index];
+      setState(() {
+        // Esto actualizará la UI
+        routine.elapsedTimeSeconds = routine.elapsedTimeSeconds! + 1;
+        if (routine.targetDurationSeconds != null &&
+            routine.elapsedTimeSeconds! >= routine.targetDurationSeconds!) {
+          routine.finished = true;
+          color = Color(routine.colorValue!).withAlpha(200);
+          _stopTimer(dateNotifier);
+        }
+      });
+      dateNotifier.upsertDate(dateNotifier.date!);
+    });
+    setState(() => _isTimerRunning = true);
+  }
+
+  void _stopTimer(DateProvider dateNotifier) {
+    _timer?.cancel();
+    setState(() => _isTimerRunning = false);
+    dateNotifier.upsertDate(dateNotifier.date!);
   }
 
   int _getCompletedQuantity(DateProvider dateNotifier) {
