@@ -255,10 +255,10 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
         finished: false,
         colorValue: colorNotifier.color.value,
         type: _selectedType.name,
-        targetCount: _targetValues[_selectedType] != null
-            ? int.tryParse(_targetValues[_selectedType]!) ?? 1
+        targetCount: _targetValues[RoutineType.counted] != null
+            ? int.tryParse(_targetValues[RoutineType.counted]!) ?? 1
             : 1,
-        targetDurationSeconds: _targetValues[RoutineType.counted] != null
+        targetDurationSeconds: _targetValues[RoutineType.timed] != null
             ? int.tryParse(_targetValues[RoutineType.timed]!) ?? 0
             : 0);
   }
