@@ -64,14 +64,8 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
           onChanged: canUpdateCheckbox(
                   ref.watch(currentSelectedDateProvider).currentSelectedDate)
               ? (value) async {
-                  setState(() {
-                    scale = value! ? 1.05 : 1.0;
-                  });
-                  await Future.delayed(const Duration(milliseconds: 150));
-                  setState(() {
-                    scale = 1.0;
-                  });
-                  color = value!
+                  _routineCompletedAnimation(value!);
+                  color = value
                       ? Color(widget.routine.colorValue!).withAlpha(200)
                       : Colors.transparent;
                   dateNotifier.date!.routines[widget.index].finished = value;
@@ -89,8 +83,10 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
               onPressed: canUpdateCheckbox(ref
                       .watch(currentSelectedDateProvider)
                       .currentSelectedDate)
-                  ? () {
+                  ? () async {
                       final routine = dateNotifier.date!.routines[widget.index];
+
+                      //sets finished value
                       if (routine.currentCount! < routine.targetCount!) {
                         setState(() {
                           routine.currentCount = routine.currentCount! + 1;
@@ -99,6 +95,11 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                             color = Color(routine.colorValue!).withAlpha(200);
                           }
                         });
+
+                        //plays animation
+                        if (routine.finished!) {
+                          _routineCompletedAnimation(routine.finished!);
+                        }
                         dateNotifier.upsertDate(dateNotifier.date!);
                       }
                     }
@@ -285,14 +286,20 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
   void _startTimer(DateProvider dateNotifier) {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       final routine = dateNotifier.date!.routines[widget.index];
+
       setState(() {
-        // Esto actualizará la UI
+        // This updates the UI
         routine.elapsedTimeSeconds = routine.elapsedTimeSeconds! + 1;
         if (routine.targetDurationSeconds != null &&
             routine.elapsedTimeSeconds! >= routine.targetDurationSeconds!) {
           routine.finished = true;
           color = Color(routine.colorValue!).withAlpha(200);
           _stopTimer(dateNotifier);
+
+          //plays animation
+          if (routine.finished!) {
+            _routineCompletedAnimation(routine.finished!);
+          }
         }
       });
       dateNotifier.upsertDate(dateNotifier.date!);
@@ -312,5 +319,15 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
       result += routine.finished! ? 1 : 0;
     }
     return result;
+  }
+
+  Future<void> _routineCompletedAnimation(bool value) async {
+    setState(() {
+      scale = value ? 1.05 : 1.0;
+    });
+    await Future.delayed(const Duration(milliseconds: 150));
+    setState(() {
+      scale = 1.0;
+    });
   }
 }
