@@ -252,7 +252,13 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
         createdDate: widget.routineModel?.createdDate ??
             DateTime(
                 DateTime.now().year, DateTime.now().month, DateTime.now().day),
-        finished: false,
+        //checks if finished or not
+        finished: _isCompleted(
+            routineFinished: widget.routineModel?.finished ?? false,
+            type: widget.routineModel?.type ?? RoutineType.task.name,
+            routine: widget.routineModel),
+        currentCount: widget.routineModel?.currentCount ?? 0,
+        elapsedTimeSeconds: widget.routineModel?.elapsedTimeSeconds ?? 0,
         colorValue: colorNotifier.color.value,
         type: _selectedType.name,
         targetCount: _targetValues[RoutineType.counted] != null
@@ -562,7 +568,10 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   bool _isCompleted(
       {required bool routineFinished,
       required String type,
-      required RoutineModel routine}) {
+      RoutineModel? routine}) {
+    //if no routine, it means is creating a new one, so it's false
+    if (routine == null) return false;
+
     switch (RoutineType.values.byName(type)) {
       case RoutineType.counted:
         return (routine.currentCount) >= (routine.targetCount ?? 1);
