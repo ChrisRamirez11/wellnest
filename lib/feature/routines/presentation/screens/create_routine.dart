@@ -257,8 +257,6 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
             routineFinished: widget.routineModel?.finished ?? false,
             type: widget.routineModel?.type ?? RoutineType.task.name,
             routine: widget.routineModel),
-        currentCount: widget.routineModel?.currentCount ?? 0,
-        elapsedTimeSeconds: widget.routineModel?.elapsedTimeSeconds ?? 0,
         colorValue: colorNotifier.color.value,
         type: _selectedType.name,
         targetCount: _targetValues[RoutineType.counted] != null
@@ -539,14 +537,24 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
         .where((element) => element.date.isAtSameMomentAs(dateNow))
         .first;
 
-    //storing the routine finished value before removing it from dateModel
-    final routineFinished = dateModel.routines
+    //storing the routine before removing it from dateModel
+    final finished = dateModel.routines
             .where(
               (element) => element.id == routine.id,
             )
-            .firstOrNull
-            ?.finished ??
-        false;
+            .firstOrNull?.finished ?? false;
+        
+        final currentCount = dateModel.routines
+            .where(
+              (element) => element.id == routine.id,
+            )
+            .firstOrNull?.currentCount ?? 0;
+
+        final elapsedTimeSeconds = dateModel.routines
+            .where(
+              (element) => element.id == routine.id,
+            )
+            .firstOrNull?.elapsedTimeSeconds ?? 0;
 
     dateModel.routines.removeWhere(
       (element) => element.id == routine.id,
@@ -555,9 +563,11 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
     for (int i = 0; i < routine.days.length; i++) {
       if (routine.days[i] && (adjustedWeekday(dateModel.date) == (i + 1))) {
         routine.finished = _isCompleted(
-            routineFinished: routineFinished,
+            routineFinished: finished,
             type: routine.type,
             routine: routine);
+            routine.currentCount = currentCount;
+            routine.elapsedTimeSeconds = elapsedTimeSeconds;
         dateModel.routines.add(Routine.fromModel(routine));
       }
       dateModel.completedRoutineAmount = _getCompletedQuantity(dateNotifier);
