@@ -16,11 +16,11 @@ class RoutineEntity {
   List<bool> days;
   bool finished;
   DateTime createdDate;
-  int? colorValue;
+  int colorValue;
   String type;
-  int? targetCount;
+  int targetCount;
   int currentCount;
-  int? targetDuration;
+  int targetDuration;
   int elapsedTime;
 
   RoutineEntity({
@@ -31,9 +31,9 @@ class RoutineEntity {
     required this.createdDate,
     required this.colorValue,
     required this.type,
-    this.targetCount,
-    this.currentCount = 0,
-    this.targetDuration,
-    this.elapsedTime = 0,
+    required this.targetCount,
+    required this.currentCount,
+    required this.targetDuration,
+    required this.elapsedTime,
   });
 }

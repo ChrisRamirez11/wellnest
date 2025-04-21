@@ -1,4 +1,5 @@
 // routine_model.dart
+import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:wellnest/feature/routines/business/entity/routine_entity.dart';
 
@@ -11,11 +12,11 @@ class RoutineModel {
   List<bool> days;
   bool finished;
   DateTime createdDate;
-  int? colorValue;
+  int colorValue;
   String type;
-  int? targetCount;
+  int targetCount;
   int currentCount;
-  int? targetDurationSeconds;
+  int targetDurationSeconds;
   int elapsedTimeSeconds;
 
   RoutineModel({
@@ -26,10 +27,10 @@ class RoutineModel {
     required this.createdDate,
     required this.colorValue,
     required this.type,
-    this.targetCount,
-    this.currentCount = 0,
-    this.targetDurationSeconds,
-    this.elapsedTimeSeconds = 0,
+    required this.targetCount,
+    required this.currentCount,
+    required this.targetDurationSeconds,
+    required this.elapsedTimeSeconds,
   });
 
   factory RoutineModel.fromEntity(RoutineEntity entity) => RoutineModel(
@@ -66,11 +67,11 @@ class RoutineModel {
         days: List<bool>.from(map['days'] as List),
         finished: map['finished'] as bool,
         createdDate: DateTime.parse(map['createdDate'] as String),
-        colorValue: map['colorValue'] as int?,
-        type: RoutineType.values.byName(map['type'] as String).name,
-        targetCount: map['targetCount'] as int?,
+        colorValue: map['colorValue'] as int? ?? Colors.blue.value,
+        type: RoutineType.values.byName(map['type'] as String? ?? RoutineType.task.name).name,
+        targetCount: map['targetCount'] as int? ?? 1,
         currentCount: map['currentCount'] as int? ?? 0,
-        targetDurationSeconds: map['targetDuration'] as int?,
+        targetDurationSeconds: map['targetDuration'] as int? ?? 0,
         elapsedTimeSeconds: map['elapsedTime'] as int? ?? 0,
       );
 

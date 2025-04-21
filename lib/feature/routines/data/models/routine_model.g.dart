@@ -119,16 +119,16 @@ RoutineModel _routineModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = RoutineModel(
-    colorValue: reader.readLongOrNull(offsets[0]),
+    colorValue: reader.readLong(offsets[0]),
     createdDate: reader.readDateTime(offsets[1]),
-    currentCount: reader.readLongOrNull(offsets[2]) ?? 0,
+    currentCount: reader.readLong(offsets[2]),
     days: reader.readBoolList(offsets[3]) ?? [],
-    elapsedTimeSeconds: reader.readLongOrNull(offsets[4]) ?? 0,
+    elapsedTimeSeconds: reader.readLong(offsets[4]),
     finished: reader.readBool(offsets[5]),
     id: id,
     name: reader.readString(offsets[6]),
-    targetCount: reader.readLongOrNull(offsets[7]),
-    targetDurationSeconds: reader.readLongOrNull(offsets[8]),
+    targetCount: reader.readLong(offsets[7]),
+    targetDurationSeconds: reader.readLong(offsets[8]),
     type: reader.readString(offsets[9]),
   );
   return object;
@@ -142,23 +142,23 @@ P _routineModelDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 1:
       return (reader.readDateTime(offset)) as P;
     case 2:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readLong(offset)) as P;
     case 3:
       return (reader.readBoolList(offset) ?? []) as P;
     case 4:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readLong(offset)) as P;
     case 5:
       return (reader.readBool(offset)) as P;
     case 6:
       return (reader.readString(offset)) as P;
     case 7:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 8:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 9:
       return (reader.readString(offset)) as P;
     default:
@@ -261,25 +261,7 @@ extension RoutineModelQueryWhere
 extension RoutineModelQueryFilter
     on QueryBuilder<RoutineModel, RoutineModel, QFilterCondition> {
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
-      colorValueIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'colorValue',
-      ));
-    });
-  }
-
-  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
-      colorValueIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'colorValue',
-      ));
-    });
-  }
-
-  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
-      colorValueEqualTo(int? value) {
+      colorValueEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'colorValue',
@@ -290,7 +272,7 @@ extension RoutineModelQueryFilter
 
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
       colorValueGreaterThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -304,7 +286,7 @@ extension RoutineModelQueryFilter
 
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
       colorValueLessThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -318,8 +300,8 @@ extension RoutineModelQueryFilter
 
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
       colorValueBetween(
-    int? lower,
-    int? upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -816,25 +798,7 @@ extension RoutineModelQueryFilter
   }
 
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
-      targetCountIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'targetCount',
-      ));
-    });
-  }
-
-  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
-      targetCountIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'targetCount',
-      ));
-    });
-  }
-
-  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
-      targetCountEqualTo(int? value) {
+      targetCountEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'targetCount',
@@ -845,7 +809,7 @@ extension RoutineModelQueryFilter
 
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
       targetCountGreaterThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -859,7 +823,7 @@ extension RoutineModelQueryFilter
 
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
       targetCountLessThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -873,8 +837,8 @@ extension RoutineModelQueryFilter
 
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
       targetCountBetween(
-    int? lower,
-    int? upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -890,25 +854,7 @@ extension RoutineModelQueryFilter
   }
 
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
-      targetDurationSecondsIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'targetDurationSeconds',
-      ));
-    });
-  }
-
-  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
-      targetDurationSecondsIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'targetDurationSeconds',
-      ));
-    });
-  }
-
-  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
-      targetDurationSecondsEqualTo(int? value) {
+      targetDurationSecondsEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'targetDurationSeconds',
@@ -919,7 +865,7 @@ extension RoutineModelQueryFilter
 
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
       targetDurationSecondsGreaterThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -933,7 +879,7 @@ extension RoutineModelQueryFilter
 
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
       targetDurationSecondsLessThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -947,8 +893,8 @@ extension RoutineModelQueryFilter
 
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
       targetDurationSecondsBetween(
-    int? lower,
-    int? upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -1429,7 +1375,7 @@ extension RoutineModelQueryProperty
     });
   }
 
-  QueryBuilder<RoutineModel, int?, QQueryOperations> colorValueProperty() {
+  QueryBuilder<RoutineModel, int, QQueryOperations> colorValueProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'colorValue');
     });
@@ -1472,13 +1418,13 @@ extension RoutineModelQueryProperty
     });
   }
 
-  QueryBuilder<RoutineModel, int?, QQueryOperations> targetCountProperty() {
+  QueryBuilder<RoutineModel, int, QQueryOperations> targetCountProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'targetCount');
     });
   }
 
-  QueryBuilder<RoutineModel, int?, QQueryOperations>
+  QueryBuilder<RoutineModel, int, QQueryOperations>
       targetDurationSecondsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'targetDurationSeconds');

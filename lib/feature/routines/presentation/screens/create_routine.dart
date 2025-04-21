@@ -259,6 +259,8 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
             routine: widget.routineModel),
         colorValue: colorNotifier.color.value,
         type: _selectedType.name,
+        currentCount: 0,
+        elapsedTimeSeconds: 0,
         targetCount: _targetValues[RoutineType.counted] != null
             ? int.tryParse(_targetValues[RoutineType.counted]!) ?? 1
             : 1,
@@ -584,10 +586,10 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
 
     switch (RoutineType.values.byName(type)) {
       case RoutineType.counted:
-        return (routine.currentCount) >= (routine.targetCount ?? 1);
+        return (routine.currentCount) >= (routine.targetCount);
       case RoutineType.timed:
         return (routine.elapsedTimeSeconds) >=
-            (routine.targetDurationSeconds ?? 1);
+            (routine.targetDurationSeconds);
       case RoutineType.task:
         return routine.finished;
     }
