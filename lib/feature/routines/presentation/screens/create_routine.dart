@@ -53,7 +53,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
 
     if (widget.routineModel == null) {
       _nameController = TextEditingController();
-      _days = List.generate(7, (index) => false);
+      _days = List.generate(7, (index) => true);
     } else {
       _days = widget.routineModel!.days;
       _nameController = TextEditingController(text: widget.routineModel!.name);
@@ -529,8 +529,6 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               DateTime.now().year, DateTime.now().month, DateTime.now().day),
           routines: [],
           completedRoutineAmount: 0));
-
-      return;
     }
 
     final dateNow =

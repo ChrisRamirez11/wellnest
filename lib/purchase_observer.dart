@@ -27,7 +27,7 @@ class PurchasesObserver implements AdaptyUIObserver {
 
   Future<void> initialize() async {
     try {
-      Adapty().setLogLevel(AdaptyLogLevel.debug);
+      Adapty().setLogLevel(AdaptyLogLevel.warn);
 
       var isActivated = false;
 
