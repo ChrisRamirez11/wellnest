@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/utils.dart';
+import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
 import 'package:wellnest/core/widgets/custom_app_bar.dart';
 import 'package:wellnest/feature/flutter_heatmap_calendar/src/widget/custom_fab_location.dart';
+import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'data/heatmap_color_mode.dart';
 import 'widget/heatmap_calendar_page.dart';
 import 'widget/heatmap_color_tip.dart';
@@ -180,12 +182,15 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
     if (widget.onMonthChange != null) widget.onMonthChange!(_currentDate!);
   }
 
-  void goToCurrentDate() {
-    DateTime actualDate = DateTime.now();
+  Future<void> goToCurrentDate() async {
+    DateTime actualDate =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     setState(() {
       _currentDate = actualDate;
       _showReturnToToday = false;
     });
+    final routines = ref.watch(routineProvider).routines!;
+    await validateDateModel(routines, actualDate, ref);
     if (widget.onMonthChange != null) widget.onMonthChange!(_currentDate!);
     if (widget.onReturnToActualDate != null) widget.onReturnToActualDate!();
   }
@@ -390,6 +395,7 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
               ),
               FittedBox(
                 child: Text(
+                  //TODO internationalize
                   'TODAY',
                   style: textTheme(context)
                       .bodyMedium!
