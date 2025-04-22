@@ -11,6 +11,7 @@ import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart
 import 'package:wellnest/feature/routines/business/entity/routine_entity.dart';
 import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
 import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
+import 'package:wellnest/feature/small_routines/presentation/screens/countdown_page.dart';
 
 class SmallRoutineTile extends ConsumerStatefulWidget {
   final int index;
@@ -27,18 +28,10 @@ class SmallRoutineTile extends ConsumerStatefulWidget {
 }
 
 class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
-  Timer? _timer;
-  bool _isTimerRunning = false;
   var width = double.maxFinite;
   var flag = true;
   double scale = 1.0;
   Color color = Colors.transparent;
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,22 +100,36 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
             ),
           ],
         );
+      // En el caso de RoutineType.timed:
       case RoutineType.timed:
         return Row(
           children: [
             IconButton(
-              icon: Icon(
-                _isTimerRunning ? Icons.stop : Icons.play_arrow,
-                color: ghostWhite,
-              ),
+              icon: const Icon(Icons.play_arrow, color: ghostWhite),
               onPressed: canUpdateCheckbox(ref
                       .watch(currentSelectedDateProvider)
                       .currentSelectedDate)
-                  ? () {
-                      if (_isTimerRunning) {
-                        _stopTimer(dateNotifier);
-                      } else {
-                        _startTimer(dateNotifier);
+                  ? () async {
+                      final result = await Navigator.push<bool>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CountdownPage(
+                            routine: widget.routine,
+                            routineIndex: widget.index,
+                          ),
+                        ),
+                      );
+
+                      if (result == true) {
+                        // Mark as done if user pressed "Mark as Done"
+                        _routineCompletedAnimation(true);
+                        color =
+                            Color(widget.routine.colorValue!).withAlpha(200);
+                        dateNotifier.date!.routines[widget.index].finished =
+                            true;
+                        dateNotifier.date!.completedRoutineAmount =
+                            _getCompletedQuantity(dateNotifier);
+                        await dateNotifier.upsertDate(dateNotifier.date!);
                       }
                     }
                   : null,
@@ -281,36 +288,6 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
       default:
         return const SizedBox.shrink();
     }
-  }
-
-  void _startTimer(DateProvider dateNotifier) {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      final routine = dateNotifier.date!.routines[widget.index];
-
-      setState(() {
-        // This updates the UI
-        routine.elapsedTimeSeconds = routine.elapsedTimeSeconds! + 1;
-        if (routine.targetDurationSeconds != null &&
-            routine.elapsedTimeSeconds! >= routine.targetDurationSeconds!) {
-          routine.finished = true;
-          color = Color(routine.colorValue!).withAlpha(200);
-          _stopTimer(dateNotifier);
-
-          //plays animation
-          if (routine.finished!) {
-            _routineCompletedAnimation(routine.finished!);
-          }
-        }
-      });
-      dateNotifier.upsertDate(dateNotifier.date!);
-    });
-    setState(() => _isTimerRunning = true);
-  }
-
-  void _stopTimer(DateProvider dateNotifier) {
-    _timer?.cancel();
-    setState(() => _isTimerRunning = false);
-    dateNotifier.upsertDate(dateNotifier.date!);
   }
 
   int _getCompletedQuantity(DateProvider dateNotifier) {
