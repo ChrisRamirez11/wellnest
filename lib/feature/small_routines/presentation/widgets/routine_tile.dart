@@ -71,32 +71,50 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
       case RoutineType.counted:
         return Row(
           children: [
-            IconButton(
-              icon: const Icon(Icons.add, color: ghostWhite),
-              onPressed: canUpdateCheckbox(ref
+            GestureDetector(
+              //Automatically finishes the counted routine
+              onLongPress: canUpdateCheckbox(ref
                       .watch(currentSelectedDateProvider)
                       .currentSelectedDate)
                   ? () async {
                       final routine = dateNotifier.date!.routines[widget.index];
 
-                      //sets finished value
-                      if (routine.currentCount! < routine.targetCount!) {
-                        setState(() {
-                          routine.currentCount = routine.currentCount! + 1;
-                          if (routine.currentCount! >= routine.targetCount!) {
-                            routine.finished = true;
-                            color = Color(routine.colorValue!).withAlpha(200);
-                          }
-                        });
+                      setState(() {
+                        routine.currentCount = routine.targetCount;
+                        routine.finished = true;
+                      });
 
-                        //plays animation
-                        if (routine.finished!) {
-                          _routineCompletedAnimation(routine.finished!);
-                        }
-                        dateNotifier.upsertDate(dateNotifier.date!);
-                      }
+                      await _routineCompletedAnimation(routine.finished!);
+                      await dateNotifier.upsertDate(dateNotifier.date!);
                     }
                   : null,
+              child: IconButton(
+                icon: const Icon(Icons.add, color: ghostWhite),
+                onPressed: canUpdateCheckbox(ref
+                        .watch(currentSelectedDateProvider)
+                        .currentSelectedDate)
+                    ? () async {
+                        final routine =
+                            dateNotifier.date!.routines[widget.index];
+                        //sets finished value
+                        if (routine.currentCount! < routine.targetCount!) {
+                          setState(() {
+                            routine.currentCount = routine.currentCount! + 1;
+                            if (routine.currentCount! >= routine.targetCount!) {
+                              routine.finished = true;
+                              color = Color(routine.colorValue!).withAlpha(200);
+                            }
+                          });
+
+                          //plays animation
+                          if (routine.finished!) {
+                            await _routineCompletedAnimation(routine.finished!);
+                          }
+                          await dateNotifier.upsertDate(dateNotifier.date!);
+                        }
+                      }
+                    : null,
+              ),
             ),
           ],
         );
