@@ -4,11 +4,13 @@ import 'package:wellnest/core/theme/theme.dart';
 class CustomAppBar extends AppBar {
   final String titleString;
   final List<Widget>? actionsList;
-  CustomAppBar({super.key, required this.titleString, this.actionsList,})
+  final Widget? leadingWidget;
+  CustomAppBar({super.key, required this.titleString, this.actionsList, this.leadingWidget})
       : super(
           foregroundColor: secondary,
           title: titleWidget(titleString),
-          actions: actionsList
+          actions: actionsList,
+          leading: leadingWidget
         );
 
   static Text titleWidget(String titleString) {
