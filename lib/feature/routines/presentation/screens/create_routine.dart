@@ -253,10 +253,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
             DateTime(
                 DateTime.now().year, DateTime.now().month, DateTime.now().day),
         //checks if finished or not
-        finished: _isCompleted(
-            routineFinished: widget.routineModel?.finished ?? false,
-            type: widget.routineModel?.type ?? RoutineType.task.name,
-            routine: widget.routineModel),
+        finished: false,
         colorValue: colorNotifier.color.value,
         type: _selectedType.name,
         currentCount: 0,
