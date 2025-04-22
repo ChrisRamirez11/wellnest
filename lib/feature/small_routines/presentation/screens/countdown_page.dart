@@ -151,7 +151,7 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
                       value: _progress,
                       strokeWidth: 15,
                       backgroundColor: Color(widget.routine.colorValue!)
-                          .withValues(alpha: 200),
+                          .withAlpha(100),
                       valueColor: AlwaysStoppedAnimation<Color>(
                         Color(widget.routine.colorValue!),
                       ),
@@ -206,7 +206,7 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
                 onClick: _resetTimer,
                 icon: const Icon(Icons.restart_alt),
                 text: localization(context).reset.toUpperCase(),
-                color: primary.withValues(alpha: 250),
+                color: primary.withAlpha(5),
               ),
             ),
 
