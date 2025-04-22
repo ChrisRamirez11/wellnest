@@ -31,7 +31,7 @@ class RoutineProvider extends ChangeNotifier {
   List<RoutineModel>? get routines => _routines;
   Failure? get failure => _failure;
 
-  getRoutines() async {
+  Future<void> getRoutines() async {
     final failureOrRoutine = await GetEveryRoutine(repositoryImpl).call();
 
     failureOrRoutine.fold(
