@@ -38,5 +38,19 @@
     "nightNotiTitle": "Bonsoir",
     "nightNotiBody": "Terminez votre journée en examinant les tâches inachevées et en les finalisant.",
     "morningNoti": "Notification du matin",
-    "nightNoti": "Notification du soir"
+    "nightNoti": "Notification du soir",
+    "track": "Suivi",
+    "task": "Tâche",
+    "amount": "Quantité",
+    "timeRoutine": "Temps",
+    "time": "fois",
+    "times": "fois",
+    "selectDuration": "Sélectionner la Durée",
+    "selectAmount": "Sélectionner la Quantité",
+    "today": "Aujourd'hui",
+    "markDone": "Marquer comme Terminé",
+    "reset": "Réinitialiser",
+    "resume": "Reprendre",
+    "pause": "Pause",
+    "finish": "Terminer"
 }

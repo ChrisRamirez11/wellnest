@@ -11,7 +11,7 @@ import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart
 class CountdownPage extends ConsumerStatefulWidget {
   final Routine routine;
   final int routineIndex;
-//TODO internationalize
+  
   const CountdownPage({
     super.key,
     required this.routine,
@@ -185,10 +185,10 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
                       }
                     },
               text: isCompleted
-                  ? 'FINISH'
+                  ? localization(context).finish.toUpperCase()
                   : _isTimerRunning
-                      ? 'PAUSE'
-                      : 'RESUME',
+                      ? localization(context).pause.toUpperCase()
+                      : localization(context).resume.toUpperCase(),
               icon: isCompleted
                   ? const Icon(Icons.check, color: Colors.white)
                   : Icon(
@@ -205,7 +205,7 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
               child: CustomButton(
                 onClick: _resetTimer,
                 icon: const Icon(Icons.restart_alt),
-                text: 'RESET',
+                text: localization(context).reset.toUpperCase(),
                 color: primary.withValues(alpha: 250),
               ),
             ),
@@ -216,24 +216,24 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
                     onClick: () {
                       final dateNotifier = ref.read(dateProvider.notifier);
                       _stopTimer();
-                
+
                       // Force complete the routine
                       if (widget.routine.targetDurationSeconds != null) {
                         _elapsedSeconds = widget.routine.targetDurationSeconds!;
                         dateNotifier.date!.routines[widget.routineIndex]
                           ..elapsedTimeSeconds = _elapsedSeconds
                           ..finished = true;
-                
+
                         _updateProgress();
                         dateNotifier.upsertDate(dateNotifier.date!);
                       }
-                
+
                       if (context.mounted) {
                         Navigator.pop(
                             context, true); // Return to previous screen
                       }
                     },
-                    text: 'Mark as Done',
+                    text: localization(context).markDone,
                     icon: const Icon(Icons.done, color: Colors.white),
                     color: Colors.green,
                     textColor: Colors.white,

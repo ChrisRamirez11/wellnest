@@ -38,5 +38,19 @@
     "nightNotiTitle": "こんばんは",
     "nightNotiBody": "未完了のタスクを確認し、まとめて1日を終えましょう。",
     "morningNoti": "朝の通知",
-    "nightNoti": "夜の通知"
+    "nightNoti": "夜の通知",
+    "track": "トラッキング",
+    "task": "タスク",
+    "amount": "量",
+    "timeRoutine": "時間",
+    "time": "回",
+    "times": "回",
+    "selectDuration": "期間を選択",
+    "selectAmount": "量を選択",
+    "today": "今日",
+    "markDone": "完了としてマーク",
+    "reset": "リセット",
+    "resume": "再開",
+    "pause": "一時停止",
+    "finish": "終了"
 }

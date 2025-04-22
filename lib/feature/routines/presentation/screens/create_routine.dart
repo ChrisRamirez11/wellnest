@@ -50,7 +50,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
       RoutineType.timed:
           widget.routineModel?.targetDurationSeconds.toString() ?? '0',
     };
-//TODO internationalize
+    
     if (widget.routineModel == null) {
       _nameController = TextEditingController();
       _days = List.generate(7, (index) => true);
@@ -149,7 +149,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Track',
+          localization(context).track,
           style: textTheme(context)
               .bodyMedium!
               .copyWith(color: Colors.grey.shade400),
@@ -160,17 +160,21 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
             Expanded(
                 child: _buildTypeButton(
               RoutineType.task,
-              'Task',
+              localization(context).task,
               FontAwesomeIcons.solidCircleCheck,
             )),
             const SizedBox(width: 8),
             Expanded(
-                child: _buildTypeButton(RoutineType.counted, 'Amount',
+                child: _buildTypeButton(
+                    RoutineType.counted,
+                    localization(context).amount,
                     FontAwesomeIcons.circleArrowUp)),
             const SizedBox(width: 8),
             Expanded(
                 child: _buildTypeButton(
-                    RoutineType.timed, 'Time', FontAwesomeIcons.solidClock)),
+                    RoutineType.timed,
+                    localization(context).timeRoutine,
+                    FontAwesomeIcons.solidClock)),
           ],
         ),
       ],
@@ -291,7 +295,8 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   radius: 15,
                   onClick: () => _showAmountPicker(context),
                   color: primary.withAlpha(200),
-                  text: '${_targetController.text} times'),
+                  text:
+                      '${_targetController.text}${int.tryParse(_targetController.text) == 1 ? ' ${localization(context).time}' : ' ${localization(context).times}'}'),
             ),
           ],
         );
@@ -329,8 +334,8 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
-                  'Select Amount',
-                  style: textTheme(context).headlineSmall,
+                  localization(context).selectAmount,
+                  style: textTheme(context).bodyLarge!.copyWith(fontSize: 22),
                 ),
               ),
               Expanded(
@@ -390,8 +395,8 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
-                  'Select Duration',
-                  style: textTheme(context).headlineSmall,
+                  localization(context).selectDuration,
+                  style: textTheme(context).bodyLarge!.copyWith(fontSize: 22),
                 ),
               ),
               Expanded(

@@ -38,5 +38,19 @@
     "nightNotiTitle": "Hola",
     "nightNotiBody": "Termina tu día revisando las tareas pendientes y finalizándolas.",
     "morningNoti": "Notificación Matutina",
-    "nightNoti": "Notificación Nocturna"
+    "nightNoti": "Notificación Nocturna",
+    "track": "Seguimiento",
+    "task": "Tarea",
+    "amount": "Cantidad",
+    "timeRoutine": "Tiempo",
+    "time": "vez",
+    "times": "veces",
+    "selectDuration": "Seleccionar Duración",
+    "selectAmount": "Seleccionar Cantidad",
+    "today": "Hoy",
+    "markDone": "Marcar como Hecho",
+    "reset": "Reiniciar",
+    "resume": "Continuar",
+    "pause": "Pausar",
+    "finish": "Terminar"
 }

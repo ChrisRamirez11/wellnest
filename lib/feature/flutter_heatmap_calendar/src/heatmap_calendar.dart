@@ -395,8 +395,7 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
               ),
               FittedBox(
                 child: Text(
-                  //TODO internationalize
-                  'TODAY',
+                  localization(context).today.toUpperCase(),
                   style: textTheme(context)
                       .bodyMedium!
                       .copyWith(color: ghostWhite),

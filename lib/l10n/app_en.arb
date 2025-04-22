@@ -158,5 +158,61 @@
     "nightNoti": "Night Notification",
     "@nightNoti": {
         "description": "Night Notification"
+    },
+    "track": "Track",
+    "@track": {
+        "description": "Track in create routine"
+    },
+    "task": "Task",
+    "@task": {
+        "description": "Task in create routine"
+    },
+    "amount": "Amount",
+    "@amount": {
+        "description": "Amount in create routine"
+    },
+    "timeRoutine": "Time",
+    "@timeRoutine": {
+        "description": "This time is for the RoutineType.time"
+    },
+    "time": "time",
+    "@time": {
+        "description": "To say that a routine of amount is of 1 time"
+    },
+    "times": "times",
+    "@times": {
+        "description": "To say that a routine of amount is of more or iqual 2 time"
+    },
+    "selectDuration": "Select Duration",
+    "@selectDuration": {
+        "description": "Select Duration CupertinoPicker"
+    },
+    "selectAmount": "Select Amount",
+    "@selectAmount": {
+        "description": "Select Amount CupertinoPicker"
+    },
+    "today": "Today",
+    "@today": {
+        "description": "Today Fab"
+    },
+    "markDone": "Mark as Done",
+    "@markDone": {
+        "description": "Mark as Done"
+    },
+    "reset": "Reset",
+    "@reset": {
+        "description": "Reset"
+    },
+    "resume": "Resume",
+    "@resume": {
+        "description": "Resume"
+    },
+    "pause": "Pause",
+    "@pause": {
+        "description": "Pause"
+    },
+    "finish": "Finish",
+    "@finish": {
+        "description": "Finish"
     }
 }
