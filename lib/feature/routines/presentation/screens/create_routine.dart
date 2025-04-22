@@ -534,7 +534,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
         .where((element) => element.date.isAtSameMomentAs(dateNow))
         .first;
 
-    //storing the routine before removing it from dateModel
+    //storing the routine crucial data before removing it from dateModel
     final finished = dateModel.routines
             .where(
               (element) => element.id == routine.id,
@@ -559,6 +559,12 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
             ?.elapsedTimeSeconds ??
         0;
 
+    //saving the routine index
+    final routineIndex = dateModel.routines.indexWhere(
+      (element) => element.id == routine.id,
+    );
+
+    //removes routine from dateModel
     dateModel.routines.removeWhere(
       (element) => element.id == routine.id,
     );
@@ -570,7 +576,8 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
 
         routine.finished = _isCompleted(
             routineFinished: finished, type: routine.type, routine: routine);
-        dateModel.routines.add(Routine.fromModel(routine));
+        dateModel.routines.insert(
+            routineIndex != -1 ? routineIndex : 0, Routine.fromModel(routine));
       }
       dateModel.completedRoutineAmount = _getCompletedQuantity(dateNotifier);
       await dateNotifier.upsertDate(dateModel);
