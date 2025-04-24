@@ -18,7 +18,6 @@ import 'package:wellnest/core/preferences/user_preferences.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
 import 'package:wellnest/feature/settings/presentation/screens/subsettings/about_us_screen.dart';
-import 'package:wellnest/feature/settings/presentation/screens/subsettings/community_screen.dart';
 import 'package:wellnest/feature/settings/presentation/screens/subsettings/feedback_screen.dart';
 import 'package:wellnest/feature/skeleton/presentation/screens/skeleton.dart';
 
@@ -113,7 +112,6 @@ class _MyAppState extends ConsumerState<MyApp> {
           '/createRoutine': (context) => const CreateRoutineScreen(),
           '/about': (context) => const AboutUsScreen(),
           '/feedback': (context) => FeedbackScreen(),
-          '/community': (context) => CommunityScreen(),
           '/notifications': (context) => NotificationsScreen(),
         },
       ),

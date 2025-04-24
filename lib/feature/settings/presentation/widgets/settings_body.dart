@@ -128,18 +128,6 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
             ListTile(
               minTileHeight: 70,
               leading: Icon(
-                Icons.hub,
-              ),
-              title: Text(
-                localization(context).contributors,
-                style: textTheme(context).bodyMedium,
-              ),
-              onTap: () => Navigator.pushNamed(context, '/community'),
-            ),
-            getDivider(),
-            ListTile(
-              minTileHeight: 70,
-              leading: Icon(
                 Icons.feedback,
               ),
               title: Text(
