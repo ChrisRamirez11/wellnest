@@ -22,6 +22,19 @@ class RoutineEntity {
   int currentCount;
   int targetDuration;
   int elapsedTime;
+  bool? alarmActive;
+  String? alarmTime;
+  DateTime? endAt;
+
+  /*
+  So the idea is: for the custom alarm, in notifications it'll search for routines that have active alarm on
+  and will show it like in 'Tick it'.
+  The alarm Id will be the same Id as the routine, so after the routine upsertion will create the noti
+
+  endAt is simple, if not null it will end, if null it doesn't end
+
+  IMPORTANT: this are temporal thought, valorate the idea of making a database of notifications.
+  */
 
   RoutineEntity({
     this.id,
@@ -35,5 +48,8 @@ class RoutineEntity {
     required this.currentCount,
     required this.targetDuration,
     required this.elapsedTime,
+    this.alarmTime,
+    this.alarmActive,
+    this.endAt,
   });
 }

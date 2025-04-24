@@ -17,53 +17,68 @@ const RoutineModelSchema = CollectionSchema(
   name: r'RoutineModel',
   id: -1626869750065799181,
   properties: {
-    r'colorValue': PropertySchema(
+    r'alarmActive': PropertySchema(
       id: 0,
+      name: r'alarmActive',
+      type: IsarType.bool,
+    ),
+    r'alarmTime': PropertySchema(
+      id: 1,
+      name: r'alarmTime',
+      type: IsarType.string,
+    ),
+    r'colorValue': PropertySchema(
+      id: 2,
       name: r'colorValue',
       type: IsarType.long,
     ),
     r'createdDate': PropertySchema(
-      id: 1,
+      id: 3,
       name: r'createdDate',
       type: IsarType.dateTime,
     ),
     r'currentCount': PropertySchema(
-      id: 2,
+      id: 4,
       name: r'currentCount',
       type: IsarType.long,
     ),
     r'days': PropertySchema(
-      id: 3,
+      id: 5,
       name: r'days',
       type: IsarType.boolList,
     ),
     r'elapsedTimeSeconds': PropertySchema(
-      id: 4,
+      id: 6,
       name: r'elapsedTimeSeconds',
       type: IsarType.long,
     ),
+    r'endAt': PropertySchema(
+      id: 7,
+      name: r'endAt',
+      type: IsarType.dateTime,
+    ),
     r'finished': PropertySchema(
-      id: 5,
+      id: 8,
       name: r'finished',
       type: IsarType.bool,
     ),
     r'name': PropertySchema(
-      id: 6,
+      id: 9,
       name: r'name',
       type: IsarType.string,
     ),
     r'targetCount': PropertySchema(
-      id: 7,
+      id: 10,
       name: r'targetCount',
       type: IsarType.long,
     ),
     r'targetDurationSeconds': PropertySchema(
-      id: 8,
+      id: 11,
       name: r'targetDurationSeconds',
       type: IsarType.long,
     ),
     r'type': PropertySchema(
-      id: 9,
+      id: 12,
       name: r'type',
       type: IsarType.string,
     )
@@ -88,6 +103,12 @@ int _routineModelEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  {
+    final value = object.alarmTime;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.days.length;
   bytesCount += 3 + object.name.length * 3;
   bytesCount += 3 + object.type.length * 3;
@@ -100,16 +121,19 @@ void _routineModelSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.colorValue);
-  writer.writeDateTime(offsets[1], object.createdDate);
-  writer.writeLong(offsets[2], object.currentCount);
-  writer.writeBoolList(offsets[3], object.days);
-  writer.writeLong(offsets[4], object.elapsedTimeSeconds);
-  writer.writeBool(offsets[5], object.finished);
-  writer.writeString(offsets[6], object.name);
-  writer.writeLong(offsets[7], object.targetCount);
-  writer.writeLong(offsets[8], object.targetDurationSeconds);
-  writer.writeString(offsets[9], object.type);
+  writer.writeBool(offsets[0], object.alarmActive);
+  writer.writeString(offsets[1], object.alarmTime);
+  writer.writeLong(offsets[2], object.colorValue);
+  writer.writeDateTime(offsets[3], object.createdDate);
+  writer.writeLong(offsets[4], object.currentCount);
+  writer.writeBoolList(offsets[5], object.days);
+  writer.writeLong(offsets[6], object.elapsedTimeSeconds);
+  writer.writeDateTime(offsets[7], object.endAt);
+  writer.writeBool(offsets[8], object.finished);
+  writer.writeString(offsets[9], object.name);
+  writer.writeLong(offsets[10], object.targetCount);
+  writer.writeLong(offsets[11], object.targetDurationSeconds);
+  writer.writeString(offsets[12], object.type);
 }
 
 RoutineModel _routineModelDeserialize(
@@ -119,17 +143,20 @@ RoutineModel _routineModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = RoutineModel(
-    colorValue: reader.readLong(offsets[0]),
-    createdDate: reader.readDateTime(offsets[1]),
-    currentCount: reader.readLong(offsets[2]),
-    days: reader.readBoolList(offsets[3]) ?? [],
-    elapsedTimeSeconds: reader.readLong(offsets[4]),
-    finished: reader.readBool(offsets[5]),
+    alarmActive: reader.readBoolOrNull(offsets[0]),
+    alarmTime: reader.readStringOrNull(offsets[1]),
+    colorValue: reader.readLong(offsets[2]),
+    createdDate: reader.readDateTime(offsets[3]),
+    currentCount: reader.readLong(offsets[4]),
+    days: reader.readBoolList(offsets[5]) ?? [],
+    elapsedTimeSeconds: reader.readLong(offsets[6]),
+    endAt: reader.readDateTimeOrNull(offsets[7]),
+    finished: reader.readBool(offsets[8]),
     id: id,
-    name: reader.readString(offsets[6]),
-    targetCount: reader.readLong(offsets[7]),
-    targetDurationSeconds: reader.readLong(offsets[8]),
-    type: reader.readString(offsets[9]),
+    name: reader.readString(offsets[9]),
+    targetCount: reader.readLong(offsets[10]),
+    targetDurationSeconds: reader.readLong(offsets[11]),
+    type: reader.readString(offsets[12]),
   );
   return object;
 }
@@ -142,24 +169,30 @@ P _routineModelDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLong(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 1:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 2:
       return (reader.readLong(offset)) as P;
     case 3:
-      return (reader.readBoolList(offset) ?? []) as P;
+      return (reader.readDateTime(offset)) as P;
     case 4:
       return (reader.readLong(offset)) as P;
     case 5:
-      return (reader.readBool(offset)) as P;
+      return (reader.readBoolList(offset) ?? []) as P;
     case 6:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 7:
-      return (reader.readLong(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 8:
-      return (reader.readLong(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 9:
+      return (reader.readString(offset)) as P;
+    case 10:
+      return (reader.readLong(offset)) as P;
+    case 11:
+      return (reader.readLong(offset)) as P;
+    case 12:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -260,6 +293,188 @@ extension RoutineModelQueryWhere
 
 extension RoutineModelQueryFilter
     on QueryBuilder<RoutineModel, RoutineModel, QFilterCondition> {
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      alarmActiveIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'alarmActive',
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      alarmActiveIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'alarmActive',
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      alarmActiveEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'alarmActive',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      alarmTimeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'alarmTime',
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      alarmTimeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'alarmTime',
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      alarmTimeEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'alarmTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      alarmTimeGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'alarmTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      alarmTimeLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'alarmTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      alarmTimeBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'alarmTime',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      alarmTimeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'alarmTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      alarmTimeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'alarmTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      alarmTimeContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'alarmTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      alarmTimeMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'alarmTime',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      alarmTimeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'alarmTime',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      alarmTimeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'alarmTime',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
       colorValueEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
@@ -575,6 +790,78 @@ extension RoutineModelQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'elapsedTimeSeconds',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      endAtIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'endAt',
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      endAtIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'endAt',
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition> endAtEqualTo(
+      DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'endAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition>
+      endAtGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'endAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition> endAtLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'endAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterFilterCondition> endAtBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'endAt',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1052,6 +1339,31 @@ extension RoutineModelQueryLinks
 
 extension RoutineModelQuerySortBy
     on QueryBuilder<RoutineModel, RoutineModel, QSortBy> {
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> sortByAlarmActive() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'alarmActive', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy>
+      sortByAlarmActiveDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'alarmActive', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> sortByAlarmTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'alarmTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> sortByAlarmTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'alarmTime', Sort.desc);
+    });
+  }
+
   QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> sortByColorValue() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'colorValue', Sort.asc);
@@ -1102,6 +1414,18 @@ extension RoutineModelQuerySortBy
       sortByElapsedTimeSecondsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'elapsedTimeSeconds', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> sortByEndAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'endAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> sortByEndAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'endAt', Sort.desc);
     });
   }
 
@@ -1171,6 +1495,31 @@ extension RoutineModelQuerySortBy
 
 extension RoutineModelQuerySortThenBy
     on QueryBuilder<RoutineModel, RoutineModel, QSortThenBy> {
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> thenByAlarmActive() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'alarmActive', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy>
+      thenByAlarmActiveDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'alarmActive', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> thenByAlarmTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'alarmTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> thenByAlarmTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'alarmTime', Sort.desc);
+    });
+  }
+
   QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> thenByColorValue() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'colorValue', Sort.asc);
@@ -1221,6 +1570,18 @@ extension RoutineModelQuerySortThenBy
       thenByElapsedTimeSecondsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'elapsedTimeSeconds', Sort.desc);
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> thenByEndAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'endAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QAfterSortBy> thenByEndAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'endAt', Sort.desc);
     });
   }
 
@@ -1302,6 +1663,19 @@ extension RoutineModelQuerySortThenBy
 
 extension RoutineModelQueryWhereDistinct
     on QueryBuilder<RoutineModel, RoutineModel, QDistinct> {
+  QueryBuilder<RoutineModel, RoutineModel, QDistinct> distinctByAlarmActive() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'alarmActive');
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QDistinct> distinctByAlarmTime(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'alarmTime', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<RoutineModel, RoutineModel, QDistinct> distinctByColorValue() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'colorValue');
@@ -1330,6 +1704,12 @@ extension RoutineModelQueryWhereDistinct
       distinctByElapsedTimeSeconds() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'elapsedTimeSeconds');
+    });
+  }
+
+  QueryBuilder<RoutineModel, RoutineModel, QDistinct> distinctByEndAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'endAt');
     });
   }
 
@@ -1375,6 +1755,18 @@ extension RoutineModelQueryProperty
     });
   }
 
+  QueryBuilder<RoutineModel, bool?, QQueryOperations> alarmActiveProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'alarmActive');
+    });
+  }
+
+  QueryBuilder<RoutineModel, String?, QQueryOperations> alarmTimeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'alarmTime');
+    });
+  }
+
   QueryBuilder<RoutineModel, int, QQueryOperations> colorValueProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'colorValue');
@@ -1403,6 +1795,12 @@ extension RoutineModelQueryProperty
       elapsedTimeSecondsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'elapsedTimeSeconds');
+    });
+  }
+
+  QueryBuilder<RoutineModel, DateTime?, QQueryOperations> endAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'endAt');
     });
   }
 

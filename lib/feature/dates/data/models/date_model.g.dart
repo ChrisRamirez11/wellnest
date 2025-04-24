@@ -621,58 +621,73 @@ const RoutineSchema = Schema(
   name: r'Routine',
   id: 9144663503541703680,
   properties: {
-    r'colorValue': PropertySchema(
+    r'alarmActive': PropertySchema(
       id: 0,
+      name: r'alarmActive',
+      type: IsarType.bool,
+    ),
+    r'alarmTime': PropertySchema(
+      id: 1,
+      name: r'alarmTime',
+      type: IsarType.string,
+    ),
+    r'colorValue': PropertySchema(
+      id: 2,
       name: r'colorValue',
       type: IsarType.long,
     ),
     r'createdDate': PropertySchema(
-      id: 1,
+      id: 3,
       name: r'createdDate',
       type: IsarType.dateTime,
     ),
     r'currentCount': PropertySchema(
-      id: 2,
+      id: 4,
       name: r'currentCount',
       type: IsarType.long,
     ),
     r'days': PropertySchema(
-      id: 3,
+      id: 5,
       name: r'days',
       type: IsarType.boolList,
     ),
     r'elapsedTimeSeconds': PropertySchema(
-      id: 4,
+      id: 6,
       name: r'elapsedTimeSeconds',
       type: IsarType.long,
     ),
+    r'endAt': PropertySchema(
+      id: 7,
+      name: r'endAt',
+      type: IsarType.dateTime,
+    ),
     r'finished': PropertySchema(
-      id: 5,
+      id: 8,
       name: r'finished',
       type: IsarType.bool,
     ),
     r'id': PropertySchema(
-      id: 6,
+      id: 9,
       name: r'id',
       type: IsarType.long,
     ),
     r'name': PropertySchema(
-      id: 7,
+      id: 10,
       name: r'name',
       type: IsarType.string,
     ),
     r'targetCount': PropertySchema(
-      id: 8,
+      id: 11,
       name: r'targetCount',
       type: IsarType.long,
     ),
     r'targetDurationSeconds': PropertySchema(
-      id: 9,
+      id: 12,
       name: r'targetDurationSeconds',
       type: IsarType.long,
     ),
     r'type': PropertySchema(
-      id: 10,
+      id: 13,
       name: r'type',
       type: IsarType.string,
     )
@@ -689,6 +704,12 @@ int _routineEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  {
+    final value = object.alarmTime;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   {
     final value = object.days;
     if (value != null) {
@@ -716,17 +737,20 @@ void _routineSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLong(offsets[0], object.colorValue);
-  writer.writeDateTime(offsets[1], object.createdDate);
-  writer.writeLong(offsets[2], object.currentCount);
-  writer.writeBoolList(offsets[3], object.days);
-  writer.writeLong(offsets[4], object.elapsedTimeSeconds);
-  writer.writeBool(offsets[5], object.finished);
-  writer.writeLong(offsets[6], object.id);
-  writer.writeString(offsets[7], object.name);
-  writer.writeLong(offsets[8], object.targetCount);
-  writer.writeLong(offsets[9], object.targetDurationSeconds);
-  writer.writeString(offsets[10], object.type);
+  writer.writeBool(offsets[0], object.alarmActive);
+  writer.writeString(offsets[1], object.alarmTime);
+  writer.writeLong(offsets[2], object.colorValue);
+  writer.writeDateTime(offsets[3], object.createdDate);
+  writer.writeLong(offsets[4], object.currentCount);
+  writer.writeBoolList(offsets[5], object.days);
+  writer.writeLong(offsets[6], object.elapsedTimeSeconds);
+  writer.writeDateTime(offsets[7], object.endAt);
+  writer.writeBool(offsets[8], object.finished);
+  writer.writeLong(offsets[9], object.id);
+  writer.writeString(offsets[10], object.name);
+  writer.writeLong(offsets[11], object.targetCount);
+  writer.writeLong(offsets[12], object.targetDurationSeconds);
+  writer.writeString(offsets[13], object.type);
 }
 
 Routine _routineDeserialize(
@@ -736,17 +760,20 @@ Routine _routineDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Routine(
-    colorValue: reader.readLongOrNull(offsets[0]),
-    createdDate: reader.readDateTimeOrNull(offsets[1]),
-    currentCount: reader.readLongOrNull(offsets[2]),
-    days: reader.readBoolList(offsets[3]),
-    elapsedTimeSeconds: reader.readLongOrNull(offsets[4]),
-    finished: reader.readBoolOrNull(offsets[5]),
-    id: reader.readLongOrNull(offsets[6]),
-    name: reader.readStringOrNull(offsets[7]),
-    targetCount: reader.readLongOrNull(offsets[8]),
-    targetDurationSeconds: reader.readLongOrNull(offsets[9]),
-    type: reader.readStringOrNull(offsets[10]),
+    alarmActive: reader.readBoolOrNull(offsets[0]),
+    alarmTime: reader.readStringOrNull(offsets[1]),
+    colorValue: reader.readLongOrNull(offsets[2]),
+    createdDate: reader.readDateTimeOrNull(offsets[3]),
+    currentCount: reader.readLongOrNull(offsets[4]),
+    days: reader.readBoolList(offsets[5]),
+    elapsedTimeSeconds: reader.readLongOrNull(offsets[6]),
+    endAt: reader.readDateTimeOrNull(offsets[7]),
+    finished: reader.readBoolOrNull(offsets[8]),
+    id: reader.readLongOrNull(offsets[9]),
+    name: reader.readStringOrNull(offsets[10]),
+    targetCount: reader.readLongOrNull(offsets[11]),
+    targetDurationSeconds: reader.readLongOrNull(offsets[12]),
+    type: reader.readStringOrNull(offsets[13]),
   );
   return object;
 }
@@ -759,26 +786,32 @@ P _routineDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 1:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 2:
       return (reader.readLongOrNull(offset)) as P;
     case 3:
-      return (reader.readBoolList(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 4:
       return (reader.readLongOrNull(offset)) as P;
     case 5:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readBoolList(offset)) as P;
     case 6:
       return (reader.readLongOrNull(offset)) as P;
     case 7:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 8:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 9:
       return (reader.readLongOrNull(offset)) as P;
     case 10:
+      return (reader.readStringOrNull(offset)) as P;
+    case 11:
+      return (reader.readLongOrNull(offset)) as P;
+    case 12:
+      return (reader.readLongOrNull(offset)) as P;
+    case 13:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -787,6 +820,178 @@ P _routineDeserializeProp<P>(
 
 extension RoutineQueryFilter
     on QueryBuilder<Routine, Routine, QFilterCondition> {
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> alarmActiveIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'alarmActive',
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> alarmActiveIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'alarmActive',
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> alarmActiveEqualTo(
+      bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'alarmActive',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> alarmTimeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'alarmTime',
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> alarmTimeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'alarmTime',
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> alarmTimeEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'alarmTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> alarmTimeGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'alarmTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> alarmTimeLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'alarmTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> alarmTimeBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'alarmTime',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> alarmTimeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'alarmTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> alarmTimeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'alarmTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> alarmTimeContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'alarmTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> alarmTimeMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'alarmTime',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> alarmTimeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'alarmTime',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> alarmTimeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'alarmTime',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<Routine, Routine, QAfterFilterCondition> colorValueIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1171,6 +1376,75 @@ extension RoutineQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'elapsedTimeSeconds',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> endAtIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'endAt',
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> endAtIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'endAt',
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> endAtEqualTo(
+      DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'endAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> endAtGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'endAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> endAtLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'endAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Routine, Routine, QAfterFilterCondition> endAtBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'endAt',
         lower: lower,
         includeLower: includeLower,
         upper: upper,

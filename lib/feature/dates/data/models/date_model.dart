@@ -84,6 +84,9 @@ class Routine {
   int? currentCount;
   int? targetDurationSeconds;
   int? elapsedTimeSeconds;
+  String? alarmTime;
+  bool? alarmActive;
+  DateTime? endAt;
 
   Routine({
     this.id,
@@ -97,6 +100,9 @@ class Routine {
     this.currentCount,
     this.targetDurationSeconds,
     this.elapsedTimeSeconds,
+    this.alarmTime,
+    this.alarmActive,
+    this.endAt,
   });
 
   factory Routine.fromModel(RoutineModel model) => Routine(
@@ -111,6 +117,9 @@ class Routine {
         currentCount: model.currentCount,
         targetDurationSeconds: model.targetDurationSeconds,
         elapsedTimeSeconds: model.elapsedTimeSeconds,
+        alarmActive: model.alarmActive,
+        alarmTime: model.alarmTime,
+        endAt: model.endAt
       );
 
   factory Routine.fromEntity(RoutineEntity entity) => Routine(
@@ -125,6 +134,9 @@ class Routine {
         currentCount: entity.currentCount,
         targetDurationSeconds: entity.targetDuration,
         elapsedTimeSeconds: entity.elapsedTime,
+        alarmActive: entity.alarmActive,
+        alarmTime: entity.alarmTime,
+        endAt: entity.endAt
       );
 
   RoutineEntity toEntity() => RoutineEntity(
@@ -139,6 +151,9 @@ class Routine {
         currentCount: currentCount ?? 0,
         targetDuration: targetDurationSeconds ?? 0,
         elapsedTime: elapsedTimeSeconds ?? 0,
+        alarmActive: alarmActive ?? false,
+        alarmTime: alarmTime,
+        endAt: endAt
       );
 
   RoutineModel toModel() => RoutineModel(
@@ -153,6 +168,9 @@ class Routine {
         currentCount: currentCount ?? 0,
         targetDurationSeconds: targetDurationSeconds ?? 0,
         elapsedTimeSeconds: elapsedTimeSeconds ?? 0,
+        alarmActive: alarmActive ?? false,
+        alarmTime: alarmTime,
+        endAt: endAt
       );
 
   factory Routine.fromMap(Map<String, dynamic> map) => Routine(
@@ -169,6 +187,11 @@ class Routine {
         currentCount: map['currentCount'] as int? ?? 0,
         targetDurationSeconds: map['targetDuration'] as int?,
         elapsedTimeSeconds: map['elapsedTime'] as int? ?? 0,
+        alarmActive: map['alarmActive'] as bool? ?? false,
+        alarmTime: map['alarmTime'] as String,
+        endAt: map['endAt'] != null
+            ? DateTime.parse(map['endAt'] as String)
+            : null
       );
 
   Map<String, dynamic> toMap() => <String, dynamic>{
@@ -183,5 +206,8 @@ class Routine {
         'currentCount': currentCount,
         'targetDuration': targetDurationSeconds,
         'elapsedTime': elapsedTimeSeconds,
+        'alarmActive': alarmActive,
+        'alarmTime': alarmTime,
+        'endAt': endAt?.toIso8601String(),
       };
 }
