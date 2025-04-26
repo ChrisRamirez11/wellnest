@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
+import 'package:wellnest/core/utils/show_paywall.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
 import 'package:wellnest/feature/onboarding/presentation/provider/first_app_opening.dart';
 import 'package:wellnest/feature/onboarding/presentation/widgets/onboarding_page_one.dart';
@@ -98,7 +99,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               onClick: () {
                 // when FINISH is hitted, is when it understands the first step of the app was succesful
                 ref.watch(firstTimeOpening).appOpened();
-                
+                showPaywall();
+
                 Navigator.of(context).pushReplacementNamed('/');
               },
               text: 'FINISH'),
