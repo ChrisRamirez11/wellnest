@@ -5,6 +5,14 @@ class ProfileEntity {
   String email;
   String role;
   String avatarUrl;
+  String? occupation;
+  String? city;
+  String? description;
+  List<String>? goals;
+  List<String>? interests;
+  int? karma;
+  double? latitude;
+  double? longitude;
 
   ProfileEntity({
     required this.id,
@@ -12,5 +20,13 @@ class ProfileEntity {
     required this.email,
     required this.role,
     required this.avatarUrl,
+    required this.occupation,
+    required this.city,
+    required this.description,
+    required this.goals,
+    required this.interests,
+    required this.karma,
+    required this.latitude,
+    required this.longitude,
   });
 }

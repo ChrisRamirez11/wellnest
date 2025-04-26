@@ -17,19 +17,40 @@ class ProfileRepositoryImpl extends ProfileRepository {
   });
 
   @override
-  Future<Either<Failure, ProfileModel>> getUserData() async {
+  Future<Either<Failure, ProfileModel>> getMyUserData() async {
     ProfileModel profileModel;
     try {
       profileModel = await profileLocalDatasource.getCachedUser();
       return Right(profileModel);
     } on CacheException {
       try {
-        profileModel = await profileRemoteDatasource.getUserData();
+        profileModel = await profileRemoteDatasource.getMyUserData();
         await profileLocalDatasource.cacheUser(profileModel.toJson());
         return Right(profileModel);
       } on ServerException catch (error) {
         return Left(ServerFailure(errorMessage: error.message));
       }
+    }
+  }
+
+  @override
+  Future<Either<Failure, ProfileModel>> getUserDataById(String userId) async {
+    ProfileModel profileModel;
+    try {
+      profileModel = await profileRemoteDatasource.getUserDataById(userId);
+      return Right(profileModel);
+    } on ServerException catch (error) {
+      return Left(ServerFailure(errorMessage: error.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateMyUserData(ProfileModel profile) async {
+    try {
+      await profileRemoteDatasource.updateMyUserData(profile);
+      return Right(null);
+    } on ServerException catch (error) {
+      return Left(ServerFailure(errorMessage: error.message));
     }
   }
 

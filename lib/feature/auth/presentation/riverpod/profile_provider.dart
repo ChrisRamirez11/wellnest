@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/feature/auth/business/usecases/get_user_data_by_id_usecase.dart';
 import 'package:wellnest/feature/auth/business/usecases/get_user_data_use_case.dart';
 import 'package:wellnest/feature/auth/business/usecases/sign_out_use_case.dart';
+import 'package:wellnest/feature/auth/business/usecases/update_user_data_usecase.dart';
 import 'package:wellnest/feature/auth/data/datasources/profile_local_datasource.dart';
 import 'package:wellnest/feature/auth/data/datasources/profile_remote_datasource.dart';
 import 'package:wellnest/feature/auth/data/models/profile_model.dart';
@@ -21,13 +23,7 @@ class ProfileProvider extends ChangeNotifier {
       profileRemoteDatasource: ProfileRemoteDatasourceImpl(),
       profileLocalDatasource: ProfileLocalDatasourceImpl());
 
-  void setToNull() {
-    profile = null;
-    failure = null;
-    notifyListeners();
-  }
-
-  Future<void> getUserData() async {
+  Future<void> getMyUserData() async {
     final profileOrFailure =
         await GetUserDataUseCase(profileRepository: _profileRepositoryImpl)
             .call();
@@ -42,6 +38,55 @@ class ProfileProvider extends ChangeNotifier {
         failure = null;
         profile = ProfileModel.fromEntity(user);
         notifyListeners();
+      },
+    );
+  }
+
+  Future<ProfileModel> getUserDataById(BuildContext context, String id) async {
+    final userDataOrFailure =
+        await GetUserDataByIdUsecase(profileRepository: _profileRepositoryImpl)
+            .call(id);
+
+    return userDataOrFailure.fold(
+      (newFailure) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(newFailure.errorMessage)));
+        }
+        return ProfileModel(
+            id: id,
+            fullName: '',
+            email: '',
+            role: '',
+            avatarUrl: '',
+            occupation: '',
+            city: '',
+            description: '',
+            goals: [],
+            interests: [],
+            karma: 0,
+            latitude: 0.0,
+            longitude: 0.0);
+      },
+      (profileEntity) => ProfileModel.fromEntity(profileEntity),
+    );
+  }
+
+  Future<void> updateUserData(
+      BuildContext context, ProfileModel profile) async {
+    final userUpdatedOrFailure =
+        await UpdateUserDataUsecase(profileRepository: _profileRepositoryImpl)
+            .call(profile);
+
+    userUpdatedOrFailure.fold(
+      (newFailure) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(newFailure.errorMessage)));
+        }
+      },
+      (success) {
+        debugPrint('Update Succesful');
       },
     );
   }

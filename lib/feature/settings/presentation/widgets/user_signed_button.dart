@@ -23,7 +23,7 @@ class UserSignedButton extends ConsumerStatefulWidget {
 class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
   @override
   Future<void> didChangeDependencies() async {
-    await ref.watch(profileProvider).getUserData();
+    await ref.watch(profileProvider).getMyUserData();
     super.didChangeDependencies();
   }
 

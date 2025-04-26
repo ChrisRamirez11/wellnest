@@ -13,6 +13,6 @@ class GetUserDataUseCase {
   });
 
   Future<Either<Failure, ProfileEntity>> call() async {
-    return await profileRepository.getUserData();
+    return await profileRepository.getMyUserData();
   }
 }
