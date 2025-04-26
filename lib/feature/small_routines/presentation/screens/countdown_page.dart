@@ -11,7 +11,7 @@ import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart
 class CountdownPage extends ConsumerStatefulWidget {
   final Routine routine;
   final int routineIndex;
-  
+
   const CountdownPage({
     super.key,
     required this.routine,
@@ -33,7 +33,6 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
     super.initState();
     _elapsedSeconds = widget.routine.elapsedTimeSeconds ?? 0;
     _updateProgress();
-    _startTimer(); // Auto-start the timer when page opens
   }
 
   @override
@@ -128,118 +127,168 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
         (widget.routine.finished == true ||
             _elapsedSeconds >= widget.routine.targetDurationSeconds!);
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        titleString: widget.routine.name!,
-      ),
-      body: Center(
-        child: Column(
-          spacing: 20,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 220,
-              height: 220,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  SizedBox(
-                    width: 190,
-                    height: 190,
-                    child: CircularProgressIndicator(
-                      strokeCap: StrokeCap.round,
-                      value: _progress,
-                      strokeWidth: 15,
-                      backgroundColor: Color(widget.routine.colorValue!)
-                          .withAlpha(100),
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        Color(widget.routine.colorValue!),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) {
+          return;
+        } else {
+          if (!_isTimerRunning) {
+            Navigator.of(context).pop();
+            return;
+          }
+          _stopTimer();
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text(
+                'Are you sure to quit the timer?',
+                style: textTheme(context).bodyLarge!.copyWith(fontSize: 20),
+              ),
+              content: Text(
+                  'Your current progress will be saved. You can return later to continue.',
+                  style: textTheme(context)
+                      .bodySmall!
+                      .copyWith(color: Colors.grey)),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    _startTimer();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(localization(context).cancel.toUpperCase(),
+                      style: textTheme(context).bodyMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.primary)),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK',
+                      style: textTheme(context).bodyMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.primary)),
+                ),
+              ],
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: CustomAppBar(
+          titleString: widget.routine.name!,
+        ),
+        body: Center(
+          child: Column(
+            spacing: 20,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 220,
+                height: 220,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SizedBox(
+                      width: 190,
+                      height: 190,
+                      child: CircularProgressIndicator(
+                        strokeCap: StrokeCap.round,
+                        value: _progress,
+                        strokeWidth: 15,
+                        backgroundColor:
+                            Color(widget.routine.colorValue!).withAlpha(100),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          Color(widget.routine.colorValue!),
+                        ),
                       ),
                     ),
-                  ),
-                  Text(
-                    _formatDuration(
-                        remainingSeconds > 0 ? remainingSeconds : 0),
-                    style: textTheme(context)
-                        .bodyLarge!
-                        .copyWith(color: primary, fontSize: 30),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 10),
-            // Play/Pause/Finish Button
-            CustomButton(
-              onClick: isCompleted
-                  ? () {
-                      if (context.mounted) {
-                        Navigator.pop(
-                            context, true); // Return with completion status
-                      }
-                    }
-                  : () {
-                      if (_isTimerRunning) {
-                        _stopTimer();
-                      } else {
-                        _startTimer();
-                      }
-                    },
-              text: isCompleted
-                  ? localization(context).finish.toUpperCase()
-                  : _isTimerRunning
-                      ? localization(context).pause.toUpperCase()
-                      : localization(context).resume.toUpperCase(),
-              icon: isCompleted
-                  ? const Icon(Icons.check, color: Colors.white)
-                  : Icon(
-                      _isTimerRunning ? Icons.pause : Icons.play_arrow,
-                      color: Colors.white,
+                    Text(
+                      _formatDuration(
+                          remainingSeconds > 0 ? remainingSeconds : 0),
+                      style: textTheme(context)
+                          .bodyLarge!
+                          .copyWith(color: primary, fontSize: 30),
                     ),
-              color: Colors.blue,
-              textColor: Colors.white,
-            ),
-
-            // Reset Button
-            SizedBox(
-              width: 100,
-              child: CustomButton(
-                onClick: _resetTimer,
-                icon: const Icon(Icons.restart_alt),
-                text: localization(context).reset.toUpperCase(),
-                color: primary.withAlpha(5),
+                  ],
+                ),
               ),
-            ),
-
-            // Mark as Done Button
-            !isCompleted
-                ? CustomButton(
-                    onClick: () {
-                      final dateNotifier = ref.read(dateProvider.notifier);
-                      _stopTimer();
-
-                      // Force complete the routine
-                      if (widget.routine.targetDurationSeconds != null) {
-                        _elapsedSeconds = widget.routine.targetDurationSeconds!;
-                        dateNotifier.date!.routines[widget.routineIndex]
-                          ..elapsedTimeSeconds = _elapsedSeconds
-                          ..finished = true;
-
-                        _updateProgress();
-                        dateNotifier.upsertDate(dateNotifier.date!);
+              const SizedBox(height: 10),
+              // Play/Pause/Finish Button
+              CustomButton(
+                onClick: isCompleted
+                    ? () {
+                        if (context.mounted) {
+                          Navigator.pop(
+                              context, true); // Return with completion status
+                        }
                       }
+                    : () {
+                        if (_isTimerRunning) {
+                          _stopTimer();
+                        } else {
+                          _startTimer();
+                        }
+                      },
+                text: isCompleted
+                    ? localization(context).finish.toUpperCase()
+                    : _isTimerRunning
+                        ? localization(context).pause.toUpperCase()
+                        : localization(context).resume.toUpperCase(),
+                icon: isCompleted
+                    ? const Icon(Icons.check, color: Colors.white)
+                    : Icon(
+                        _isTimerRunning ? Icons.pause : Icons.play_arrow,
+                        color: Colors.white,
+                      ),
+                color: Colors.blue,
+                textColor: Colors.white,
+              ),
 
-                      if (context.mounted) {
-                        Navigator.pop(
-                            context, true); // Return to previous screen
-                      }
-                    },
-                    text: localization(context).markDone,
-                    icon: const Icon(Icons.done, color: Colors.white),
-                    color: Colors.green,
-                    textColor: Colors.white,
-                  )
-                : SizedBox.shrink(),
-          ],
+              // Reset Button
+              SizedBox(
+                width: 100,
+                child: CustomButton(
+                  onClick: _resetTimer,
+                  icon: const Icon(Icons.restart_alt),
+                  text: localization(context).reset.toUpperCase(),
+                  color: primary.withAlpha(5),
+                ),
+              ),
+
+              // Mark as Done Button
+              !isCompleted
+                  ? CustomButton(
+                      onClick: () {
+                        final dateNotifier = ref.read(dateProvider.notifier);
+                        _stopTimer();
+
+                        // Force complete the routine
+                        if (widget.routine.targetDurationSeconds != null) {
+                          _elapsedSeconds =
+                              widget.routine.targetDurationSeconds!;
+                          dateNotifier.date!.routines[widget.routineIndex]
+                            ..elapsedTimeSeconds = _elapsedSeconds
+                            ..finished = true;
+
+                          _updateProgress();
+                          dateNotifier.upsertDate(dateNotifier.date!);
+                        }
+
+                        if (context.mounted) {
+                          Navigator.pop(
+                              context, true); // Return to previous screen
+                        }
+                      },
+                      text: localization(context).markDone,
+                      icon: const Icon(Icons.done, color: Colors.white),
+                      color: Colors.green,
+                      textColor: Colors.white,
+                    )
+                  : SizedBox.shrink(),
+            ],
+          ),
         ),
       ),
     );

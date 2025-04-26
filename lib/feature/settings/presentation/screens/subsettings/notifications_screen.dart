@@ -126,7 +126,7 @@ class _NotificationCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     title,
-                    style: Theme.of(context).textTheme.labelMedium,
+                    style: textTheme(context).labelMedium,
                   ),
                 ),
               ],
