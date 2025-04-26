@@ -602,7 +602,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
       case RoutineType.timed:
         return (routine.elapsedTimeSeconds) >= (routine.targetDurationSeconds);
       case RoutineType.task:
-        return routine.finished;
+        return routineFinished;
     }
   }
 
