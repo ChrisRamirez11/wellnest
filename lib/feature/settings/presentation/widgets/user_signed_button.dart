@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/utils.dart';
-import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
 import 'package:wellnest/feature/auth/data/models/profile_model.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/profile_provider.dart';
 import 'package:wellnest/feature/data_backup_restore/presentation/provider/data_provider.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
-import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
 
 class UserSignedButton extends ConsumerStatefulWidget {
@@ -71,12 +69,14 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                   routines: [],
                   completedRoutineAmount: 0));
                   
-          if (dateNotifier.date!.id != null) {
-            await dateNotifier.deleteDate(dateNotifier.date!.id!);
-          }
+          //! IDK why i did this, but this is what causes the bug that sets routines as false
+          //! I'll leave it here, in case I've broken something else
+          // if (dateNotifier.date!.id != null) {
+          //   await dateNotifier.deleteDate(dateNotifier.date!.id!);
+          // }
 
-          await validateDateModel(ref.watch(routineProvider).routines!,
-              selectedDateNotifier.currentSelectedDate, ref);
+          // await validateDateModel(ref.watch(routineProvider).routines!,
+          //     selectedDateNotifier.currentSelectedDate, ref);
 
           if (context.mounted) {
             Navigator.of(context).pop();
