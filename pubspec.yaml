@@ -1,8 +1,8 @@
 name: wellnest
-description: "A new Flutter project."
+description: "WellNest: Progress Pal"
 
 publish_to: 'none'
-version: 1.6.10+19
+version: 1.7.1+20
 
 environment:
   sdk: ^3.6.0
