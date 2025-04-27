@@ -2,7 +2,7 @@ name: wellnest
 description: "A new Flutter project."
 
 publish_to: 'none'
-version: 1.6.9+18
+version: 1.6.10+19
 
 environment:
   sdk: ^3.6.0

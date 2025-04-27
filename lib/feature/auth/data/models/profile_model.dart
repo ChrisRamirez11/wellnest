@@ -85,8 +85,8 @@ class ProfileModel extends ProfileEntity {
       city: map['city'] != null ? map['city'] as String : null,
       description:
           map['description'] != null ? map['description'] as String : null,
-      goals: List<String>.from((map['goals'] as List<String>)),
-      interests: List<String>.from((map['interests'] as List<String>)),
+      goals: List<String>.from((map['goals'] as List)),
+      interests: List<String>.from((map['interests'] as List)),
       karma: map['karma'] as int,
       latitude: map['latitude'] != null ? map['latitude'] as double : null,
       longitude: map['longitude'] != null ? map['longitude'] as double : null,

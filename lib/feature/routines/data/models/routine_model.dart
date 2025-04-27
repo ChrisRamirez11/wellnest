@@ -58,40 +58,39 @@ class RoutineModel {
       endAt: entity.endAt);
 
   RoutineEntity toEntity() => RoutineEntity(
-        id: id,
-        name: name,
-        days: days,
-        finished: finished,
-        createdDate: createdDate,
-        colorValue: colorValue,
-        type: RoutineType.values.byName(type).name,
-        targetCount: targetCount,
-        currentCount: currentCount,
-        targetDuration: targetDurationSeconds,
-        elapsedTime: elapsedTimeSeconds,
-        alarmActive: alarmActive,
-        alarmTime: alarmTime,
-        endAt: endAt
-      );
+      id: id,
+      name: name,
+      days: days,
+      finished: finished,
+      createdDate: createdDate,
+      colorValue: colorValue,
+      type: RoutineType.values.byName(type).name,
+      targetCount: targetCount,
+      currentCount: currentCount,
+      targetDuration: targetDurationSeconds,
+      elapsedTime: elapsedTimeSeconds,
+      alarmActive: alarmActive,
+      alarmTime: alarmTime,
+      endAt: endAt);
 
   factory RoutineModel.fromMap(Map<String, dynamic> map) => RoutineModel(
-        id: map['id'] as int?,
-        name: map['name'] as String,
-        days: List<bool>.from(map['days'] as List),
-        finished: map['finished'] as bool,
-        createdDate: DateTime.parse(map['createdDate'] as String),
-        colorValue: map['colorValue'] as int? ?? Colors.blue.value,
-        type: RoutineType.values
-            .byName(map['type'] as String? ?? RoutineType.task.name)
-            .name,
-        targetCount: map['targetCount'] as int? ?? 1,
-        currentCount: map['currentCount'] as int? ?? 0,
-        targetDurationSeconds: map['targetDuration'] as int? ?? 0,
-        elapsedTimeSeconds: map['elapsedTime'] as int? ?? 0,
-        alarmActive: map['alarmActive'] as bool? ?? false,
-        alarmTime: map['alarmTime'] as String,
-        endAt: DateTime.parse(map['endAt'] as String)
-      );
+      id: map['id'] as int?,
+      name: map['name'] as String,
+      days: List<bool>.from(map['days'] as List),
+      finished: map['finished'] as bool,
+      createdDate: DateTime.parse(map['createdDate'] as String),
+      colorValue: map['colorValue'] as int? ?? Colors.blue.value,
+      type: RoutineType.values
+          .byName(map['type'] as String? ?? RoutineType.task.name)
+          .name,
+      targetCount: map['targetCount'] as int? ?? 1,
+      currentCount: map['currentCount'] as int? ?? 0,
+      targetDurationSeconds: map['targetDuration'] as int? ?? 0,
+      elapsedTimeSeconds: map['elapsedTime'] as int? ?? 0,
+      alarmActive: map['alarmActive'] as bool? ?? false,
+      alarmTime: map['alarmTime'] as String? ?? '',
+      endAt:
+          map['endAt'] != null ? DateTime.parse(map['endAt'] as String) : null);
 
   Map<String, dynamic> toMap() => <String, dynamic>{
         'id': id,

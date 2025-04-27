@@ -188,7 +188,7 @@ class Routine {
         targetDurationSeconds: map['targetDuration'] as int?,
         elapsedTimeSeconds: map['elapsedTime'] as int? ?? 0,
         alarmActive: map['alarmActive'] as bool? ?? false,
-        alarmTime: map['alarmTime'] as String,
+        alarmTime: map['alarmTime'] as String? ?? '',
         endAt: map['endAt'] != null
             ? DateTime.parse(map['endAt'] as String)
             : null
