@@ -148,6 +148,10 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                         dateNotifier.date!.completedRoutineAmount =
                             _getCompletedQuantity(dateNotifier);
                         await dateNotifier.upsertDate(dateNotifier.date!);
+                      } else {
+                        dateNotifier.date!.completedRoutineAmount =
+                            _getCompletedQuantity(dateNotifier);
+                        await dateNotifier.upsertDate(dateNotifier.date!);
                       }
                     }
                   : null,
