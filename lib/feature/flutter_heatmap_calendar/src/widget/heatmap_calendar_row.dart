@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wellnest/feature/flutter_heatmap_calendar/src/util/datasets_util.dart';
+// import 'package:wellnest/feature/flutter_heatmap_calendar/src/util/datasets_util.dart';
 // import '../util/datasets_util.dart';
 import 'heatmap_container.dart';
 import '../data/heatmap_color_mode.dart';
@@ -51,6 +51,12 @@ class HeatMapCalendarRow extends StatelessWidget {
   /// smaller or equal to [endDate].
   final Map<DateTime, int>? datasets;
 
+  /// The completionMap which fill blocks based on its completion percent.
+  ///
+  /// completionMap keys have to greater or equal to [startDate] and
+  /// smaller or equal to [endDate].
+  final Map<DateTime, double> completionMap;
+
   /// ColorMode changes the color mode of blocks.
   ///
   /// [ColorMode.opacity] requires just one colorsets value and changes color
@@ -72,25 +78,26 @@ class HeatMapCalendarRow extends StatelessWidget {
   /// The color of the currently selected day.
   final Color? currentSelectedDateColor;
 
-  HeatMapCalendarRow({
-    super.key,
-    required this.startDate,
-    required this.endDate,
-    required this.colorMode,
-    this.size,
-    this.fontSize,
-    this.defaultColor,
-    this.colorsets,
-    this.textColor,
-    this.borderRadius,
-    this.flexible,
-    this.margin,
-    this.datasets,
-    this.maxValue,
-    this.onClick,
-    this.currentSelectedDate,
-    this.currentSelectedDateColor,
-  }) : dayContainers = List<Widget>.generate(
+  HeatMapCalendarRow(
+      {super.key,
+      required this.startDate,
+      required this.endDate,
+      required this.colorMode,
+      this.size,
+      this.fontSize,
+      this.defaultColor,
+      this.colorsets,
+      this.textColor,
+      this.borderRadius,
+      this.flexible,
+      this.margin,
+      this.datasets,
+      this.maxValue,
+      this.onClick,
+      this.currentSelectedDate,
+      this.currentSelectedDateColor,
+      required this.completionMap})
+      : dayContainers = List<Widget>.generate(
           7,
           // If current week has first day of the month and
           // the first day is not a sunday, it must have extra space on it.
@@ -111,6 +118,7 @@ class HeatMapCalendarRow extends StatelessWidget {
                 )
               // If the day is not a empty one then create HeatMapContainer.
               : HeatMapContainer(
+                  colorMode: colorMode,
                   currentSelectedDate: currentSelectedDate,
                   currentSelectedDateColor: currentSelectedDateColor,
                   // Given information about the week is that
@@ -126,11 +134,19 @@ class HeatMapCalendarRow extends StatelessWidget {
                   borderRadius: borderRadius,
                   margin: margin,
                   onClick: onClick,
+                  percentCompleted: completionMap.keys.contains(DateTime(
+                          startDate.year,
+                          startDate.month,
+                          startDate.day - startDate.weekday % 7 + i))
+                      ? completionMap[DateTime(startDate.year, startDate.month,
+                              startDate.day - startDate.weekday % 7 + i)] ??
+                          0.0
+                      : 0.0,
+
                   // If datasets has DateTime key which is equal to this HeatMapContainer's date,
                   // we have to color the matched HeatMapContainer.
                   //
                   // If datasets is null or doesn't contains the equal DateTime value, send null.
-
                   selectedColor: datasets?.keys.contains(DateTime(
                               startDate.year,
                               startDate.month,
@@ -141,25 +157,28 @@ class HeatMapCalendarRow extends StatelessWidget {
                           // Color the container with first value of colorsets
                           // and set opacity value to current day's datasets key
                           // devided by maxValue which is the maximum value of the month.
-                          ? colorsets?.values.first.withValues(alpha: (datasets?[
-                                      DateTime(
+                          ? colorsets?.values.first.withValues(
+                              alpha: (datasets?[DateTime(
                                           startDate.year,
                                           startDate.month,
                                           startDate.day +
                                               i -
                                               (startDate.weekday % 7))] ??
-                                  1) /
-                              (maxValue ?? 1))
+                                      1) /
+                                  (maxValue ?? 1))
                           // Else if colorMode is ColorMode.Color.
                           //
                           // Get color value from colorsets which is filtered with DateTime value
                           // Using DatasetsUtil.getColor()
-                          : DatasetsUtil.getColor(
-                              colorsets,
-                              datasets?[DateTime(
-                                  startDate.year,
-                                  startDate.month,
-                                  startDate.day + i - (startDate.weekday % 7))])
+                          : colorsets?.values.last
+
+                      //! comented because i will not use, i'll use completion
+                      // : DatasetsUtil.getColor(
+                      //     colorsets,
+                      //     datasets?[DateTime(
+                      //         startDate.year,
+                      //         startDate.month,
+                      //         startDate.day + i - (startDate.weekday % 7))])
                       : null,
                 ),
         );

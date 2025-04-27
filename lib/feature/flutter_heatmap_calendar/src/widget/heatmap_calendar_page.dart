@@ -26,6 +26,9 @@ class HeatMapCalendarPage extends StatelessWidget {
   /// The double value of every block's fontSize.
   final double? fontSize;
 
+  /// The completionMap which fill blocks based on its value.
+  final Map<DateTime, double> completionMap;
+
   /// The datasets which fill blocks based on its value.
   final Map<DateTime, int>? datasets;
 
@@ -83,6 +86,7 @@ class HeatMapCalendarPage extends StatelessWidget {
     this.onClick,
     this.currentSelectedDate,
     this.currentSelectedDateColor,
+    required this.completionMap,
   })  : separatedDate = DateUtil.separatedMonth(baseDate),
         maxValue = DatasetsUtil.getMaxValue(
             DatasetsUtil.filterMonth(datasets, baseDate));
@@ -116,6 +120,11 @@ class HeatMapCalendarPage extends StatelessWidget {
                     key == date.keys.first ||
                     key == date.values.first),
               ),
+            completionMap: Map.from(completionMap)
+              ..removeWhere((key, value) => !(key.isAfter(date.keys.first) &&
+                      key.isBefore(date.values.first) ||
+                  key == date.keys.first ||
+                  key == date.values.first)),
           ),
       ],
     );

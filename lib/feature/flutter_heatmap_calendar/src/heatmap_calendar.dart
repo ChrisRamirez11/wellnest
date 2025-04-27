@@ -103,6 +103,9 @@ class HeatMapCalendar extends ConsumerStatefulWidget {
   /// The double value of [HeatMapColorTip]'s tip container's size.
   final double? colorTipSize;
 
+  /// The completionMap of [HeatMapCalendarPage]'s.
+  final Map<DateTime, double> completionMap;
+
   /// The day that is currently selected.
   final DateTime? currentSelectedDate;
 
@@ -139,6 +142,7 @@ class HeatMapCalendar extends ConsumerStatefulWidget {
     this.showReturnToActualDate = false,
     this.onReturnToActualDate,
     this.child,
+    required this.completionMap,
   });
 
   @override
@@ -320,6 +324,7 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
                         _header(),
                         _weekLabel(),
                         HeatMapCalendarPage(
+                          completionMap: widget.completionMap,
                           currentSelectedDate: widget.currentSelectedDate,
                           currentSelectedDateColor:
                               widget.currentSelectedDateColor,

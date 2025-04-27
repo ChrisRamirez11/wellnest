@@ -4,6 +4,7 @@ import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
+import 'package:wellnest/feature/flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:wellnest/feature/flutter_heatmap_calendar/src/heatmap_calendar.dart';
 import 'package:wellnest/feature/routines/data/models/routine_model.dart';
 import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
@@ -39,6 +40,7 @@ class CustomCalendar extends ConsumerWidget {
                 routines: [],
                 completedRoutineAmount: 0));
       },
+      colorMode: ColorMode.completion,
       showReturnToActualDate: true,
       weekTextColor: ghostWhite,
       currentSelectedDateColor: secondary,
@@ -54,6 +56,7 @@ class CustomCalendar extends ConsumerWidget {
       fontSize: 20,
       size: 70,
       initDate: DateTime.now(),
+      completionMap: _getCompletionMap(dates),
       datasets: _getDataset(dates),
       colorsets: {
         01: Colors.lightBlue.withValues(alpha: 0.4),
@@ -68,10 +71,20 @@ class CustomCalendar extends ConsumerWidget {
   Map<DateTime, int> _getDataset(List<DateModel>? dates) {
     final Map<DateTime, int> dataset = {};
     if (dates != null) {
-      for (final date in dates) {
-        dataset[date.date] = date.completedRoutineAmount;
+      for (final dateModel in dates) {
+        dataset[dateModel.date] = dateModel.completedRoutineAmount;
       }
     }
     return dataset;
+  }
+  
+  _getCompletionMap(List<DateModel>? dates) {
+        final Map<DateTime, double> completionMap = {};
+    if (dates != null) {
+      for (final dateModel in dates) {
+        completionMap[dateModel.date] = dateModel.completedRoutineAmount / dateModel.routines.length;
+      }
+    }
+    return completionMap;
   }
 }
