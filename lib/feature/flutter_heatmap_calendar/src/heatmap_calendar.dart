@@ -273,6 +273,8 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
     return Scaffold(
       appBar: CustomAppBar(
         actionsList: [
+          //todo This will be used when the community update is done, to go to routines screen
+          /*
           Container(
             margin: EdgeInsets.only(right: 10),
             height: 40,
@@ -291,6 +293,7 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
               ),
             ),
           )
+          */
         ],
         titleString: localization(context).calendar.toUpperCase(),
       ),
