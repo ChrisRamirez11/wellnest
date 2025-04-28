@@ -46,7 +46,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
     super.initState();
     _targetController = TextEditingController();
     _targetValues = {
-      RoutineType.counted: widget.routineModel?.targetCount.toString() ?? '1',
+      RoutineType.amount: widget.routineModel?.targetCount.toString() ?? '1',
       RoutineType.timed:
           widget.routineModel?.targetDurationSeconds.toString() ?? '0',
     };
@@ -166,7 +166,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
             const SizedBox(width: 8),
             Expanded(
                 child: _buildTypeButton(
-                    RoutineType.counted,
+                    RoutineType.amount,
                     localization(context).amount,
                     FontAwesomeIcons.circleArrowUp)),
             const SizedBox(width: 8),
@@ -262,8 +262,8 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
         type: _selectedType.name,
         currentCount: 0,
         elapsedTimeSeconds: 0,
-        targetCount: _targetValues[RoutineType.counted] != null
-            ? int.tryParse(_targetValues[RoutineType.counted]!) ?? 1
+        targetCount: _targetValues[RoutineType.amount] != null
+            ? int.tryParse(_targetValues[RoutineType.amount]!) ?? 1
             : 1,
         targetDurationSeconds: _targetValues[RoutineType.timed] != null
             ? int.tryParse(_targetValues[RoutineType.timed]!) ?? 0
@@ -284,7 +284,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
 
   Widget _buildTargetInput() {
     switch (_selectedType) {
-      case RoutineType.counted:
+      case RoutineType.amount:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -597,7 +597,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
     if (routine == null) return false;
 
     switch (RoutineType.values.byName(type)) {
-      case RoutineType.counted:
+      case RoutineType.amount:
         return (routine.currentCount) >= (routine.targetCount);
       case RoutineType.timed:
         return (routine.elapsedTimeSeconds) >= (routine.targetDurationSeconds);

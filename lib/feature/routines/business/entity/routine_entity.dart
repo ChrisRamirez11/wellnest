@@ -5,7 +5,7 @@
 enum RoutineType {
   task,
   timed,
-  counted;
+  amount;
 
   String get name => toString().split('.').last;
 }
