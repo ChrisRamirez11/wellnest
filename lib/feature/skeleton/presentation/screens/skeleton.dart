@@ -10,8 +10,8 @@ import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/feature/routines/presentation/screens/routines_screen.dart';
 import 'package:wellnest/feature/settings/presentation/screens/settings_screen.dart';
-import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
-import 'package:wellnest/feature/small_routines/presentation/screens/small_routines_screen.dart';
+import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
+import 'package:wellnest/feature/calendar/presentation/screens/small_routines_screen.dart';
 import 'package:wellnest/feature/skeleton/presentation/providers/index_provider.dart';
 import 'package:wellnest/feature/skeleton/presentation/widgets/custom_nav_bar.dart';
 

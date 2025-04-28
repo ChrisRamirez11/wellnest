@@ -9,7 +9,7 @@ import 'package:wellnest/feature/auth/presentation/riverpod/profile_provider.dar
 import 'package:wellnest/feature/data_backup_restore/presentation/provider/data_provider.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
-import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
+import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
 
 class UserSignedButton extends ConsumerStatefulWidget {
   const UserSignedButton({super.key});

@@ -10,8 +10,8 @@ import 'package:wellnest/feature/dates/data/models/date_model.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
 import 'package:wellnest/feature/routines/business/entity/routine_entity.dart';
 import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
-import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
-import 'package:wellnest/feature/small_routines/presentation/screens/countdown_page.dart';
+import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
+import 'package:wellnest/feature/calendar/presentation/screens/countdown_page.dart';
 
 class SmallRoutineTile extends ConsumerStatefulWidget {
   final int index;

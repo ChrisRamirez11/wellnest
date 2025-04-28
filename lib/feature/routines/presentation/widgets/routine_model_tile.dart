@@ -10,7 +10,7 @@ import 'package:wellnest/feature/routines/business/entity/routine_entity.dart';
 import 'package:wellnest/feature/routines/data/models/routine_model.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
-import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
+import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
 
 class RoutineTile extends ConsumerStatefulWidget {
   final int index;

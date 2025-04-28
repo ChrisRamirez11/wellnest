@@ -7,7 +7,7 @@ import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart
 import 'package:wellnest/feature/flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:wellnest/feature/flutter_heatmap_calendar/src/heatmap_calendar.dart';
 import 'package:wellnest/feature/routines/data/models/routine_model.dart';
-import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
+import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
 
 class CustomCalendar extends ConsumerWidget {
   final List<RoutineModel> routines;

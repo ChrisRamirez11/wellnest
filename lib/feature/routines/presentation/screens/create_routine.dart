@@ -18,7 +18,7 @@ import 'package:wellnest/feature/routines/presentation/providers/color_provider.
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/feature/routines/presentation/widgets/color_selector_tile.dart';
 import 'package:wellnest/feature/routines/presentation/widgets/custom_text_field.dart';
-import 'package:wellnest/feature/small_routines/presentation/providers/current_selected_date_provider.dart';
+import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
 
 import '../../../../core/theme/theme.dart';
 
