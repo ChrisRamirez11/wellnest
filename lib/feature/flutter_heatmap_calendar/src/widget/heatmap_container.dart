@@ -47,11 +47,15 @@ class HeatMapContainer extends StatelessWidget {
       foregroundDecoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular((borderRadius! + 4))),
           border: Border.all(
-              strokeAlign: percentCompleted != 1.0 ? -3.7 : -0.7,
-                  color: _selectedDateValidation()
-                      ? (currentSelectedDateColor ?? Colors.yellow).withAlpha(240)
-                      : Colors.transparent,
-                  width: percentCompleted != 1.0 ? 6 : 9)),
+              strokeAlign: (percentCompleted == 1.0 || percentCompleted == 0.0)
+                  ? -0.7
+                  : -3.7,
+              color: _selectedDateValidation()
+                  ? (currentSelectedDateColor ?? Colors.yellow).withAlpha(240)
+                  : Colors.transparent,
+              width: (percentCompleted == 1.0 || percentCompleted == 0.0)
+                  ? 9
+                  : 6)),
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeInOutQuad,
       width: size,
