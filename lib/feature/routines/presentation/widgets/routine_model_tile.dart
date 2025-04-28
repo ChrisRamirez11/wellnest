@@ -210,7 +210,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                             maxLines: 1,
                             style: textTheme(context)
                                 .bodySmall!
-                                .copyWith(color: Colors.grey.shade300),
+                                .copyWith(color: Colors.grey.shade400),
                           ),
                         ),
                       ],

@@ -143,6 +143,7 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
             context: context,
             builder: (context) => AlertDialog(
               title: Text(
+                //todo INTL
                 'Are you sure to quit the timer?',
                 style: textTheme(context).bodyLarge!.copyWith(fontSize: 20),
               ),
