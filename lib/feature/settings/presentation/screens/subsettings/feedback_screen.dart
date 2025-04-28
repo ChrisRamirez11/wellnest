@@ -64,33 +64,34 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         color:
             feedbackController.text.isNotEmpty ? primary : Colors.grey.shade700,
         onClick: feedbackController.text.isNotEmpty
-            ? () async {
-                final String feedback = feedbackController.text;
-                final Uri emailLaunchUri = Uri(
-                  scheme: 'mailto',
-                  path: email,
-                  queryParameters: {
-                    'subject': subject,
-                    'body': feedback,
-                  },
-                );
+    ? () async {
+        final String feedback = feedbackController.text;
+        final String encodedSubject = Uri.encodeComponent(subject);
+        final String encodedBody = Uri.encodeComponent(feedback);
 
-                if (await canLaunchUrl(emailLaunchUri)) {
-                  await launchUrl(emailLaunchUri);
-                  feedbackController.clear();
-                } else {
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content: Text(
-                        'Could not launch email client',
-                        style: textTheme(context).labelMedium,
-                      )),
-                    );
-                  }
-                }
-              }
-            : null,
+        final Uri emailLaunchUri = Uri(
+          scheme: 'mailto',
+          path: email,
+          query: 'subject=$encodedSubject&body=$encodedBody',
+        );
+
+        if (await canLaunchUrl(emailLaunchUri)) {
+          await launchUrl(emailLaunchUri);
+          feedbackController.clear();
+        } else {
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Could not launch email client',
+                  style: textTheme(context).labelMedium,
+                ),
+              ),
+            );
+          }
+        }
+      }
+    : null,
         text: localization(context).send.toUpperCase(),
       ),
     );
