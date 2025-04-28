@@ -6,6 +6,7 @@ import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
 import 'package:wellnest/feature/flutter_heatmap_calendar/src/util/date_util.dart';
+import 'package:wellnest/feature/routines/business/entity/routine_entity.dart';
 import 'package:wellnest/feature/routines/data/models/routine_model.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
@@ -160,8 +161,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
       left: 0,
       right: !flag ? width * 0.25 : 0,
       child: Card(
-        color: Color(widget.routine.colorValue)
-            .withAlpha(170),
+        color: Color(widget.routine.colorValue).withAlpha(170),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         margin: const EdgeInsets.all(10),
         child: Container(
@@ -172,28 +172,48 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                 Row(
                   children: [
                     //ROUTINE NAME
-                    AnimatedContainer(
-                      duration: Duration(milliseconds: 150),
-                      width: flag
-                          ? size(context).width * .65
-                          : size(context).width * .4,
-                      child: Tooltip(
-                        triggerMode: TooltipTriggerMode.tap,
-                        message: widget.routine.name,
-                        showDuration: Duration(seconds: 5),
-                        decoration: BoxDecoration(color: obsidian),
-                        textStyle: textTheme(context)
-                            .labelMedium!
-                            .copyWith(color: secondary),
-                        child: Text(
-                          overflow: TextOverflow.ellipsis,
-                          widget.routine.name,
-                          maxLines: 1,
-                          style: textTheme(context)
-                              .bodyLarge!
-                              .copyWith(fontSize: 18),
+                    Column(
+                      spacing: 5,
+                      children: [
+                        AnimatedContainer(
+                          duration: Duration(milliseconds: 150),
+                          width: flag
+                              ? size(context).width * .65
+                              : size(context).width * .4,
+                          child: Tooltip(
+                            triggerMode: TooltipTriggerMode.tap,
+                            message: widget.routine.name,
+                            showDuration: Duration(seconds: 5),
+                            decoration: BoxDecoration(color: obsidian, borderRadius: BorderRadius.circular(5)),
+                            textStyle: textTheme(context)
+                                .labelMedium!
+                                .copyWith(color: secondary),
+                            child: Text(
+                              overflow: TextOverflow.ellipsis,
+                              widget.routine.name,
+                              maxLines: 1,
+                              style: textTheme(context)
+                                  .bodyLarge!
+                                  .copyWith(fontSize: 18),
+                            ),
+                          ),
                         ),
-                      ),
+                        //ROUTINE TYPE
+                        AnimatedContainer(
+                          duration: Duration(milliseconds: 150),
+                          width: flag
+                              ? size(context).width * .65
+                              : size(context).width * .4,
+                          child: Text(
+                            overflow: TextOverflow.ellipsis,
+                            _getRoutineTypeText(context, widget.routine.type),
+                            maxLines: 1,
+                            style: textTheme(context)
+                                .bodySmall!
+                                .copyWith(color: Colors.grey.shade300),
+                          ),
+                        ),
+                      ],
                     ),
                     const Expanded(child: SizedBox()),
                     IconButton(
@@ -232,8 +252,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: widget.routine.days[index]
-                    ? Color(widget.routine.colorValue)
-                        .withAlpha(120)
+                    ? Color(widget.routine.colorValue).withAlpha(120)
                     : Colors.transparent,
               ),
               child: Center(
@@ -249,5 +268,18 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
         ),
       ),
     );
+  }
+
+  String _getRoutineTypeText(BuildContext context, String type) {
+    switch (RoutineType.values.byName(type)) {
+      case RoutineType.task:
+        return localization(context).task;
+
+      case RoutineType.amount:
+        return localization(context).amount;
+
+      case RoutineType.timed:
+        return localization(context).timeRoutine;
+    }
   }
 }

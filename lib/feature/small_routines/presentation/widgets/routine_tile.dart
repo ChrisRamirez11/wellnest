@@ -68,7 +68,7 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                 }
               : null,
         );
-      case RoutineType.counted:
+      case RoutineType.amount:
         return Row(
           children: [
             GestureDetector(
@@ -239,7 +239,7 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                               triggerMode: TooltipTriggerMode.tap,
                               message: widget.routine.name,
                               showDuration: Duration(seconds: 5),
-                              decoration: BoxDecoration(color: obsidian),
+                              decoration: BoxDecoration(color: obsidian, borderRadius: BorderRadius.circular(5)),
                               textStyle: textTheme(context)
                                   .labelMedium!
                                   .copyWith(color: secondary),
@@ -289,7 +289,7 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
         );
 
     switch (RoutineType.values.byName(routine.type!)) {
-      case RoutineType.counted:
+      case RoutineType.amount:
         return Text(
           '${routine.currentCount}/${routine.targetCount}',
           style: textStyle,
