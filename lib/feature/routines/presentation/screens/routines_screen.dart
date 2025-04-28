@@ -18,17 +18,14 @@ class RoutinesScreen extends ConsumerWidget {
     if (failure != null) {
       widget = Center(child: Text('Error: $failure'));
     } else if (routines != null) {
-      widget = Padding(
-        padding: const EdgeInsets.only(bottom: 30.0),
-        child: ListView.builder(
-          itemCount: routines.length,
-          itemBuilder: (context, index) {
-            return RoutineTile(
-              routine: routines[index],
-              index: index,
-            );
-          },
-        ),
+      widget = ListView.builder(
+        itemCount: routines.length,
+        itemBuilder: (context, index) {
+          return RoutineTile(
+            routine: routines[index],
+            index: index,
+          );
+        },
       );
     } else {
       widget = const Center(child: CircularProgressIndicator());
@@ -36,9 +33,19 @@ class RoutinesScreen extends ConsumerWidget {
 
     final showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
     return Scaffold(
-      appBar: CustomAppBar(titleString: localization(context).routines.toUpperCase()),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-      floatingActionButton: showFab ? const CustomFab() : const SizedBox(),
+      appBar: CustomAppBar(
+        titleString: localization(context).routines.toUpperCase(),
+        actionsList: [
+          showFab
+              ? const CustomFab(
+                  isMini: true,
+                )
+              : const SizedBox(),
+          SizedBox(
+            width: 10,
+          ),
+        ],
+      ),
       body: widget,
     );
   }
