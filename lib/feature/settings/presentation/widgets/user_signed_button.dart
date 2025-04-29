@@ -54,7 +54,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
             ),
           );
           //TODO if no connection, won't do and will show a no connection snackbar
-          await ref.watch(dataProvider).backupRestore(ref);
+          await ref.watch(dataProvider).backupRestore(ref, context);
 
           //updating the DateModel
           selectedDateNotifier.changeDate(DateTime.now());
@@ -68,7 +68,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                   date: selectedDateNotifier.currentSelectedDate,
                   routines: [],
                   completedRoutineAmount: 0));
-                  
+
           //! IDK why i did this, but this is what causes the bug that sets routines as false
           //! I'll leave it here, in case I've broken something else
           // if (dateNotifier.date!.id != null) {

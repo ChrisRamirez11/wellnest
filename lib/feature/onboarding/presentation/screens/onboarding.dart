@@ -37,7 +37,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   @override
   Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
-    await NotiService().cancelNotifications();
+    await NotiService().cancelAllNotifications();
   }
 
   @override

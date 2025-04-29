@@ -41,7 +41,7 @@ class LanguageSelectionDialog extends ConsumerWidget {
                     : SizedBox.shrink(),
                 onTap: () async {
                   //Cancels all notifications
-                  await NotiService().cancelNotifications();
+                  await NotiService().cancelAllNotifications();
 
                   //Changes the language
                   ref.watch(localeProvider).changeLocale(

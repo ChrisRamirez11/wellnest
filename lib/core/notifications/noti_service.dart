@@ -82,17 +82,13 @@ class NotiService {
     debugPrint('Scheduled Date: $scheduledDate');
   }
 
-  Future<void> showTestNotification() async {
-    await notificationsPlugin.show(
-      0,
-      'Test Notification',
-      'This is a test',
-      notificationDetails(),
-    );
+  Future<void> cancelAllNotifications() async {
+    await notificationsPlugin.cancelAll();
+    debugPrint('Notifications Cancelled');
   }
 
-  Future<void> cancelNotifications() async {
-    await notificationsPlugin.cancelAll();
+  Future<void> cancelNotificationById(int id) async {
+    await notificationsPlugin.cancel(id);
     debugPrint('Notifications Cancelled');
   }
 

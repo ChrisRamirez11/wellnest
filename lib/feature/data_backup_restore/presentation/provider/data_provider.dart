@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/errors/failures.dart';
+import 'package:wellnest/core/notifications/global_app_notification.dart';
+import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/preferences/user_preferences.dart';
+import 'package:wellnest/core/utils/set_routines_reminders.dart';
 import 'package:wellnest/feature/data_backup_restore/business/usecases/get_data_usecase.dart';
 import 'package:wellnest/feature/data_backup_restore/business/usecases/update_data_usecase.dart';
 import 'package:wellnest/feature/data_backup_restore/data/datasources/data_remote_datasource.dart';
@@ -39,7 +42,7 @@ class DataProvider extends ChangeNotifier {
   final _routineRepository = RoutineRepositoryImpl(
       routineLocalDatasource: RoutineLocalDatasourceImpl());
 
-  Future<void> backupRestore(WidgetRef ref) async {
+  Future<void> backupRestore(WidgetRef ref, BuildContext context) async {
     final userId = supabase.auth.currentUser!.id;
     final preferences = UserPreferences();
     //set up the backup and restore UseCases
@@ -158,6 +161,11 @@ class DataProvider extends ChangeNotifier {
     //updating the providers
     await ref.watch(routineProvider).getRoutines();
     await ref.watch(dateProvider).getDates();
+
+    //RESTORING NOTIFICATIONS
+    NotiService().cancelAllNotifications();
+    await setGlobalAppNotification(ref, context);
+    await setRoutinesReminders(ref);
 
     notifyListeners();
     debugPrint('Backup and Restore Succesful');

@@ -1,10 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
+import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/utils/format_duration.dart';
+import 'package:wellnest/core/utils/string_to_time_of_day.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
 import 'package:wellnest/core/widgets/custom_app_bar.dart';
@@ -36,10 +40,15 @@ class CreateRoutineScreen extends ConsumerStatefulWidget {
 class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   late TextEditingController _nameController;
   late List<bool> _days;
-  var loading = false;
   RoutineType _selectedType = RoutineType.task;
   late TextEditingController _targetController;
   late Map<RoutineType, String> _targetValues;
+  bool _alarmActive = false;
+  late String? _alarmTime;
+  late DateTime? _endAt; //todo finish endAt
+
+  var loading = false;
+  var isExpanded = false;
 
   @override
   void initState() {
@@ -50,7 +59,18 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
       RoutineType.timed:
           widget.routineModel?.targetDurationSeconds.toString() ?? '0',
     };
-    
+
+    _alarmActive = widget.routineModel!.alarmActive != null
+        ? widget.routineModel!.alarmActive!
+        : false;
+    _endAt = widget.routineModel!.endAt;
+    _alarmTime = (widget.routineModel!.alarmTime != null &&
+            widget.routineModel!.alarmTime!.isNotEmpty
+        ? widget.routineModel!.alarmTime!
+        : '22:30');
+
+    isExpanded = _alarmActive;
+
     if (widget.routineModel == null) {
       _nameController = TextEditingController();
       _days = List.generate(7, (index) => true);
@@ -97,7 +117,9 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
       bottomNavigationBar: getCreateButton(
           routineNotifier, context, dateNotifier, colorNotifier),
       appBar: CustomAppBar(
-          titleString: localization(context).newRoutine.toUpperCase()),
+          titleString: widget.routineModel == null
+              ? localization(context).newRoutine.toUpperCase()
+              : widget.routineModel!.name),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -133,6 +155,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                 ),
               ),
               weekDays(context),
+              getAdvancedSettings(),
               SizedBox(
                   height: 250,
                   width: double.infinity,
@@ -200,41 +223,6 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
         text: label);
   }
 
-  Widget getCreateButton(RoutineProvider routineNotifier, BuildContext context,
-      DateProvider dateNotifier, ColorProvider colorNotifier) {
-    return Padding(
-      padding: const EdgeInsets.all(15),
-      child: CustomButton(
-          color: primary,
-          textColor: secondary,
-          text: localization(context).save.toUpperCase(),
-          onClick: !loading
-              ? () async {
-                  if (!_validateInputs()) {
-                    _showErrorSnackbar(context);
-                    return;
-                  }
-
-                  setState(() => loading = true);
-
-                  final routineModel = _createRoutineModel(colorNotifier);
-
-                  await routineNotifier.upsertRoutine(routineModel);
-                  await _validateActualDayRoutineAddition(
-                      routineModel, dateNotifier);
-                  ref
-                      .watch(currentSelectedDateProvider)
-                      .changeDate(DateTime.now());
-
-                  if (context.mounted) {
-                    setState(() => loading = false);
-                    Navigator.of(context).pop();
-                  }
-                }
-              : null),
-    );
-  }
-
   bool _validateInputs() {
     final hasName = _nameController.text.isNotEmpty;
     final hasDays = _days.any((element) => element);
@@ -246,28 +234,6 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
     }
 
     return hasName && hasDays && validTarget;
-  }
-
-  RoutineModel _createRoutineModel(ColorProvider colorNotifier) {
-    return RoutineModel(
-        id: widget.routineModel?.id,
-        name: _nameController.text,
-        days: _days,
-        createdDate: widget.routineModel?.createdDate ??
-            DateTime(
-                DateTime.now().year, DateTime.now().month, DateTime.now().day),
-        //checks if finished or not
-        finished: false,
-        colorValue: colorNotifier.color.value,
-        type: _selectedType.name,
-        currentCount: 0,
-        elapsedTimeSeconds: 0,
-        targetCount: _targetValues[RoutineType.amount] != null
-            ? int.tryParse(_targetValues[RoutineType.amount]!) ?? 1
-            : 1,
-        targetDurationSeconds: _targetValues[RoutineType.timed] != null
-            ? int.tryParse(_targetValues[RoutineType.timed]!) ?? 0
-            : 0);
   }
 
   void _showErrorSnackbar(BuildContext context) {
@@ -523,6 +489,80 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
     );
   }
 
+  Widget getCreateButton(RoutineProvider routineNotifier, BuildContext context,
+      DateProvider dateNotifier, ColorProvider colorNotifier) {
+    return Padding(
+      padding: const EdgeInsets.all(15),
+      child: CustomButton(
+          color: primary,
+          textColor: secondary,
+          text: localization(context).save.toUpperCase(),
+          onClick: !loading
+              ? () async {
+                  if (!_validateInputs()) {
+                    _showErrorSnackbar(context);
+                    return;
+                  }
+
+                  setState(() => loading = true);
+
+                  final routineModel = _createRoutineModel(colorNotifier);
+
+                  await routineNotifier.upsertRoutine(routineModel);
+                  await _validateActualDayRoutineAddition(
+                      routineModel, dateNotifier);
+                  ref
+                      .watch(currentSelectedDateProvider)
+                      .changeDate(DateTime.now());
+
+                  //SETS notification
+                  //todo INTL
+                  if (_alarmActive == true) {
+                    await NotiService().scheduleNotification(
+                        id: routineModel.id,
+                        title: routineModel.name,
+                        body: "It's time to grow, complete your routine",
+                        hour: stringToTimeOfDay(_alarmTime!).hour,
+                        minute: stringToTimeOfDay(_alarmTime!).minute);
+                  } else {
+                    await NotiService()
+                        .cancelNotificationById(routineModel.id!.toInt());
+                  }
+
+                  if (context.mounted) {
+                    setState(() => loading = false);
+                    Navigator.of(context).pop();
+                  }
+                }
+              : null),
+    );
+  }
+
+  RoutineModel _createRoutineModel(ColorProvider colorNotifier) {
+    return RoutineModel(
+        id: widget.routineModel?.id,
+        name: _nameController.text,
+        days: _days,
+        createdDate: widget.routineModel?.createdDate ??
+            DateTime(
+                DateTime.now().year, DateTime.now().month, DateTime.now().day),
+        //checks if finished or not
+        finished: false,
+        colorValue: colorNotifier.color.value,
+        type: _selectedType.name,
+        currentCount: 0,
+        elapsedTimeSeconds: 0,
+        alarmActive: _alarmActive,
+        alarmTime: _alarmTime,
+        endAt: _endAt,
+        targetCount: _targetValues[RoutineType.amount] != null
+            ? int.tryParse(_targetValues[RoutineType.amount]!) ?? 1
+            : 1,
+        targetDurationSeconds: _targetValues[RoutineType.timed] != null
+            ? int.tryParse(_targetValues[RoutineType.timed]!) ?? 0
+            : 0);
+  }
+
   Future<void> _validateActualDayRoutineAddition(
       RoutineModel routine, DateProvider dateNotifier) async {
     if (dateNotifier.dates!.isEmpty) {
@@ -612,5 +652,95 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
       result += routine.finished! ? 1 : 0;
     }
     return result;
+  }
+
+  Widget getAdvancedSettings() {
+    //todo INTL
+    return ExpansionTile(
+      initiallyExpanded: _alarmActive,
+      shape: Border.all(color: Colors.transparent),
+      onExpansionChanged: (value) {
+        setState(() {
+          isExpanded = value;
+        });
+      },
+      trailing: isExpanded
+          ? Transform.rotate(
+              angle: 90 * (pi / 180), child: Icon(Icons.arrow_forward_ios))
+          : Icon(Icons.arrow_forward_ios),
+      title: Text(
+        'Advanced Settings',
+        style: textTheme(context).bodyLarge,
+      ),
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              color: primary,
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Column(
+            children: [
+              SwitchListTile(
+                thumbIcon: WidgetStatePropertyAll(Icon(
+                  _alarmActive
+                      ? Icons.notifications_active
+                      : Icons.notifications_off,
+                )),
+                inactiveTrackColor: Colors.black45,
+                activeTrackColor: secondary,
+                title: Text(
+                  'Remind this habit',
+                  style: textTheme(context).bodyLarge,
+                ),
+                value: _alarmActive,
+                onChanged: (value) {
+                  setState(() {
+                    _alarmActive = value;
+                  });
+                },
+              ),
+              _alarmActive
+                  ? SizedBox(
+                      width: size(context).width * 0.8,
+                      child: CustomButton(
+                          color: primary.withAlpha(100),
+                          radius: 10,
+                          onClick: () async {
+                            final time = await showTimePicker(
+                              builder: (context, child) {
+                                return Theme(
+                                  data: Theme.of(context).copyWith(
+                                    textTheme: TextTheme(
+                                      labelLarge: TextStyle(fontSize: 15),
+                                    ),
+                                  ),
+                                  child: child!,
+                                );
+                              },
+                              initialEntryMode: TimePickerEntryMode.input,
+                              context: context,
+                              initialTime: stringToTimeOfDay(_alarmTime!),
+                            );
+                            if (time != null) {
+                              setState(() {
+                                final parsedTime =
+                                    '${time.hour}:${time.minute}';
+                                _alarmTime = parsedTime;
+                              });
+                            }
+                          },
+                          text:
+                              "${stringToTimeOfDay(_alarmTime!).hour.toString().padLeft(2, '0')}:${stringToTimeOfDay(_alarmTime!).minute.toString().padLeft(2, '0')}"),
+                    )
+                  : SizedBox.shrink(),
+              _alarmActive
+                  ? SizedBox(
+                      height: 20,
+                    )
+                  : SizedBox.shrink()
+            ],
+          ),
+        )
+      ],
+    );
   }
 }
