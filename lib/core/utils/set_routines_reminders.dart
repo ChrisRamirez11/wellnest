@@ -10,7 +10,7 @@ Future<void> setRoutinesReminders(WidgetRef ref) async {
   for (final routine in routinesList) {
     if (routine.alarmActive != null ? routine.alarmActive! : false) {
       await NotiService().scheduleNotification(
-          id: routine.id,
+          id: routine.id!,
           title: routine.name,
           body: "It's time to grow, complete your routine",
           hour: stringToTimeOfDay(routine.alarmTime!).hour,

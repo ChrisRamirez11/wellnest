@@ -57,7 +57,7 @@ class NotiService {
 
   //Scheduled Notification
   Future<void> scheduleNotification({
-    int? id,
+    required int id,
     required String title,
     required String body,
     required int hour,
@@ -73,7 +73,7 @@ class NotiService {
     }
 
     await notificationsPlugin.zonedSchedule(
-        id ?? UniqueKey().hashCode, title, body, scheduledDate, notificationDetails(),
+        id, title, body, scheduledDate, notificationDetails(),
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
@@ -89,7 +89,7 @@ class NotiService {
 
   Future<void> cancelNotificationById(int id) async {
     await notificationsPlugin.cancel(id);
-    debugPrint('Notifications Cancelled');
+    debugPrint('Notification $id Cancelled');
   }
 
   Future<List<PendingNotificationRequest>> checkScheduledNotis() async {

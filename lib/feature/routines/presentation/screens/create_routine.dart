@@ -519,7 +519,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   //todo INTL
                   if (_alarmActive == true) {
                     await NotiService().scheduleNotification(
-                        id: routineModel.id,
+                        id: routineModel.id!,
                         title: routineModel.name,
                         body: "It's time to grow, complete your routine",
                         hour: stringToTimeOfDay(_alarmTime!).hour,

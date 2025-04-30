@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/core/notifications/global_app_notification.dart';
+import 'package:wellnest/core/global_providers/global_noti_ids.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/string_to_time_of_day.dart';
@@ -17,11 +17,17 @@ class NotificationsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final timeNotifier = ref.watch(startAndEndTimeProvider);
-    final reminderDates = _getRemindedDateList(ref);
+    final globalNotiNotifier = ref.watch(globalNotiIdsProvider);
+
+    final reminderDatesList = _getRemindedDateList(ref);
+
+    final start = timeNotifier.start;
+    final end = timeNotifier.end;
 
     return Scaffold(
       appBar: CustomAppBar(titleString: localization(context).notifications),
       body: ListView(children: [
+        //Morning Notification
         _NotificationCard(
           icon: Icons.wb_sunny,
           title: localization(context).morningNoti,
@@ -36,8 +42,7 @@ class NotificationsScreen extends ConsumerWidget {
                 return Theme(
                   data: Theme.of(context).copyWith(
                     textTheme: TextTheme(
-                      labelLarge:
-                          TextStyle(fontSize: 15), // Ajusta el tamaño de fuente
+                      labelLarge: TextStyle(fontSize: 15),
                     ),
                   ),
                   child: child!,
@@ -47,16 +52,20 @@ class NotificationsScreen extends ConsumerWidget {
             if (time != null) {
               timeNotifier.setStartOfDay(time);
 
-              //cancells the notifications
-              await NotiService().cancelAllNotifications();
-
-              //resets the notifications
+              //resets the day notifications
               if (context.mounted) {
-                await setGlobalAppNotification(ref, context);
+                await NotiService().scheduleNotification(
+                    id: globalNotiNotifier.morningId,
+                    title: localization(context).morningNotiTitle,
+                    body: localization(context).morningNotiBody,
+                    hour: stringToTimeOfDay(start).hour,
+                    minute: stringToTimeOfDay(start).minute);
               }
             }
           },
         ),
+
+        //Night Notification
         _NotificationCard(
           icon: Icons.nights_stay_outlined,
           title: localization(context).nightNoti,
@@ -64,6 +73,7 @@ class NotificationsScreen extends ConsumerWidget {
               hour: ((stringToTimeOfDay(timeNotifier.end).hour - 2) % 24),
               minute: stringToTimeOfDay(timeNotifier.end).minute),
           onPressed: () async {
+
             //TODO every timepicker will use a common time picker, no repeating the same thing so many times
             //shows the time picker
             final time = await showTimePicker(
@@ -74,8 +84,7 @@ class NotificationsScreen extends ConsumerWidget {
                 return Theme(
                   data: Theme.of(context).copyWith(
                     textTheme: TextTheme(
-                      labelLarge:
-                          TextStyle(fontSize: 15), // Ajusta el tamaño de fuente
+                      labelLarge: TextStyle(fontSize: 15),
                     ),
                   ),
                   child: child!,
@@ -85,12 +94,14 @@ class NotificationsScreen extends ConsumerWidget {
             if (time != null) {
               timeNotifier.setEndOfDay(time);
 
-              //cancells the notifications
-              await NotiService().cancelAllNotifications();
-
-              //resets the notifications
+              //resets the night notification
               if (context.mounted) {
-                await setGlobalAppNotification(ref, context);
+                await NotiService().scheduleNotification(
+                    id: globalNotiNotifier.nightId,
+                    title: localization(context).nightNotiTitle,
+                    body: localization(context).nightNotiBody,
+                    hour: ((stringToTimeOfDay(end).hour - 2) % 24),
+                    minute: stringToTimeOfDay(end).minute);
               }
             }
           },
@@ -98,7 +109,7 @@ class NotificationsScreen extends ConsumerWidget {
         SizedBox(
           height: 10,
         ),
-        _getRemindRoutinesTiles(reminderDates)
+        _getRemindRoutinesTiles(reminderDatesList)
       ]),
     );
   }

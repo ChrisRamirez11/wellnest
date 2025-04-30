@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreferences {
@@ -5,7 +6,7 @@ class UserPreferences {
   factory UserPreferences() {
     return _instancia;
   }
-  
+
   UserPreferences._internal();
   late SharedPreferencesWithCache _prefs;
 
@@ -52,6 +53,22 @@ class UserPreferences {
 
   bool get notiOption {
     return _prefs.getBool('NotiSetted') ?? true;
+  }
+
+  int get morningNotiId {
+    return _prefs.getInt('morningNotiId') ?? UniqueKey().hashCode;
+  }
+
+  set morningNotiId(int value) {
+    _prefs.setInt('morningNotiId', value);
+  }
+
+  int get nightNotiId {
+    return _prefs.getInt('nightNotiId') ?? UniqueKey().hashCode;
+  }
+
+  set nightNotiId(int value) {
+    _prefs.setInt('nightNotiId', value);
   }
 
   set firstAppOpening(bool value) {
