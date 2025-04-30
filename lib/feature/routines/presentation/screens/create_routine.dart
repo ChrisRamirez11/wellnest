@@ -60,11 +60,11 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
           widget.routineModel?.targetDurationSeconds.toString() ?? '0',
     };
 
-    _alarmActive = widget.routineModel!.alarmActive != null
+    _alarmActive = widget.routineModel?.alarmActive != null
         ? widget.routineModel!.alarmActive!
         : false;
-    _endAt = widget.routineModel!.endAt;
-    _alarmTime = (widget.routineModel!.alarmTime != null &&
+    _endAt = widget.routineModel?.endAt;
+    _alarmTime = (widget.routineModel?.alarmTime != null &&
             widget.routineModel!.alarmTime!.isNotEmpty
         ? widget.routineModel!.alarmTime!
         : '22:30');

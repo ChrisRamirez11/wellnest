@@ -93,7 +93,7 @@ class RoutineModel {
           map['endAt'] != null ? DateTime.parse(map['endAt'] as String) : null);
 
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'id': id,
+        // 'id': id,
         'name': name,
         'days': days,
         'finished': finished,

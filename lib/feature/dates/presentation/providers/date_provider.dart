@@ -32,7 +32,7 @@ class DateProvider extends ChangeNotifier {
   DateModel? get date => _date;
   Failure? get failure => _failure;
 
-  setDate(DateModel d) {
+  void setDate(DateModel d) {
     _date = d;
     notifyListeners();
   }

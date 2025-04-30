@@ -36,6 +36,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
         onTap: () async {
           final dateNotifier = ref.watch(dateProvider);
           final selectedDateNotifier = ref.watch(currentSelectedDateProvider);
+
           showDialog(
             barrierDismissible: false,
             context: context,
@@ -68,15 +69,6 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                   date: selectedDateNotifier.currentSelectedDate,
                   routines: [],
                   completedRoutineAmount: 0));
-
-          //! IDK why i did this, but this is what causes the bug that sets routines as false
-          //! I'll leave it here, in case I've broken something else
-          // if (dateNotifier.date!.id != null) {
-          //   await dateNotifier.deleteDate(dateNotifier.date!.id!);
-          // }
-
-          // await validateDateModel(ref.watch(routineProvider).routines!,
-          //     selectedDateNotifier.currentSelectedDate, ref);
 
           if (context.mounted) {
             Navigator.of(context).pop();

@@ -105,13 +105,10 @@ class DataProvider extends ChangeNotifier {
 
     //if data not null will add the fetched data to local datas(eg. List<DateModel>)
     //GOOD TO KNOW that here is were really is backing up by adding data to the local
-    //! To avoid recovering deleted data, the back up just happens once, from there every time it will create the restore point
-    //! so if you uninstall the app is when will only need to back it up.
     if (data != null && !preferences.backedupData) {
       for (var i = 0; i < data!.dates.length; i++) {
-        if (dates.any((element) =>
+        if (dates.any((element) =>//we check if the date exists
             element.date == DateModel.fromMap(data!.dates[i]).date)) {
-          //we check if the date exists
           //we take the index of the existent date
           final index = dates.indexWhere((element) =>
               element.date == DateModel.fromMap(data!.dates[i]).date);
@@ -126,6 +123,7 @@ class DataProvider extends ChangeNotifier {
         }
       }
 
+      //merge the existent with the incoming
       routines
           .addAll(data!.routines.map((e) => RoutineModel.fromMap(e)).toList());
       preferences.backedupData = true;
@@ -164,7 +162,7 @@ class DataProvider extends ChangeNotifier {
 
     //RESTORING NOTIFICATIONS
     NotiService().cancelAllNotifications();
-    await setGlobalAppNotification(ref, context);
+    if (context.mounted) await setGlobalAppNotification(ref, context);
     await setRoutinesReminders(ref);
 
     notifyListeners();

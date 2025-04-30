@@ -195,7 +195,7 @@ class Routine {
       );
 
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'id': id,
+        // 'id': id,
         'name': name,
         'days': days,
         'finished': finished,
