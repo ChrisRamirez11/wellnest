@@ -25,27 +25,16 @@ class ProfileRemoteDatasourceImpl extends ProfileRemoteDatasource {
       final role =
           await supabase.from('roles').select().eq('user_id', userId).single();
 
-      ProfileModel profile = ProfileModel(
-          id: profileMap['id'],
-          fullName: profileMap['fullname'] ?? '',
-          email: profileMap['email'],
-          role: role['role'],
-          avatarUrl: profileMap['avatar_url'],
-          occupation: profileMap['occupation'] ?? '',
-          city: profileMap['city'] ?? '',
-          description: profileMap['description'] ?? '',
-          goals: profileMap['goals'] ?? [],
-          interests: profileMap['interests'] ?? [],
-          karma: profileMap['karma'] ?? 0,
-          latitude: profileMap['latitude'] ?? 0.0,
-          longitude: profileMap['longitude'] ?? 0.0);
+      profileMap.addAll({'role': role['role']});
+
+      ProfileModel profile = ProfileModel.fromMap(profileMap);
 
       return profile;
     } on PostgrestException catch (error) {
       throw ServerException(message: error.message);
     } catch (error) {
       log('get user data $error');
-      throw ServerException(message: 'Network Error');
+      throw ServerException(message: 'Error $error');
     }
   }
 
@@ -100,7 +89,8 @@ class ProfileRemoteDatasourceImpl extends ProfileRemoteDatasource {
       throw ServerException(message: error.message);
     } catch (error) {
       log('update user data $error');
-      throw ServerException(message: "Couldn't update your data. Network error");
+      throw ServerException(
+          message: "Couldn't update your data. Network error");
     }
   }
 

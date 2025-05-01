@@ -58,10 +58,10 @@ class ProfileModel extends ProfileEntity {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'fullName': fullName,
+      'fullname': fullName,
       'email': email,
       'role': role,
-      'avatarUrl': avatarUrl,
+      'avatar_url': avatarUrl,
       'occupation': occupation,
       'city': city,
       'description': description,
@@ -76,18 +76,20 @@ class ProfileModel extends ProfileEntity {
   factory ProfileModel.fromMap(Map<String, dynamic> map) {
     return ProfileModel(
       id: map['id'] as String,
-      fullName: map['fullName'] as String,
+      fullName: map['fullname'] as String,
       email: map['email'] as String,
       role: map['role'] as String,
-      avatarUrl: map['avatarUrl'] as String,
+      avatarUrl: map['avatar_url'] as String,
       occupation:
           map['occupation'] != null ? map['occupation'] as String : null,
       city: map['city'] != null ? map['city'] as String : null,
       description:
           map['description'] != null ? map['description'] as String : null,
-      goals: List<String>.from((map['goals'] as List)),
-      interests: List<String>.from((map['interests'] as List)),
-      karma: map['karma'] as int,
+      goals: map['goals'] != null ? List<String>.from((map['goals'])) : null,
+      interests: map['interests'] != null
+          ? List<String>.from((map['interests']))
+          : null,
+      karma: map['karma'] != null ? map['karma'] as int : null,
       latitude: map['latitude'] != null ? map['latitude'] as double : null,
       longitude: map['longitude'] != null ? map['longitude'] as double : null,
     );
