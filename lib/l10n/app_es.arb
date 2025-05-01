@@ -52,5 +52,11 @@
     "reset": "Reiniciar",
     "resume": "Continuar",
     "pause": "Pausar",
-    "finish": "Terminar"
+    "finish": "Terminar",
+    "routineReminderBody": "Es hora de crecer, completa tu rutina",
+    "quitTimer": "¿Estás seguro de salir del temporizador?",
+    "timerSaved": "Tu progreso actual se guardará. Puedes continuar más tarde.",
+    "ok": "Aceptar",
+    "advancedSettings": "Configuración Avanzada",
+    "remindHabit": "Recordar este hábito"
 }

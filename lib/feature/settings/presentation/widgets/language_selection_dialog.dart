@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wellnest/core/global_providers/locale_provider.dart';
 import 'package:wellnest/core/notifications/global_app_notification.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
+import 'package:wellnest/core/utils/set_routines_reminders.dart';
 import 'package:wellnest/core/utils/utils.dart';
 
 class LanguageSelectionDialog extends ConsumerWidget {
@@ -50,6 +51,8 @@ class LanguageSelectionDialog extends ConsumerWidget {
                   //Sets again the notifications, so it's translated
                   if (context.mounted) {
                     await setGlobalAppNotification(ref, context);
+                  }if (context.mounted) {
+                    await setRoutinesReminders(context, ref);
                   }
                   
                   if (context.mounted) Navigator.pop(context);

@@ -52,5 +52,11 @@
     "reset": "リセット",
     "resume": "再開",
     "pause": "一時停止",
-    "finish": "終了"
+    "finish": "終了",
+    "routineReminderBody": "成長の時間です。ルーティンを完了させましょう",
+    "quitTimer": "タイマーを終了しますか？",
+    "timerSaved": "現在の進捗は保存されます。後で続けることができます。",
+    "ok": "OK",
+    "advancedSettings": "詳細設定",
+    "remindHabit": "この習慣をリマインド"
 }

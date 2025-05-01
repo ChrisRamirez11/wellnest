@@ -201,7 +201,7 @@
     },
     "reset": "Reset",
     "@reset": {
-        "description": "Reset"
+        "description": "Reset the timer"
     },
     "resume": "Resume",
     "@resume": {
@@ -214,5 +214,29 @@
     "finish": "Finish",
     "@finish": {
         "description": "Finish"
+    },
+    "routineReminderBody": "It's time to grow, complete your routine",
+    "@routineReminderBody": {
+        "description": "It's time to grow, complete your routine"
+    },
+    "quitTimer": "Are you sure to quit the timer?",
+    "@quitTimer": {
+        "description": "Quit Timer Question"
+    },
+    "timerSaved": "Your current progress will be saved. You can return later to continue.",
+    "@timerSaved": {
+        "description": "Timer Will be saved message"
+    },
+    "ok": "Ok",
+    "@ok": {
+        "description": "Ok"
+    },
+    "advancedSettings": "Advanced Settings",
+    "@advancedSettings": {
+        "description": "Advanced Settings"
+    },
+    "remindHabit": "Remind this habit",
+    "@remindHabit": {
+        "description": "Remind this habit"
     }
 }

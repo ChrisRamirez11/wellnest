@@ -143,12 +143,11 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
             context: context,
             builder: (context) => AlertDialog(
               title: Text(
-                //todo INTL
-                'Are you sure to quit the timer?',
+                localization(context).quitTimer,
                 style: textTheme(context).bodyLarge!.copyWith(fontSize: 20),
               ),
               content: Text(
-                  'Your current progress will be saved. You can return later to continue.',
+                  localization(context).timerSaved,
                   style: textTheme(context)
                       .bodySmall!
                       .copyWith(color: Colors.grey)),
@@ -167,7 +166,7 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   },
-                  child: Text('OK',
+                  child: Text(localization(context).ok.toUpperCase(),
                       style: textTheme(context).bodyMedium!.copyWith(
                           color: Theme.of(context).colorScheme.primary)),
                 ),
@@ -249,12 +248,12 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
 
               // Reset Button
               SizedBox(
-                width: 100,
+                width: 150,
                 child: CustomButton(
                   onClick: _resetTimer,
                   icon: const Icon(Icons.restart_alt),
                   text: localization(context).reset.toUpperCase(),
-                  color: primary.withAlpha(5),
+                  color: Colors.transparent,
                 ),
               ),
 

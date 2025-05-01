@@ -516,12 +516,11 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                       .changeDate(DateTime.now());
 
                   //SETS notification
-                  //todo INTL
-                  if (_alarmActive == true) {
+                  if (_alarmActive == true && context.mounted) {
                     await NotiService().scheduleNotification(
                         id: routineModel.id!,
                         title: routineModel.name,
-                        body: "It's time to grow, complete your routine",
+                        body: localization(context).routineReminderBody,
                         hour: stringToTimeOfDay(_alarmTime!).hour,
                         minute: stringToTimeOfDay(_alarmTime!).minute);
                   } else {
@@ -655,7 +654,6 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   }
 
   Widget getAdvancedSettings() {
-    //todo INTL
     return ExpansionTile(
       initiallyExpanded: _alarmActive,
       shape: Border.all(color: Colors.transparent),
@@ -669,7 +667,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               angle: 90 * (pi / 180), child: Icon(Icons.arrow_forward_ios))
           : Icon(Icons.arrow_forward_ios),
       title: Text(
-        'Advanced Settings',
+        localization(context).advancedSettings,
         style: textTheme(context).bodyLarge,
       ),
       children: [
@@ -688,7 +686,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                 inactiveTrackColor: Colors.black45,
                 activeTrackColor: secondary,
                 title: Text(
-                  'Remind this habit',
+                  localization(context).remindHabit,
                   style: textTheme(context).bodyLarge,
                 ),
                 value: _alarmActive,

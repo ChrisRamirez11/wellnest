@@ -52,5 +52,11 @@
     "reset": "Réinitialiser",
     "resume": "Reprendre",
     "pause": "Pause",
-    "finish": "Terminer"
+    "finish": "Terminer",
+    "routineReminderBody": "Il est temps de grandir, complétez votre routine",
+    "quitTimer": "Voulez-vous vraiment quitter le minuteur ?",
+    "timerSaved": "Votre progression sera sauvegardée. Vous pourrez continuer plus tard.",
+    "ok": "D'accord",
+    "advancedSettings": "Paramètres Avancés",
+    "remindHabit": "Rappeler cette habitude"
 }

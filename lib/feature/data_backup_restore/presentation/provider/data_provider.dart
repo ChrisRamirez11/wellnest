@@ -163,7 +163,7 @@ class DataProvider extends ChangeNotifier {
     //RESTORING NOTIFICATIONS
     NotiService().cancelAllNotifications();
     if (context.mounted) await setGlobalAppNotification(ref, context);
-    await setRoutinesReminders(ref);
+    if (context.mounted) await setRoutinesReminders(context, ref);
 
     notifyListeners();
     debugPrint('Backup and Restore Succesful');

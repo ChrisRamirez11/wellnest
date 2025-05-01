@@ -190,7 +190,9 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
               onChanged: (value) async {
                 if (value) {
                   await setGlobalAppNotification(ref, context);
-                  await setRoutinesReminders(ref);
+                  if(mounted) {
+                    await setRoutinesReminders(context, ref);
+                  }
                   ref.watch(notificationProvider).changeValue(value);
                 } else {
                   NotiService().cancelAllNotifications();
