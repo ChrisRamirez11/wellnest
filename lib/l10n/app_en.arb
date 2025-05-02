@@ -238,5 +238,13 @@
     "remindHabit": "Remind this habit",
     "@remindHabit": {
         "description": "Remind this habit"
+    },
+    "permissionRequired": "Permission Required",
+    "@permissionRequired": {
+        "description": "Permission Required"
+    },
+    "askUnrestrictedBattery": "To ensure the countdown works properly on the backround, allow the app to use Unrestricted Battery.",
+    "@askUnrestrictedBattery": {
+        "description": "Ask for unrestricted battery"
     }
 }

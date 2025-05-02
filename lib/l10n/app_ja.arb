@@ -58,5 +58,7 @@
     "timerSaved": "現在の進捗は保存されます。後で続けることができます。",
     "ok": "OK",
     "advancedSettings": "詳細設定",
-    "remindHabit": "この習慣をリマインド"
+    "remindHabit": "この習慣をリマインド",
+    "permissionRequired": "権限が必要です",
+    "askUnrestrictedBattery": "バックグラウンドでカウントダウンが正しく動作するように、アプリに無制限のバッテリー使用を許可してください。"
 }

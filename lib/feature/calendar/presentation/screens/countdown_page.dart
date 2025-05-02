@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vibration/vibration.dart';
+import 'package:wellnest/core/preferences/user_preferences.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/widgets/custom_app_bar.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
+import 'package:wellnest/feature/calendar/presentation/providers/request_ignore_battery_optimization.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
 
@@ -27,6 +31,10 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
   bool _isTimerRunning = false;
   int _elapsedSeconds = 0;
   double _progress = 0.0;
+
+  //to know if the user has been asked for battery permission
+  final _isAdked = UserPreferences().batteryPermissionAsked;
+  var isSoundEnabled = true;
 
   @override
   void initState() {
@@ -71,6 +79,7 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
             _elapsedSeconds >= widget.routine.targetDurationSeconds!) {
           dateNotifier.date!.routines[widget.routineIndex].finished = true;
           _stopTimer();
+          triggerAlarm();
         }
 
         // Save progress
@@ -127,6 +136,11 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
         (widget.routine.finished == true ||
             _elapsedSeconds >= widget.routine.targetDurationSeconds!);
 
+    if (_isAdked == false) {
+      // Request permission to ignore battery optimizations
+      requestIgnoreBatteryOptimizations(context);
+    }
+
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
@@ -146,8 +160,7 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
                 localization(context).quitTimer,
                 style: textTheme(context).bodyLarge!.copyWith(fontSize: 20),
               ),
-              content: Text(
-                  localization(context).timerSaved,
+              content: Text(localization(context).timerSaved,
                   style: textTheme(context)
                       .bodySmall!
                       .copyWith(color: Colors.grey)),
@@ -178,6 +191,7 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
       child: Scaffold(
         appBar: CustomAppBar(
           titleString: widget.routine.name!,
+          actionsList: [_getActiveSoundButton()],
         ),
         body: Center(
           child: Column(
@@ -291,6 +305,38 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
           ),
         ),
       ),
+    );
+  }
+
+  void triggerAlarm() async {
+    if (await Vibration.hasVibrator()) {
+      Vibration.vibrate(pattern: [0, 500, 300, 500, 300, 500]);
+    }
+
+    if (isSoundEnabled) {
+      await FlutterRingtonePlayer().play(
+          android: AndroidSounds.notification,
+          ios: IosSounds.triTone,
+          looping: false,
+          asAlarm: true);
+
+      Future.delayed(const Duration(seconds: 2), () {
+        FlutterRingtonePlayer().stop();
+      });
+    }
+  }
+
+  _getActiveSoundButton() {
+    return IconButton(
+      icon: Icon(
+        isSoundEnabled ? Icons.volume_up : Icons.volume_off,
+        color: isSoundEnabled ? Colors.blue : Colors.grey,
+      ),
+      onPressed: () {
+        setState(() {
+          isSoundEnabled = !isSoundEnabled;
+        });
+      },
     );
   }
 }

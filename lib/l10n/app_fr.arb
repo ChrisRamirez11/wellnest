@@ -58,5 +58,7 @@
     "timerSaved": "Votre progression sera sauvegardée. Vous pourrez continuer plus tard.",
     "ok": "D'accord",
     "advancedSettings": "Paramètres Avancés",
-    "remindHabit": "Rappeler cette habitude"
+    "remindHabit": "Rappeler cette habitude",
+    "permissionRequired": "Autorisation Requise",
+    "askUnrestrictedBattery": "Pour que le compte à rebours fonctionne correctement en arrière-plan, autorisez l'application à utiliser la batterie sans restriction."
 }

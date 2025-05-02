@@ -71,6 +71,14 @@ class UserPreferences {
     _prefs.setInt('nightNotiId', value);
   }
 
+  bool get batteryPermissionAsked {
+    return _prefs.getBool('batteryPermissionAsked') ?? false;
+  }
+
+  set batteryPermissionAsked(bool value) {
+    _prefs.setBool('batteryPermissionAsked', value);
+  }
+
   set firstAppOpening(bool value) {
     _prefs.setBool('firstOpening', value);
   }
