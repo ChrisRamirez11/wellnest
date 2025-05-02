@@ -33,7 +33,7 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
   double _progress = 0.0;
 
   //to know if the user has been asked for battery permission
-  final _isAdked = UserPreferences().batteryPermissionAsked;
+  var _isAsked = UserPreferences().batteryPermissionAsked;
   var isSoundEnabled = true;
 
   @override
@@ -136,9 +136,12 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
         (widget.routine.finished == true ||
             _elapsedSeconds >= widget.routine.targetDurationSeconds!);
 
-    if (_isAdked == false) {
+    if (_isAsked == false) {
       // Request permission to ignore battery optimizations
       requestIgnoreBatteryOptimizations(context);
+      setState(() {
+        _isAsked = true;
+      });
     }
 
     return PopScope(
