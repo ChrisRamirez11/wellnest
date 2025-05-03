@@ -4,76 +4,60 @@ import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart
 import 'package:wellnest/feature/routines/data/models/routine_model.dart';
 
 Future<void> validateDateModel(
-    List<RoutineModel> routines, DateTime date, WidgetRef ref) async {
+  List<RoutineModel> routines, DateTime date, WidgetRef ref) async {
   final dateNotifier = ref.watch(dateProvider);
-  List<RoutineModel> routinesList = [];
-  final today =
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-  DateModel dateModel =
-      DateModel(date: date, routines: [], completedRoutineAmount: 0);
 
+  // 1) Search if there is already a DateModel for that date
+  DateModel? existingDate;
+  if (dateNotifier.dates != null) {
   for (final d in dateNotifier.dates!) {
     if (d.date.isAtSameMomentAs(date)) {
-      dateNotifier.setDate(d);
-      return;
+    existingDate = d;
+    break;
     }
   }
+  }
+  if (existingDate != null) {
+  dateNotifier.setDate(existingDate);
+  return;
+  }
 
-  //routines list sorting
-  routines.sort(
-    (a, b) => a.createdDate.compareTo(b.createdDate),
+  // 2) Normalize "today" to midnight
+  final now = DateTime.now();
+  final normalizedToday = DateTime(now.year, now.month, now.day);
+
+  // 3) Sort routines by creation date
+  routines.sort((a, b) => a.createdDate.compareTo(b.createdDate));
+
+  // 4) Always filter by: created ≤ selected date && active on that day of the week
+  final filteredRoutines = routines.where((routine) {
+  final createdOk = routine.createdDate.isBefore(date) ||
+    routine.createdDate.isAtSameMomentAs(date);
+  final runsToday = routine.days[adjustedWeekday(date) - 1];
+  return createdOk && runsToday;
+  }).toList();
+
+  // 5) Build the model
+  final dateModel = DateModel(
+  date: date,
+  routines: filteredRoutines.map(Routine.fromModel).toList(),
+  completedRoutineAmount: 0,
   );
 
-  if (routines.isNotEmpty) {
-    if ((date.isBefore(today) || date.isAtSameMomentAs(today)) &&
-        (routines.first.createdDate.isBefore(date) ||
-            routines.first.createdDate.isAtSameMomentAs(date))) {
-      for (var routine in routines) {
-        if (routine.createdDate.isBefore(date) ||
-            routine.createdDate.isAtSameMomentAs(date) &&
-                routines.first.createdDate.isBefore(date) ||
-            routines.first.createdDate.isAtSameMomentAs(date)) {
-          for (int i = 0; i < routine.days.length; i++) {
-            if (routine.days[i] && (adjustedWeekday(date) == (i + 1))) {
-              routinesList.add(routine);
-            }
-          }
-        }
-      }
+  // 6) If the date is today or in the past, perform upsert in the database; if it's in the future, do not
+  final isPastOrToday = date.isBefore(normalizedToday) ||
+    date.isAtSameMomentAs(normalizedToday);
 
-      dateModel.routines = routinesList
-          .map(
-            (e) => Routine.fromModel(e),
-          )
-          .toList();
-      await dateNotifier.upsertDate(dateModel);
-      dateNotifier.setDate(dateModel);
-    } else {
-      for (var routine in routines) {
-        if (routine.createdDate.isBefore(date) ||
-            routine.createdDate.isAtSameMomentAs(date) &&
-                routines.first.createdDate.isBefore(date) ||
-            routines.first.createdDate.isAtSameMomentAs(date)) {
-          for (int i = 0; i < routine.days.length; i++) {
-            if (routine.days[i] && (adjustedWeekday(date) == (i + 1))) {
-              routinesList.add(routine);
-            }
-          }
-        }
-      }
-      dateModel.routines = routinesList
-          .map(
-            (e) => Routine.fromModel(e),
-          )
-          .toList();
-      dateNotifier.setDate(dateModel);
-    }
-  } else {
-    dateNotifier.setDate(dateModel);
+  if (filteredRoutines.isNotEmpty && isPastOrToday) {
+  await dateNotifier.upsertDate(dateModel);
   }
+
+  // 7) Always notify the provider to display the filtered routines
+  dateNotifier.setDate(dateModel);
 }
 
 int adjustedWeekday(DateTime date) {
-  int weekday = date.weekday;
-  return weekday == 7 ? 1 : weekday + 1;
+  // Convert Sunday(7) → 1, Monday(1) → 2, ..., Saturday(6) → 7
+  final w = date.weekday;
+  return w == DateTime.sunday ? 1 : w + 1;
 }
