@@ -70,7 +70,7 @@ class DateProvider extends ChangeNotifier {
   Future<void> deleteDate(int id) async {
     final res = await DeleteDate(repositoryImpl).call(id);
     res.fold(
-      (l) => log('error loading the dates ${l.errorMessage}'),
+      (l) => log('error deleting the date ${l.errorMessage}'),
       (r) => debugPrint('date succesfully deleted'),
     );
 
