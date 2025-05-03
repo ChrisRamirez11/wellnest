@@ -84,22 +84,24 @@ class DataProvider extends ChangeNotifier {
 
     //failure != null stops function
     if (_failure != null) {
-      loading = false;
-      notifyListeners();
+      if (context.mounted) {
+        didFail(context);
+      }
       return;
     }
 
     //fetch data or failure
     final dataOrFailure = await getDataUseCase.call();
     dataOrFailure.fold(
-      (l) => _failure,
+      (l) => _failure = l,
       (r) => data = DataModel.fromEntity(r),
     );
 
     //failure != null stops function
     if (_failure != null) {
-      loading = false;
-      notifyListeners();
+      if (context.mounted) {
+        didFail(context);
+      }
       return;
     }
 
@@ -107,7 +109,7 @@ class DataProvider extends ChangeNotifier {
     //GOOD TO KNOW that here is were really is backing up by adding data to the local
     if (data != null && !preferences.backedupData) {
       for (var i = 0; i < data!.dates.length; i++) {
-        if (dates.any((element) =>//we check if the date exists
+        if (dates.any((element) => //we check if the date exists
             element.date == DateModel.fromMap(data!.dates[i]).date)) {
           //we take the index of the existent date
           final index = dates.indexWhere((element) =>
@@ -148,9 +150,17 @@ class DataProvider extends ChangeNotifier {
     final voidOrFailure = await updateDataUseCase.call(data!);
 
     voidOrFailure.fold(
-      (l) => _failure = failure,
+      (l) => _failure = l,
       (r) => debugPrint('Data Update Succesful'),
     );
+
+    //failure != null stops function
+    if (_failure != null) {
+      if (context.mounted) {
+        didFail(context);
+      }
+      return;
+    }
 
     //updates the local datas(the backup)
     await ref.watch(routineProvider).upsertAllRoutines(routines);
@@ -172,5 +182,13 @@ class DataProvider extends ChangeNotifier {
   setLoadingTrue() {
     loading = true;
     notifyListeners();
+  }
+
+  void didFail(BuildContext context) {
+    loading = false;
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(_failure!.errorMessage)));
+    notifyListeners();
+    return;
   }
 }
