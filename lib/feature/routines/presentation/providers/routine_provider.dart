@@ -45,7 +45,7 @@ class RoutineProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  deleteRoutine(int id) async {
+  Future<void> deleteRoutine(int id) async {
     final failureOrVoid = await DeleteRoutine(repositoryImpl).call(id);
 
     failureOrVoid.fold(
@@ -56,7 +56,7 @@ class RoutineProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  upsertRoutine(RoutineModel routineModel) async {
+  Future<void> upsertRoutine(RoutineModel routineModel) async {
     final failureOrRoutine =
         await UpsertRoutine(repositoryImpl).call(routineModel.toEntity());
 
@@ -79,28 +79,34 @@ class RoutineProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-  
-  upsertAllRoutines(List<RoutineModel> routines) async {
+
+  Future<void> upsertAllRoutines(List<RoutineModel> routines) async {
     final failureOrRoutine =
-        await UpsertAllRoutines(repositoryImpl).call(routines.map((e) => e.toEntity(),).toList());
+        await UpsertAllRoutines(repositoryImpl).call(routines
+            .map(
+              (e) => e.toEntity(),
+            )
+            .toList());
 
-    for(int i = 0; i < routines.length; i++){if (_routines!.any(
-      (element) => element.id == routines[i].id,
-    )) {
-      final routineIndex = _routines!.indexWhere(
+    for (int i = 0; i < routines.length; i++) {
+      if (_routines!.any(
         (element) => element.id == routines[i].id,
-      );
+      )) {
+        final routineIndex = _routines!.indexWhere(
+          (element) => element.id == routines[i].id,
+        );
 
-      failureOrRoutine.fold((l) => _failure = failure, (r) {
-        _routines!.removeAt(routineIndex);
-        _routines!.insert(routineIndex, routines[i]);
-      });
-    } else {
-      failureOrRoutine.fold((l) => _failure = failure, (r) {
-        routines[i].id = routines[i].id;
-        _routines!.add(routines[i]);
-      });
-    }}
+        failureOrRoutine.fold((l) => _failure = failure, (r) {
+          _routines!.removeAt(routineIndex);
+          _routines!.insert(routineIndex, routines[i]);
+        });
+      } else {
+        failureOrRoutine.fold((l) => _failure = failure, (r) {
+          routines[i].id = routines[i].id;
+          _routines!.add(routines[i]);
+        });
+      }
+    }
     notifyListeners();
   }
 }
