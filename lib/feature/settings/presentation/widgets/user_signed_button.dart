@@ -7,9 +7,6 @@ import 'package:wellnest/core/widgets/custom_button.dart';
 import 'package:wellnest/feature/auth/data/models/profile_model.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/profile_provider.dart';
 import 'package:wellnest/feature/data_backup_restore/presentation/provider/data_provider.dart';
-import 'package:wellnest/feature/dates/data/models/date_model.dart';
-import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
-import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
 
 class UserSignedButton extends ConsumerStatefulWidget {
   const UserSignedButton({super.key});
@@ -34,9 +31,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
     if (profile != null) {
       widget = InkWell(
         onTap: () async {
-          final dateNotifier = ref.watch(dateProvider);
-          final selectedDateNotifier = ref.watch(currentSelectedDateProvider);
-
+          //shows the loading dialog
           showDialog(
             barrierDismissible: false,
             context: context,
@@ -54,22 +49,12 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
               ],
             ),
           );
-          //TODO if no connection, won't do and will show a no connection snackbar
-          await ref.watch(dataProvider).backupRestore(ref, context);
 
-          //updating the DateModel
-          selectedDateNotifier.changeDate(DateTime.now());
-          dateNotifier.setDate(dateNotifier.dates!
-                  .where(
-                    (element) => element.date.isAtSameMomentAs(
-                        selectedDateNotifier.currentSelectedDate),
-                  )
-                  .firstOrNull ??
-              DateModel(
-                  date: selectedDateNotifier.currentSelectedDate,
-                  routines: [],
-                  completedRoutineAmount: 0));
+          final dataNotifier = ref.read(dataProvider);
+          // Perform backup & restore //TODO add a no connection dialgog if the user is offline
+          await dataNotifier.backupRestore(ref, context);
 
+          //closes the dialog
           if (context.mounted) {
             Navigator.of(context).pop();
           }
