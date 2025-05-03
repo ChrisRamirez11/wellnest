@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/widgets/custom_error_widget.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
-import 'package:wellnest/feature/dates/presentation/widgets/custom_calendar.dart';
+import 'package:wellnest/feature/calendar/presentation/widgets/custom_calendar.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/feature/calendar/presentation/widgets/small_routines_view.dart';
 

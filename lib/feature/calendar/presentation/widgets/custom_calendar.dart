@@ -76,12 +76,19 @@ class CustomCalendar extends ConsumerWidget {
     }
     return dataset;
   }
-  
+
   _getCompletionMap(List<DateModel>? dates) {
-        final Map<DateTime, double> completionMap = {};
+    final Map<DateTime, double> completionMap = {};
     if (dates != null) {
       for (final dateModel in dates) {
-        completionMap[dateModel.date] = dateModel.completedRoutineAmount / dateModel.routines.length;
+        final percent =
+            dateModel.completedRoutineAmount / dateModel.routines.length;
+        // Avoid NaN values by checking if the denominator is zero
+        if (percent.isNaN) {
+          completionMap[dateModel.date] = 0.0;
+        } else {
+          completionMap[dateModel.date] = percent;
+        }
       }
     }
     return completionMap;
