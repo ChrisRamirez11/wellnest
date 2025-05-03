@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/errors/failures.dart';
@@ -47,6 +49,14 @@ class DataProvider extends ChangeNotifier {
   Future<void> backupRestore(WidgetRef ref, BuildContext context) async {
     final userId = supabase.auth.currentUser!.id;
     final preferences = UserPreferences();
+
+    //setting up the ChangeNotifiers
+    final routinesNotifier = ref.watch(routineProvider);
+    final dateNotifier = ref.watch(dateProvider);
+
+    //setting up the current day variables to be saved
+    final currentDayRoutinesSaved = <Routine>[];
+
     //set up the backup and restore UseCases
     final getDataUseCase =
         GetDataUsecase(dataRepository: _dataRepository); //backup
@@ -133,15 +143,22 @@ class DataProvider extends ChangeNotifier {
       preferences.backedupData = true;
     }
 
+    if (dateNotifier.date!.id != null) {
+      currentDayRoutinesSaved.addAll(dateNotifier.date!.routines);
+    }
+
     //updates the local datas(the backup)
-    await ref.watch(routineProvider).upsertAllRoutines(routines);
-    await ref.watch(dateProvider).upsertAllDates(dates);
+    await routinesNotifier.upsertAllRoutines(routines);
+    await dateNotifier.upsertAllDates(dates);
 
     //updating the providers
-    await ref.watch(routineProvider).getRoutines();
-    await ref.watch(dateProvider).getDates();
+    await routinesNotifier.getRoutines();
+    await dateNotifier.getDates();
 
-    if (context.mounted) await getRestoreProcess(context, ref);
+    if (context.mounted) {
+      //this is used to maerge today date with saved data
+      await getRestoreProcess(ref, currentDayRoutinesSaved);
+    }
 
     //RESTORING NOTIFICATIONS
     NotiService().cancelAllNotifications();
@@ -200,49 +217,51 @@ class DataProvider extends ChangeNotifier {
   }
 }
 
-Future<void> getRestoreProcess(BuildContext context, WidgetRef ref) async {
+Future<void> getRestoreProcess(
+    WidgetRef ref, List<Routine> routinesSaved) async {
   // Get ChangeNotifier instances
   final dateNotifier = ref.read(dateProvider);
-  final selectedDateNotifier = ref.read(currentSelectedDateProvider);
-
-  // Update selected date to now
-  selectedDateNotifier.changeDate(DateTime.now());
-
-  // Retrieve existing dates and routines
-  final allDates = dateNotifier.dates;
+  final selDateN = ref.read(currentSelectedDateProvider);
   final routines = ref.read(routineProvider).routines ?? [];
 
-  // Check if a model for today already exists
-  final exists = allDates?.any((d) =>
-          d.date.isAtSameMomentAs(selectedDateNotifier.currentSelectedDate)) ??
-      false;
+  final preservedRoutines = <Routine>[];
 
-  // No model for today: create one
-  if (!exists) {
-    await validateDateModel(
-        routines, selectedDateNotifier.currentSelectedDate, ref);
-    return;
+  // Update selected date to now
+  selDateN.changeDate(DateTime.now());
+
+  //deletes the current date from the provider if it's created
+  final existing = dateNotifier.date;
+  if (existing?.id != null) {
+    preservedRoutines.addAll(existing!.routines);
+    await dateNotifier.deleteDate(existing.id!);
   }
 
-  // Model exists: snapshot current data
-  final originalModel = dateNotifier.date!;
-  final savedRoutines = List.of(originalModel.routines);
-  final savedCompleted = originalModel.completedRoutineAmount;
-  final originalId = originalModel.id!;
-
-  // Delete the existing entry
-  await dateNotifier.deleteDate(originalId);
-
   // Re-create a fresh model for today
-  await validateDateModel(
-      routines, selectedDateNotifier.currentSelectedDate, ref);
+  await validateDateModel(routines, selDateN.currentSelectedDate, ref);
 
-  // Merge saved routines and completion count
-  final newModel = dateNotifier.date!;
-  newModel.routines.removeWhere((r) => savedRoutines.any((s) => s.id == r.id));
-  newModel.routines.addAll(savedRoutines);
-  newModel.completedRoutineAmount += savedCompleted;
+  // Get the new model from the provider
+  dateNotifier.date!.routines.removeWhere((r) {
+    log('Routine to be removed: ${r.id}');
+    return routinesSaved.any((s) => s.id == r.id);
+  });
+
+  routinesSaved.removeWhere((r) {
+    log('Routine to be removed: ${r.id}');
+    return preservedRoutines.any((s) => s.id == r.id);
+  });
+
+  dateNotifier.date!.routines.addAll([...preservedRoutines]);
+  dateNotifier.date!.completedRoutineAmount =
+      _getCompletedQuantity(dateNotifier.date!);
 
   // Persist merged model
-  await dateNotifier.upsertDate(newModel);
+  await dateNotifier.upsertDate(dateNotifier.date!);
+}
+
+int _getCompletedQuantity(DateModel dateModel) {
+  int result = 0;
+  for (var routine in dateModel.routines) {
+    result += routine.finished! ? 1 : 0;
+  }
+  return result;
 }
