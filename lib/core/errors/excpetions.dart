@@ -7,8 +7,11 @@ class CacheException implements Exception {
     required this.message,
   });
 
-  // factory CacheException.fromMap(Map<String, dynamic> map) =>
-  //     CacheException(message: map['error']);
+  @override
+  String toString() {
+    Object? message = this.message;
+    return "Cache Error: $message";
+  }
 }
 
 class ServerException implements Exception {
@@ -17,9 +20,9 @@ class ServerException implements Exception {
     required this.message,
   });
 
-  // factory ServerException.fromMap(Map<String, dynamic> map) {
-  //   return ServerException(
-  //     message: map['error'] as String,
-  //   );
-  // }
+  @override
+  String toString() {
+    Object? message = this.message;
+    return "$message";
+  }
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -20,10 +21,11 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
       return DataModel.fromMap(result);
     } on PostgrestException catch (e) {
       log('getData PExc $e');
-      throw ServerException(message: e.message);
+      throw ServerException(
+          message: 'Error${e.code?.padLeft(4, '')}: ${e.message}');
     } catch (e) {
       log('getData $e');
-      throw ServerException(message: 'Server Error $e');
+      throw ServerException(message: 'Network Error');
     }
   }
 
@@ -37,10 +39,11 @@ class DataRemoteDatasourceImpl implements DataRemoteDatasource {
           .eq('user_id', userId);
     } on PostgrestException catch (e) {
       log('updateData PExc $e');
-      throw ServerException(message: e.message);
+      throw ServerException(
+          message: 'Error${e.code?.padLeft(4, '')}: ${e.message}');
     } catch (e) {
       log('updateData $e');
-      throw ServerException(message: 'Server Error $e');
+      throw ServerException(message: 'Network Error');
     }
   }
 }
