@@ -6,6 +6,7 @@ import 'package:wellnest/core/errors/failures.dart';
 import 'package:wellnest/core/notifications/global_app_notification.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/preferences/user_preferences.dart';
+import 'package:wellnest/core/utils/are_same_routine.dart';
 import 'package:wellnest/core/utils/set_routines_reminders.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
 import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
@@ -14,6 +15,7 @@ import 'package:wellnest/feature/data_backup_restore/business/usecases/update_da
 import 'package:wellnest/feature/data_backup_restore/data/datasources/data_remote_datasource.dart';
 import 'package:wellnest/feature/data_backup_restore/data/models/data_model.dart';
 import 'package:wellnest/feature/data_backup_restore/data/repositories/data_repository_impl.dart';
+import 'package:wellnest/feature/data_backup_restore/presentation/provider/was_created_before.dart';
 import 'package:wellnest/feature/dates/business/usecases/get_every_date.dart';
 import 'package:wellnest/feature/dates/data/datasources/local/date_local_datasource.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
@@ -53,9 +55,6 @@ class DataProvider extends ChangeNotifier {
     //setting up the ChangeNotifiers
     final routinesNotifier = ref.watch(routineProvider);
     final dateNotifier = ref.watch(dateProvider);
-
-    //setting up the current day variables to be saved
-    final currentDayRoutinesSaved = <Routine>[];
 
     //set up the backup and restore UseCases
     final getDataUseCase =
@@ -130,8 +129,8 @@ class DataProvider extends ChangeNotifier {
           dates[index]
               .routines
               .addAll(DateModel.fromMap(data!.dates[i]).routines);
-          dates[index].completedRoutineAmount +=
-              DateModel.fromMap(data!.dates[i]).completedRoutineAmount;
+          dates[index].completedRoutineAmount =
+              _getCompletedQuantity(DateModel.fromMap(data!.dates[i]));
         } else {
           dates.add(DateModel.fromMap(data!.dates[i]));
         }
@@ -140,28 +139,27 @@ class DataProvider extends ChangeNotifier {
       //merge the existent with the incoming
       routines
           .addAll(data!.routines.map((e) => RoutineModel.fromMap(e)).toList());
-      preferences.backedupData = true;
-    }
-
-    if (dateNotifier.date!.id != null) {
-      currentDayRoutinesSaved.addAll(dateNotifier.date!.routines);
     }
 
     //updates the local datas(the backup)
-    await routinesNotifier.upsertAllRoutines(routines);
+    await routinesNotifier
+        .upsertAllRoutines(routines); //routines first so they have an id
     await dateNotifier.upsertAllDates(dates);
 
     //updating the providers
     await routinesNotifier.getRoutines();
     await dateNotifier.getDates();
 
-    if (context.mounted) {
+    if (context.mounted && !preferences.backedupData) {
+      //if is backing up we set the backedupData to true so it wont create a restore point
+      preferences.backedupData = true;
+
       //this is used to maerge today date with saved data
-      await getRestoreProcess(ref, currentDayRoutinesSaved);
+      await getRestoreProcess(ref, dates);
     }
 
     //RESTORING NOTIFICATIONS
-    NotiService().cancelAllNotifications();
+    await NotiService().cancelAllNotifications();
     if (context.mounted) await setGlobalAppNotification(ref, context);
     if (context.mounted) await setRoutinesReminders(context, ref);
 
@@ -217,40 +215,118 @@ class DataProvider extends ChangeNotifier {
   }
 }
 
-Future<void> getRestoreProcess(
-    WidgetRef ref, List<Routine> routinesSaved) async {
+Future<void> getRestoreProcess(WidgetRef ref, List<DateModel> dates) async {
   // Get ChangeNotifier instances
   final dateNotifier = ref.read(dateProvider);
   final selDateN = ref.read(currentSelectedDateProvider);
   final routines = ref.read(routineProvider).routines ?? [];
+  List<Routine> preservedRoutinesFromDate =
+      []; // List to store preserved routines before backupRestore (Most Have IDs)
+  List<Routine> routinesListWithID = []; // List to store routines with IDs
 
-  final preservedRoutines = <Routine>[];
+  final wasCreatedBeforeNotifier = ref.watch(wasCreatedBeforeProvider);
 
   // Update selected date to now
   selDateN.changeDate(DateTime.now());
 
-  //deletes the current date from the provider if it's created
-  final existing = dateNotifier.date;
-  if (existing?.id != null) {
-    preservedRoutines.addAll(existing!.routines);
-    await dateNotifier.deleteDate(existing.id!);
+  await validateDateModel(routines, selDateN.currentSelectedDate, ref);
+
+  if (dateNotifier.date?.id != null) {
+    //if have ID date exists before backupRestore
+    preservedRoutinesFromDate.addAll(dateNotifier.date!.routines);
+    await dateNotifier.deleteDate(dateNotifier.date!.id!);
+    wasCreatedBeforeNotifier.setValue(true);
+  } else {
+    return;
   }
 
   // Re-create a fresh model for today
   await validateDateModel(routines, selDateN.currentSelectedDate, ref);
 
-  // Get the new model from the provider
-  dateNotifier.date!.routines.removeWhere((r) {
-    log('Routine to be removed: ${r.id}');
-    return routinesSaved.any((s) => s.id == r.id);
-  });
+  if (preservedRoutinesFromDate.isNotEmpty) {
+    dateNotifier.date!.routines.removeWhere(
+      //performed to preserve the state of the routines befoe backupRestore
+      (r) => preservedRoutinesFromDate.any(
+        (preserved) => r.id == preserved.id,
+      ),
+    );
+  }
 
-  routinesSaved.removeWhere((r) {
-    log('Routine to be removed: ${r.id}');
-    return preservedRoutines.any((s) => s.id == r.id);
-  });
+  for (var routine in routines) {
+    final routineIndex = dateNotifier.date!.routines.indexWhere(
+      (r) => areSameRoutine(r.toModel(), routine),
+    );
+    log('${dateNotifier.date!.routines.any((r) => areSameRoutine(r.toModel(), routine))} routineIndex');
+    log('${preservedRoutinesFromDate.any((r) => areSameRoutine(r.toModel(), routine))} routineIndex');
 
-  dateNotifier.date!.routines.addAll([...preservedRoutines]);
+    final listOfRoutinesToFetch = !wasCreatedBeforeNotifier.was
+        ? preservedRoutinesFromDate
+        : dateNotifier.date!.routines;
+
+    if (routineIndex != -1) {
+      final id = routine.id;
+      Routine? routineWithNoId = wasCreatedBeforeNotifier.was
+          ? (dates
+                      .where((element) =>
+                          element.date == selDateN.currentSelectedDate)
+                      .firstOrNull
+                      ?.routines ??
+                  [])
+              .where((element) => areSameRoutine(element.toModel(), routine))
+              .firstOrNull
+          : listOfRoutinesToFetch
+              .where((element) => areSameRoutine(element.toModel(), routine))
+              .firstOrNull;
+
+      log((routineWithNoId != null).toString());
+
+      if (routineWithNoId != null) {
+        // Merge properties except for the id that is in the routine from the date
+        log(id.toString());
+        routinesListWithID.add(Routine(
+            id: id,
+            name: routineWithNoId.name,
+            days: routineWithNoId.days,
+            finished: routineWithNoId.finished,
+            createdDate: routineWithNoId.createdDate,
+            colorValue: routineWithNoId.colorValue,
+            type: routineWithNoId.type,
+            targetCount: routineWithNoId.targetCount,
+            currentCount: routineWithNoId.currentCount,
+            targetDurationSeconds: routineWithNoId.targetDurationSeconds,
+            elapsedTimeSeconds: routineWithNoId.elapsedTimeSeconds,
+            alarmActive: routineWithNoId.alarmActive ?? false,
+            alarmTime: routineWithNoId.alarmTime,
+            endAt: routineWithNoId.endAt));
+      }
+    }
+  }
+
+  if (wasCreatedBeforeNotifier.was) {
+    preservedRoutinesFromDate.removeWhere(
+      (r) => routinesListWithID.any(
+        (element) => areSameRoutine(r.toModel(), element.toModel()),
+      ),
+    );
+  }
+
+  log('${preservedRoutinesFromDate.map(
+    (e) => e.id,
+  )} preservedRoutinesFromDate');
+  log('${preservedRoutinesFromDate.map(
+    (e) => e.name,
+  )} preservedRoutinesFromDate');
+
+  log('${routinesListWithID.map(
+    (e) => e.id,
+  )} routinesListWithID');
+  log('${routinesListWithID.map(
+    (e) => e.name,
+  )} routinesListWithID');
+
+  dateNotifier.date!.routines = []; // Clear the existing routines list
+  dateNotifier.date!.routines //Add the preserved routines and the new ones
+      .addAll([...preservedRoutinesFromDate, ...routinesListWithID]);
   dateNotifier.date!.completedRoutineAmount =
       _getCompletedQuantity(dateNotifier.date!);
 
