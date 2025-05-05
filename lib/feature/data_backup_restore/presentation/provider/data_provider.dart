@@ -153,12 +153,17 @@ class DataProvider extends ChangeNotifier {
     if (context.mounted && !preferences.backedupData) {
       //if is backing up we set the backedupData to true so it wont create a restore point
       preferences.backedupData = true;
-
       //this is used to maerge today date with saved data
-      await getRestoreProcess(ref, dates);
+      await getRestoreProcess(
+          ref,
+          data!.dates
+              .map(
+                (e) => DateModel.fromMap(e),
+              )
+              .toList());
     }
 
-    //RESTORING NOTIFICATIONS
+    //RESTORING NOTIFICATIONS // this most be done only once
     await NotiService().cancelAllNotifications();
     if (context.mounted) await setGlobalAppNotification(ref, context);
     if (context.mounted) await setRoutinesReminders(context, ref);
@@ -217,14 +222,14 @@ class DataProvider extends ChangeNotifier {
 
 Future<void> getRestoreProcess(WidgetRef ref, List<DateModel> dates) async {
   // Get ChangeNotifier instances
-  final dateNotifier = ref.read(dateProvider);
-  final selDateN = ref.read(currentSelectedDateProvider);
-  final routines = ref.read(routineProvider).routines ?? [];
+  final dateNotifier = ref.watch(dateProvider);
+  final selDateN = ref.watch(currentSelectedDateProvider);
+  final routines = ref.watch(routineProvider).routines ?? [];
   List<Routine> preservedRoutinesFromDate =
       []; // List to store preserved routines before backupRestore (Most Have IDs)
   List<Routine> routinesListWithID = []; // List to store routines with IDs
 
-  final wasCreatedBeforeNotifier = ref.watch(wasCreatedBeforeProvider);
+  final wasCreatedBeforeNotifier = ref.watch(todayDateCreatedBefore);
 
   // Update selected date to now
   selDateN.changeDate(DateTime.now());
@@ -252,53 +257,54 @@ Future<void> getRestoreProcess(WidgetRef ref, List<DateModel> dates) async {
     );
   }
 
+  log(dateNotifier.date!.routines
+      .map(
+        (e) => e.id,
+      )
+      .toList()
+      .toString());
+  log('-----------------');
+
+  bool dataFromServer =
+      dates.any((element) => element.date == selDateN.currentSelectedDate);
+
+  log('dataFromServer is: $dataFromServer');
+
+  // var list = (wasCreatedBeforeNotifier.was && dataFromServer) ? :
+
   for (var routine in routines) {
     final routineIndex = dateNotifier.date!.routines.indexWhere(
       (r) => areSameRoutine(r.toModel(), routine),
     );
-    log('${dateNotifier.date!.routines.any((r) => areSameRoutine(r.toModel(), routine))} routineIndex');
-    log('${preservedRoutinesFromDate.any((r) => areSameRoutine(r.toModel(), routine))} routineIndex');
-
-    final listOfRoutinesToFetch = !wasCreatedBeforeNotifier.was
-        ? preservedRoutinesFromDate
-        : dateNotifier.date!.routines;
 
     if (routineIndex != -1) {
       final id = routine.id;
-      Routine? routineWithNoId = wasCreatedBeforeNotifier.was
-          ? (dates
-                      .where((element) =>
-                          element.date == selDateN.currentSelectedDate)
-                      .firstOrNull
-                      ?.routines ??
-                  [])
-              .where((element) => areSameRoutine(element.toModel(), routine))
-              .firstOrNull
-          : listOfRoutinesToFetch
-              .where((element) => areSameRoutine(element.toModel(), routine))
-              .firstOrNull;
+      Routine routineWithNoId = (dataFromServer
+              ? dates
+                  .where(
+                      (element) => element.date == selDateN.currentSelectedDate)
+                  .first
+                  .routines
+              : dateNotifier.date!.routines)
+          .where((element) => areSameRoutine(element.toModel(), routine))
+          .first;
 
-      log((routineWithNoId != null).toString());
-
-      if (routineWithNoId != null) {
-        // Merge properties except for the id that is in the routine from the date
-        log(id.toString());
-        routinesListWithID.add(Routine(
-            id: id,
-            name: routineWithNoId.name,
-            days: routineWithNoId.days,
-            finished: routineWithNoId.finished,
-            createdDate: routineWithNoId.createdDate,
-            colorValue: routineWithNoId.colorValue,
-            type: routineWithNoId.type,
-            targetCount: routineWithNoId.targetCount,
-            currentCount: routineWithNoId.currentCount,
-            targetDurationSeconds: routineWithNoId.targetDurationSeconds,
-            elapsedTimeSeconds: routineWithNoId.elapsedTimeSeconds,
-            alarmActive: routineWithNoId.alarmActive ?? false,
-            alarmTime: routineWithNoId.alarmTime,
-            endAt: routineWithNoId.endAt));
-      }
+      // Merge properties except for the id that is in the routine from the date
+      routinesListWithID.add(Routine(
+          id: id,
+          name: routineWithNoId.name,
+          days: routineWithNoId.days,
+          finished: routineWithNoId.finished,
+          createdDate: routineWithNoId.createdDate,
+          colorValue: routineWithNoId.colorValue,
+          type: routineWithNoId.type,
+          targetCount: routineWithNoId.targetCount,
+          currentCount: routineWithNoId.currentCount,
+          targetDurationSeconds: routineWithNoId.targetDurationSeconds,
+          elapsedTimeSeconds: routineWithNoId.elapsedTimeSeconds,
+          alarmActive: routineWithNoId.alarmActive ?? false,
+          alarmTime: routineWithNoId.alarmTime,
+          endAt: routineWithNoId.endAt));
     }
   }
 
@@ -316,6 +322,8 @@ Future<void> getRestoreProcess(WidgetRef ref, List<DateModel> dates) async {
   log('${preservedRoutinesFromDate.map(
     (e) => e.name,
   )} preservedRoutinesFromDate');
+
+  log('-----------------------');
 
   log('${routinesListWithID.map(
     (e) => e.id,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final wasCreatedBeforeProvider = ChangeNotifierProvider((ref) => WasCreatedBefore(),);
+final todayDateCreatedBefore = ChangeNotifierProvider((ref) => TodayDateCreatedBefore(),);
 
-class WasCreatedBefore extends ChangeNotifier{
+class TodayDateCreatedBefore extends ChangeNotifier{
   bool _was = false;
 
   bool get was => _was;
