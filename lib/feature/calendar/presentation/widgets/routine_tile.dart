@@ -239,7 +239,9 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                               triggerMode: TooltipTriggerMode.tap,
                               message: widget.routine.name,
                               showDuration: Duration(seconds: 5),
-                              decoration: BoxDecoration(color: obsidian, borderRadius: BorderRadius.circular(5)),
+                              decoration: BoxDecoration(
+                                  color: obsidian,
+                                  borderRadius: BorderRadius.circular(5)),
                               textStyle: textTheme(context)
                                   .labelMedium!
                                   .copyWith(color: secondary),
@@ -265,14 +267,7 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                       ),
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.more_horiz, color: ghostWhite),
-                    onPressed: () {
-                      setState(() {
-                        flag = !flag;
-                      });
-                    },
-                  )
+                  _getTrailing()
                 ],
               ),
             ),
@@ -280,6 +275,24 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
         ),
       ),
     );
+  }
+
+  Widget _getTrailing() {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final date = ref.watch(currentSelectedDateProvider).currentSelectedDate;
+    final isBefore = date.isBefore(today);
+
+    return isBefore
+        ? SizedBox.shrink()
+        : IconButton(
+            icon: const Icon(Icons.more_horiz, color: ghostWhite),
+            onPressed: () {
+              setState(() {
+                flag = !flag;
+              });
+            },
+          );
   }
 
   Widget _buildProgressIndicator(DateProvider dateNotifier) {
