@@ -2,7 +2,7 @@ name: wellnest
 description: "WellNest: Progress Pal"
 
 publish_to: 'none'
-version: 1.8.8+27
+version: 1.8.11+28
 
 environment:
   sdk: ^3.6.0

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/errors/failures.dart';
@@ -257,18 +255,8 @@ Future<void> getRestoreProcess(WidgetRef ref, List<DateModel> dates) async {
     );
   }
 
-  log(dateNotifier.date!.routines
-      .map(
-        (e) => e.id,
-      )
-      .toList()
-      .toString());
-  log('-----------------');
-
   bool dataFromServer =
       dates.any((element) => element.date == selDateN.currentSelectedDate);
-
-  log('dataFromServer is: $dataFromServer');
 
   // var list = (wasCreatedBeforeNotifier.was && dataFromServer) ? :
 
@@ -315,23 +303,7 @@ Future<void> getRestoreProcess(WidgetRef ref, List<DateModel> dates) async {
       ),
     );
   }
-
-  log('${preservedRoutinesFromDate.map(
-    (e) => e.id,
-  )} preservedRoutinesFromDate');
-  log('${preservedRoutinesFromDate.map(
-    (e) => e.name,
-  )} preservedRoutinesFromDate');
-
-  log('-----------------------');
-
-  log('${routinesListWithID.map(
-    (e) => e.id,
-  )} routinesListWithID');
-  log('${routinesListWithID.map(
-    (e) => e.name,
-  )} routinesListWithID');
-
+  
   dateNotifier.date!.routines = []; // Clear the existing routines list
   dateNotifier.date!.routines //Add the preserved routines and the new ones
       .addAll([...preservedRoutinesFromDate, ...routinesListWithID]);
