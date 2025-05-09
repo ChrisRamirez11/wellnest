@@ -665,7 +665,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
       trailing: isExpanded
           ? Transform.rotate(
               angle: 90 * (pi / 180), child: Icon(Icons.arrow_forward_ios))
-          : Icon(Icons.arrow_forward_ios),
+          : Icon(Icons.arrow_forward_ios, size: 16),
       title: Text(
         localization(context).advancedSettings,
         style: textTheme(context).bodyLarge,
