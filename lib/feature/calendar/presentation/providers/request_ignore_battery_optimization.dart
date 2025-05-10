@@ -9,7 +9,7 @@ Future<void> requestIgnoreBatteryOptimizations(BuildContext context) async {
   final prefs = UserPreferences();
 
   if (Platform.isAndroid || Platform.isIOS) {
-    final isIgnoring = await Permission.ignoreBatteryOptimizations.isDenied;
+    final isIgnoring = await Permission.ignoreBatteryOptimizations.isLimited;
 
     if (!isIgnoring) {
       final status = await Permission.ignoreBatteryOptimizations.request();
