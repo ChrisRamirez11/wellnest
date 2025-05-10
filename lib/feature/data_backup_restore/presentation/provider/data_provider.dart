@@ -6,6 +6,7 @@ import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/preferences/user_preferences.dart';
 import 'package:wellnest/core/utils/are_same_routine.dart';
 import 'package:wellnest/core/utils/set_routines_reminders.dart';
+import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
 import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
 import 'package:wellnest/feature/data_backup_restore/business/usecases/get_data_usecase.dart';
@@ -211,8 +212,11 @@ class DataProvider extends ChangeNotifier {
 
   void didFail(BuildContext context) {
     loading = false;
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(_failure!.errorMessage)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+      _failure!.errorMessage,
+      style: textTheme(context).labelMedium,
+    )));
     notifyListeners();
     return;
   }
@@ -303,7 +307,7 @@ Future<void> getRestoreProcess(WidgetRef ref, List<DateModel> dates) async {
       ),
     );
   }
-  
+
   dateNotifier.date!.routines = []; // Clear the existing routines list
   dateNotifier.date!.routines //Add the preserved routines and the new ones
       .addAll([...preservedRoutinesFromDate, ...routinesListWithID]);
