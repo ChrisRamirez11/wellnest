@@ -105,8 +105,7 @@ class _MyAppState extends ConsumerState<MyApp> {
             .watch(localeProvider)
             .locale, // Use the locale from provider, if null, uses device language as default
         localizationsDelegates: AppLocalizations.localizationsDelegates,
-        initialRoute:
-            ref.watch(firstTimeOpening).firstTimeOpening ? '/onboarding' : '/',
+        initialRoute: ref.watch(firstTimeOpening).firstTimeOpening ? '/onboarding' : '/',
         routes: {
           '/': (context) => const Skeleton(),
           '/onboarding': (context) => OnboardingScreen(),

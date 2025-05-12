@@ -207,9 +207,9 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   Widget _buildTypeButton(RoutineType type, String label, IconData icon) {
     final isSelected = _selectedType == type;
     return CustomButton(
-        icon: Icon(icon, color: isSelected ? ghostWhite : Colors.grey.shade600),
+        icon: Icon(icon, color: isSelected ? secondary : Colors.grey.shade600),
         color: isSelected ? primary : null,
-        textColor: isSelected ? ghostWhite : Colors.grey.shade600,
+        textColor: isSelected ? secondary : Colors.grey.shade600,
         radius: 10,
         onClick: () {
           // Save current target before switching
@@ -668,7 +668,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
           : Icon(Icons.arrow_forward_ios, size: 16),
       title: Text(
         localization(context).advancedSettings,
-        style: textTheme(context).bodyLarge,
+        style: textTheme(context).bodyLarge!.copyWith(color: Colors.grey.shade400),
       ),
       children: [
         Container(
