@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/global_providers/is_premium_user_provider.dart';
@@ -14,9 +13,11 @@ class ColorSelectorTile extends ConsumerWidget {
     final colorNotifier = ref.watch(colorProvider);
 
     return ListTile(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       title: Text(
         localization(context).selectColor,
-        style: textTheme(context).bodyLarge!.copyWith(color: Colors.grey.shade400),
+        style:
+            textTheme(context).bodyLarge!.copyWith(color: Colors.grey.shade400),
       ),
       trailing: Icon(Icons.arrow_forward_ios, size: 16),
       leading: CircleAvatar(
@@ -34,8 +35,10 @@ class ColorSelectorTile extends ConsumerWidget {
       context: context,
       builder: (context) {
         return Container(
+          width: double.infinity,
           padding: const EdgeInsets.all(16.0),
           child: Wrap(
+            alignment: WrapAlignment.center,
             spacing: 10,
             runSpacing: 10,
             children: [

@@ -21,7 +21,6 @@ dependencies:
   isar_flutter_libs:
     hosted: https://pub.isar-community.dev
     version: 3.1.8
-  lottie: ^3.3.1
   shared_preferences: ^2.5.1
   supabase_flutter: ^2.8.3
   google_sign_in: ^6.2.2

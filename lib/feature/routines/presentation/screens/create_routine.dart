@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lottie/lottie.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/utils/format_duration.dart';
 import 'package:wellnest/core/utils/string_to_time_of_day.dart';
@@ -42,6 +41,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   late List<bool> _days;
   RoutineType _selectedType = RoutineType.task;
   late TextEditingController _targetController;
+  late ScrollController _scrollController;
   late Map<RoutineType, String> _targetValues;
   bool _alarmActive = false;
   late String? _alarmTime;
@@ -53,6 +53,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     _targetController = TextEditingController();
     _targetValues = {
       RoutineType.amount: widget.routineModel?.targetCount.toString() ?? '1',
@@ -104,6 +105,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   void dispose() {
     _nameController.dispose();
     _targetController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -123,6 +125,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
+          controller: _scrollController,
           child: Column(
             spacing: 20,
             children: [
@@ -156,10 +159,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               ),
               weekDays(context),
               getAdvancedSettings(),
-              SizedBox(
-                  height: 250,
-                  width: double.infinity,
-                  child: Lottie.asset('assets/lotties/sleepy-cat.json'))
+              SizedBox.shrink()
             ],
           ),
         ),
@@ -654,91 +654,113 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   }
 
   Widget getAdvancedSettings() {
-    return ExpansionTile(
-      initiallyExpanded: _alarmActive,
-      shape: Border.all(color: Colors.transparent),
-      onExpansionChanged: (value) {
-        setState(() {
-          isExpanded = value;
-        });
-      },
-      trailing: isExpanded
-          ? Transform.rotate(
-              angle: 90 * (pi / 180), child: Icon(Icons.arrow_forward_ios))
-          : Icon(Icons.arrow_forward_ios, size: 16),
-      title: Text(
-        localization(context).advancedSettings,
-        style: textTheme(context).bodyLarge!.copyWith(color: Colors.grey.shade400),
-      ),
-      children: [
-        Container(
-          decoration: BoxDecoration(
-              color: primary,
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: Column(
-            children: [
-              SwitchListTile(
-                thumbIcon: WidgetStatePropertyAll(Icon(
-                  _alarmActive
-                      ? Icons.notifications_active
-                      : Icons.notifications_off,
-                )),
-                inactiveTrackColor: Colors.black45,
-                activeTrackColor: secondary,
-                title: Text(
-                  localization(context).remindHabit,
-                  style: textTheme(context).bodyLarge,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: ExpansionTile(
+        initiallyExpanded: _alarmActive,
+        shape: Border.all(color: Colors.transparent),
+        onExpansionChanged: (value) {
+          setState(() {
+            isExpanded = value;
+          });
+          if (value) {
+            WidgetsBinding.instance.addPersistentFrameCallback(
+              (_) {
+                if (_scrollController.hasClients) {
+                  _scrollController.animateTo(
+                    _scrollController.position.maxScrollExtent,
+                    duration: const Duration(milliseconds: 10),
+                    curve: Curves.linear,
+                  );
+                }
+              },
+            );
+          }
+        },
+        trailing: isExpanded
+            ? Transform.rotate(
+                angle: 90 * (pi / 180),
+                child: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 18,
+                ))
+            : Icon(Icons.arrow_forward_ios, size: 18),
+        title: Text(
+          localization(context).advancedSettings,
+          style: textTheme(context)
+              .bodyLarge!
+              .copyWith(color: Colors.grey.shade400),
+        ),
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                color: primary,
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            child: Column(
+              children: [
+                SwitchListTile(
+                  thumbIcon: WidgetStatePropertyAll(Icon(
+                    _alarmActive
+                        ? Icons.notifications_active
+                        : Icons.notifications_off,
+                  )),
+                  inactiveTrackColor: Colors.black45,
+                  activeTrackColor: secondary,
+                  title: Text(
+                    localization(context).remindHabit,
+                    style: textTheme(context).bodyLarge,
+                  ),
+                  value: _alarmActive,
+                  onChanged: (value) {
+                    setState(() {
+                      _alarmActive = value;
+                    });
+                  },
                 ),
-                value: _alarmActive,
-                onChanged: (value) {
-                  setState(() {
-                    _alarmActive = value;
-                  });
-                },
-              ),
-              _alarmActive
-                  ? SizedBox(
-                      width: size(context).width * 0.8,
-                      child: CustomButton(
-                          color: primary.withAlpha(100),
-                          radius: 10,
-                          onClick: () async {
-                            final time = await showTimePicker(
-                              builder: (context, child) {
-                                return Theme(
-                                  data: Theme.of(context).copyWith(
-                                    textTheme: TextTheme(
-                                      labelLarge: TextStyle(fontSize: 15),
+                _alarmActive
+                    ? SizedBox(
+                        width: size(context).width * 0.8,
+                        child: CustomButton(
+                            color: primary.withAlpha(100),
+                            radius: 10,
+                            onClick: () async {
+                              final time = await showTimePicker(
+                                builder: (context, child) {
+                                  return Theme(
+                                    data: Theme.of(context).copyWith(
+                                      textTheme: TextTheme(
+                                        labelLarge: TextStyle(fontSize: 15),
+                                      ),
                                     ),
-                                  ),
-                                  child: child!,
-                                );
-                              },
-                              initialEntryMode: TimePickerEntryMode.input,
-                              context: context,
-                              initialTime: stringToTimeOfDay(_alarmTime!),
-                            );
-                            if (time != null) {
-                              setState(() {
-                                final parsedTime =
-                                    '${time.hour}:${time.minute}';
-                                _alarmTime = parsedTime;
-                              });
-                            }
-                          },
-                          text:
-                              "${stringToTimeOfDay(_alarmTime!).hour.toString().padLeft(2, '0')}:${stringToTimeOfDay(_alarmTime!).minute.toString().padLeft(2, '0')}"),
-                    )
-                  : SizedBox.shrink(),
-              _alarmActive
-                  ? SizedBox(
-                      height: 20,
-                    )
-                  : SizedBox.shrink()
-            ],
-          ),
-        )
-      ],
+                                    child: child!,
+                                  );
+                                },
+                                initialEntryMode: TimePickerEntryMode.input,
+                                context: context,
+                                initialTime: stringToTimeOfDay(_alarmTime!),
+                              );
+                              if (time != null) {
+                                setState(() {
+                                  final parsedTime =
+                                      '${time.hour}:${time.minute}';
+                                  _alarmTime = parsedTime;
+                                });
+                              }
+                            },
+                            text:
+                                "${stringToTimeOfDay(_alarmTime!).hour.toString().padLeft(2, '0')}:${stringToTimeOfDay(_alarmTime!).minute.toString().padLeft(2, '0')}"),
+                      )
+                    : SizedBox.shrink(),
+                _alarmActive
+                    ? SizedBox(
+                        height: 20,
+                      )
+                    : SizedBox.shrink()
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
