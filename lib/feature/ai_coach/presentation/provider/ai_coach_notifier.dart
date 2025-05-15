@@ -1,9 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/errors/excpetions.dart';
 import 'package:wellnest/feature/ai_coach/business/entity/ai_coach_prompt.dart';
 import 'package:wellnest/feature/ai_coach/business/usecases/get_coach_feedback_usecase.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/ai_coach_state.dart';
 
-import '../../presentation/provider/chat_message_entity.dart';
+import '../../business/entity/chat_message_entity.dart';
 
 class AiCoachNotifier extends StateNotifier<AiCoachState> {
   final GetCoachFeedbackUseCase useCase;
@@ -48,7 +49,10 @@ class AiCoachNotifier extends StateNotifier<AiCoachState> {
       state = state.copyWith(history: updated);
 
       state = state.copyWith(loading: false, data: response);
-    } catch (e) {
+    } on ServerException catch (e){
+      state = state.copyWith(loading: false, error: e.message);
+    }
+    catch (e) {
       state = state.copyWith(loading: false, error: e.toString());
     }
   }

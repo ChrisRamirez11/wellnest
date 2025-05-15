@@ -5,7 +5,7 @@ import '../../business/repositories/ai_coach_repository.dart';
 import '../../business/usecases/get_coach_feedback_usecase.dart';
 import '../../data/datasources/ai_coach_remote_datasource.dart';
 import '../../data/repositories/ai_coach_repository_impl.dart';
-import '../../business/entity/ai_coach_notifier.dart';
+import 'ai_coach_notifier.dart';
 
 final supabaseProvider =
     Provider<SupabaseClient>((ref) => Supabase.instance.client);

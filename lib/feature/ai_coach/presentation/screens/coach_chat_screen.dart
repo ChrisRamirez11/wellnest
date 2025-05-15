@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/global_providers/locale_provider.dart';
 import 'package:wellnest/feature/ai_coach/business/entity/ai_coach_prompt.dart';
-import 'package:wellnest/feature/ai_coach/presentation/provider/chat_message_entity.dart';
+import 'package:wellnest/feature/ai_coach/business/entity/chat_message_entity.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/providers.dart';
 import 'package:wellnest/feature/ai_coach/presentation/widgets/chat_bubble.dart';
 import 'package:wellnest/feature/ai_coach/presentation/widgets/chat_text_box.dart';
@@ -92,7 +92,7 @@ class CoachChatScreen extends ConsumerWidget {
             ),
           ),
           if (state.error != null)
-            Text('Error: ${state.error}',
+            Text(state.error!,
                 style: const TextStyle(color: Colors.red)),
           ChatTextBox(
             onSubmitted: (message, period) async {

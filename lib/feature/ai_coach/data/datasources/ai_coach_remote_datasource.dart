@@ -13,18 +13,23 @@ class AiCoachRemoteDatasourceImpl implements AiCoachRemoteDatasource {
   AiCoachRemoteDatasourceImpl(this.client);
 
   @override
-  Future<AiCoachResponseModel> fetchCoachResponse(AiCoachPromptModel prompt) async {
+  Future<AiCoachResponseModel> fetchCoachResponse(
+      AiCoachPromptModel prompt) async {
     try {
       final response = await client.functions.invoke(
         'lifestyle-coach',
         body: prompt.toJson(),
       );
       if (response.status < 200 || response.status >= 300) {
-        throw ServerException(message: 'Error ${response.status}: ${response.data}');
+        throw ServerException(
+            message: 'Error ${response.status}: ${response.data}');
       }
-      return AiCoachResponseModel.fromJson(response.data as Map<String, dynamic>);
+      return AiCoachResponseModel.fromJson(
+          response.data as Map<String, dynamic>);
+    } on FunctionException catch (e) {
+      throw ServerException(message: e.details['error']);
     } catch (e) {
-      throw Exception('Failed to fetch coach response: $e');
+      throw ServerException(message: 'Failed to fetch coach response: $e');
     }
   }
 }

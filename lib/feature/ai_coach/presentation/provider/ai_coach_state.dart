@@ -1,5 +1,5 @@
 import 'package:wellnest/feature/ai_coach/business/entity/ai_coach_response.dart';
-import 'package:wellnest/feature/ai_coach/presentation/provider/chat_message_entity.dart';
+import 'package:wellnest/feature/ai_coach/business/entity/chat_message_entity.dart';
 
 
 class AiCoachState {
