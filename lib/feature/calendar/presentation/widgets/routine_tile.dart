@@ -84,6 +84,8 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                         routine.finished = true;
                       });
 
+                      dateNotifier.date!.completedRoutineAmount =
+                          _getCompletedQuantity(dateNotifier);
                       await _routineCompletedAnimation(routine.finished!);
                       await dateNotifier.upsertDate(dateNotifier.date!);
                     }
@@ -108,6 +110,8 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
 
                           //plays animation
                           if (routine.finished!) {
+                            dateNotifier.date!.completedRoutineAmount =
+                                _getCompletedQuantity(dateNotifier);
                             await _routineCompletedAnimation(routine.finished!);
                           }
                           await dateNotifier.upsertDate(dateNotifier.date!);
