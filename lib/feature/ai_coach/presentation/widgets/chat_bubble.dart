@@ -19,8 +19,8 @@ class ChatBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     final bg = isUser
         ? Theme.of(context).colorScheme.primaryContainer
-        : Theme.of(context).colorScheme.secondaryContainer;
-    final align = isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start;
+        : Colors.transparent;
+    final align = isUser ? Alignment.centerRight : Alignment.centerLeft;
     final radius = isUser
         ? const BorderRadius.only(
             topLeft: Radius.circular(12),
@@ -32,23 +32,24 @@ class ChatBubble extends StatelessWidget {
             topRight: Radius.circular(12),
             bottomRight: Radius.circular(12),
           );
+    final margin = isUser
+        ? EdgeInsets.only(bottom: 4, left: 30, top: 4, right: 4)
+        : EdgeInsets.all(4);
 
-    return Column(
-      crossAxisAlignment: align,
-      children: [
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 4),
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(color: bg, borderRadius: radius),
-          child: isLoading
-              ? const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : GptMarkdown(text, style: textTheme(context).labelMedium),
-        ),
-      ],
+    return Align(
+      alignment: align,
+      child: Container(
+        margin: margin,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(color: bg, borderRadius: radius),
+        child: isLoading
+            ? const SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            : GptMarkdown(text, style: textTheme(context).labelMedium),
+      ),
     );
   }
 }
