@@ -46,13 +46,21 @@ class AiCoachNotifier extends StateNotifier<AiCoachState> {
         return m;
       }).toList();
 
-      state = state.copyWith(history: updated);
+      state = state.copyWith(history: updated, loading: false, data: response);
+    } on ServerException catch (e) {
+      state.history.removeWhere(
+        (element) => element.id == 'loading',
+      );
 
-      state = state.copyWith(loading: false, data: response);
-    } on ServerException catch (e){
-      state = state.copyWith(loading: false, error: e.message);
-    }
-    catch (e) {
+      state = state.copyWith(
+        loading: false,
+        error: e.message,
+      );
+    } catch (e) {
+      state.history.removeWhere(
+        (element) => element.id == 'loading',
+      );
+
       state = state.copyWith(loading: false, error: e.toString());
     }
   }

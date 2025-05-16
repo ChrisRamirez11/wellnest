@@ -20,7 +20,7 @@ class CoachChatScreen extends ConsumerWidget {
 
     // Extraemos el uso de tokens (o damos valores por defecto si aún no hay datos)
     final used = state.data?.tokensUsedThisMonth.toDouble() ?? 0.0;
-    final limit = state.data?.monthlyTokenLimit.toDouble() ?? 10000.0;
+    final limit = state.data?.monthlyTokenLimit.toDouble() ?? 500000.0;
 
     final language = ref.watch(localeProvider).locale;
 
@@ -92,8 +92,11 @@ class CoachChatScreen extends ConsumerWidget {
             ),
           ),
           if (state.error != null)
-            Text(state.error!,
-                style: const TextStyle(color: Colors.red)),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child:
+                  Text(state.error!, style: const TextStyle(color: Colors.red)),
+            ),
           ChatTextBox(
             onSubmitted: (message, period) async {
               final prompt = AiCoachPrompt(

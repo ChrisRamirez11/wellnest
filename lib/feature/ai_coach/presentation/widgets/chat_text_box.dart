@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/utils.dart';
+import 'package:wellnest/feature/ai_coach/presentation/provider/providers.dart';
 
 enum TimeRange {
   none,
@@ -22,7 +24,7 @@ final Map<TimeRange, String> timeRangeLabels = {
 
 typedef OnMessageSubmitted = void Function(String message, TimeRange period);
 
-class ChatTextBox extends StatelessWidget {
+class ChatTextBox extends ConsumerWidget {
   final OnMessageSubmitted onSubmitted;
   final TimeRange initialPeriod;
 
@@ -33,11 +35,13 @@ class ChatTextBox extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final messageController = TextEditingController();
     var isTyping = false;
     var selectedTimeRange = initialPeriod;
     final menuController = MenuController();
+
+    final aiCoachState = ref.watch(aiCoachNotifierProvider);
 
     return StatefulBuilder(
       builder: (context, setState) {
@@ -112,12 +116,12 @@ class ChatTextBox extends StatelessWidget {
                     icon: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: isTyping ? secondary : secondary.withAlpha(150),
+                        color: (isTyping && !aiCoachState.loading) ? secondary : secondary.withAlpha(150),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(Icons.send, color: primary),
                     ),
-                    onPressed: isTyping
+                    onPressed: (isTyping && !aiCoachState.loading)
                         ? () {
                             final text = messageController.text.trim();
                             messageController.clear();

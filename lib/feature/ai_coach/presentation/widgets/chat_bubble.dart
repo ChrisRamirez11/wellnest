@@ -1,5 +1,7 @@
 // presentation/widgets/chat_bubble.dart
 import 'package:flutter/material.dart';
+import 'package:wellnest/core/utils/utils.dart';
+import 'package:gpt_markdown/gpt_markdown.dart';
 
 class ChatBubble extends StatelessWidget {
   final String text;
@@ -7,29 +9,29 @@ class ChatBubble extends StatelessWidget {
   final bool isLoading;
 
   const ChatBubble({
-    Key? key,
+    super.key,
     required this.text,
     this.isUser = false,
     this.isLoading = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     final bg = isUser
-      ? Theme.of(context).colorScheme.primary
-      : Colors.grey.shade200;
+        ? Theme.of(context).colorScheme.primaryContainer
+        : Theme.of(context).colorScheme.secondaryContainer;
     final align = isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start;
     final radius = isUser
-      ? const BorderRadius.only(
-          topLeft: Radius.circular(12),
-          topRight: Radius.circular(12),
-          bottomLeft: Radius.circular(12),
-        )
-      : const BorderRadius.only(
-          topLeft: Radius.circular(12),
-          topRight: Radius.circular(12),
-          bottomRight: Radius.circular(12),
-        );
+        ? const BorderRadius.only(
+            topLeft: Radius.circular(12),
+            topRight: Radius.circular(12),
+            bottomLeft: Radius.circular(12),
+          )
+        : const BorderRadius.only(
+            topLeft: Radius.circular(12),
+            topRight: Radius.circular(12),
+            bottomRight: Radius.circular(12),
+          );
 
     return Column(
       crossAxisAlignment: align,
@@ -39,11 +41,12 @@ class ChatBubble extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(color: bg, borderRadius: radius),
           child: isLoading
-            ? const SizedBox(
-                width: 16, height: 16,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              )
-            : Text(text, style: TextStyle(color: isUser ? Colors.white : Colors.black)),
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : GptMarkdown(text, style: textTheme(context).labelMedium),
         ),
       ],
     );
