@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/global_providers/locale_provider.dart';
 import 'package:wellnest/feature/ai_coach/business/entity/ai_coach_prompt.dart';
 import 'package:wellnest/feature/ai_coach/business/entity/chat_message_entity.dart';
-import 'package:wellnest/feature/ai_coach/presentation/provider/providers.dart';
+import 'package:wellnest/feature/ai_coach/presentation/provider/period_data_provider/period_data_notifier.dart';
+import 'package:wellnest/feature/ai_coach/presentation/provider/ai_coach_provider/providers.dart';
+import 'package:wellnest/feature/ai_coach/presentation/provider/seleted_time_range_provider.dart';
 import 'package:wellnest/feature/ai_coach/presentation/widgets/chat_bubble.dart';
 import 'package:wellnest/feature/ai_coach/presentation/widgets/chat_text_box.dart';
 import 'package:wellnest/main.dart';
@@ -17,6 +19,8 @@ class CoachChatScreen extends ConsumerWidget {
     // Observamos el estado
     final state = ref.watch(aiCoachNotifierProvider);
     final notifier = ref.read(aiCoachNotifierProvider.notifier);
+
+    final selectedTimeRange = ref.watch(selectedTimeRangeProvider);
 
     // Extraemos el uso de tokens (o damos valores por defecto si aún no hay datos)
     final used = state.data?.tokensUsedThisMonth.toDouble() ?? 0.0;
@@ -99,17 +103,22 @@ class CoachChatScreen extends ConsumerWidget {
             ),
           ChatTextBox(
             onSubmitted: (message, period) async {
+              await ref
+                  .read(periodDataNotifierProvider.notifier)
+                  .generateSummary(selectedTimeRange);
+
               final prompt = AiCoachPrompt(
                 userId: supabase.auth.currentUser!.id,
                 userMessage: message,
                 language: language?.languageCode ??
                     PlatformDispatcher.instance.locale.languageCode,
-                summary: null,
+                summary: ref.watch(periodDataNotifierProvider).summary,
                 period: period == TimeRange.none
                     ? null
                     : (period == TimeRange.weekData ? 'week' : 'month'),
                 previousResponseId: state.data?.previousResponseId,
               );
+
               await notifier.fetchCoachFeedback(prompt);
             },
           ),
