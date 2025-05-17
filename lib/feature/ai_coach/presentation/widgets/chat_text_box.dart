@@ -4,6 +4,7 @@ import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/ai_coach_provider/providers.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/seleted_time_range_provider.dart';
+import 'package:wellnest/feature/ai_coach/presentation/widgets/custom_menu_anchor.dart';
 
 enum TimeRange {
   none,
@@ -92,40 +93,9 @@ class _ChatTextBoxState extends ConsumerState<ChatTextBox> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // TimeRange selector
-              MenuAnchor(
-                controller: menuController,
-                alignmentOffset: const Offset(0, -200),
-                menuChildren: TimeRange.values.map((timeRange) {
-                  return MenuItemButton(
-                    child: Row(
-                      children: [
-                        Icon(timeRangeIcons[timeRange], size: 20),
-                        const SizedBox(width: 8),
-                        Text(timeRangeLabels[timeRange]!),
-                      ],
-                    ),
-                    onPressed: () {
-                      ref.read(selectedTimeRangeProvider.notifier).state =
-                          timeRange;
-                      menuController.close();
-                    },
-                  );
-                }).toList(),
-                child: InkWell(
-                  onTap: () => menuController.isOpen
-                      ? menuController.close()
-                      : menuController.open(),
-                  borderRadius: BorderRadius.circular(100),
-                  child: Container(
-                    padding: const EdgeInsets.all(7),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      border: Border.all(color: primary),
-                    ),
-                    child: Icon(timeRangeIcons[selectedTimeRange], size: 20),
-                  ),
-                ),
-              ),
+              CustomMenuAnchor(
+                  menuController: menuController,
+                  selectedTimeRange: selectedTimeRange),
 
               // Send button
               IconButton(
