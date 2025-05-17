@@ -1,15 +1,37 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/errors/excpetions.dart';
 import 'package:wellnest/feature/ai_coach/business/entity/ai_coach_prompt.dart';
+import 'package:wellnest/feature/ai_coach/business/entity/ai_coach_response.dart';
 import 'package:wellnest/feature/ai_coach/business/usecases/get_coach_feedback_usecase.dart';
+import 'package:wellnest/feature/ai_coach/business/usecases/token_stats_usecase.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/ai_coach_provider/ai_coach_state.dart';
 
 import '../../../business/entity/chat_message_entity.dart';
 
 class AiCoachNotifier extends StateNotifier<AiCoachState> {
   final GetCoachFeedbackUseCase useCase;
+  final GetTokenStatsUseCase statsUc;
 
-  AiCoachNotifier(this.useCase) : super(AiCoachState());
+  AiCoachNotifier(this.useCase, this.statsUc) : super(AiCoachState()) {
+    _loadInitialStats();
+  }
+
+  Future<void> _loadInitialStats() async {
+    try {
+      final stats = await statsUc();
+      // we reuse the same state.data but just populate the stats fields
+      state = state.copyWith(
+          data: AiCoachResponse(
+        response: state.data?.response ?? '',
+        previousResponseId: state.data?.previousResponseId,
+        tokensUsedThisMonth: stats.usedThisMonth,
+        monthlyTokenLimit: stats.monthlyLimit,
+      ));
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 
   Future<void> fetchCoachFeedback(AiCoachPrompt prompt) async {
     state = state.copyWith(loading: true, error: null);

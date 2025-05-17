@@ -9,6 +9,7 @@ import 'package:wellnest/feature/ai_coach/presentation/provider/ai_coach_provide
 import 'package:wellnest/feature/ai_coach/presentation/provider/seleted_time_range_provider.dart';
 import 'package:wellnest/feature/ai_coach/presentation/widgets/chat_bubble.dart';
 import 'package:wellnest/feature/ai_coach/presentation/widgets/chat_text_box.dart';
+import 'package:wellnest/feature/ai_coach/presentation/widgets/tokens_usage_widget.dart';
 import 'package:wellnest/main.dart';
 
 class CoachChatScreen extends ConsumerWidget {
@@ -22,11 +23,10 @@ class CoachChatScreen extends ConsumerWidget {
 
     final selectedTimeRange = ref.watch(selectedTimeRangeProvider);
 
-    // Extraemos el uso de tokens (o damos valores por defecto si aún no hay datos)
+    final language = ref.watch(localeProvider).locale;
+
     final used = state.data?.tokensUsedThisMonth.toDouble() ?? 0.0;
     final limit = state.data?.monthlyTokenLimit.toDouble() ?? 500000.0;
-
-    final language = ref.watch(localeProvider).locale;
 
     return Scaffold(
       appBar: AppBar(
@@ -35,49 +35,29 @@ class CoachChatScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: SizedBox(
-          width: 150,
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Mostramos en miles (K) si quieres
-                  Text(
-                    '${(used / 1000).toStringAsFixed(1)}K - ${(limit / 1000).toStringAsFixed(1)}K',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
+        title: SizedBox(width: 150, child: TokensUsageWidget()),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  title: const Text("Token usage"),
+                  content: Text(
+                    "You've used ${used.toStringAsFixed(0)} out of ${limit.toStringAsFixed(0)} tokens available this month. Usage resets on the 1st of each month.",
                   ),
-                  const SizedBox(width: 8),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withAlpha(50),
-                      borderRadius: BorderRadius.circular(10),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text("Close"),
                     ),
-                    child: Text(
-                      '${(limit > 0 ? (used / limit * 100) : 0).toStringAsFixed(0)}%',
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 4),
-              LinearProgressIndicator(
-                value: limit > 0 ? used / limit : 0,
-                backgroundColor: Colors.grey[300],
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  Theme.of(context).colorScheme.primary,
+                  ],
                 ),
-                minHeight: 4,
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ],
-          ),
-        ),
+              );
+            },
+            icon: const Icon(Icons.info_outline),
+          )
+        ],
       ),
       body: Column(
         children: [

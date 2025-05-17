@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:wellnest/feature/ai_coach/business/usecases/token_stats_usecase.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/ai_coach_provider/ai_coach_state.dart';
 import '../../../business/repositories/ai_coach_repository.dart';
 import '../../../business/usecases/get_coach_feedback_usecase.dart';
@@ -19,6 +20,14 @@ final aiCoachRepositoryProvider = Provider<AiCoachRepository>(
 final getCoachFeedbackUseCaseProvider = Provider<GetCoachFeedbackUseCase>(
     (ref) => GetCoachFeedbackUseCase(ref.watch(aiCoachRepositoryProvider)));
 
+final getTokenStatsUseCaseProvider = Provider<GetTokenStatsUseCase>(
+  (ref) => GetTokenStatsUseCase(ref.watch(aiCoachRepositoryProvider)),
+);
+
 final aiCoachNotifierProvider =
     StateNotifierProvider<AiCoachNotifier, AiCoachState>(
-        (ref) => AiCoachNotifier(ref.watch(getCoachFeedbackUseCaseProvider)));
+  (ref) => AiCoachNotifier(
+    ref.watch(getCoachFeedbackUseCaseProvider),
+    ref.watch(getTokenStatsUseCaseProvider),
+  ),
+);
