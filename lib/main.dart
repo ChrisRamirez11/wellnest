@@ -5,8 +5,8 @@ import 'package:wellnest/feature/ai_coach/presentation/screens/coach_chat_screen
 import 'package:wellnest/feature/onboarding/presentation/provider/first_app_opening.dart';
 import 'package:wellnest/feature/onboarding/presentation/screens/onboarding.dart';
 import 'package:wellnest/feature/settings/presentation/screens/subsettings/notifications_screen.dart';
+import 'package:wellnest/l10n/app_localizations.dart';
 import 'package:wellnest/purchase_observer.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';

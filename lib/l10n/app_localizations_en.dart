@@ -1,0 +1,196 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for English (`en`).
+class AppLocalizationsEn extends AppLocalizations {
+  AppLocalizationsEn([String locale = 'en']) : super(locale);
+
+  @override
+  String get language => 'English';
+
+  @override
+  String get languageTitle => 'Language';
+
+  @override
+  String get calendar => 'Calendar';
+
+  @override
+  String get routines => 'Routines';
+
+  @override
+  String get me => 'Me';
+
+  @override
+  String get createNewRoutine => 'Create New Routine';
+
+  @override
+  String get newRoutine => 'New Routine';
+
+  @override
+  String get contributors => 'Contributors';
+
+  @override
+  String get feedback => 'Feedback';
+
+  @override
+  String get about => 'About Us';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get signIn => 'Google Sign In';
+
+  @override
+  String get backupRestoreComment => 'Sign in to sync and backup data';
+
+  @override
+  String get send => 'Send';
+
+  @override
+  String get feedbackComment => 'Give us feedback or any suggestion.';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get selectWeekDays => 'Select Week Days';
+
+  @override
+  String get selectColor => 'Select Color';
+
+  @override
+  String get routineName => 'Routine name';
+
+  @override
+  String get selectLanguage => 'Select Language';
+
+  @override
+  String get goDeluxe => 'Go Deluxe';
+
+  @override
+  String get premiumUser => 'Premium User';
+
+  @override
+  String get deleteReoutineQuestion => 'Are you sure to delete this routine?';
+
+  @override
+  String get deleteReoutineAwareness => 'Deleting this routine will simply remove it from your routines list.';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get logOut => 'Log Out';
+
+  @override
+  String get wellnestWhatIs => 'Wellnest is an app designed to help you manage your wellness and personal growth. Our mission is to provide you with the tools and resources you need to live a healthier, happier life.';
+
+  @override
+  String get whoWeAre => 'We are a small team trying to give our users the best we can. Your feedback and ideas are the cornerstone of our innovation. By sharing your thoughts, you\'re not just using Wellnest – you\'re helping shape its future.';
+
+  @override
+  String get supportUsWithIdeas => 'Have an idea to make Wellnest even better? We\'d love to hear from you! Reach out to us through our in-app suggestion box.';
+
+  @override
+  String get wakeUpQuestion => 'What time do you usually wake up?';
+
+  @override
+  String get wakeUpMessage => 'Choose the time you usually start a new day.';
+
+  @override
+  String get sleepQuestion => 'What time do you usually end your day?';
+
+  @override
+  String get sleepMessage => 'Choose the time you usually end your day.';
+
+  @override
+  String get morningNotiTitle => 'Good Morning';
+
+  @override
+  String get morningNotiBody => 'Review your daily routines and finish them as you go. Don\'t forget mark them as done';
+
+  @override
+  String get nightNotiTitle => 'Hey There';
+
+  @override
+  String get nightNotiBody => 'End your day by reviewing unfinished tasks and wrapping them up.';
+
+  @override
+  String get morningNoti => 'Morning Notification';
+
+  @override
+  String get nightNoti => 'Night Notification';
+
+  @override
+  String get track => 'Track';
+
+  @override
+  String get task => 'Task';
+
+  @override
+  String get amount => 'Amount';
+
+  @override
+  String get timeRoutine => 'Time';
+
+  @override
+  String get time => 'time';
+
+  @override
+  String get times => 'times';
+
+  @override
+  String get selectDuration => 'Select Duration';
+
+  @override
+  String get selectAmount => 'Select Amount';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get markDone => 'Mark as Done';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
+  String get resume => 'Resume';
+
+  @override
+  String get pause => 'Pause';
+
+  @override
+  String get finish => 'Finish';
+
+  @override
+  String get routineReminderBody => 'It\'s time to grow, complete your routine';
+
+  @override
+  String get quitTimer => 'Are you sure to quit the timer?';
+
+  @override
+  String get timerSaved => 'Your current progress will be saved. You can return later to continue.';
+
+  @override
+  String get ok => 'Ok';
+
+  @override
+  String get advancedSettings => 'Advanced Settings';
+
+  @override
+  String get remindHabit => 'Remind this habit';
+
+  @override
+  String get permissionRequired => 'Permission Required';
+
+  @override
+  String get askUnrestrictedBattery => 'To ensure the countdown works properly on the backround, allow the app to use Unrestricted Battery.';
+}

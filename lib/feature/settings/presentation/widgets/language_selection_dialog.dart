@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wellnest/core/global_providers/locale_provider.dart';
 import 'package:wellnest/core/notifications/global_app_notification.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/utils/set_routines_reminders.dart';
 import 'package:wellnest/core/utils/utils.dart';
+import 'package:wellnest/l10n/app_localizations.dart';
 
 class LanguageSelectionDialog extends ConsumerWidget {
   const LanguageSelectionDialog({
