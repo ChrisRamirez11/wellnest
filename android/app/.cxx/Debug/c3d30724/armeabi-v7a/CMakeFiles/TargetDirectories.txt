@@ -1,0 +1,2 @@
+D:/PROJECTS/SPECIALS/wellnest/android/app/.cxx/Debug/c3d30724/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/PROJECTS/SPECIALS/wellnest/android/app/.cxx/Debug/c3d30724/armeabi-v7a/CMakeFiles/rebuild_cache.dir
