@@ -12,21 +12,54 @@ import 'package:wellnest/feature/ai_coach/presentation/widgets/chat_text_box.dar
 import 'package:wellnest/feature/ai_coach/presentation/widgets/tokens_usage_widget.dart';
 import 'package:wellnest/main.dart';
 
-class CoachChatScreen extends ConsumerWidget {
+class CoachChatScreen extends ConsumerStatefulWidget {
   const CoachChatScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Observamos el estado
+  ConsumerState<CoachChatScreen> createState() => _CoachChatScreenState();
+}
+
+class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant CoachChatScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _scrollToBottom(); // in case of updates
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(aiCoachNotifierProvider);
     final notifier = ref.read(aiCoachNotifierProvider.notifier);
-
     final selectedTimeRange = ref.watch(selectedTimeRangeProvider);
-
     final language = ref.watch(localeProvider).locale;
 
     final used = state.data?.tokensUsedThisMonth.toDouble() ?? 0.0;
     final limit = state.data?.monthlyTokenLimit.toDouble() ?? 500000.0;
+
+    // Scroll to bottom when chat history changes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToBottom();
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -63,6 +96,7 @@ class CoachChatScreen extends ConsumerWidget {
         children: [
           Expanded(
             child: ListView.builder(
+              controller: _scrollController,
               padding: const EdgeInsets.all(16),
               itemCount: state.history.length,
               itemBuilder: (_, i) {
@@ -78,20 +112,16 @@ class CoachChatScreen extends ConsumerWidget {
           if (state.error != null)
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child:
-                  Text(state.error!, style: const TextStyle(color: Colors.red)),
+              child: Text(state.error!, style: const TextStyle(color: Colors.red)),
             ),
           ChatTextBox(
             onSubmitted: (message, period) async {
-              await ref
-                  .read(periodDataNotifierProvider.notifier)
-                  .generateSummary(selectedTimeRange);
+              await ref.read(periodDataNotifierProvider.notifier).generateSummary(selectedTimeRange);
 
               final prompt = AiCoachPrompt(
                 userId: supabase.auth.currentUser!.id,
                 userMessage: message,
-                language: language?.languageCode ??
-                    PlatformDispatcher.instance.locale.languageCode,
+                language: language?.languageCode ?? PlatformDispatcher.instance.locale.languageCode,
                 summary: ref.watch(periodDataNotifierProvider).summary,
                 period: period == TimeRange.none
                     ? null
@@ -100,6 +130,7 @@ class CoachChatScreen extends ConsumerWidget {
               );
 
               await notifier.fetchCoachFeedback(prompt);
+              _scrollToBottom();
             },
           ),
         ],
@@ -107,3 +138,4 @@ class CoachChatScreen extends ConsumerWidget {
     );
   }
 }
+
