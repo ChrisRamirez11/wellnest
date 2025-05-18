@@ -48,7 +48,7 @@ class ChatBubble extends StatelessWidget {
                 height: 16,
                 child: CircularProgressIndicator(strokeWidth: 2),
               )
-            : GptMarkdown(text, style: textTheme(context).labelMedium),
+            : SelectionArea(child: GptMarkdown(text, style: textTheme(context).labelMedium)),
       ),
     );
   }

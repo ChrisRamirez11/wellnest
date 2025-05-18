@@ -93,8 +93,8 @@ ThemeData theme = ThemeData(
   //
   textSelectionTheme: TextSelectionThemeData(
       cursorColor: obsidian,
-      selectionColor: obsidian.withValues(alpha: 200),
-      selectionHandleColor: obsidian.withValues(alpha: 130)),
+      selectionColor: obsidian.withAlpha(200),
+      selectionHandleColor: obsidian.withAlpha(200)),
 
   useMaterial3: true,
 );
@@ -166,8 +166,8 @@ ThemeData themeDark = ThemeData.dark().copyWith(
     //
     textSelectionTheme: TextSelectionThemeData(
         cursorColor: ghostWhite,
-        selectionColor: ghostWhite.withValues(alpha: 200),
-        selectionHandleColor: ghostWhite.withValues(alpha: 130)),
+        selectionColor: ghostWhite.withAlpha(100),
+        selectionHandleColor: ghostWhite.withAlpha(200)),
 
     //Card
     //
