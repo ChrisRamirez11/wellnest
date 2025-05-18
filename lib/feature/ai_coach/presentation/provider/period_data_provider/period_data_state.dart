@@ -13,8 +13,8 @@ class PeriodDataState {
   }) {
     return PeriodDataState(
       loading: loading ?? this.loading,
-      summary: summary ?? this.summary,
-      error: error ?? this.error,
+      summary: summary,
+      error: error,
     );
   }
 }
