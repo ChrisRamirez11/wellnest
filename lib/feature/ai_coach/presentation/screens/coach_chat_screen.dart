@@ -22,22 +22,32 @@ class CoachChatScreen extends ConsumerStatefulWidget {
 class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
   final ScrollController _scrollController = ScrollController();
 
+  bool get _isNearBottom {
+    const threshold = 300;
+    if (!_scrollController.hasClients) return false;
+
+    final max = _scrollController.position.maxScrollExtent;
+    final current = _scrollController.position.pixels;
+
+    return max - current < threshold;
+  }
+
   void _scrollToBottom() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      }
-    });
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   @override
   void didUpdateWidget(covariant CoachChatScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _scrollToBottom(); // in case of updates
+    if (_isNearBottom) {
+      _scrollToBottom();
+    }
   }
 
   @override
@@ -56,9 +66,10 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
     final used = state.data?.tokensUsedThisMonth.toDouble() ?? 0.0;
     final limit = state.data?.monthlyTokenLimit.toDouble() ?? 500000.0;
 
-    // Scroll to bottom when chat history changes
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollToBottom();
+      if (_isNearBottom) {
+        _scrollToBottom();
+      }
     });
 
     return Scaffold(
@@ -130,6 +141,8 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
               );
 
               await notifier.fetchCoachFeedback(prompt);
+
+              // Forzamos scroll si el usuario acaba de enviar un mensaje
               _scrollToBottom();
             },
           ),
@@ -138,4 +151,5 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
     );
   }
 }
+
 
