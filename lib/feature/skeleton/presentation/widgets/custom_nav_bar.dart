@@ -7,7 +7,7 @@ import 'package:wellnest/feature/skeleton/presentation/providers/index_provider.
 List<NavigationDestination> itemsList(context) => [
    NavigationDestination(
       icon: Icon(
-        Icons.check_box_outlined,
+        Icons.calendar_month_outlined,
         color: obsidian,
       ),
       label: localization(context).calendar),
@@ -19,7 +19,7 @@ List<NavigationDestination> itemsList(context) => [
       label: localization(context).routines),
    NavigationDestination(
       icon: Icon(
-        Icons.person,
+        Icons.person_outline,
         color: obsidian,
       ),
       label: localization(context).me),
@@ -34,7 +34,7 @@ class CustomNavBar extends ConsumerWidget {
     return NavigationBar(
       overlayColor: const WidgetStatePropertyAll(Colors.transparent),
       animationDuration: const Duration(milliseconds: 250),
-      labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       elevation: 10,
       backgroundColor: primary,
       indicatorColor: secondary,

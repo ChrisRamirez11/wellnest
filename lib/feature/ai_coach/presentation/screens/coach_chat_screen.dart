@@ -72,81 +72,83 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
       }
     });
 
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: SizedBox(width: 150, child: TokensUsageWidget()),
-        actions: [
-          IconButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (_) => AlertDialog(
-                  title: const Text("Token usage"),
-                  content: Text(
-                    "You've used ${used.toStringAsFixed(0)} out of ${limit.toStringAsFixed(0)} tokens available this month. Usage resets on the 1st of each month.",
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: const Text("Close"),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          title: SizedBox(width: 150, child: TokensUsageWidget()),
+          actions: [
+            IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    title: const Text("Token usage"),
+                    content: Text(
+                      "You've used ${used.toStringAsFixed(0)} out of ${limit.toStringAsFixed(0)} tokens available this month. Usage resets on the 1st of each month.",
                     ),
-                  ],
-                ),
-              );
-            },
-            icon: const Icon(Icons.info_outline),
-          )
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              controller: _scrollController,
-              padding: const EdgeInsets.all(16),
-              itemCount: state.history.length,
-              itemBuilder: (_, i) {
-                final msg = state.history[i];
-                return ChatBubble(
-                  text: msg.text,
-                  isUser: msg.author == Author.user,
-                  isLoading: msg.isLoading,
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text("Close"),
+                      ),
+                    ],
+                  ),
                 );
               },
+              icon: const Icon(Icons.info_outline),
+            )
+          ],
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                controller: _scrollController,
+                padding: const EdgeInsets.all(16),
+                itemCount: state.history.length,
+                itemBuilder: (_, i) {
+                  final msg = state.history[i];
+                  return ChatBubble(
+                    text: msg.text,
+                    isUser: msg.author == Author.user,
+                    isLoading: msg.isLoading,
+                  );
+                },
+              ),
             ),
-          ),
-          if (state.error != null)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(state.error!, style: const TextStyle(color: Colors.red)),
+            if (state.error != null)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(state.error!, style: const TextStyle(color: Colors.red)),
+              ),
+            ChatTextBox(
+              onSubmitted: (message, period) async {
+                await ref.read(periodDataNotifierProvider.notifier).generateSummary(selectedTimeRange);
+      
+                final prompt = AiCoachPrompt(
+                  userId: supabase.auth.currentUser!.id,
+                  userMessage: message,
+                  language: language?.languageCode ?? PlatformDispatcher.instance.locale.languageCode,
+                  summary: ref.watch(periodDataNotifierProvider).summary,
+                  period: period == TimeRange.none
+                      ? null
+                      : (period == TimeRange.weekData ? 'week' : 'month'),
+                  previousResponseId: state.data?.previousResponseId,
+                );
+      
+                await notifier.fetchCoachFeedback(prompt);
+      
+                // Forzamos scroll si el usuario acaba de enviar un mensaje
+                _scrollToBottom();
+              },
             ),
-          ChatTextBox(
-            onSubmitted: (message, period) async {
-              await ref.read(periodDataNotifierProvider.notifier).generateSummary(selectedTimeRange);
-
-              final prompt = AiCoachPrompt(
-                userId: supabase.auth.currentUser!.id,
-                userMessage: message,
-                language: language?.languageCode ?? PlatformDispatcher.instance.locale.languageCode,
-                summary: ref.watch(periodDataNotifierProvider).summary,
-                period: period == TimeRange.none
-                    ? null
-                    : (period == TimeRange.weekData ? 'week' : 'month'),
-                previousResponseId: state.data?.previousResponseId,
-              );
-
-              await notifier.fetchCoachFeedback(prompt);
-
-              // Forzamos scroll si el usuario acaba de enviar un mensaje
-              _scrollToBottom();
-            },
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
