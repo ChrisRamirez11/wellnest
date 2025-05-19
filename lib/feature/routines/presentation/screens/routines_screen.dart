@@ -34,7 +34,11 @@ class RoutinesScreen extends ConsumerWidget {
     final showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
     return Scaffold(
       appBar: CustomAppBar(
-        titleString: localization(context).routines.toUpperCase(),
+        leadingWidget: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        titleString: localization(context).routines,
         actionsList: [
           showFab
               ? const CustomFab(

@@ -25,7 +25,13 @@ class NotificationsScreen extends ConsumerWidget {
     final end = timeNotifier.end;
 
     return Scaffold(
-      appBar: CustomAppBar(titleString: localization(context).notifications),
+      appBar: CustomAppBar(
+        titleString: localization(context).notifications,
+        leadingWidget: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ),
       body: ListView(children: [
         //Morning Notification
         _NotificationCard(
@@ -73,7 +79,6 @@ class NotificationsScreen extends ConsumerWidget {
               hour: ((stringToTimeOfDay(timeNotifier.end).hour - 2) % 24),
               minute: stringToTimeOfDay(timeNotifier.end).minute),
           onPressed: () async {
-
             //TODO every timepicker will use a common time picker, no repeating the same thing so many times
             //shows the time picker
             final time = await showTimePicker(

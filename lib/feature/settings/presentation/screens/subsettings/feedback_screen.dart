@@ -25,6 +25,10 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: CustomAppBar(
+          leadingWidget: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
           titleString: localization(context).feedback,
         ),
         body: Padding(

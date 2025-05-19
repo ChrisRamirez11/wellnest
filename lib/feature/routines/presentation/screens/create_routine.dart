@@ -119,6 +119,10 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
       bottomNavigationBar: getCreateButton(
           routineNotifier, context, dateNotifier, colorNotifier),
       appBar: CustomAppBar(
+        leadingWidget: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () => Navigator.of(context).popUntil(ModalRoute.withName('/')),
+        ),
           titleString: widget.routineModel == null
               ? localization(context).newRoutine.toUpperCase()
               : widget.routineModel!.name),
@@ -495,7 +499,6 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
       padding: const EdgeInsets.all(15),
       child: CustomButton(
           color: primary,
-          textColor: secondary,
           text: localization(context).save.toUpperCase(),
           onClick: !loading
               ? () async {

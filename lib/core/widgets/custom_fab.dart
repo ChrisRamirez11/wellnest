@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/theme/theme.dart';
 
 class CustomFab extends ConsumerWidget {
   final bool? isMini;
@@ -11,6 +12,6 @@ class CustomFab extends ConsumerWidget {
         mini: isMini ?? false,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
         onPressed: () => Navigator.of(context).pushNamed('/createRoutine'),
-        child: const Icon(Icons.add));
+        child: const Icon(Icons.add, color: ghostWhite, size: 30,));
   }
 }

@@ -16,7 +16,7 @@ class CustomNavBar extends ConsumerWidget {
         Container(
           height: 65,
           decoration: BoxDecoration(
-            color: primary,
+            color: obsidian,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.05),
@@ -33,7 +33,7 @@ class CustomNavBar extends ConsumerWidget {
                 iconFilled: Icons.calendar_month,
                 iconOutlined: Icons.calendar_month_outlined,
               ),
-              const SizedBox(width: 30), // space for the central button
+              const SizedBox(width: 10), // space for the central button
               BottomNavTab(
                 pageIndex: 1,
                 isSelected: index.selectedIndex == 1,
@@ -66,10 +66,10 @@ class CustomNavBar extends ConsumerWidget {
               height: 60,
               width: 70,
               decoration: BoxDecoration(
-                color: Colors.grey.shade600,
+                color: Colors.lightBlue,
                 borderRadius: BorderRadius.circular(18),
               ),
-              child: const Icon(Icons.add, color: brightWhite, size: 35),
+              child: const Icon(Icons.circle, color: ghostWhite, size: 35),
             ),
           ),
         ),
@@ -104,7 +104,7 @@ class BottomNavTab extends ConsumerWidget {
         children: [
           Icon(
             isSelected ? iconFilled : iconOutlined,
-            color: isSelected ? brightWhite : Colors.grey.shade600,
+            color: isSelected ? ghostWhite : Colors.grey.shade600,
             size: 35,
           ),
           if (label != null)
@@ -112,7 +112,7 @@ class BottomNavTab extends ConsumerWidget {
               label!,
               style: TextStyle(
                 fontSize: 12,
-                color: isSelected ? brightWhite : Colors.grey.shade600,
+                color: isSelected ? ghostWhite : Colors.grey.shade600,
               ),
             ),
         ],

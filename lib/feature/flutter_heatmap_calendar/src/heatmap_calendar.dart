@@ -274,26 +274,27 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
       appBar: CustomAppBar(
         actionsList: [
           //todo This will be used when the community update is done, to go to routines screen
-          /*
+
           Container(
             margin: EdgeInsets.only(right: 10),
-            height: 40,
-            width: 40,
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Color(0xFF004C63)),
+            height: 42,
+            width: 42,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: colorScheme(context).primaryContainer,
+            ),
             child: InkWell(
               customBorder: CircleBorder(),
-              onTap: () => Navigator.of(context).pushNamed('/createRoutine'),
+              onTap: () => Navigator.of(context).pushNamed('/routines'),
               child: Icon(
-                Icons.add,
-                color: secondary,
-                size: 20,
+                Icons.list_alt_rounded,
+                color: ghostWhite,
+                size: 30,
                 grade: 100,
                 fill: 1,
               ),
             ),
           )
-          */
         ],
         titleString: localization(context).calendar.toUpperCase(),
       ),
@@ -360,9 +361,9 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
               ),
             ),
             ConstrainedBox(
-                //By removing this ConstrainedBox everything is slideable like an all
                 constraints: BoxConstraints(
-                  maxHeight: MediaQuery.sizeOf(context).height * .45,
+                  maxHeight: MediaQuery.sizeOf(context).height *
+                      .50, //By setting this to max everything is slideable like an all
                   minHeight: MediaQuery.sizeOf(context).height * .2,
                   maxWidth: MediaQuery.sizeOf(context).width,
                 ),

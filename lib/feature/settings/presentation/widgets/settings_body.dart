@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/notifications/global_app_notification.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/notifications/notifications_provider.dart';
-import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/set_routines_reminders.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/ads/banner_ad.dart';
@@ -13,8 +12,6 @@ import 'package:wellnest/feature/settings/presentation/widgets/go_deluxe_button.
 import 'package:wellnest/feature/settings/presentation/widgets/language_selection_dialog.dart';
 import 'package:wellnest/feature/settings/presentation/widgets/user_signed_button.dart';
 import 'package:wellnest/main.dart';
-
-final _cardColor = primary.withAlpha(200);
 
 class SettingsBody extends ConsumerStatefulWidget {
   const SettingsBody({super.key});
@@ -36,7 +33,6 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
             getGoDeluxeButton(),
             getSettigsBox(context),
             BannerAdWidget(
-              cardColor: _cardColor,
             )
           ],
         ),
@@ -50,7 +46,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
 
     return Card(
       clipBehavior: Clip.antiAlias,
-      color: _cardColor,
+      color: colorScheme(context).onInverseSurface,
       child: (user == null && profile == null)
           ? InkWell(
               onTap: () async {
@@ -100,7 +96,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
 
   Card getSettigsBox(BuildContext context) {
     return Card(
-      color: _cardColor,
+      color: colorScheme(context).onInverseSurface,
       child: SizedBox(
         width: double.infinity,
         child: Column(
