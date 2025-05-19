@@ -8,7 +8,6 @@ import 'package:wellnest/core/preferences/user_preferences.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
-import 'package:wellnest/feature/routines/presentation/screens/routines_screen.dart';
 import 'package:wellnest/feature/settings/presentation/screens/settings_screen.dart';
 import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
 import 'package:wellnest/feature/calendar/presentation/screens/small_routines_screen.dart';
@@ -17,7 +16,6 @@ import 'package:wellnest/feature/skeleton/presentation/widgets/custom_nav_bar.da
 
 List<Widget> pages = [
   const SmallRoutinesScreen(),
-  const RoutinesScreen(),
   const SettingsScreen(),
 ];
 

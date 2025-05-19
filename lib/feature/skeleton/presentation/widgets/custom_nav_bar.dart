@@ -1,29 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/theme/theme.dart';
-import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/skeleton/presentation/providers/index_provider.dart';
-
-List<NavigationDestination> itemsList(context) => [
-   NavigationDestination(
-      icon: Icon(
-        Icons.calendar_month_outlined,
-        color: obsidian,
-      ),
-      label: localization(context).calendar),
-   NavigationDestination(
-      icon: Icon(
-        Icons.schedule_outlined,
-        color: obsidian,
-      ),
-      label: localization(context).routines),
-   NavigationDestination(
-      icon: Icon(
-        Icons.person_outline,
-        color: obsidian,
-      ),
-      label: localization(context).me),
-];
 
 class CustomNavBar extends ConsumerWidget {
   const CustomNavBar({super.key});
@@ -31,16 +9,114 @@ class CustomNavBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final index = ref.watch(indexProvider);
-    return NavigationBar(
-      overlayColor: const WidgetStatePropertyAll(Colors.transparent),
-      animationDuration: const Duration(milliseconds: 250),
-      labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-      elevation: 10,
-      backgroundColor: primary,
-      indicatorColor: secondary,
-      destinations: itemsList(context),
-      onDestinationSelected: (value) => index.pageController.jumpToPage(value),
-      selectedIndex: index.selectedIndex,
+
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        Container(
+          height: 65,
+          decoration: BoxDecoration(
+            color: primary,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 8,
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              BottomNavTab(
+                pageIndex: 0,
+                isSelected: index.selectedIndex == 0,
+                iconFilled: Icons.calendar_month,
+                iconOutlined: Icons.calendar_month_outlined,
+              ),
+              const SizedBox(width: 30), // space for the central button
+              BottomNavTab(
+                pageIndex: 1,
+                isSelected: index.selectedIndex == 1,
+                iconFilled: Icons.person,
+                iconOutlined: Icons.person_outline,
+              ),
+            ],
+          ),
+        ),
+
+        // Central floating button
+        Positioned(
+          bottom: 5,
+          top: 5,
+          child: GestureDetector(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                backgroundColor: Colors.white,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                ),
+                builder: (context) => const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text("Contenido del BottomSheet"),
+                ),
+              );
+            },
+            child: Container(
+              height: 60,
+              width: 70,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade600,
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: const Icon(Icons.add, color: brightWhite, size: 35),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class BottomNavTab extends ConsumerWidget {
+  final int pageIndex;
+  final bool isSelected;
+  final IconData iconFilled;
+  final IconData iconOutlined;
+  final String? label;
+
+  const BottomNavTab({
+    super.key,
+    required this.pageIndex,
+    required this.isSelected,
+    required this.iconFilled,
+    required this.iconOutlined,
+    this.label,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return GestureDetector(
+      onTap: () => ref.read(indexProvider).pageController.jumpToPage(pageIndex),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            isSelected ? iconFilled : iconOutlined,
+            color: isSelected ? brightWhite : Colors.grey.shade600,
+            size: 35,
+          ),
+          if (label != null)
+            Text(
+              label!,
+              style: TextStyle(
+                fontSize: 12,
+                color: isSelected ? brightWhite : Colors.grey.shade600,
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
