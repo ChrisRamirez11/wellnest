@@ -44,11 +44,12 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
   }
 
   @override
-  void didUpdateWidget(covariant CoachChatScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (_isNearBottom) {
-      _scrollToBottom();
-    }
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    });
   }
 
   @override
