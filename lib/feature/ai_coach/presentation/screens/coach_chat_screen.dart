@@ -10,6 +10,7 @@ import 'package:wellnest/feature/ai_coach/presentation/provider/seleted_time_ran
 import 'package:wellnest/feature/ai_coach/presentation/widgets/chat_bubble.dart';
 import 'package:wellnest/feature/ai_coach/presentation/widgets/chat_text_box.dart';
 import 'package:wellnest/feature/ai_coach/presentation/widgets/tokens_usage_widget.dart';
+import 'package:wellnest/feature/skeleton/presentation/providers/nav_bar_visiblity.dart';
 import 'package:wellnest/main.dart';
 
 class CoachChatScreen extends ConsumerStatefulWidget {
@@ -72,13 +73,21 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
       }
     });
 
+    final navBarVisible = ref.watch(navBarVisibleProvider);
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () => Navigator.of(context).pop(),
+            icon: const Icon(
+              Icons.close_rounded,
+              size: 30,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+              ref.watch(navBarVisibleProvider.notifier).state = !navBarVisible;
+            },
           ),
           title: SizedBox(width: 150, child: TokensUsageWidget()),
           actions: [
@@ -124,25 +133,29 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
             if (state.error != null)
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(state.error!, style: const TextStyle(color: Colors.red)),
+                child: Text(state.error!,
+                    style: const TextStyle(color: Colors.red)),
               ),
             ChatTextBox(
               onSubmitted: (message, period) async {
-                await ref.read(periodDataNotifierProvider.notifier).generateSummary(selectedTimeRange);
-      
+                await ref
+                    .read(periodDataNotifierProvider.notifier)
+                    .generateSummary(selectedTimeRange);
+
                 final prompt = AiCoachPrompt(
                   userId: supabase.auth.currentUser!.id,
                   userMessage: message,
-                  language: language?.languageCode ?? PlatformDispatcher.instance.locale.languageCode,
+                  language: language?.languageCode ??
+                      PlatformDispatcher.instance.locale.languageCode,
                   summary: ref.watch(periodDataNotifierProvider).summary,
                   period: period == TimeRange.none
                       ? null
                       : (period == TimeRange.weekData ? 'week' : 'month'),
                   previousResponseId: state.data?.previousResponseId,
                 );
-      
+
                 await notifier.fetchCoachFeedback(prompt);
-      
+
                 // Forzamos scroll si el usuario acaba de enviar un mensaje
                 _scrollToBottom();
               },
@@ -153,5 +166,3 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
     );
   }
 }
-
-

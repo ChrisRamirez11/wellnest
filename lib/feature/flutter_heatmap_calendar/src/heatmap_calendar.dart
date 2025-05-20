@@ -273,20 +273,21 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
     return Scaffold(
       appBar: CustomAppBar(
         actionsList: [
-          //todo This will be used when the community update is done, to go to routines screen
-
           Container(
-            margin: EdgeInsets.only(right: 10),
-            height: 42,
-            width: 42,
+            margin: EdgeInsets.only(right: 15),
+            height: 40,
+            width: 40,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: colorScheme(context).primaryContainer,
+              // color: colorScheme(context).primaryContainer,
             ),
             child: InkWell(
               customBorder: CircleBorder(),
               onTap: () => Navigator.of(context).pushNamed('/routines'),
               child: Icon(
+                shadows: [
+                  Shadow(blurRadius: 10, color: obsidian, offset: Offset(1, 1))
+                ],
                 Icons.list_alt_rounded,
                 color: ghostWhite,
                 size: 30,
@@ -363,7 +364,7 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
             ConstrainedBox(
                 constraints: BoxConstraints(
                   maxHeight: MediaQuery.sizeOf(context).height *
-                      .50, //By setting this to max everything is slideable like an all
+                      .48, //By setting this to max everything is slideable like an all
                   minHeight: MediaQuery.sizeOf(context).height * .2,
                   maxWidth: MediaQuery.sizeOf(context).width,
                 ),
