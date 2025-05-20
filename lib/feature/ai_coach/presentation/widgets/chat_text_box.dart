@@ -65,7 +65,7 @@ class _ChatTextBoxState extends ConsumerState<ChatTextBox> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: primary.withAlpha(200),
+        color: colorScheme(context).onInverseSurface,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(18),
           topRight: Radius.circular(18),
@@ -103,11 +103,11 @@ class _ChatTextBoxState extends ConsumerState<ChatTextBox> {
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: (isTyping && !aiCoachState.loading)
-                        ? secondary
-                        : secondary.withAlpha(150),
+                        ? ghostWhite
+                        : ghostWhite.withAlpha(100),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.send, color: primary),
+                  child: const Icon(Icons.send, color: obsidian),
                 ),
                 onPressed: (isTyping && !aiCoachState.loading)
                     ? () async {

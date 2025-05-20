@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/global_providers/locale_provider.dart';
+import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/feature/ai_coach/business/entity/ai_coach_prompt.dart';
 import 'package:wellnest/feature/ai_coach/business/entity/chat_message_entity.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/period_data_provider/period_data_notifier.dart';
@@ -10,7 +11,6 @@ import 'package:wellnest/feature/ai_coach/presentation/provider/seleted_time_ran
 import 'package:wellnest/feature/ai_coach/presentation/widgets/chat_bubble.dart';
 import 'package:wellnest/feature/ai_coach/presentation/widgets/chat_text_box.dart';
 import 'package:wellnest/feature/ai_coach/presentation/widgets/tokens_usage_widget.dart';
-import 'package:wellnest/feature/skeleton/presentation/providers/nav_bar_visiblity.dart';
 import 'package:wellnest/main.dart';
 
 class CoachChatScreen extends ConsumerStatefulWidget {
@@ -73,20 +73,19 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
       }
     });
 
-    final navBarVisible = ref.watch(navBarVisibleProvider);
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
           leading: IconButton(
+            enableFeedback: false,
             icon: const Icon(
               Icons.close_rounded,
+              color: ghostWhite,
               size: 30,
             ),
-            onPressed: () {
+            onPressed: () async {
               Navigator.of(context).pop();
-              ref.watch(navBarVisibleProvider.notifier).state = !navBarVisible;
             },
           ),
           title: SizedBox(width: 150, child: TokensUsageWidget()),
@@ -109,7 +108,10 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
                   ),
                 );
               },
-              icon: const Icon(Icons.info_outline),
+              icon: const Icon(
+                Icons.info_outline,
+                color: ghostWhite,
+              ),
             )
           ],
         ),

@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vibration/vibration.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/feature/ai_coach/presentation/screens/coach_chat_screen.dart';
 import 'package:wellnest/feature/skeleton/presentation/providers/index_provider.dart';
-import 'package:wellnest/feature/skeleton/presentation/providers/nav_bar_visiblity.dart';
 
-class CustomNavBar extends ConsumerWidget {
+class CustomNavBar extends ConsumerStatefulWidget {
   const CustomNavBar({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final index = ref.watch(indexProvider);
-    final navBarVisible = ref.watch(navBarVisibleProvider);
+  ConsumerState<CustomNavBar> createState() => _CustomNavBarState();
+}
 
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
-      height: navBarVisible ? 0 : null, //control the visibility of the NavBar
+class _CustomNavBarState extends ConsumerState<CustomNavBar> {
+  @override
+  Widget build(BuildContext context) {
+    final index = ref.watch(indexProvider);
+
+    return SizedBox(
+      height: 70,
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -25,7 +28,7 @@ class CustomNavBar extends ConsumerWidget {
               color: obsidian,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withAlpha(5),
                   blurRadius: 8,
                 ),
               ],
@@ -39,7 +42,7 @@ class CustomNavBar extends ConsumerWidget {
                   iconFilled: Icons.calendar_month,
                   iconOutlined: Icons.calendar_month_outlined,
                 ),
-                const SizedBox(width: 10), // space for the central button
+                const SizedBox(width: 10),
                 BottomNavTab(
                   pageIndex: 1,
                   isSelected: index.selectedIndex == 1,
@@ -55,17 +58,30 @@ class CustomNavBar extends ConsumerWidget {
             bottom: 5,
             top: 5,
             child: GestureDetector(
-              onTap: () {
-                showBottomSheet(
-                  context: context,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20)),
-                  ),
-                  builder: (context) => CoachChatScreen(),
+              onTap: () async {
+                Vibration.vibrate();//TODO Like Threads
+                await Navigator.of(context).push(
+                  PageRouteBuilder(
+                      //TODO MOVE
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const CoachChatScreen(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        const begin = Offset(0.0, 1.0); // desde abajo
+                        const end = Offset.zero;
+                        const curve = Curves.easeOut;
+
+                        final tween = Tween(begin: begin, end: end)
+                            .chain(CurveTween(curve: curve));
+
+                        return SlideTransition(
+                          position: animation.drive(tween),
+                          child: child,
+                        );
+                      },
+                      transitionDuration: const Duration(milliseconds: 300),
+                      reverseTransitionDuration: Duration(milliseconds: 150)),
                 );
-                ref.watch(navBarVisibleProvider.notifier).state =
-                    !navBarVisible;
               },
               child: Container(
                 height: 60,
