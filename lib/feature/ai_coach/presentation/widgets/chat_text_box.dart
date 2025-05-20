@@ -65,7 +65,7 @@ class _ChatTextBoxState extends ConsumerState<ChatTextBox> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: colorScheme(context).onInverseSurface,
+        color: Colors.white12,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(18),
           topRight: Radius.circular(18),

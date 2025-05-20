@@ -21,7 +21,7 @@ class CustomMenuAnchor extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MenuAnchor(
+    return MenuAnchor(style: MenuStyle(backgroundColor: WidgetStatePropertyAll(Colors.grey.shade800)),
       controller: menuController,
       alignmentOffset: const Offset(0, -200),
       menuChildren: TimeRange.values.map((timeRange) {
