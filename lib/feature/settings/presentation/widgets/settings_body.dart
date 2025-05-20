@@ -46,7 +46,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
 
     return Card(
       clipBehavior: Clip.antiAlias,
-      color: colorScheme(context).onInverseSurface,
+      color: colorScheme(context).surfaceContainerLow,
       child: (user == null && profile == null)
           ? InkWell(
               onTap: () async {
@@ -96,7 +96,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
 
   Card getSettigsBox(BuildContext context) {
     return Card(
-      color: colorScheme(context).onInverseSurface,
+      color: colorScheme(context).surfaceContainerLow,
       child: SizedBox(
         width: double.infinity,
         child: Column(

@@ -77,6 +77,7 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: obsidian,
           centerTitle: true,
           leading: IconButton(
             enableFeedback: false,
