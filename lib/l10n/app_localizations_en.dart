@@ -69,7 +69,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectLanguage => 'Select Language';
 
   @override
-  String get goDeluxe => 'Go Deluxe';
+  String get goDeluxe => 'Go Premium';
 
   @override
   String get premiumUser => 'Premium User';

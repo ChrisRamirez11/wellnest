@@ -79,7 +79,7 @@
     "@selectLanguage": {
         "description": "Select Language"
     },
-    "goDeluxe": "Go Deluxe",
+    "goDeluxe": "Go Premium",
     "@goDeluxe": {
         "description": "Go Premium"
     },

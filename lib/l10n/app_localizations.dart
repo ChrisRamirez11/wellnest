@@ -222,7 +222,7 @@ abstract class AppLocalizations {
   /// Go Premium
   ///
   /// In en, this message translates to:
-  /// **'Go Deluxe'**
+  /// **'Go Premium'**
   String get goDeluxe;
 
   /// Premium User
