@@ -260,9 +260,6 @@ class _NotificationCardState extends State<_NotificationCard> {
                 Switch(
                   value: _switchFlag,
                   onChanged: (value) async {
-                    setState(() {
-                      _switchFlag = value;
-                    });
                     if (value) {
                       await NotiService().scheduleNotification(
                         id: widget.notiId,
@@ -274,6 +271,9 @@ class _NotificationCardState extends State<_NotificationCard> {
                     } else {
                       await NotiService().cancelNotificationById(widget.notiId);
                     }
+                    setState(() {
+                      _switchFlag = value;
+                    });
                   },
                 )
               ],
