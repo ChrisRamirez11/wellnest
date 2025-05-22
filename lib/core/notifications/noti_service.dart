@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -103,5 +105,17 @@ class NotiService {
       debugPrint('checkScheduledNotis for: ${e.body ?? 'xd'}');
     }
     return list;
+  }
+
+  Future<bool> isNotiActive(int id) async {
+    final list = await notificationsPlugin.pendingNotificationRequests();
+
+    final res = list.any(
+      (activeNoti) => activeNoti.id == id,
+    );
+
+    log('xd ${res.toString()}');
+
+    return res;
   }
 }

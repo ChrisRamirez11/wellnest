@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/global_providers/global_noti_ids.dart';
@@ -21,9 +23,6 @@ class NotificationsScreen extends ConsumerWidget {
 
     final reminderDatesList = _getRemindedDateList(ref);
 
-    final start = timeNotifier.start;
-    final end = timeNotifier.end;
-
     return Scaffold(
       appBar: CustomAppBar(
         titleString: localization(context).notifications,
@@ -33,88 +32,96 @@ class NotificationsScreen extends ConsumerWidget {
         ),
       ),
       body: ListView(children: [
-        //Morning Notification
-        _NotificationCard(
-          icon: Icons.wb_sunny,
-          title: localization(context).morningNoti,
-          time: stringToTimeOfDay(timeNotifier.start),
-          onPressed: () async {
-            //shows the time picker
-            final time = await showTimePicker(
-              initialEntryMode: TimePickerEntryMode.input,
-              context: context,
-              initialTime: stringToTimeOfDay(timeNotifier.start),
-              builder: (context, child) {
-                return Theme(
-                  data: Theme.of(context).copyWith(
-                    textTheme: TextTheme(
-                      labelLarge: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                  child: child!,
+        // Morning Notification
+        FutureBuilder<bool>(
+          future: NotiService().isNotiActive(globalNotiNotifier.morningId),
+          builder: (context, snapshot) {
+            final isActive = snapshot.data ?? false;
+
+            return _NotificationCard(
+              icon: Icons.wb_sunny,
+              title: localization(context).morningNoti,
+              time: stringToTimeOfDay(timeNotifier.start),
+              notiId: globalNotiNotifier.morningId,
+              switchValue: isActive,
+              onPressed: () async {
+                final time = await showTimePicker(
+                  initialEntryMode: TimePickerEntryMode.input,
+                  context: context,
+                  initialTime: stringToTimeOfDay(timeNotifier.start),
+                  builder: (context, child) {
+                    return Theme(
+                      data: Theme.of(context).copyWith(
+                        textTheme: const TextTheme(
+                            labelLarge: TextStyle(fontSize: 15)),
+                      ),
+                      child: child!,
+                    );
+                  },
                 );
+                if (time != null) {
+                  timeNotifier.setStartOfDay(time);
+                  if (context.mounted) {
+                    await NotiService().scheduleNotification(
+                      id: globalNotiNotifier.morningId,
+                      title: localization(context).morningNotiTitle,
+                      body: localization(context).morningNotiBody,
+                      hour: time.hour,
+                      minute: time.minute,
+                    );
+                  }
+                }
               },
             );
-            if (time != null) {
-              timeNotifier.setStartOfDay(time);
-
-              //resets the day notifications
-              if (context.mounted) {
-                await NotiService().scheduleNotification(
-                    id: globalNotiNotifier.morningId,
-                    title: localization(context).morningNotiTitle,
-                    body: localization(context).morningNotiBody,
-                    hour: stringToTimeOfDay(start).hour,
-                    minute: stringToTimeOfDay(start).minute);
-              }
-            }
           },
         ),
 
-        //Night Notification
-        _NotificationCard(
-          icon: Icons.nights_stay_outlined,
-          title: localization(context).nightNoti,
-          time: TimeOfDay(
-              hour: ((stringToTimeOfDay(timeNotifier.end).hour - 2) % 24),
-              minute: stringToTimeOfDay(timeNotifier.end).minute),
-          onPressed: () async {
-            //TODO every timepicker will use a common time picker, no repeating the same thing so many times
-            //shows the time picker
-            final time = await showTimePicker(
-              initialEntryMode: TimePickerEntryMode.input,
-              context: context,
-              initialTime: stringToTimeOfDay(timeNotifier.end),
-              builder: (context, child) {
-                return Theme(
-                  data: Theme.of(context).copyWith(
-                    textTheme: TextTheme(
-                      labelLarge: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                  child: child!,
+        // Night Notification
+        FutureBuilder<bool>(
+          future: NotiService().isNotiActive(globalNotiNotifier.nightId),
+          builder: (context, snapshot) {
+            final isActive = snapshot.data ?? false;
+
+            return _NotificationCard(
+              icon: Icons.nights_stay_outlined,
+              title: localization(context).nightNoti,
+              time: stringToTimeOfDay(timeNotifier.end),
+              notiId: globalNotiNotifier.nightId,
+              switchValue: isActive,
+              onPressed: () async {
+                final time = await showTimePicker(
+                  initialEntryMode: TimePickerEntryMode.input,
+                  context: context,
+                  initialTime: stringToTimeOfDay(timeNotifier.end),
+                  builder: (context, child) {
+                    return Theme(
+                      data: Theme.of(context).copyWith(
+                        textTheme: const TextTheme(
+                            labelLarge: TextStyle(fontSize: 15)),
+                      ),
+                      child: child!,
+                    );
+                  },
                 );
+                if (time != null) {
+                  timeNotifier.setEndOfDay(time);
+                  if (context.mounted) {
+                    await NotiService().scheduleNotification(
+                      id: globalNotiNotifier.nightId,
+                      title: localization(context).nightNotiTitle,
+                      body: localization(context).nightNotiBody,
+                      hour: ((time.hour - 2) % 24),
+                      minute: time.minute,
+                    );
+                  }
+                }
               },
             );
-            if (time != null) {
-              timeNotifier.setEndOfDay(time);
-
-              //resets the night notification
-              if (context.mounted) {
-                await NotiService().scheduleNotification(
-                    id: globalNotiNotifier.nightId,
-                    title: localization(context).nightNotiTitle,
-                    body: localization(context).nightNotiBody,
-                    hour: ((stringToTimeOfDay(end).hour - 2) % 24),
-                    minute: stringToTimeOfDay(end).minute);
-              }
-            }
           },
         ),
-        SizedBox(
-          height: 10,
-        ),
-        _getRemindRoutinesTiles(reminderDatesList)
+
+        const SizedBox(height: 10),
+        _getRemindRoutinesTiles(reminderDatesList),
       ]),
     );
   }
@@ -192,20 +199,48 @@ class NotificationsScreen extends ConsumerWidget {
   }
 }
 
-class _NotificationCard extends StatelessWidget {
+class _NotificationCard extends StatefulWidget {
   final IconData icon;
   final String title;
   final TimeOfDay time;
   final VoidCallback? onPressed;
+  final int notiId;
+  final bool switchValue;
 
   const _NotificationCard(
       {required this.icon,
       required this.title,
       required this.time,
-      required this.onPressed});
+      required this.onPressed,
+      required this.notiId,
+      required this.switchValue});
+
+  @override
+  State<_NotificationCard> createState() => _NotificationCardState();
+}
+
+class _NotificationCardState extends State<_NotificationCard> {
+  bool _switchFlag = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _switchFlag = widget.switchValue;
+  }
+
+  @override
+  void didUpdateWidget(covariant _NotificationCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.switchValue != widget.switchValue) {
+      setState(() {
+        _switchFlag = widget.switchValue;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    log(_switchFlag.toString());
     return Card(
       color: primary.withAlpha(150),
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -218,24 +253,43 @@ class _NotificationCard extends StatelessWidget {
               spacing: 20,
               children: [
                 const SizedBox.shrink(),
-                Icon(icon, size: 32.0),
+                Icon(widget.icon, size: 32.0),
                 Expanded(
                   child: Text(
-                    title,
+                    widget.title,
                     style: textTheme(context).bodyMedium,
                   ),
                 ),
+                Switch(
+                  value: _switchFlag,
+                  onChanged: (value) async {
+                    setState(() {
+                      _switchFlag = value;
+                    });
+                    if (value) {
+                      await NotiService().scheduleNotification(
+                        id: widget.notiId,
+                        title: localization(context).nightNotiTitle,
+                        body: localization(context).nightNotiBody,
+                        hour: widget.time.hour,
+                        minute: widget.time.minute,
+                      );
+                    } else {
+                      await NotiService().cancelNotificationById(widget.notiId);
+                    }
+                  },
+                )
               ],
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: onPressed,
+              onPressed: widget.onPressed,
               style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(48), // Full width button
                   backgroundColor: Colors.transparent),
               child: Text(
                   style: textTheme(context).bodyMedium,
-                  '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}'),
+                  '${widget.time.hour.toString().padLeft(2, '0')}:${widget.time.minute.toString().padLeft(2, '0')}'),
             ),
           ],
         ),
