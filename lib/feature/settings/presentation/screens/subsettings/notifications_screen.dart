@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/global_providers/global_noti_ids.dart';
@@ -240,7 +238,6 @@ class _NotificationCardState extends State<_NotificationCard> {
 
   @override
   Widget build(BuildContext context) {
-    log(_switchFlag.toString());
     return Card(
       color: primary.withAlpha(150),
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
