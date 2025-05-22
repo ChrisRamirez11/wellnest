@@ -4,7 +4,11 @@ import 'package:vibration/vibration.dart';
 import 'package:wellnest/core/navigation/custom_transitions.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/feature/ai_coach/presentation/screens/coach_chat_screen.dart';
+import 'package:wellnest/feature/auth/presentation/riverpod/google_native_signin.dart';
+import 'package:wellnest/feature/auth/presentation/riverpod/profile_provider.dart';
 import 'package:wellnest/feature/skeleton/presentation/providers/index_provider.dart';
+import 'package:wellnest/feature/skeleton/presentation/widgets/bottom_nav_tab.dart';
+import 'package:wellnest/main.dart';
 
 class CustomNavBar extends ConsumerStatefulWidget {
   const CustomNavBar({super.key});
@@ -59,13 +63,7 @@ class _CustomNavBarState extends ConsumerState<CustomNavBar> {
             bottom: 5,
             top: 5,
             child: GestureDetector(
-              onTap: () async {
-                await axioPatternVibrate();
-                if (context.mounted) {
-                  await Navigator.of(context)
-                      .push(slideFromBottomRoute(CoachChatScreen()));
-                }
-              },
+              onTap: () => getSignInOrAxioScreen(context),
               child: Container(
                 height: 60,
                 width: 70,
@@ -82,58 +80,34 @@ class _CustomNavBarState extends ConsumerState<CustomNavBar> {
     );
   }
 
-  Future<void> axioPatternVibrate() async {
-    final result = await Vibration.hasVibrator();
-    if (result) {
-      Vibration.vibrate(
-        pattern: [40, 70, 90, 40, 70, 10],
-        intensities: [0, 35, 0, 35, 0],
-      );
-    } else {
-      Vibration.vibrate(duration: 100);
+  void getSignInOrAxioScreen(BuildContext context) async {
+    var user = supabase.auth.currentUser;
+    var profileNotifier = ref.watch(profileProvider);
+    if (user == null && profileNotifier.profile == null) {
+      await googleNativeSignIn();
+      if (mounted) {
+        setState(() {
+          user = supabase.auth.currentUser;
+        });
+        await profileNotifier.getMyUserData();
+      }
+    }
+    if (user == null && profileNotifier.profile == null) return;
+    await axioPatternVibrate();
+    if (context.mounted) {
+      await Navigator.of(context).push(slideFromBottomRoute(CoachChatScreen()));
     }
   }
 }
 
-class BottomNavTab extends ConsumerWidget {
-  final int pageIndex;
-  final bool isSelected;
-  final IconData iconFilled;
-  final IconData iconOutlined;
-  final String? label;
-
-  const BottomNavTab({
-    super.key,
-    required this.pageIndex,
-    required this.isSelected,
-    required this.iconFilled,
-    required this.iconOutlined,
-    this.label,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
-      onTap: () => ref.read(indexProvider).pageController.jumpToPage(pageIndex),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            isSelected ? iconFilled : iconOutlined,
-            color: isSelected ? ghostWhite : Colors.grey.shade600,
-            size: 35,
-          ),
-          if (label != null)
-            Text(
-              label!,
-              style: TextStyle(
-                fontSize: 12,
-                color: isSelected ? ghostWhite : Colors.grey.shade600,
-              ),
-            ),
-        ],
-      ),
+Future<void> axioPatternVibrate() async {
+  final result = await Vibration.hasVibrator();
+  if (result) {
+    Vibration.vibrate(
+      pattern: [40, 70, 90, 40, 70, 10],
+      intensities: [0, 35, 0, 35, 0],
     );
+  } else {
+    Vibration.vibrate(duration: 100);
   }
 }

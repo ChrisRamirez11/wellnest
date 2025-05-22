@@ -42,12 +42,12 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
 
   Widget getSignInBox(BuildContext context) {
     final user = supabase.auth.currentUser;
-    final profile = ref.watch(profileProvider).profile;
+    final profileNotifier = ref.watch(profileProvider);
 
     return Card(
       clipBehavior: Clip.antiAlias,
       color: colorScheme(context).surfaceContainerLow,
-      child: (user == null && profile == null)
+      child: (user == null && profileNotifier.profile == null)
           ? InkWell(
               onTap: () async {
                 await googleNativeSignIn();

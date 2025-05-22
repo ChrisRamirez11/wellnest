@@ -4,6 +4,7 @@ import 'package:wellnest/core/global_providers/locale_provider.dart';
 import 'package:wellnest/feature/ai_coach/presentation/screens/coach_chat_screen.dart';
 import 'package:wellnest/feature/onboarding/presentation/provider/first_app_opening.dart';
 import 'package:wellnest/feature/onboarding/presentation/screens/onboarding.dart';
+import 'package:wellnest/feature/routines/presentation/screens/routines_screen.dart';
 import 'package:wellnest/feature/settings/presentation/screens/subsettings/notifications_screen.dart';
 import 'package:wellnest/l10n/app_localizations.dart';
 import 'package:wellnest/purchase_observer.dart';
@@ -109,6 +110,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         routes: {
           '/': (context) => const Skeleton(),
           '/onboarding': (context) => OnboardingScreen(),
+          '/routines': (context) => RoutinesScreen(),
           '/createRoutine': (context) => const CreateRoutineScreen(),
           '/about': (context) => const AboutUsScreen(),
           '/feedback': (context) => FeedbackScreen(),
