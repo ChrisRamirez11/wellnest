@@ -120,59 +120,61 @@ class NotificationsScreen extends ConsumerWidget {
   }
 
   Widget _getRemindRoutinesTiles(List<RoutineModel> reminderDates) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-      child: Container(
-        decoration: BoxDecoration(
-            color: primary.withAlpha(150),
-            borderRadius: BorderRadius.all(Radius.circular(15))),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: reminderDates.length,
-              itemBuilder: (context, i) => Column(
+    return reminderDates.isNotEmpty
+        ? Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: primary.withAlpha(150),
+                  borderRadius: BorderRadius.all(Radius.circular(15))),
+              child: Column(
                 children: [
                   SizedBox(
-                    //for the list tile height
-                    height: 60,
-                    child: ListTile(
-                      title: Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: Text(
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          reminderDates[i].name,
-                          style: textTheme(context).bodyMedium,
-                        ),
-                      ),
-                      trailing: Icon(Icons.arrow_forward_ios),
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CreateRoutineScreen(
-                              routineModel: reminderDates[i],
+                    height: 10,
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: reminderDates.length,
+                    itemBuilder: (context, i) => Column(
+                      children: [
+                        SizedBox(
+                          //for the list tile height
+                          height: 60,
+                          child: ListTile(
+                            title: Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Text(
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                reminderDates[i].name,
+                                style: textTheme(context).bodyMedium,
+                              ),
                             ),
-                          )),
+                            trailing: Icon(Icons.arrow_forward_ios),
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CreateRoutineScreen(
+                                    routineModel: reminderDates[i],
+                                  ),
+                                )),
+                          ),
+                        ),
+                        Divider(
+                          height: 5,
+                          thickness: 0.5,
+                          color: secondary,
+                          endIndent: 40,
+                          indent: 40,
+                        )
+                      ],
                     ),
                   ),
-                  Divider(
-                    height: 5,
-                    thickness: 0.5,
-                    color: secondary,
-                    endIndent: 40,
-                    indent: 40,
-                  )
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          )
+        : SizedBox.shrink();
   }
 
   List<RoutineModel> _getRemindedDateList(WidgetRef ref) {
