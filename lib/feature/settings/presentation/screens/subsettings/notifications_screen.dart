@@ -34,43 +34,46 @@ class NotificationsScreen extends ConsumerWidget {
         FutureBuilder<bool>(
           future: NotiService().isNotiActive(globalNotiNotifier.morningId),
           builder: (context, snapshot) {
-            final isActive = snapshot.data ?? false;
-
-            return _NotificationCard(
-              icon: Icons.wb_sunny,
-              title: localization(context).morningNoti,
-              time: stringToTimeOfDay(timeNotifier.start),
-              notiId: globalNotiNotifier.morningId,
-              switchValue: isActive,
-              onPressed: () async {
-                final time = await showTimePicker(
-                  initialEntryMode: TimePickerEntryMode.input,
-                  context: context,
-                  initialTime: stringToTimeOfDay(timeNotifier.start),
-                  builder: (context, child) {
-                    return Theme(
-                      data: Theme.of(context).copyWith(
-                        textTheme: const TextTheme(
-                            labelLarge: TextStyle(fontSize: 15)),
-                      ),
-                      child: child!,
-                    );
-                  },
-                );
-                if (time != null) {
-                  timeNotifier.setStartOfDay(time);
-                  if (context.mounted) {
-                    await NotiService().scheduleNotification(
-                      id: globalNotiNotifier.morningId,
-                      title: localization(context).morningNotiTitle,
-                      body: localization(context).morningNotiBody,
-                      hour: time.hour,
-                      minute: time.minute,
-                    );
+            if (snapshot.hasData) {
+              final isActive = snapshot.data!;
+              return _NotificationCard(
+                icon: Icons.wb_sunny,
+                title: localization(context).morningNoti,
+                time: stringToTimeOfDay(timeNotifier.start),
+                notiId: globalNotiNotifier.morningId,
+                switchValue: isActive,
+                onPressed: () async {
+                  final time = await showTimePicker(
+                    initialEntryMode: TimePickerEntryMode.input,
+                    context: context,
+                    initialTime: stringToTimeOfDay(timeNotifier.start),
+                    builder: (context, child) {
+                      return Theme(
+                        data: Theme.of(context).copyWith(
+                          textTheme: const TextTheme(
+                              labelLarge: TextStyle(fontSize: 15)),
+                        ),
+                        child: child!,
+                      );
+                    },
+                  );
+                  if (time != null) {
+                    timeNotifier.setStartOfDay(time);
+                    if (context.mounted) {
+                      await NotiService().scheduleNotification(
+                        id: globalNotiNotifier.morningId,
+                        title: localization(context).morningNotiTitle,
+                        body: localization(context).morningNotiBody,
+                        hour: time.hour,
+                        minute: time.minute,
+                      );
+                    }
                   }
-                }
-              },
-            );
+                },
+              );
+            } else {
+              return SizedBox.shrink();
+            }
           },
         ),
 
@@ -78,43 +81,47 @@ class NotificationsScreen extends ConsumerWidget {
         FutureBuilder<bool>(
           future: NotiService().isNotiActive(globalNotiNotifier.nightId),
           builder: (context, snapshot) {
-            final isActive = snapshot.data ?? false;
+            if (snapshot.hasData) {
+              final isActive = snapshot.data!;
 
-            return _NotificationCard(
-              icon: Icons.nights_stay_outlined,
-              title: localization(context).nightNoti,
-              time: stringToTimeOfDay(timeNotifier.end),
-              notiId: globalNotiNotifier.nightId,
-              switchValue: isActive,
-              onPressed: () async {
-                final time = await showTimePicker(
-                  initialEntryMode: TimePickerEntryMode.input,
-                  context: context,
-                  initialTime: stringToTimeOfDay(timeNotifier.end),
-                  builder: (context, child) {
-                    return Theme(
-                      data: Theme.of(context).copyWith(
-                        textTheme: const TextTheme(
-                            labelLarge: TextStyle(fontSize: 15)),
-                      ),
-                      child: child!,
-                    );
-                  },
-                );
-                if (time != null) {
-                  timeNotifier.setEndOfDay(time);
-                  if (context.mounted) {
-                    await NotiService().scheduleNotification(
-                      id: globalNotiNotifier.nightId,
-                      title: localization(context).nightNotiTitle,
-                      body: localization(context).nightNotiBody,
-                      hour: ((time.hour - 2) % 24),
-                      minute: time.minute,
-                    );
+              return _NotificationCard(
+                icon: Icons.nights_stay_outlined,
+                title: localization(context).nightNoti,
+                time: stringToTimeOfDay(timeNotifier.end),
+                notiId: globalNotiNotifier.nightId,
+                switchValue: isActive,
+                onPressed: () async {
+                  final time = await showTimePicker(
+                    initialEntryMode: TimePickerEntryMode.input,
+                    context: context,
+                    initialTime: stringToTimeOfDay(timeNotifier.end),
+                    builder: (context, child) {
+                      return Theme(
+                        data: Theme.of(context).copyWith(
+                          textTheme: const TextTheme(
+                              labelLarge: TextStyle(fontSize: 15)),
+                        ),
+                        child: child!,
+                      );
+                    },
+                  );
+                  if (time != null) {
+                    timeNotifier.setEndOfDay(time);
+                    if (context.mounted) {
+                      await NotiService().scheduleNotification(
+                        id: globalNotiNotifier.nightId,
+                        title: localization(context).nightNotiTitle,
+                        body: localization(context).nightNotiBody,
+                        hour: ((time.hour - 2) % 24),
+                        minute: time.minute,
+                      );
+                    }
                   }
-                }
-              },
-            );
+                },
+              );
+            } else {
+              return SizedBox.shrink();
+            }
           },
         ),
 
@@ -218,7 +225,7 @@ class _NotificationCard extends StatefulWidget {
 }
 
 class _NotificationCardState extends State<_NotificationCard> {
-  bool _switchFlag = false;
+  bool _switchFlag = true;
 
   @override
   void initState() {
@@ -258,6 +265,9 @@ class _NotificationCardState extends State<_NotificationCard> {
                   ),
                 ),
                 Switch(
+                  thumbIcon: WidgetStatePropertyAll(Icon(_switchFlag
+                      ? Icons.notifications_active
+                      : Icons.notifications_off)),
                   value: _switchFlag,
                   onChanged: (value) async {
                     if (value) {
