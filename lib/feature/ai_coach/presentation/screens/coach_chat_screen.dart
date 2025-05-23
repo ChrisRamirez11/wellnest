@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/global_providers/locale_provider.dart';
 import 'package:wellnest/core/theme/theme.dart';
+import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/ai_coach/business/entity/ai_coach_prompt.dart';
 import 'package:wellnest/feature/ai_coach/business/entity/chat_message_entity.dart';
+import 'package:wellnest/feature/ai_coach/presentation/provider/ai_coach_provider/ai_coach_state.dart';
+import 'package:wellnest/feature/ai_coach/presentation/provider/last_prompt_provider.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/period_data_provider/period_data_notifier.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/ai_coach_provider/providers.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/seleted_time_range_provider.dart';
@@ -135,10 +138,9 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
               ),
             ),
             if (state.error != null)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(state.error!,
-                    style: const TextStyle(color: Colors.red)),
+              _AxioErrorContainer(
+                state: state,
+                scrollToBottom: _scrollToBottom,
               ),
             ChatTextBox(
               onSubmitted: (message, period) async {
@@ -158,14 +160,70 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
                   previousResponseId: state.data?.previousResponseId,
                 );
 
+                ref.watch(lastPromptProvider.notifier).state = prompt;
                 await notifier.fetchCoachFeedback(prompt);
 
-                // Forzamos scroll si el usuario acaba de enviar un mensaje
                 _scrollToBottom();
               },
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _AxioErrorContainer extends ConsumerWidget {
+  const _AxioErrorContainer(
+      {required this.state, required this.scrollToBottom});
+
+  final AiCoachState state;
+  final void Function() scrollToBottom;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      margin: EdgeInsets.all(5),
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          color: errorColor.withAlpha(30),
+          border: Border.all(
+              color: errorColor,
+              width: 0.6,
+              strokeAlign: BorderSide.strokeAlignCenter),
+          borderRadius: BorderRadius.circular(12)),
+      child: Row(
+        spacing: 12,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.info_outline,
+            color: errorColor,
+          ),
+          Expanded(
+            child: Text(state.error!,
+                style: textTheme(context)
+                    .labelMedium!
+                    .copyWith(color: errorColor)),
+          ),
+          IconButton(
+              onPressed: () async {
+                final aiCoachNotifier =
+                    ref.read(aiCoachNotifierProvider.notifier);
+                final aiCoachState = ref.read(aiCoachNotifierProvider);
+
+                aiCoachState.history.removeLast();
+
+                await aiCoachNotifier
+                    .fetchCoachFeedback(ref.read(lastPromptProvider));
+
+                scrollToBottom();
+              },
+              icon: Icon(
+                Icons.restore,
+                color: errorColor,
+              ))
+        ],
       ),
     );
   }
