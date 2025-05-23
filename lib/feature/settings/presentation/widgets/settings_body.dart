@@ -32,8 +32,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
             getSignInBox(context),
             getGoDeluxeButton(),
             getSettigsBox(context),
-            BannerAdWidget(
-            )
+            BannerAdWidget()
           ],
         ),
       ),
@@ -45,8 +44,8 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
     final profileNotifier = ref.watch(profileProvider);
 
     return Card(
+      color: colorScheme(context).surfaceContainerHigh,
       clipBehavior: Clip.antiAlias,
-      color: colorScheme(context).surfaceContainerLow,
       child: (user == null && profileNotifier.profile == null)
           ? InkWell(
               onTap: () async {
@@ -96,7 +95,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
 
   Card getSettigsBox(BuildContext context) {
     return Card(
-      color: colorScheme(context).surfaceContainerLow,
+      color: colorScheme(context).surfaceContainerHigh,
       child: SizedBox(
         width: double.infinity,
         child: Column(
@@ -186,7 +185,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
               onChanged: (value) async {
                 if (value) {
                   await setGlobalAppNotification(ref, context);
-                  if(mounted) {
+                  if (mounted) {
                     await setRoutinesReminders(context, ref);
                   }
                   ref.watch(notificationProvider).changeValue(value);

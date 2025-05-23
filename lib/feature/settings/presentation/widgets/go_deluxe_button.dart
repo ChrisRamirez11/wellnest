@@ -34,7 +34,7 @@ class GoDeluxeButton extends ConsumerWidget {
           text: !isPremium
               ? localization(context).goDeluxe.toUpperCase()
               : localization(context).premiumUser.toUpperCase(),
-          color: !isPremium ? gold.withAlpha(170) : gold.withAlpha(250),
+          color: !isPremium ? gold.withAlpha(200) : gold.withAlpha(250),
         ));
   }
 }
