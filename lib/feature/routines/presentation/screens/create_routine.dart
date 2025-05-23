@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
+import 'package:wellnest/core/utils/delete_routine_date_today.dart';
 import 'package:wellnest/core/utils/format_duration.dart';
 import 'package:wellnest/core/utils/string_to_time_of_day.dart';
 import 'package:wellnest/core/utils/utils.dart';
@@ -121,11 +122,14 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
       appBar: CustomAppBar(
         leadingWidget: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => Navigator.of(context).popUntil(ModalRoute.withName('/')),
+          onPressed: () =>
+              Navigator.of(context).popUntil(ModalRoute.withName('/')),
         ),
-          titleString: widget.routineModel == null
-              ? localization(context).newRoutine.toUpperCase()
-              : widget.routineModel!.name),
+        titleString: widget.routineModel == null
+            ? localization(context).newRoutine.toUpperCase()
+            : widget.routineModel!.name,
+        actionsList: appBarActions,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -168,6 +172,77 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  List<Widget> get appBarActions {
+    return [
+      if (widget.routineModel?.id !=
+          null) // Asegúrate de que 'routine' sea accesible aquí
+        IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => getDeletionDialog(context),
+            );
+          },
+        ),
+    ];
+  }
+
+  SimpleDialog getDeletionDialog(BuildContext context) {
+    return SimpleDialog(
+      title: Text(
+        localization(context).deleteReoutineQuestion,
+        style: textTheme(context).bodyMedium,
+      ),
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Text(
+            localization(context).deleteReoutineAwareness,
+            style: textTheme(context).bodySmall!.copyWith(color: Colors.grey),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 20.0, left: 15),
+          child: Row(
+            children: [
+              TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(
+                    localization(context).cancel,
+                    style: textTheme(context).bodyMedium,
+                  )),
+              Spacer(),
+              TextButton(
+                  onPressed: () async {
+                    //update the selected date to today
+                    ref
+                        .watch(currentSelectedDateProvider)
+                        .changeDate(DateTime.now());
+
+                    await ref
+                        .watch(routineProvider)
+                        .deleteRoutine(widget.routineModel!.id!);
+                    //deletes the routine for today if it exists
+                    await deleteRoutineDateToday(
+                        ref, Routine.fromModel(widget.routineModel!));
+
+                    if (context.mounted) Navigator.of(context).pop();
+                    if (context.mounted) Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    localization(context).delete,
+                    style: textTheme(context)
+                        .bodyMedium!
+                        .copyWith(color: errorColor),
+                  )),
+            ],
+          ),
+        )
+      ],
     );
   }
 
