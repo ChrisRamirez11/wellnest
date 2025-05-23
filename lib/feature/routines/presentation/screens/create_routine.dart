@@ -287,7 +287,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
     final isSelected = _selectedType == type;
     return CustomButton(
         icon: Icon(icon, color: isSelected ? secondary : Colors.grey.shade600),
-        color: isSelected ? primary : null,
+        color: isSelected ? primary.withAlpha(150) : null,
         textColor: isSelected ? secondary : Colors.grey.shade600,
         radius: 10,
         onClick: () {
@@ -322,7 +322,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
           _selectedType == RoutineType.task
               ? 'Please fill name and select days'
               : 'Please fill all required fields',
-              style: textTheme(context).labelMedium,
+          style: textTheme(context).labelMedium,
         ),
       ),
     );
@@ -340,7 +340,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               child: CustomButton(
                   radius: 15,
                   onClick: () => _showAmountPicker(context),
-                  color: primary.withAlpha(200),
+                  color: primary.withAlpha(150),
                   text:
                       '${_targetController.text}${int.tryParse(_targetController.text) == 1 ? ' ${localization(context).time}' : ' ${localization(context).times}'}'),
             ),
@@ -355,7 +355,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               width: double.infinity,
               child: CustomButton(
                 radius: 15,
-                color: primary.withAlpha(200),
+                color: primary.withAlpha(150),
                 onClick: () => _showTimePicker(context),
                 text: formatDuration(int.parse(_targetController.text)),
               ),
@@ -405,7 +405,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: CustomButton(
-                  color: primary,
+                  color: primary.withAlpha(150),
                   textColor: secondary,
                   text: 'Confirm',
                   onClick: () {
@@ -508,7 +508,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: CustomButton(
-                  color: primary,
+                  color: primary.withAlpha(150),
                   textColor: secondary,
                   text: 'Confirm',
                   onClick: () {
@@ -550,7 +550,9 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                 child: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: _days[index] ? primary : Colors.transparent,
+                    color: _days[index]
+                        ? primary.withAlpha(150)
+                        : Colors.transparent,
                   ),
                   child: Center(
                     child: Text(
@@ -738,18 +740,19 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
       child: ExpansionTile(
         initiallyExpanded: _alarmActive,
         shape: Border.all(color: Colors.transparent),
-        onExpansionChanged: (value) {
+        onExpansionChanged: (value) async {
           setState(() {
             isExpanded = value;
           });
           if (value) {
-            WidgetsBinding.instance.addPersistentFrameCallback(
+            await Future.delayed(Duration(milliseconds: 250));
+            WidgetsBinding.instance.addPostFrameCallback(
               (_) {
                 if (_scrollController.hasClients) {
                   _scrollController.animateTo(
                     _scrollController.position.maxScrollExtent,
-                    duration: const Duration(milliseconds: 10),
-                    curve: Curves.linear,
+                    duration: const Duration(milliseconds: 100),
+                    curve: Curves.easeIn,
                   );
                 }
               },
@@ -773,34 +776,48 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
         children: [
           Container(
             decoration: BoxDecoration(
-                color: primary,
+                color: colorScheme(context).surfaceContainerLow,
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             child: Column(
               children: [
                 SwitchListTile(
+                  trackColor: WidgetStatePropertyAll(primary.withAlpha(200)),
                   thumbIcon: WidgetStatePropertyAll(Icon(
                     _alarmActive
                         ? Icons.notifications_active
                         : Icons.notifications_off,
                   )),
                   inactiveTrackColor: Colors.black45,
-                  activeTrackColor: secondary,
                   title: Text(
                     localization(context).remindHabit,
                     style: textTheme(context).bodyLarge,
                   ),
                   value: _alarmActive,
-                  onChanged: (value) {
+                  onChanged: (value) async {
                     setState(() {
                       _alarmActive = value;
                     });
+                    if (value) {
+                      await Future.delayed(Duration(milliseconds: 250));
+                      WidgetsBinding.instance.addPostFrameCallback(
+                        (_) {
+                          if (_scrollController.hasClients) {
+                            _scrollController.animateTo(
+                              _scrollController.position.maxScrollExtent,
+                              duration: const Duration(milliseconds: 100),
+                              curve: Curves.easeIn,
+                            );
+                          }
+                        },
+                      );
+                    }
                   },
                 ),
                 _alarmActive
                     ? SizedBox(
                         width: size(context).width * 0.8,
                         child: CustomButton(
-                            color: primary.withAlpha(100),
+                            color: primary.withAlpha(150),
                             radius: 10,
                             onClick: () async {
                               final time = await showTimePicker(
