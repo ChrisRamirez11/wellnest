@@ -44,7 +44,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
     final profileNotifier = ref.watch(profileProvider);
 
     return Card(
-      color: colorScheme(context).surfaceContainerHigh,
+      // color: colorScheme(context).surfaceContainerHigh,
       clipBehavior: Clip.antiAlias,
       child: (user == null && profileNotifier.profile == null)
           ? InkWell(
@@ -95,7 +95,7 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
 
   Card getSettigsBox(BuildContext context) {
     return Card(
-      color: colorScheme(context).surfaceContainerHigh,
+      // color: colorScheme(context).surfaceContainerHigh,
       child: SizedBox(
         width: double.infinity,
         child: Column(
