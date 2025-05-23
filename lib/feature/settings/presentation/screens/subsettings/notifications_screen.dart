@@ -126,18 +126,19 @@ class NotificationsScreen extends ConsumerWidget {
         ),
 
         const SizedBox(height: 10),
-        _getRemindRoutinesTiles(reminderDatesList),
+        _getRemindRoutinesTiles(reminderDatesList, context),
       ]),
     );
   }
 
-  Widget _getRemindRoutinesTiles(List<RoutineModel> reminderDates) {
+  Widget _getRemindRoutinesTiles(
+      List<RoutineModel> reminderDates, BuildContext context) {
     return reminderDates.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
             child: Container(
               decoration: BoxDecoration(
-                  color: primary.withAlpha(150),
+                  color: colorScheme(context).surfaceContainerHigh,
                   borderRadius: BorderRadius.all(Radius.circular(15))),
               child: Column(
                 children: [
@@ -246,7 +247,7 @@ class _NotificationCardState extends State<_NotificationCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: primary.withAlpha(150),
+      color: colorScheme(context).surfaceContainerHigh,
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
