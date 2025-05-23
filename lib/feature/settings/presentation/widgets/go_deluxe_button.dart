@@ -14,30 +14,27 @@ class GoDeluxeButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isPremiumNotifier = ref.watch(isPremiumUser);
     final isPremium = isPremiumNotifier.isPremium ?? false;
-    final isLifetime = isPremiumNotifier.isLifetime ?? false;
 
-    return !isLifetime
-        ? SizedBox(
-            width: double.infinity,
-            child: CustomButton(
-              radius: 10,
-              icon: !isPremium
-                  ? Icon(
-                      Icons.workspace_premium,
-                      size: 30,
-                      color: Colors.white,
-                    )
-                  : FaIcon(
-                      FontAwesomeIcons.crown,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-              onClick: showPaywall,
-              text: !isPremium
-                  ? localization(context).goDeluxe.toUpperCase()
-                  : localization(context).premiumUser.toUpperCase(),
-              color: !isPremium ? gold.withAlpha(170) : gold.withAlpha(250),
-            ))
-        : SizedBox.shrink();
+    return SizedBox(
+        width: double.infinity,
+        child: CustomButton(
+          radius: 10,
+          icon: !isPremium
+              ? Icon(
+                  Icons.workspace_premium,
+                  size: 30,
+                  color: Colors.white,
+                )
+              : FaIcon(
+                  FontAwesomeIcons.crown,
+                  size: 30,
+                  color: Colors.white,
+                ),
+          onClick: showPaywall,
+          text: !isPremium
+              ? localization(context).goDeluxe.toUpperCase()
+              : localization(context).premiumUser.toUpperCase(),
+          color: !isPremium ? gold.withAlpha(170) : gold.withAlpha(250),
+        ));
   }
 }
