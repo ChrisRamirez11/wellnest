@@ -7,7 +7,7 @@ const Color obsidian = Color(0xFF0B1215);
 const Color ghostWhite = Color(0xFFF8F8FF);
 const Color coffe = Color(0xFFA67B5B);
 const Color gold = Color(0xFFEFBF04); //Bright Gold
-const Color errorColor = Color(0xFFE57373);
+const Color errorColor = Colors.deepOrangeAccent;
 
 const double largeSize = 19;
 const double mediumSize = 17;
@@ -78,7 +78,7 @@ ThemeData theme = ThemeData(
       brightness: Brightness.light,
       primary: primary,
       secondary: secondary,
-      error: Colors.red),
+      error: errorColor),
 
   //InputDecorationTheme
   //
@@ -178,11 +178,12 @@ ThemeData themeDark = ThemeData.dark().copyWith(
     navigationBarTheme: const NavigationBarThemeData(
         labelTextStyle: WidgetStatePropertyAll(TextStyle(fontSize: smallSize))),
 
-    //Color Scheme
+    //ColorScheme
     //
     colorScheme: ColorScheme.fromSeed(
       seedColor: primary,
       brightness: Brightness.dark,
       primary: primary,
       secondary: secondary,
+      error: errorColor
     ));
