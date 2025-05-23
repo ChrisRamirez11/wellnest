@@ -128,6 +128,23 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
           children: [
             IconButton(
               icon: const Icon(Icons.play_arrow, color: ghostWhite),
+              onLongPress: canUpdateCheckbox(ref
+                      .watch(currentSelectedDateProvider)
+                      .currentSelectedDate)
+                  ? () async {
+                      final routine = dateNotifier.date!.routines[widget.index];
+
+                      setState(() {
+                        routine.elapsedTimeSeconds = routine.targetDurationSeconds;
+                        routine.finished = true;
+                      });
+
+                      dateNotifier.date!.completedRoutineAmount =
+                          _getCompletedQuantity(dateNotifier);
+                      await _routineCompletedAnimation(routine.finished!);
+                      await dateNotifier.upsertDate(dateNotifier.date!);
+                    }
+                  : null,
               onPressed: canUpdateCheckbox(ref
                       .watch(currentSelectedDateProvider)
                       .currentSelectedDate)
