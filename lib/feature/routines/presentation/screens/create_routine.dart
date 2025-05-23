@@ -322,6 +322,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
           _selectedType == RoutineType.task
               ? 'Please fill name and select days'
               : 'Please fill all required fields',
+              style: textTheme(context).labelMedium,
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/global_providers/is_premium_user_provider.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/ai_coach_provider/providers.dart';
@@ -61,6 +62,7 @@ class _ChatTextBoxState extends ConsumerState<ChatTextBox> {
   Widget build(BuildContext context) {
     final selectedTimeRange = ref.watch(selectedTimeRangeProvider);
     final aiCoachState = ref.watch(aiCoachNotifierProvider);
+    final isPremium = ref.watch(isPremiumUser).isPremium ?? false;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -111,14 +113,25 @@ class _ChatTextBoxState extends ConsumerState<ChatTextBox> {
                 ),
                 onPressed: (isTyping && !aiCoachState.loading)
                     ? () async {
-                        final text = messageController.text.trim();
-                        messageController.clear();
-                        setState(() => isTyping = false);
+                        if (isPremium) {
+                          final text = messageController.text.trim();
+                          messageController.clear();
+                          setState(() => isTyping = false);
 
-                        ref.read(selectedTimeRangeProvider.notifier).state =
-                            TimeRange.none;
+                          ref.read(selectedTimeRangeProvider.notifier).state =
+                              TimeRange.none;
 
-                        widget.onSubmitted(text, selectedTimeRange);
+                          widget.onSubmitted(text, selectedTimeRange);
+                        } else {
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              showCloseIcon: true,
+                              content: //TODO INTL
+                                  Text(
+                                'Go premium to use AxioAI',
+                                style: textTheme(context).labelMedium,
+                              )));
+                        }
                       }
                     : null,
               ),

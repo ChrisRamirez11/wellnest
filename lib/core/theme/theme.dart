@@ -54,7 +54,8 @@ ThemeData theme = ThemeData(
   //
   snackBarTheme: SnackBarThemeData(
       behavior: SnackBarBehavior.floating,
-      backgroundColor: primary,
+      backgroundColor: Colors.grey.shade800,
+      closeIconColor: ghostWhite,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
 
   //ScrollbarTheme
@@ -140,7 +141,8 @@ ThemeData themeDark = ThemeData.dark().copyWith(
     //
     snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        backgroundColor: primary,
+        backgroundColor: Colors.grey.shade800,
+        closeIconColor: ghostWhite,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
 
     //ScrollbarTheme

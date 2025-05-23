@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/auth/business/usecases/get_user_data_by_id_usecase.dart';
 import 'package:wellnest/feature/auth/business/usecases/get_user_data_use_case.dart';
 import 'package:wellnest/feature/auth/business/usecases/sign_out_use_case.dart';
@@ -51,7 +52,7 @@ class ProfileProvider extends ChangeNotifier {
       (newFailure) {
         if (context.mounted) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(newFailure.errorMessage)));
+              .showSnackBar(SnackBar(content: Text(newFailure.errorMessage, style: textTheme(context).labelMedium,)));
         }
         return ProfileModel(
             id: id,
@@ -82,7 +83,7 @@ class ProfileProvider extends ChangeNotifier {
       (newFailure) {
         if (context.mounted) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(newFailure.errorMessage)));
+              .showSnackBar(SnackBar(content: Text(newFailure.errorMessage, style: textTheme(context).labelMedium,)));
         }
       },
       (success) {
@@ -99,7 +100,7 @@ class ProfileProvider extends ChangeNotifier {
       (newFailure) {
         if (context.mounted) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(newFailure.errorMessage)));
+              .showSnackBar(SnackBar(content: Text(newFailure.errorMessage, style: textTheme(context).labelMedium,)));
         }
         notifyListeners();
         return;
