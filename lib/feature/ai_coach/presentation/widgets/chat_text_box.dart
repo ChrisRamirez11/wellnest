@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/global_providers/is_premium_user_provider.dart';
 import 'package:wellnest/core/theme/theme.dart';
+import 'package:wellnest/core/utils/show_paywall.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/ai_coach_provider/providers.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/seleted_time_range_provider.dart';
@@ -131,6 +132,7 @@ class _ChatTextBoxState extends ConsumerState<ChatTextBox> {
                                 'Go premium to use AxioAI',
                                 style: textTheme(context).labelMedium,
                               )));
+                          showPaywall();
                         }
                       }
                     : null,

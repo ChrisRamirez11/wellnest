@@ -90,7 +90,6 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
               size: 30,
             ),
             onPressed: () async {
-              ScaffoldMessenger.of(context).clearSnackBars();
               Navigator.of(context).pop();
             },
           ),
