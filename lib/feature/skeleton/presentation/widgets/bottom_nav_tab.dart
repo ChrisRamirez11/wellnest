@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/theme/theme.dart';
-import 'package:wellnest/feature/skeleton/presentation/providers/index_provider.dart';
 
 class BottomNavTab extends ConsumerWidget {
   final int pageIndex;
@@ -9,6 +8,7 @@ class BottomNavTab extends ConsumerWidget {
   final IconData iconFilled;
   final IconData iconOutlined;
   final String? label;
+  final PageController pageController;
 
   const BottomNavTab({
     super.key,
@@ -16,13 +16,14 @@ class BottomNavTab extends ConsumerWidget {
     required this.isSelected,
     required this.iconFilled,
     required this.iconOutlined,
+    required this.pageController,
     this.label,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () => ref.read(indexProvider).pageController.jumpToPage(pageIndex),
+      onTap: () => pageController.jumpToPage(pageIndex),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,

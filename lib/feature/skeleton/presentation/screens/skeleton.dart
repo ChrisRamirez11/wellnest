@@ -28,6 +28,7 @@ class Skeleton extends ConsumerStatefulWidget {
 
 class _SkeletonState extends ConsumerState<Skeleton> {
   late AppLifecycleReactor appLifecycleReactor;
+  final PageController _pageController = PageController();
 
   @override
   void initState() {
@@ -63,7 +64,7 @@ class _SkeletonState extends ConsumerState<Skeleton> {
 
   @override
   void dispose() {
-    ref.watch(indexProvider).pageController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -72,9 +73,11 @@ class _SkeletonState extends ConsumerState<Skeleton> {
     final index = ref.watch(indexProvider);
     return SafeArea(
         child: Scaffold(
-            bottomNavigationBar: const CustomNavBar(),
+            bottomNavigationBar: CustomNavBar(
+              pageController: _pageController,
+            ),
             body: PageView(
-              controller: index.pageController,
+              controller: _pageController,
               onPageChanged: (value) => index.changeIndex(value),
               children: pages,
             )));

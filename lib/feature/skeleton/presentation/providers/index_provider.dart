@@ -5,7 +5,6 @@ final indexProvider = ChangeNotifierProvider((ref) => IndexProvider());
 
 class IndexProvider extends ChangeNotifier{
   var _selectedIndex = 0;
-  final pageController = PageController();
 
   int get selectedIndex => _selectedIndex;
 

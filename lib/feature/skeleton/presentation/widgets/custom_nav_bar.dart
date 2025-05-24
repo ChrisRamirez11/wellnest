@@ -11,7 +11,9 @@ import 'package:wellnest/feature/skeleton/presentation/widgets/bottom_nav_tab.da
 import 'package:wellnest/main.dart';
 
 class CustomNavBar extends ConsumerStatefulWidget {
-  const CustomNavBar({super.key});
+  final PageController pageController;
+  
+  const CustomNavBar({super.key, required this.pageController});
 
   @override
   ConsumerState<CustomNavBar> createState() => _CustomNavBarState();
@@ -46,6 +48,7 @@ class _CustomNavBarState extends ConsumerState<CustomNavBar> {
                   isSelected: index.selectedIndex == 0,
                   iconFilled: Icons.calendar_month,
                   iconOutlined: Icons.calendar_month_outlined,
+                  pageController: widget.pageController,
                 ),
                 const SizedBox(width: 10),
                 BottomNavTab(
@@ -53,6 +56,7 @@ class _CustomNavBarState extends ConsumerState<CustomNavBar> {
                   isSelected: index.selectedIndex == 1,
                   iconFilled: Icons.person,
                   iconOutlined: Icons.person_outline,
+                  pageController: widget.pageController,
                 ),
               ],
             ),
