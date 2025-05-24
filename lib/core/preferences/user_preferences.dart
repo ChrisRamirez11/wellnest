@@ -22,6 +22,14 @@ class UserPreferences {
   bool get darkMode {
     return _prefs.getBool('DarkMode') ?? true;
   }
+  
+  set premiumUser(bool value) {
+    _prefs.setBool('premiumUser', value);
+  }
+
+  bool get premiumUser {
+    return _prefs.getBool('premiumUser') ?? false;
+  }
 
   set cacheUser(String user) {
     _prefs.setString('CachedUser', user);

@@ -72,21 +72,22 @@ class MyApp extends ConsumerStatefulWidget {
 class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
-    PurchasesObserver(ref: ref).initialize();
     super.initState();
   }
 
   @override
   Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+
     // Set your desired locale
     String? locale = ref.watch(localeProvider).locale?.languageCode; // Spanish
     // Initialize locale data
     await initializeDateFormatting(locale, null);
 
+    await PurchasesObserver(ref: ref).initialize();
+
     final isPremiumNotifier = ref.watch(isPremiumUser);
     await isPremiumNotifier.premiumSetter();
-
-    super.didChangeDependencies();
   }
 
   @override
