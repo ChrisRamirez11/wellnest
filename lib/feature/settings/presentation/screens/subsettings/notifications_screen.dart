@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:wellnest/core/global_providers/global_noti_ids.dart';
+import 'package:wellnest/core/notifications/global_app_notification.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
+import 'package:wellnest/core/notifications/notifications_provider.dart';
 import 'package:wellnest/core/theme/theme.dart';
+import 'package:wellnest/core/utils/set_routines_reminders.dart';
 import 'package:wellnest/core/utils/string_to_time_of_day.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/widgets/custom_app_bar.dart';
@@ -11,14 +15,64 @@ import 'package:wellnest/feature/routines/data/models/routine_model.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
 
-class NotificationsScreen extends ConsumerWidget {
+class NotificationsScreen extends ConsumerStatefulWidget {
   const NotificationsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<NotificationsScreen> createState() =>
+      _NotificationsScreenState();
+}
+
+class _NotificationsScreenState extends ConsumerState<NotificationsScreen>
+    with WidgetsBindingObserver {
+  bool _notificationsAllowed = true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _checkNotificationPermission();
+  }
+
+  Future<void> _checkNotificationPermission() async {
+    final status = await Permission.notification.status;
+    if (mounted) {
+      setState(() {
+        _notificationsAllowed = status.isGranted;
+      });
+    }
+  }
+
+  Future<void> _openAppSettings() async {
+    await openAppSettings();
+  }
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed) {
+      await _checkNotificationPermission();
+      if (_notificationsAllowed && !ref.watch(notificationProvider).setted) {
+        if (mounted) {
+          await setGlobalAppNotification(ref, context);
+        }
+        if (mounted) {
+          await setRoutinesReminders(context, ref);
+        }
+        ref.watch(notificationProvider).changeValue(_notificationsAllowed);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final timeNotifier = ref.watch(startAndEndTimeProvider);
     final globalNotiNotifier = ref.watch(globalNotiIdsProvider);
-
     final reminderDatesList = _getRemindedDateList(ref);
 
     return Scaffold(
@@ -30,6 +84,29 @@ class NotificationsScreen extends ConsumerWidget {
         ),
       ),
       body: ListView(children: [
+        if (!_notificationsAllowed)
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: ElevatedButton.icon(
+              icon: Icon(
+                Icons.notifications_off,
+                color: errorColor,
+              ),
+              onPressed: _openAppSettings,
+              label: Text(
+                'Enable notifications permission', //TODO INTL
+                style: textTheme(context).labelLarge,
+              ),
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  side: BorderSide(color: errorColor, width: 2),
+                ),
+                backgroundColor: errorColor.withAlpha(30),
+              ),
+            ),
+          ),
+        // Aquí continúan tus FutureBuilders para morning y night notifications
         // Morning Notification
         FutureBuilder<bool>(
           future: NotiService().isNotiActive(globalNotiNotifier.morningId),
