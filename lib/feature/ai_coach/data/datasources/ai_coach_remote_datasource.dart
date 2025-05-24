@@ -31,7 +31,7 @@ class AiCoachRemoteDatasourceImpl implements AiCoachRemoteDatasource {
     } on FunctionException catch (e) {
       throw ServerException(message: e.details['error']);
     } catch (e) {
-      throw ServerException(message: 'Failed to fetch coach response: $e');
+      throw ServerException(message:  'Failed to fetch coach response');
     }
   }
 
@@ -63,7 +63,7 @@ class AiCoachRemoteDatasourceImpl implements AiCoachRemoteDatasource {
     } on PostgrestException catch (e) {
       throw ServerException(message: e.message);
     } catch (e) {
-      throw ServerException(message: 'Failed to fetch token stats: \$e');
+      throw ServerException(message: 'Failed to fetch token stats');
     }
   }
 }

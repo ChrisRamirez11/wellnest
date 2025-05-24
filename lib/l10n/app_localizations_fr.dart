@@ -193,4 +193,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get askUnrestrictedBattery => 'Pour que le compte à rebours fonctionne correctement en arrière-plan, autorisez l\'application à utiliser la batterie sans restriction.';
+
+  @override
+  String get tokenLimitReachedError => 'Vous avez atteint votre limite de jetons.';
+
+  @override
+  String get coachResponseError => 'Une erreur s\'est produite lors de la génération de la réponse du coach.';
 }

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:wellnest/l10n/app_localizations.dart';
 
-String getTranslatedErrorMessage(String errorString, BuildContext context) {
+String getTranslatedErrorMessage(
+    {required String errorString,
+    String? unstranslated,
+    required BuildContext context}) {
   final loc = AppLocalizations.of(context)!;
 
   switch (errorString) {
-    case 'premium_required':
-      return loc.premiumRequired;
-    case 'plan_expired':
-      return loc.limitReached;
+    case 'coach_response_error':
+      return loc.coachResponseError;
+    case 'token_limit':
+      return loc.tokenLimitReachedError;
     default:
-      return loc.genericError;
+      return errorString;
   }
 }

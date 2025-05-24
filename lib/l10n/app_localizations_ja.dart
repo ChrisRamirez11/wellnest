@@ -193,4 +193,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get askUnrestrictedBattery => 'バックグラウンドでカウントダウンが正しく動作するように、アプリに無制限のバッテリー使用を許可してください。';
+
+  @override
+  String get tokenLimitReachedError => 'トークンの上限に達しました。';
+
+  @override
+  String get coachResponseError => 'コーチの応答を生成中にエラーが発生しました。';
 }

@@ -60,5 +60,7 @@
     "advancedSettings": "Paramètres Avancés",
     "remindHabit": "Rappeler cette habitude",
     "permissionRequired": "Autorisation Requise",
-    "askUnrestrictedBattery": "Pour que le compte à rebours fonctionne correctement en arrière-plan, autorisez l'application à utiliser la batterie sans restriction."
+    "askUnrestrictedBattery": "Pour que le compte à rebours fonctionne correctement en arrière-plan, autorisez l'application à utiliser la batterie sans restriction.",
+    "tokenLimitReachedError": "Vous avez atteint votre limite de jetons.",
+    "coachResponseError": "Une erreur s'est produite lors de la génération de la réponse du coach."
 }

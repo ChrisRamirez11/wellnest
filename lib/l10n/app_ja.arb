@@ -60,5 +60,7 @@
     "advancedSettings": "詳細設定",
     "remindHabit": "この習慣をリマインド",
     "permissionRequired": "権限が必要です",
-    "askUnrestrictedBattery": "バックグラウンドでカウントダウンが正しく動作するように、アプリに無制限のバッテリー使用を許可してください。"
+    "askUnrestrictedBattery": "バックグラウンドでカウントダウンが正しく動作するように、アプリに無制限のバッテリー使用を許可してください。",
+    "tokenLimitReachedError": "トークンの上限に達しました。",
+    "coachResponseError": "コーチの応答を生成中にエラーが発生しました。"
 }

@@ -470,6 +470,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'To ensure the countdown works properly on the backround, allow the app to use Unrestricted Battery.'**
   String get askUnrestrictedBattery;
+
+  /// Error message shown when the user reaches their monthly token usage limit
+  ///
+  /// In en, this message translates to:
+  /// **'You have reached your token limit.'**
+  String get tokenLimitReachedError;
+
+  /// Generic error message shown when the coach response could not be generated
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while generating the coach response.'**
+  String get coachResponseError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

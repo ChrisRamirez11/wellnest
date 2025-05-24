@@ -193,4 +193,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get askUnrestrictedBattery => 'Para asegurar que el temporizador funcione correctamente en segundo plano, permite que la aplicación use Batería Sin Restricciones.';
+
+  @override
+  String get tokenLimitReachedError => 'Has alcanzado tu límite de tokens.';
+
+  @override
+  String get coachResponseError => 'Ocurrió un error al generar la respuesta del coach.';
 }

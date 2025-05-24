@@ -193,4 +193,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get askUnrestrictedBattery => 'To ensure the countdown works properly on the backround, allow the app to use Unrestricted Battery.';
+
+  @override
+  String get tokenLimitReachedError => 'You have reached your token limit.';
+
+  @override
+  String get coachResponseError => 'An error occurred while generating the coach response.';
 }

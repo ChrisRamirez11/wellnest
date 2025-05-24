@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/global_providers/locale_provider.dart';
 import 'package:wellnest/core/theme/theme.dart';
+import 'package:wellnest/core/utils/get_translated_error_message.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/ai_coach/business/entity/ai_coach_prompt.dart';
 import 'package:wellnest/feature/ai_coach/business/entity/chat_message_entity.dart';
@@ -201,7 +202,7 @@ class _AxioErrorContainer extends ConsumerWidget {
             color: errorColor,
           ),
           Expanded(
-            child: Text(state.error!,
+            child: Text(getTranslatedErrorMessage(errorString: state.error!, context: context),
                 style: textTheme(context)
                     .labelMedium!
                     .copyWith(color: errorColor)),

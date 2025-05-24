@@ -60,5 +60,7 @@
     "advancedSettings": "Configuración Avanzada",
     "remindHabit": "Recordar este hábito",
     "permissionRequired": "Permiso Requerido",
-    "askUnrestrictedBattery": "Para asegurar que el temporizador funcione correctamente en segundo plano, permite que la aplicación use Batería Sin Restricciones."
+    "askUnrestrictedBattery": "Para asegurar que el temporizador funcione correctamente en segundo plano, permite que la aplicación use Batería Sin Restricciones.",
+    "tokenLimitReachedError": "Has alcanzado tu límite de tokens.",
+    "coachResponseError": "Ocurrió un error al generar la respuesta del coach."
 }

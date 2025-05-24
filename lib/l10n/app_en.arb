@@ -246,5 +246,13 @@
     "askUnrestrictedBattery": "To ensure the countdown works properly on the backround, allow the app to use Unrestricted Battery.",
     "@askUnrestrictedBattery": {
         "description": "Ask for unrestricted battery"
+    }    ,
+    "tokenLimitReachedError": "You have reached your token limit.",
+    "@tokenLimitReachedError": {
+        "description": "Error message shown when the user reaches their monthly token usage limit"
+    },
+    "coachResponseError": "An error occurred while generating the coach response.",
+    "@coachResponseError": {
+        "description": "Generic error message shown when the coach response could not be generated"
     }
 }
