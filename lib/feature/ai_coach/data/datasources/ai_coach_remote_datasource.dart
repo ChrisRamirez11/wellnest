@@ -35,6 +35,7 @@ class AiCoachRemoteDatasourceImpl implements AiCoachRemoteDatasource {
     }
   }
 
+  @override
   Future<TokenStatsModel> fetchTokenStats() async {
     final client = Supabase.instance.client;
     try {
