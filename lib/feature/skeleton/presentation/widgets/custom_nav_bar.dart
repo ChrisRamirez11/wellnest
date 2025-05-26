@@ -7,12 +7,13 @@ import 'package:wellnest/feature/ai_coach/presentation/screens/coach_chat_screen
 import 'package:wellnest/feature/auth/presentation/riverpod/google_native_signin.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/profile_provider.dart';
 import 'package:wellnest/feature/skeleton/presentation/providers/index_provider.dart';
+import 'package:wellnest/feature/skeleton/presentation/widgets/axio_widget.dart';
 import 'package:wellnest/feature/skeleton/presentation/widgets/bottom_nav_tab.dart';
 import 'package:wellnest/main.dart';
 
 class CustomNavBar extends ConsumerStatefulWidget {
   final PageController pageController;
-  
+
   const CustomNavBar({super.key, required this.pageController});
 
   @override
@@ -67,17 +68,16 @@ class _CustomNavBarState extends ConsumerState<CustomNavBar> {
             bottom: 5,
             top: 5,
             child: GestureDetector(
-              onTap: () => getSignInOrAxioScreen(context),
-              child: Container(
-                height: 60,
-                width: 70,
-                decoration: BoxDecoration(
-                  color: Colors.lightBlue,
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: const Icon(Icons.circle, color: ghostWhite, size: 35),
-              ),
-            ),
+                onTap: () => getSignInOrAxioScreen(context),
+                child: Container(
+                  height: 60,
+                  width: 75,
+                  decoration: BoxDecoration(
+                    color: obsidian,
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: AxioWidget(),
+                )),
           ),
         ],
       ),
