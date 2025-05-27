@@ -193,6 +193,11 @@ class _CountdownPageState extends ConsumerState<CountdownPage> {
       },
       child: Scaffold(
         appBar: CustomAppBar(
+          leadingWidget: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () =>
+                Navigator.of(context).popUntil(ModalRoute.withName('/')),
+          ),
           titleString: widget.routine.name!,
           actionsList: [_getActiveSoundButton()],
         ),
