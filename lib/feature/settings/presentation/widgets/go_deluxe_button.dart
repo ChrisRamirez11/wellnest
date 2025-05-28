@@ -30,7 +30,7 @@ class GoDeluxeButton extends ConsumerWidget {
                   size: 30,
                   color: Colors.white,
                 ),
-          onClick: showPaywall,
+          onClick: !isPremium ? showPaywall : null,
           text: !isPremium
               ? localization(context).goDeluxe.toUpperCase()
               : localization(context).premiumUser.toUpperCase(),

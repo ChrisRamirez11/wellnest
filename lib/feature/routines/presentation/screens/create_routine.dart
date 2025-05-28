@@ -781,7 +781,6 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
             child: Column(
               children: [
                 SwitchListTile(
-                  trackColor: WidgetStatePropertyAll(primary.withAlpha(200)),
                   thumbIcon: WidgetStatePropertyAll(Icon(
                     _alarmActive
                         ? Icons.notifications_active
