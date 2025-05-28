@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vibration/vibration.dart';
+import 'package:wellnest/core/axio/axio.dart';
 import 'package:wellnest/core/navigation/custom_transitions.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/feature/ai_coach/presentation/screens/coach_chat_screen.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/google_native_signin.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/profile_provider.dart';
 import 'package:wellnest/feature/skeleton/presentation/providers/index_provider.dart';
-import 'package:wellnest/feature/skeleton/presentation/widgets/axio_widget.dart';
 import 'package:wellnest/feature/skeleton/presentation/widgets/bottom_nav_tab.dart';
 import 'package:wellnest/main.dart';
 
@@ -76,7 +76,7 @@ class _CustomNavBarState extends ConsumerState<CustomNavBar> {
                     color: obsidian,
                     borderRadius: BorderRadius.circular(18),
                   ),
-                  child: AxioWidget(),
+                  child: Axio()
                 )),
           ),
         ],
