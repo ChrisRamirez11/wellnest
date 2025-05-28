@@ -11,14 +11,19 @@ class PurchasesObserver implements AdaptyUIObserver {
   void Function(AdaptyError)? onAdaptyErrorOccurred;
   void Function(Object)? onUnknownErrorOccurred;
 
-  late final WidgetRef ref;
-  final adapty = Adapty();
-
+  late WidgetRef ref;
+  final Adapty adapty = Adapty();
   static final PurchasesObserver _instance = PurchasesObserver._internal();
+  bool _initialized = false;
 
   factory PurchasesObserver({WidgetRef? ref}) {
     if (ref != null) {
-      _instance.ref = ref;
+      if (_instance._initialized) {
+        debugPrint('[PurchasesObserver] Ya fue inicializado. Ignorando nuevo ref.');
+      } else {
+        _instance.ref = ref;
+        _instance._initialized = true;
+      }
     }
     return _instance;
   }
