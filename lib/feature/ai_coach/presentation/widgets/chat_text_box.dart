@@ -78,6 +78,8 @@ class _ChatTextBoxState extends ConsumerState<ChatTextBox> {
         children: [
           TextField(
             controller: messageController,
+            keyboardType: TextInputType.text,
+            textCapitalization: TextCapitalization.sentences,
             onChanged: (text) => setState(
               () => isTyping = text.trim().isNotEmpty,
             ),
