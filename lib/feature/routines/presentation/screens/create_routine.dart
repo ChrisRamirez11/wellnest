@@ -138,10 +138,13 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
             spacing: 20,
             children: [
               const SizedBox(),
-              CustomTextField(
-                hintText: localization(context).routineName,
-                controller: _nameController,
-                label: '',
+              FocusScope(
+                node: FocusScopeNode(),
+                child: CustomTextField(
+                  hintText: localization(context).routineName,
+                  controller: _nameController,
+                  label: '',
+                ),
               ),
               const SizedBox(height: 20),
               _buildTypeSelector(),
