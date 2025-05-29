@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/utils/show_paywall.dart';
+import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
 import 'package:wellnest/feature/onboarding/presentation/provider/first_app_opening.dart';
 import 'package:wellnest/feature/onboarding/presentation/widgets/onboarding_page_one.dart';
@@ -84,18 +85,18 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       padding: const EdgeInsets.all(15),
       child: _currentPageIndex != (_pages.length - 1)
           ? CustomButton(
-              color: primary,
-              textColor: secondary,
+              color: colorScheme(context).primaryContainer,
+              textColor: ghostWhite,
               onClick: () {
                 _controller.nextPage(
                   duration: Duration(milliseconds: _pageChangeSpeed),
                   curve: Curves.easeIn,
                 );
               },
-              text: 'NEXT')
+              text: 'NEXT')//TODO intl
           : CustomButton(
-              color: primary,
-              textColor: secondary,
+              color: colorScheme(context).primaryContainer,
+              textColor: ghostWhite,
               onClick: () {
                 // when FINISH is hitted, is when it understands the first step of the app was succesful
                 ref.watch(firstTimeOpening).appOpened();
@@ -103,7 +104,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
                 Navigator.of(context).pushReplacementNamed('/');
               },
-              text: 'FINISH'),
+              text: localization(context).finish.toUpperCase()),
     );
   }
 
