@@ -51,6 +51,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
           );
 
           final dataNotifier = ref.read(dataProvider);
+          dataNotifier.setFailureToNull();
           // Perform backup & restore //TODO add a no connection dialgog if the user is offline
           await dataNotifier.backupRestore(ref, context);
 

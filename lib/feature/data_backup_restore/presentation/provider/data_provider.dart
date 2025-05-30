@@ -47,6 +47,10 @@ class DataProvider extends ChangeNotifier {
   final _routineRepository = RoutineRepositoryImpl(
       routineLocalDatasource: RoutineLocalDatasourceImpl());
 
+  void setFailureToNull() {
+    _failure = null;
+  }
+
   Future<void> backupRestore(WidgetRef ref, BuildContext context) async {
     final userId = supabase.auth.currentUser!.id;
     final preferences = UserPreferences();
