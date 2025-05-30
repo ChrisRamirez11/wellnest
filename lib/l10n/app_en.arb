@@ -246,7 +246,7 @@
     "askUnrestrictedBattery": "To ensure the countdown works properly on the backround, allow the app to use Unrestricted Battery.",
     "@askUnrestrictedBattery": {
         "description": "Ask for unrestricted battery"
-    }    ,
+    },
     "tokenLimitReachedError": "You have reached your token limit.",
     "@tokenLimitReachedError": {
         "description": "Error message shown when the user reaches their monthly token usage limit"
@@ -254,5 +254,33 @@
     "coachResponseError": "An error occurred while generating the coach response.",
     "@coachResponseError": {
         "description": "Generic error message shown when the coach response could not be generated"
+    },
+    "next": "Next",
+    "@next": {
+        "description": "Next"
+    },
+    "messageAxio": "Message Axio...",
+    "@messageAxio": {
+        "description": "Message Axio"
+    },
+    "enableNoti": "Enable notifications permission",
+    "@enableNoti": {
+        "description": "Enable notifications permission"
+    },
+    "goPremiumAxio": "Go premium to use AxioAI",
+    "@goPremiumAxio": {
+        "description": "Go premium to use AxioAI"
+    },
+    "dontSendData": "Don't Send Data",
+    "@dontSendData": {
+        "description": "Don't Send Data"
+    },
+    "weekData": "Week Data",
+    "@weekData": {
+        "description": "Week Data"
+    },
+    "monthData": "Month Data",
+    "@monthData": {
+        "description": "Month Data"
     }
 }

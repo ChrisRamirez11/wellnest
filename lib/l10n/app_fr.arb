@@ -62,5 +62,12 @@
     "permissionRequired": "Autorisation Requise",
     "askUnrestrictedBattery": "Pour que le compte à rebours fonctionne correctement en arrière-plan, autorisez l'application à utiliser la batterie sans restriction.",
     "tokenLimitReachedError": "Vous avez atteint votre limite de jetons.",
-    "coachResponseError": "Une erreur s'est produite lors de la génération de la réponse du coach."
+    "coachResponseError": "Une erreur s'est produite lors de la génération de la réponse du coach.",
+    "next": "Suivant",
+    "messageAxio": "Envoyer un message à Axio...",
+    "enableNoti": "Activer les permissions de notifications",
+    "goPremiumAxio": "Vous devez être Premium pour utiliser AxioAI",
+    "dontSendData": "Ne pas envoyer de données",
+    "weekData": "Données de la semaine",
+    "monthData": "Données du mois"
 }

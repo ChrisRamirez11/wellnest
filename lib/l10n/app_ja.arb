@@ -62,5 +62,12 @@
     "permissionRequired": "権限が必要です",
     "askUnrestrictedBattery": "バックグラウンドでカウントダウンが正しく動作するように、アプリに無制限のバッテリー使用を許可してください。",
     "tokenLimitReachedError": "トークンの上限に達しました。",
-    "coachResponseError": "コーチの応答を生成中にエラーが発生しました。"
+    "coachResponseError": "コーチの応答を生成中にエラーが発生しました。",
+    "next": "次へ",
+    "messageAxio": "Axioにメッセージを送る...",
+    "enableNoti": "通知の許可を有効にする",
+    "goPremiumAxio": "AxioAIを使うにはプレミアム会員になる必要があります",
+    "dontSendData": "データを送信しない",
+    "weekData": "週のデータ",
+    "monthData": "月のデータ"
 }

@@ -199,4 +199,25 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get coachResponseError => 'コーチの応答を生成中にエラーが発生しました。';
+
+  @override
+  String get next => '次へ';
+
+  @override
+  String get messageAxio => 'Axioにメッセージを送る...';
+
+  @override
+  String get enableNoti => '通知の許可を有効にする';
+
+  @override
+  String get goPremiumAxio => 'AxioAIを使うにはプレミアム会員になる必要があります';
+
+  @override
+  String get dontSendData => 'データを送信しない';
+
+  @override
+  String get weekData => '週のデータ';
+
+  @override
+  String get monthData => '月のデータ';
 }

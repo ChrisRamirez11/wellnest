@@ -482,6 +482,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error occurred while generating the coach response.'**
   String get coachResponseError;
+
+  /// Next
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// Message Axio
+  ///
+  /// In en, this message translates to:
+  /// **'Message Axio...'**
+  String get messageAxio;
+
+  /// Enable notifications permission
+  ///
+  /// In en, this message translates to:
+  /// **'Enable notifications permission'**
+  String get enableNoti;
+
+  /// Go premium to use AxioAI
+  ///
+  /// In en, this message translates to:
+  /// **'Go premium to use AxioAI'**
+  String get goPremiumAxio;
+
+  /// Don't Send Data
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t Send Data'**
+  String get dontSendData;
+
+  /// Week Data
+  ///
+  /// In en, this message translates to:
+  /// **'Week Data'**
+  String get weekData;
+
+  /// Month Data
+  ///
+  /// In en, this message translates to:
+  /// **'Month Data'**
+  String get monthData;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

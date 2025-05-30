@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/seleted_time_range_provider.dart';
 import 'package:wellnest/feature/ai_coach/presentation/widgets/chat_text_box.dart';
 
@@ -21,7 +22,15 @@ class CustomMenuAnchor extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MenuAnchor(style: MenuStyle(backgroundColor: WidgetStatePropertyAll(Colors.grey.shade800)),
+    final Map<TimeRange, String> timeRangeLabels = {
+      TimeRange.none: localization(context).dontSendData,
+      TimeRange.weekData: localization(context).weekData,
+      TimeRange.monthData: localization(context).monthData,
+    };
+
+    return MenuAnchor(
+      style: MenuStyle(
+          backgroundColor: WidgetStatePropertyAll(Colors.grey.shade800)),
       controller: menuController,
       alignmentOffset: const Offset(0, -200),
       menuChildren: TimeRange.values.map((timeRange) {

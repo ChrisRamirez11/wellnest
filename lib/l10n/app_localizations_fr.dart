@@ -199,4 +199,25 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get coachResponseError => 'Une erreur s\'est produite lors de la génération de la réponse du coach.';
+
+  @override
+  String get next => 'Suivant';
+
+  @override
+  String get messageAxio => 'Envoyer un message à Axio...';
+
+  @override
+  String get enableNoti => 'Activer les permissions de notifications';
+
+  @override
+  String get goPremiumAxio => 'Vous devez être Premium pour utiliser AxioAI';
+
+  @override
+  String get dontSendData => 'Ne pas envoyer de données';
+
+  @override
+  String get weekData => 'Données de la semaine';
+
+  @override
+  String get monthData => 'Données du mois';
 }

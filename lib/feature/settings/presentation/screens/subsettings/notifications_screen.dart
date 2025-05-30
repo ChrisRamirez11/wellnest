@@ -94,7 +94,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen>
               ),
               onPressed: _openAppSettings,
               label: Text(
-                'Enable notifications permission', //TODO INTL
+                localization(context).enableNoti,
                 style: textTheme(context).labelLarge,
               ),
               style: ElevatedButton.styleFrom(

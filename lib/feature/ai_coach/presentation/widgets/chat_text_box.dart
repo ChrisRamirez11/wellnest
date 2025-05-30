@@ -20,12 +20,6 @@ final Map<TimeRange, IconData> timeRangeIcons = {
   TimeRange.monthData: Icons.calendar_month,
 };
 
-final Map<TimeRange, String> timeRangeLabels = {
-  TimeRange.none: "Don't Send Data",
-  TimeRange.weekData: 'Week Data',
-  TimeRange.monthData: 'Month Data',
-};
-
 typedef OnMessageSubmitted = void Function(String message, TimeRange period);
 
 class ChatTextBox extends ConsumerStatefulWidget {
@@ -84,8 +78,8 @@ class _ChatTextBoxState extends ConsumerState<ChatTextBox> {
               () => isTyping = text.trim().isNotEmpty,
             ),
             style: textTheme(context).labelMedium,
-            decoration: const InputDecoration(
-              hintText: 'Message Axio...',
+            decoration: InputDecoration(
+              hintText: localization(context).messageAxio,
               border: InputBorder.none,
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
@@ -129,9 +123,8 @@ class _ChatTextBoxState extends ConsumerState<ChatTextBox> {
                           ScaffoldMessenger.of(context).clearSnackBars();
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               showCloseIcon: true,
-                              content: //TODO INTL
-                                  Text(
-                                'Go premium to use AxioAI',
+                              content: Text(
+                                localization(context).goPremiumAxio,
                                 style: textTheme(context).labelMedium,
                               )));
                           showPaywall();

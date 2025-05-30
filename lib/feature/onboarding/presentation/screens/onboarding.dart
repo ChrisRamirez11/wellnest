@@ -93,7 +93,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   curve: Curves.easeIn,
                 );
               },
-              text: 'NEXT')//TODO intl
+              text: localization(context).next)
           : CustomButton(
               color: colorScheme(context).primaryContainer,
               textColor: ghostWhite,

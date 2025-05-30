@@ -62,5 +62,12 @@
     "permissionRequired": "Permiso Requerido",
     "askUnrestrictedBattery": "Para asegurar que el temporizador funcione correctamente en segundo plano, permite que la aplicación use Batería Sin Restricciones.",
     "tokenLimitReachedError": "Has alcanzado tu límite de tokens.",
-    "coachResponseError": "Ocurrió un error al generar la respuesta del coach."
+    "coachResponseError": "Ocurrió un error al generar la respuesta del coach.",
+    "next": "Siguiente",
+    "messageAxio": "Enviar mensaje a Axio...",
+    "enableNoti": "Activar permiso de notificaciones",
+    "goPremiumAxio": "Debes ser Premium para usar AxioAI",
+    "dontSendData": "No enviar datos",
+    "weekData": "Datos de la semana",
+    "monthData": "Datos del mes"
 }
