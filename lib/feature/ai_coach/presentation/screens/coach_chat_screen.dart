@@ -17,6 +17,7 @@ import 'package:wellnest/feature/ai_coach/presentation/widgets/chat_text_box.dar
 import 'package:wellnest/feature/ai_coach/presentation/widgets/tokens_usage_widget.dart';
 import 'package:wellnest/main.dart';
 
+// Main screen for the AI Coach chat
 class CoachChatScreen extends ConsumerStatefulWidget {
   const CoachChatScreen({super.key});
 
@@ -27,6 +28,7 @@ class CoachChatScreen extends ConsumerStatefulWidget {
 class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
   final ScrollController _scrollController = ScrollController();
 
+  // Checks if the user is near the bottom of the chat
   bool get _isNearBottom {
     const threshold = 300;
     if (!_scrollController.hasClients) return false;
@@ -37,6 +39,7 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
     return max - current < threshold;
   }
 
+  // Scrolls to the bottom of the chat
   void _scrollToBottom() {
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
@@ -51,6 +54,7 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
   void initState() {
     super.initState();
 
+    // Scroll to bottom after the first frame
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
     });
@@ -68,10 +72,9 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
     final notifier = ref.read(aiCoachNotifierProvider.notifier);
     final selectedTimeRange = ref.watch(selectedTimeRangeProvider);
     final language = ref.watch(localeProvider).locale;
+    final data = state.data;
 
-    final used = state.data?.tokensUsedThisMonth.toDouble() ?? 0.0;
-    final limit = state.data?.monthlyTokenLimit.toDouble() ?? 500000.0;
-
+    // Scroll to bottom if user is near the bottom
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_isNearBottom) {
         _scrollToBottom();
@@ -100,18 +103,22 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (_) => AlertDialog(
-                    title: const Text("Token usage"),
-                    content: Text(
-                      "You've used ${used.toStringAsFixed(0)} out of ${limit.toStringAsFixed(0)} tokens available this month. Usage resets on the 1st of each month.",
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: const Text("Close"),
-                      ),
-                    ],
-                  ),
+                  builder: (ctx) {
+                    return AlertDialog(
+                      title: const Text("Token usage"),
+                      content: data != null ? Text(
+                        "Input tokens: ${data.inputUsedThisMonth} / ${data.inputMonthlyLimit}\n"
+                        "Output tokens: ${data.outputUsedThisMonth} / ${data.outputMonthlyLimit}",
+                        style: textTheme(context).labelMedium,
+                      ) : _AwaitingDataWidget(),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.of(ctx).pop(),
+                          child: const Text("Close"),
+                        ),
+                      ],
+                    );
+                  },
                 );
               },
               icon: const Icon(
@@ -145,6 +152,7 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
               ),
             ChatTextBox(
               onSubmitted: (message, period) async {
+                // Generate summary for the selected period
                 await ref
                     .read(periodDataNotifierProvider.notifier)
                     .generateSummary(selectedTimeRange);
@@ -161,6 +169,7 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
                   previousResponseId: state.data?.previousResponseId,
                 );
 
+                // Save last prompt and fetch feedback
                 ref.watch(lastPromptProvider.notifier).state = prompt;
                 await notifier.fetchCoachFeedback(prompt);
 
@@ -174,6 +183,26 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
   }
 }
 
+// Widget shown while waiting for data
+class _AwaitingDataWidget extends StatelessWidget {
+  const _AwaitingDataWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Center(child: CircularProgressIndicator()),
+        ],
+      ),
+    );
+  }
+}
+
+// Error container shown when an error occurs in chat
 class _AxioErrorContainer extends ConsumerWidget {
   const _AxioErrorContainer(
       {required this.state, required this.scrollToBottom});
@@ -202,7 +231,9 @@ class _AxioErrorContainer extends ConsumerWidget {
             color: errorColor,
           ),
           Expanded(
-            child: Text(getTranslatedErrorMessage(errorString: state.error!, context: context),
+            child: Text(
+                getTranslatedErrorMessage(
+                    errorString: state.error!, context: context),
                 style: textTheme(context)
                     .labelMedium!
                     .copyWith(color: errorColor)),
@@ -213,6 +244,7 @@ class _AxioErrorContainer extends ConsumerWidget {
                     ref.read(aiCoachNotifierProvider.notifier);
                 final aiCoachState = ref.read(aiCoachNotifierProvider);
 
+                // Remove last message and retry fetching feedback
                 aiCoachState.history.removeLast();
 
                 await aiCoachNotifier

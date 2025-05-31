@@ -1,19 +1,104 @@
+// ai_coach/presentation/widgets/tokens_usage_widget.dart
+
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/ai_coach_provider/providers.dart';
 
-class TokensUsageWidget extends ConsumerWidget {
+enum TokenViewMode {
+  input,
+  output,
+}
+
+/// Now a ConsumerStatefulWidget to maintain view mode and timer.
+class TokensUsageWidget extends ConsumerStatefulWidget {
   const TokensUsageWidget({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TokensUsageWidget> createState() => _TokensUsageWidgetState();
+}
+
+class _TokensUsageWidgetState extends ConsumerState<TokensUsageWidget> {
+  TokenViewMode _viewMode = TokenViewMode.input;
+  Timer? _autoTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    // Every 5 seconds, automatically alternate between input and output
+    _autoTimer = Timer.periodic(const Duration(seconds: 10), (_) {
+      setState(() {
+        _viewMode = (_viewMode == TokenViewMode.input)
+            ? TokenViewMode.output
+            : TokenViewMode.input;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _autoTimer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(aiCoachNotifierProvider);
-    final used = state.data?.tokensUsedThisMonth.toDouble() ?? 0.0;
-    final limit = state.data?.monthlyTokenLimit.toDouble() ?? 500000.0;
-    final percentage = limit > 0 ? used / limit : 0.0;
+    final data = state.data;
+
+    // If there is no data yet, show placeholder
+    if (data == null) {
+      return const LinearProgressIndicator();
+    }
+
+    // Select values according to the current mode
+    final used = (_viewMode == TokenViewMode.input
+            ? data.inputUsedThisMonth
+            : data.outputUsedThisMonth)
+        .toDouble();
+    final limit = (_viewMode == TokenViewMode.input
+            ? data.inputMonthlyLimit
+            : data.outputMonthlyLimit)
+        .toDouble();
+    final percentage = limit > 0 ? (used / limit).clamp(0.0, 1.0) : 0.0;
     final color = _getProgressColor(percentage, context);
 
+    // Label showing whether it's Input or Output
+    // final label = (_viewMode == TokenViewMode.input) ? 'Input' : 'Output';
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _viewMode = (_viewMode == TokenViewMode.input)
+              ? TokenViewMode.output
+              : TokenViewMode.input;
+        });
+      },
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 750),
+        transitionBuilder: (child, animation) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+        layoutBuilder: (currentChild, previousChildren) {
+          return Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              ...previousChildren,
+              if (currentChild != null) currentChild,
+            ],
+          );
+        },
+        // Use the viewMode as key so the switcher knows when to transition
+        child: _buildContent(used, limit, percentage, color, _viewMode),
+      ),
+    );
+  }
+
+  Widget _buildContent(
+      double used, double limit, double percentage, Color color, TokenViewMode mode) {
     return Column(
+      key: ValueKey(mode),
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -40,12 +125,14 @@ class TokensUsageWidget extends ConsumerWidget {
           ],
         ),
         const SizedBox(height: 4),
-        LinearProgressIndicator(
-          value: percentage,
-          backgroundColor: Colors.grey[300],
-          valueColor: AlwaysStoppedAnimation<Color>(color),
-          minHeight: 4,
+        ClipRRect(
           borderRadius: BorderRadius.circular(10),
+          child: LinearProgressIndicator(
+            value: percentage,
+            backgroundColor: Colors.grey[300],
+            valueColor: AlwaysStoppedAnimation<Color>(color),
+            minHeight: 4,
+          ),
         ),
       ],
     );

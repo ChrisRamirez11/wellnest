@@ -31,34 +31,43 @@ class AiCoachRemoteDatasourceImpl implements AiCoachRemoteDatasource {
     } on FunctionException catch (e) {
       throw ServerException(message: e.details['error']);
     } catch (e) {
-      throw ServerException(message:  'Failed to fetch coach response');
+      throw ServerException(message: 'Failed to fetch coach response');
     }
   }
 
   @override
   Future<TokenStatsModel> fetchTokenStats() async {
-    final client = Supabase.instance.client;
     try {
       final today = DateTime.now();
-      final firstDay = DateTime(today.year, today.month, 1)
+      final firstDayOfMonth = DateTime(today.year, today.month, 1)
           .toIso8601String()
           .substring(0, 10);
-      final res = await client
+
+      // Traer todos los registros de token_usage desde el primer día del mes
+      final response = await client
           .from('token_usage')
-          .select('input_tokens,output_tokens')
-          .eq('user_id', client.auth.currentUser!.id)
-          .gte('date', firstDay);
+          .select('input_tokens, output_tokens')
+          .gte('date', firstDayOfMonth)
+          .eq('user_id', client.auth.currentUser!.id);
 
-      final records = res as List<dynamic>;
-      final total = records.fold<int>(
-        0,
-        (sum, r) =>
-            sum + (r['input_tokens'] as int) + (r['output_tokens'] as int),
-      );
+      // response es un List<Map<String, dynamic>>
+      final records = response as List<dynamic>;
 
+      int inputTotal = 0;
+      int outputTotal = 0;
+
+      for (final r in records) {
+        inputTotal += (r['input_tokens'] as int);
+        outputTotal += (r['output_tokens'] as int);
+      }
+
+      // Construimos el modelo con campos separados:
       return TokenStatsModel(
-        used: total,
-        limit: 500000, // or read from config
+        inputUsed: inputTotal,
+        outputUsed: outputTotal,
+        // límites deseados:
+        inputLimit: 5000000,
+        outputLimit: 1000000,
       );
     } on PostgrestException catch (e) {
       throw ServerException(message: e.message);
