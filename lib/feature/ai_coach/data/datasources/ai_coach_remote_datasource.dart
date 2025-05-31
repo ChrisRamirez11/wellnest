@@ -43,14 +43,14 @@ class AiCoachRemoteDatasourceImpl implements AiCoachRemoteDatasource {
           .toIso8601String()
           .substring(0, 10);
 
-      // Traer todos los registros de token_usage desde el primer día del mes
+      // Fetch all registers from token_usage since month's first day
       final response = await client
           .from('token_usage')
           .select('input_tokens, output_tokens')
           .gte('date', firstDayOfMonth)
           .eq('user_id', client.auth.currentUser!.id);
 
-      // response es un List<Map<String, dynamic>>
+      // response is a List<Map<String, dynamic>>
       final records = response as List<dynamic>;
 
       int inputTotal = 0;
@@ -61,11 +61,10 @@ class AiCoachRemoteDatasourceImpl implements AiCoachRemoteDatasource {
         outputTotal += (r['output_tokens'] as int);
       }
 
-      // Construimos el modelo con campos separados:
       return TokenStatsModel(
         inputUsed: inputTotal,
         outputUsed: outputTotal,
-        // límites deseados:
+        // wished límits:
         inputLimit: 5000000,
         outputLimit: 1000000,
       );
