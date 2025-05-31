@@ -47,6 +47,81 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
 
   Widget getControlWidget(DateProvider dateNotifier) {
     final type = widget.routine.type ?? RoutineType.task.name;
+    final canUpdate = canUpdateCheckbox(
+        ref.watch(currentSelectedDateProvider).currentSelectedDate);
+    final routine = dateNotifier.date!.routines[widget.index];
+
+    Future<void> handleComplete(bool completed) async {
+      if (!canUpdate) return;
+
+      _routineCompletedAnimation(completed);
+      setState(() {
+        routine.finished = completed;
+        color = completed
+            ? Color(widget.routine.colorValue!).withAlpha(200)
+            : Colors.transparent;
+      });
+
+      dateNotifier.date!.completedRoutineAmount =
+          _getCompletedQuantity(dateNotifier);
+      await dateNotifier.upsertDate(dateNotifier.date!);
+    }
+
+    Future<void> handleAmountComplete() async {
+      if (!canUpdate) return;
+
+      setState(() {
+        routine.currentCount = routine.targetCount;
+      });
+      await handleComplete(true);
+    }
+
+    Future<void> handleAmountIncrement() async {
+      if (!canUpdate || routine.finished!) return;
+
+      if (routine.currentCount! < routine.targetCount!) {
+        setState(() {
+          routine.currentCount = routine.currentCount! + 1;
+        });
+
+        if (routine.currentCount! >= routine.targetCount!) {
+          await handleComplete(true);
+        } else {
+          await dateNotifier.upsertDate(dateNotifier.date!);
+        }
+      }
+    }
+
+    Future<void> handleTimedComplete() async {
+      if (!canUpdate) return;
+
+      setState(() {
+        routine.elapsedTimeSeconds = routine.targetDurationSeconds;
+      });
+      await handleComplete(true);
+    }
+
+    Future<void> handleTimedStart() async {
+      if (!canUpdate) return;
+
+      final result = await Navigator.push<bool>(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CountdownPage(
+            routine: widget.routine,
+            routineIndex: widget.index,
+          ),
+        ),
+      );
+
+      if (result == true) {
+        await handleComplete(true);
+      } else {
+        dateNotifier.date!.completedRoutineAmount =
+            _getCompletedQuantity(dateNotifier);
+        await dateNotifier.upsertDate(dateNotifier.date!);
+      }
+    }
 
     switch (RoutineType.values.byName(type)) {
       case RoutineType.task:
@@ -54,128 +129,29 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
           fillColor: WidgetStatePropertyAll(
               widget.routine.finished! ? ghostWhite.withAlpha(150) : null),
           value: widget.routine.finished,
-          onChanged: canUpdateCheckbox(
-                  ref.watch(currentSelectedDateProvider).currentSelectedDate)
-              ? (value) async {
-                  _routineCompletedAnimation(value!);
-                  color = value
-                      ? Color(widget.routine.colorValue!).withAlpha(200)
-                      : Colors.transparent;
-                  dateNotifier.date!.routines[widget.index].finished = value;
-                  dateNotifier.date!.completedRoutineAmount =
-                      _getCompletedQuantity(dateNotifier);
-                  await dateNotifier.upsertDate(dateNotifier.date!);
-                }
-              : null,
+          onChanged: canUpdate ? (value) => handleComplete(value!) : null,
         );
+
       case RoutineType.amount:
         return Row(
           children: [
             GestureDetector(
-              //Automatically finishes the counted routine
-              onLongPress: canUpdateCheckbox(ref
-                      .watch(currentSelectedDateProvider)
-                      .currentSelectedDate)
-                  ? () async {
-                      final routine = dateNotifier.date!.routines[widget.index];
-
-                      setState(() {
-                        routine.currentCount = routine.targetCount;
-                        routine.finished = true;
-                      });
-
-                      dateNotifier.date!.completedRoutineAmount =
-                          _getCompletedQuantity(dateNotifier);
-                      await _routineCompletedAnimation(routine.finished!);
-                      await dateNotifier.upsertDate(dateNotifier.date!);
-                    }
-                  : null,
+              onLongPress: canUpdate ? handleAmountComplete : null,
               child: IconButton(
                 icon: const Icon(Icons.add, color: ghostWhite),
-                onPressed: canUpdateCheckbox(ref
-                        .watch(currentSelectedDateProvider)
-                        .currentSelectedDate)
-                    ? () async {
-                        final routine =
-                            dateNotifier.date!.routines[widget.index];
-                        //sets finished value
-                        if (routine.currentCount! < routine.targetCount!) {
-                          setState(() {
-                            routine.currentCount = routine.currentCount! + 1;
-                            if (routine.currentCount! >= routine.targetCount!) {
-                              routine.finished = true;
-                              color = Color(routine.colorValue!).withAlpha(200);
-                            }
-                          });
-
-                          //plays animation
-                          if (routine.finished!) {
-                            dateNotifier.date!.completedRoutineAmount =
-                                _getCompletedQuantity(dateNotifier);
-                            await _routineCompletedAnimation(routine.finished!);
-                          }
-                          await dateNotifier.upsertDate(dateNotifier.date!);
-                        }
-                      }
-                    : null,
+                onPressed: canUpdate ? handleAmountIncrement : null,
               ),
             ),
           ],
         );
-      // En el caso de RoutineType.timed:
+
       case RoutineType.timed:
         return Row(
           children: [
             IconButton(
               icon: const Icon(Icons.play_arrow, color: ghostWhite),
-              onLongPress: canUpdateCheckbox(ref
-                      .watch(currentSelectedDateProvider)
-                      .currentSelectedDate)
-                  ? () async {
-                      final routine = dateNotifier.date!.routines[widget.index];
-
-                      setState(() {
-                        routine.elapsedTimeSeconds = routine.targetDurationSeconds;
-                        routine.finished = true;
-                      });
-
-                      dateNotifier.date!.completedRoutineAmount =
-                          _getCompletedQuantity(dateNotifier);
-                      await _routineCompletedAnimation(routine.finished!);
-                      await dateNotifier.upsertDate(dateNotifier.date!);
-                    }
-                  : null,
-              onPressed: canUpdateCheckbox(ref
-                      .watch(currentSelectedDateProvider)
-                      .currentSelectedDate)
-                  ? () async {
-                      final result = await Navigator.push<bool>(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CountdownPage(
-                            routine: widget.routine,
-                            routineIndex: widget.index,
-                          ),
-                        ),
-                      );
-
-                      if (result == true) {
-                        // Mark as done if user pressed "Mark as Done"
-                        _routineCompletedAnimation(true);
-                        color =
-                            Color(widget.routine.colorValue!).withAlpha(200);
-                        dateNotifier.date!.routines[widget.index].finished =
-                            true;
-                        dateNotifier.date!.completedRoutineAmount =
-                            _getCompletedQuantity(dateNotifier);
-                        await dateNotifier.upsertDate(dateNotifier.date!);
-                      } else {
-                        dateNotifier.date!.completedRoutineAmount =
-                            _getCompletedQuantity(dateNotifier);
-                        await dateNotifier.upsertDate(dateNotifier.date!);
-                      }
-                    }
-                  : null,
+              onLongPress: canUpdate ? handleTimedComplete : null,
+              onPressed: canUpdate ? handleTimedStart : null,
             ),
           ],
         );
@@ -198,25 +174,86 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                  highlightColor: ghostWhite.withAlpha(100),
-                  icon: Icon(
-                    Icons.edit_square,
-                    color: !flag ? ghostWhite : Colors.transparent,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CreateRoutineScreen(
-                            routineModel: widget.routine.toModel(),
+                highlightColor: ghostWhite.withAlpha(100),
+                icon: Icon(
+                  Icons.undo,
+                  color: !flag
+                      ? widget.routine.finished!
+                          ? ghostWhite
+                          : ghostWhite.withAlpha(
+                              80) // Más transparente cuando está deshabilitado
+                      : Colors.transparent,
+                ),
+                onPressed: !flag && widget.routine.finished!
+                    ? () async {
+                        final dateNotifier = ref.read(dateProvider);
+                        await _undoRoutine(dateNotifier);
+                        setState(() {
+                          flag =
+                              true; // Cierra el contenedor después de deshacer
+                        });
+                      }
+                    : null,
+              ),
+              IconButton(
+                highlightColor: ghostWhite.withAlpha(100),
+                icon: Icon(
+                  Icons.edit_square,
+                  color: !flag ? ghostWhite : Colors.transparent,
+                ),
+                onPressed: !flag
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CreateRoutineScreen(
+                              routineModel: widget.routine.toModel(),
+                            ),
                           ),
-                        ));
-                  }),
+                        );
+                      }
+                    : null,
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _undoRoutine(DateProvider dateNotifier) async {
+    final routine = dateNotifier.date!.routines[widget.index];
+    final type =
+        RoutineType.values.byName(routine.type ?? RoutineType.task.name);
+
+    switch (type) {
+      case RoutineType.task:
+        // For tasks, just toggle the finished state back
+        routine.finished = !routine.finished!;
+        color = routine.finished!
+            ? Color(routine.colorValue!).withAlpha(200)
+            : Colors.transparent;
+        break;
+
+      case RoutineType.amount:
+        // For amount routines, decrement the count or reset if finished
+        routine.finished = false;
+        routine.currentCount = 0;
+        color = Colors.transparent;
+        break;
+
+      case RoutineType.timed:
+        // For timed routines, reset the elapsed time if finished
+        routine.finished = false;
+        routine.elapsedTimeSeconds = 0;
+        color = Colors.transparent;
+        break;
+    }
+
+    dateNotifier.date!.completedRoutineAmount =
+        _getCompletedQuantity(dateNotifier);
+    await dateNotifier.upsertDate(dateNotifier.date!);
+    setState(() {});
   }
 
   Widget frontContainer(
