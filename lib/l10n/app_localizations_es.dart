@@ -220,4 +220,22 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get monthData => 'Datos del mes';
+
+  @override
+  String get tokenUsageTitle => 'Uso de tokens';
+
+  @override
+  String get tokenUsageInput => 'Tokens de entrada';
+
+  @override
+  String get tokenUsageOutput => 'Tokens de salida';
+
+  @override
+  String get tokenUsageTitleExplanation => 'Cómo funciona el uso de tokens';
+
+  @override
+  String get tokenUsageExplanation => 'Cada vez que envías un mensaje a Axio o recibes una respuesta, se usan tokens. Representan el esfuerzo necesario para procesar tu entrada y generar respuestas significativas.\n\nEstos límites ayudan a mantener tu experiencia enfocada e intencional. Si se alcanza alguno de los límites, el coaching se pausará hasta que comience el siguiente ciclo mensual.\n\n\"Los tokens no son dinero ni puntos. Son cuánto puedo pensar y cuánto puedes preguntar.\"\n— Axio';
+
+  @override
+  String get close => 'Cerrar';
 }

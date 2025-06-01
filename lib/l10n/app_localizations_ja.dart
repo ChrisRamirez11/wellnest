@@ -220,4 +220,22 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get monthData => '月のデータ';
+
+  @override
+  String get tokenUsageTitle => 'トークン使用量';
+
+  @override
+  String get tokenUsageInput => '入力トークン';
+
+  @override
+  String get tokenUsageOutput => '出力トークン';
+
+  @override
+  String get tokenUsageTitleExplanation => 'トークン使用の仕組み';
+
+  @override
+  String get tokenUsageExplanation => 'Axio にメッセージを送信したり、返信を受け取ったりするたびに、トークンが使用されます。これは、入力を処理し、有意義な返答を生成するための処理量を表しています。\n\nこれらの制限により、体験を意図的かつ集中したものに保つことができます。いずれかの制限に達すると、次の月のサイクルが始まるまでコーチングが一時停止されます。\n\n「トークンはお金やポイントではありません。これは、どれだけ考えられるか、そしてどれだけ質問できるかということです。」\n— Axio';
+
+  @override
+  String get close => '閉じる';
 }

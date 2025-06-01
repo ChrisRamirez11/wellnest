@@ -69,5 +69,11 @@
     "goPremiumAxio": "AxioAIを使うにはプレミアム会員になる必要があります",
     "dontSendData": "データを送信しない",
     "weekData": "週のデータ",
-    "monthData": "月のデータ"
+    "monthData": "月のデータ",
+    "tokenUsageTitle": "トークン使用量",
+    "tokenUsageInput": "入力トークン",
+    "tokenUsageOutput": "出力トークン",
+    "tokenUsageTitleExplanation": "トークン使用の仕組み",
+    "tokenUsageExplanation": "Axio にメッセージを送信したり、返信を受け取ったりするたびに、トークンが使用されます。これは、入力を処理し、有意義な返答を生成するための処理量を表しています。\n\nこれらの制限により、体験を意図的かつ集中したものに保つことができます。いずれかの制限に達すると、次の月のサイクルが始まるまでコーチングが一時停止されます。\n\n「トークンはお金やポイントではありません。これは、どれだけ考えられるか、そしてどれだけ質問できるかということです。」\n— Axio",
+    "close": "閉じる"
 }

@@ -1,11 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:wellnest/core/global_providers/locale_provider.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/get_translated_error_message.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/ai_coach/business/entity/ai_coach_prompt.dart';
+import 'package:wellnest/feature/ai_coach/business/entity/ai_coach_response.dart';
 import 'package:wellnest/feature/ai_coach/business/entity/chat_message_entity.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/ai_coach_provider/ai_coach_state.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/last_prompt_provider.dart';
@@ -104,20 +106,7 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
                 showDialog(
                   context: context,
                   builder: (ctx) {
-                    return AlertDialog(
-                      title: const Text("Token usage"),
-                      content: data != null ? Text(
-                        "Input tokens: ${data.inputUsedThisMonth} / ${data.inputMonthlyLimit}\n"
-                        "Output tokens: ${data.outputUsedThisMonth} / ${data.outputMonthlyLimit}",
-                        style: textTheme(context).labelMedium,
-                      ) : _AwaitingDataWidget(),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(ctx).pop(),
-                          child: const Text("Close"),
-                        ),
-                      ],
-                    );
+                    return _InfoDialog(data: data);
                   },
                 );
               },
@@ -179,6 +168,67 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _InfoDialog extends StatelessWidget {
+  const _InfoDialog({
+    required this.data,
+  });
+
+  final AiCoachResponse? data;
+
+  @override
+  Widget build(BuildContext context) {
+    final numberFormatter = NumberFormat("#,###", "en_US")..symbols.GROUP_SEP;
+    final inputUsed = numberFormatter.format(data!.inputUsedThisMonth);
+    final inputLimit = numberFormatter.format(data!.inputMonthlyLimit);
+    final outputUsed = numberFormatter.format(data!.outputUsedThisMonth);
+    final outputLimit = numberFormatter.format(data!.outputMonthlyLimit);
+
+    return AlertDialog(
+      backgroundColor: Colors.grey.shade900,
+      title: Text(
+        localization(context).tokenUsageTitle,
+        style: textTheme(context).bodyLarge,
+      ),
+      content: data != null
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "${localization(context).tokenUsageInput}: $inputUsed / $inputLimit\n"
+                  "${localization(context).tokenUsageOutput}: $outputUsed / $outputLimit",
+                  style: textTheme(context).labelMedium,
+                ),
+                const SizedBox(height: 16),
+                RichText(
+                  text: TextSpan(
+                    style: TextStyle(color: Colors.white),
+                    children: [
+                      TextSpan(
+                        text: '${localization(context).tokenUsageTitleExplanation}:'"\n",
+                        style: textTheme(context).bodyMedium,
+                      ),
+                      TextSpan(
+                        text:
+                            localization(context).tokenUsageExplanation,
+                        style: textTheme(context).labelMedium,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )
+          : const _AwaitingDataWidget(),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(localization(context).close, style: textTheme(context).bodyMedium,),
+        ),
+      ],
     );
   }
 }

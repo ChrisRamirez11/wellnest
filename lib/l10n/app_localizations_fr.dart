@@ -220,4 +220,22 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get monthData => 'Données du mois';
+
+  @override
+  String get tokenUsageTitle => 'Utilisation des jetons';
+
+  @override
+  String get tokenUsageInput => 'Jetons d\'entrée';
+
+  @override
+  String get tokenUsageOutput => 'Jetons de sortie';
+
+  @override
+  String get tokenUsageTitleExplanation => 'Comment fonctionne l\'utilisation des jetons';
+
+  @override
+  String get tokenUsageExplanation => 'Chaque fois que vous envoyez un message à Axio ou recevez une réponse, des jetons sont utilisés. Ils représentent l\'effort nécessaire pour traiter votre message et générer des réponses utiles.\n\nCes limites vous aident à rester concentré et intentionnel. Si l\'une des limites est atteinte, le coaching sera mis en pause jusqu\'au début du prochain cycle mensuel.\n\n\"Les jetons ne sont pas de l\'argent ou des points. Ils représentent combien je peux penser, et combien tu peux demander.\"\n— Axio';
+
+  @override
+  String get close => 'Fermer';
 }

@@ -69,5 +69,11 @@
     "goPremiumAxio": "Debes ser Premium para usar AxioAI",
     "dontSendData": "No enviar datos",
     "weekData": "Datos de la semana",
-    "monthData": "Datos del mes"
+    "monthData": "Datos del mes",
+    "tokenUsageTitle": "Uso de tokens",
+    "tokenUsageInput": "Tokens de entrada",
+    "tokenUsageOutput": "Tokens de salida",
+    "tokenUsageTitleExplanation": "Cómo funciona el uso de tokens",
+    "tokenUsageExplanation": "Cada vez que envías un mensaje a Axio o recibes una respuesta, se usan tokens. Representan el esfuerzo necesario para procesar tu entrada y generar respuestas significativas.\n\nEstos límites ayudan a mantener tu experiencia enfocada e intencional. Si se alcanza alguno de los límites, el coaching se pausará hasta que comience el siguiente ciclo mensual.\n\n\"Los tokens no son dinero ni puntos. Son cuánto puedo pensar y cuánto puedes preguntar.\"\n— Axio",
+    "close": "Cerrar"
 }

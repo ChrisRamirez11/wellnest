@@ -524,6 +524,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Month Data'**
   String get monthData;
+
+  /// Title of the token usage dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Token usage'**
+  String get tokenUsageTitle;
+
+  /// Displays input token usage with used and limit values
+  ///
+  /// In en, this message translates to:
+  /// **'Input tokens'**
+  String get tokenUsageInput;
+
+  /// Displays output token usage with used and limit values
+  ///
+  /// In en, this message translates to:
+  /// **'Output tokens'**
+  String get tokenUsageOutput;
+
+  /// Title of the token usage explanation section
+  ///
+  /// In en, this message translates to:
+  /// **'How Token Usage Works'**
+  String get tokenUsageTitleExplanation;
+
+  /// Explanation of how token usage works
+  ///
+  /// In en, this message translates to:
+  /// **'Every time you send a message to Axio or receive a response, tokens are used. They represent the effort it takes to process your input and generate meaningful replies.\n\nThese limits help keep your experience focused and intentional. If either limit is reached, coaching will pause until the next monthly cycle begins.\n\n\"Tokens aren\'t money or points. They\'re how much I can think, and how much you can ask.\"\n— Axio'**
+  String get tokenUsageExplanation;
+
+  /// Close
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

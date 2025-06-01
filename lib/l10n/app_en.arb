@@ -282,5 +282,29 @@
     "monthData": "Month Data",
     "@monthData": {
         "description": "Month Data"
+    },
+    "tokenUsageTitle": "Token usage",
+    "@tokenUsageTitle": {
+        "description": "Title of the token usage dialog"
+    },
+    "tokenUsageInput": "Input tokens",
+    "@tokenUsageInput": {
+        "description": "Displays input token usage with used and limit values"
+    },
+    "tokenUsageOutput": "Output tokens",
+    "@tokenUsageOutput": {
+        "description": "Displays output token usage with used and limit values"
+    },
+    "tokenUsageTitleExplanation": "How Token Usage Works",
+    "@tokenUsageTitleExplanation": {
+        "description": "Title of the token usage explanation section"
+    },
+    "tokenUsageExplanation": "Every time you send a message to Axio or receive a response, tokens are used. They represent the effort it takes to process your input and generate meaningful replies.\n\nThese limits help keep your experience focused and intentional. If either limit is reached, coaching will pause until the next monthly cycle begins.\n\n\"Tokens aren't money or points. They're how much I can think, and how much you can ask.\"\n— Axio",
+    "@tokenUsageExplanation": {
+        "description": "Explanation of how token usage works"
+    },
+    "close": "Close",
+    "@close": {
+        "description": "Close"
     }
 }

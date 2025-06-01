@@ -220,4 +220,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get monthData => 'Month Data';
+
+  @override
+  String get tokenUsageTitle => 'Token usage';
+
+  @override
+  String get tokenUsageInput => 'Input tokens';
+
+  @override
+  String get tokenUsageOutput => 'Output tokens';
+
+  @override
+  String get tokenUsageTitleExplanation => 'How Token Usage Works';
+
+  @override
+  String get tokenUsageExplanation => 'Every time you send a message to Axio or receive a response, tokens are used. They represent the effort it takes to process your input and generate meaningful replies.\n\nThese limits help keep your experience focused and intentional. If either limit is reached, coaching will pause until the next monthly cycle begins.\n\n\"Tokens aren\'t money or points. They\'re how much I can think, and how much you can ask.\"\n— Axio';
+
+  @override
+  String get close => 'Close';
 }
