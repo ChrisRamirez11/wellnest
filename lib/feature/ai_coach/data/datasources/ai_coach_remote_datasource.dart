@@ -65,8 +65,8 @@ class AiCoachRemoteDatasourceImpl implements AiCoachRemoteDatasource {
         inputUsed: inputTotal,
         outputUsed: outputTotal,
         // wished límits:
-        inputLimit: 5000000,
-        outputLimit: 1000000,
+        inputLimit: 2000000,
+        outputLimit: 500000,
       );
     } on PostgrestException catch (e) {
       throw ServerException(message: e.message);
