@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:wellnest/core/global_providers/locale_provider.dart';
 import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/utils/delete_routine_date_today.dart';
 import 'package:wellnest/core/utils/format_duration.dart';
@@ -47,6 +49,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   bool _alarmActive = false;
   late String? _alarmTime;
   late DateTime? _endAt; //todo finish endAt
+  bool _endDateActive = false; // New state variable for end date
 
   var loading = false;
   var isExpanded = false;
@@ -66,16 +69,19 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
         ? widget.routineModel!.alarmActive!
         : false;
     _endAt = widget.routineModel?.endAt;
+    _endDateActive =
+        widget.routineModel?.endAt != null; // Initialize end date active
     _alarmTime = (widget.routineModel?.alarmTime != null &&
             widget.routineModel!.alarmTime!.isNotEmpty
         ? widget.routineModel!.alarmTime!
         : '22:30');
 
-    isExpanded = _alarmActive;
+    isExpanded = _alarmActive || _endDateActive; // Expand if either is active
 
     if (widget.routineModel == null) {
       _nameController = TextEditingController();
       _days = List.generate(7, (index) => true);
+      _endAt = DateTime.now(); // Set initial end date to today if new routine
     } else {
       _days = widget.routineModel!.days;
       _nameController = TextEditingController(text: widget.routineModel!.name);
@@ -637,7 +643,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
         elapsedTimeSeconds: 0,
         alarmActive: _alarmActive,
         alarmTime: _alarmTime,
-        endAt: _endAt,
+        endAt: _endDateActive ? _endAt : null, // Pass _endAt only if active
         targetCount: _targetValues[RoutineType.amount] != null
             ? int.tryParse(_targetValues[RoutineType.amount]!) ?? 1
             : 1,
@@ -738,10 +744,12 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   }
 
   Widget getAdvancedSettings() {
+    final locale = ref.watch(localeProvider).locale?.languageCode;
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: ExpansionTile(
-        initiallyExpanded: _alarmActive,
+        initiallyExpanded:
+            _alarmActive || _endDateActive, // Expand if either is active
         shape: Border.all(color: Colors.transparent),
         onExpansionChanged: (value) async {
           setState(() {
@@ -853,7 +861,84 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                     ? SizedBox(
                         height: 20,
                       )
-                    : SizedBox.shrink()
+                    : SizedBox.shrink(),
+                // New SwitchListTile for End Date
+                SwitchListTile(
+                  thumbIcon: WidgetStatePropertyAll(Icon(
+                    _endDateActive ? Icons.event_available : Icons.event_busy,
+                  )),
+                  inactiveTrackColor: Colors.black45,
+                  title: Text(
+                    'End Routine', // You might want to localize this
+                    style: textTheme(context).bodyLarge,
+                  ),
+                  value: _endDateActive,
+                  onChanged: (value) async {
+                    setState(() {
+                      _endDateActive = value;
+                      if (!value) {
+                        _endAt = null; // Clear end date if deactivated
+                      } else {
+                        _endAt =
+                            _endAt ?? DateTime.now(); // Set to today if null
+                      }
+                    });
+                    if (value) {
+                      await Future.delayed(Duration(milliseconds: 250));
+                      WidgetsBinding.instance.addPostFrameCallback(
+                        (_) {
+                          if (_scrollController.hasClients) {
+                            _scrollController.animateTo(
+                              _scrollController.position.maxScrollExtent,
+                              duration: const Duration(milliseconds: 100),
+                              curve: Curves.easeIn,
+                            );
+                          }
+                        },
+                      );
+                    }
+                  },
+                ),
+                _endDateActive
+                    ? SizedBox(
+                        width: size(context).width * 0.8,
+                        child: CustomButton(
+                            color: primary.withAlpha(150),
+                            radius: 10,
+                            onClick: () async {
+                              final selectedDate = await showDatePicker(
+                                context: context,
+                                initialDate: _endAt ?? DateTime.now(),
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(
+                                    2100), // Far enough into the future
+                                builder: (context, child) {
+                                  return Theme(
+                                    data: Theme.of(context).copyWith(
+                                      textTheme: TextTheme(
+                                        labelLarge: TextStyle(fontSize: 15),
+                                      ),
+                                    ),
+                                    child: child!,
+                                  );
+                                },
+                              );
+                              if (selectedDate != null) {
+                                setState(() {
+                                  _endAt = selectedDate;
+                                });
+                              }
+                            },
+                            text: _endAt != null
+                                ? DateFormat.yMMMd(locale).format(_endAt!)
+                                : 'Select End Date'), // You might want to localize this
+                      )
+                    : SizedBox.shrink(),
+                _endDateActive
+                    ? SizedBox(
+                        height: 20,
+                      )
+                    : SizedBox.shrink(),
               ],
             ),
           )
