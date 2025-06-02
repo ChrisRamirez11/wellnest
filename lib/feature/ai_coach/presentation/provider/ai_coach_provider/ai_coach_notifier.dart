@@ -1,5 +1,8 @@
 // ai_coach/presentation/provider/ai_coach_provider/ai_coach_notifier.dart
 
+
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/errors/excpetions.dart';
@@ -16,12 +19,13 @@ class AiCoachNotifier extends StateNotifier<AiCoachState> {
   final GetTokenStatsUseCase statsUc;
 
   AiCoachNotifier(this.useCase, this.statsUc) : super(AiCoachState()) {
-    _loadInitialStats();
+    loadInitialStats();
   }
 
   /// Initial load of stats to show before the first interaction.
   /// Builds an "empty" AiCoachResponse with only token values.
-  Future<void> _loadInitialStats() async {
+  Future<void> loadInitialStats() async {
+    log('loadInitialStats');
     try {
       final stats = await statsUc();
 

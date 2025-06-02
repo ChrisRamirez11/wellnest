@@ -49,6 +49,7 @@ class _TokensUsageWidgetState extends ConsumerState<TokensUsageWidget> {
 
     // If there is no data yet, show placeholder
     if (data == null) {
+      ref.watch(aiCoachNotifierProvider.notifier).loadInitialStats();
       return const LinearProgressIndicator();
     }
 
