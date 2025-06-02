@@ -238,4 +238,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get close => 'Cerrar';
+
+  @override
+  String get endRoutine => 'Finalizar Rutina';
+
+  @override
+  String get selectEndDate => 'Seleccionar Fecha de Fin';
 }

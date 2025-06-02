@@ -869,7 +869,8 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   )),
                   inactiveTrackColor: Colors.black45,
                   title: Text(
-                    'End Routine', // You might want to localize this
+                    localization(context)
+                        .endRoutine, // You might want to localize this
                     style: textTheme(context).bodyLarge,
                   ),
                   value: _endDateActive,
@@ -931,7 +932,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                             },
                             text: _endAt != null
                                 ? DateFormat.yMMMd(locale).format(_endAt!)
-                                : 'Select End Date'), // You might want to localize this
+                                : localization(context).selectEndDate),
                       )
                     : SizedBox.shrink(),
                 _endDateActive

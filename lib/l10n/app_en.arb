@@ -306,5 +306,13 @@
     "close": "Close",
     "@close": {
         "description": "Close"
+    },
+    "endRoutine": "End Routine",
+    "@endRoutine": {
+        "description": "Text for the 'End Routine' switch"
+    },
+    "selectEndDate": "Select End Date",
+    "@selectEndDate": {
+        "description": "Text for the button to select an end date"
     }
 }

@@ -238,4 +238,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get close => 'Fermer';
+
+  @override
+  String get endRoutine => 'Terminer la Routine';
+
+  @override
+  String get selectEndDate => 'Sélectionner la Date de Fin';
 }

@@ -560,6 +560,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get close;
+
+  /// Text for the 'End Routine' switch
+  ///
+  /// In en, this message translates to:
+  /// **'End Routine'**
+  String get endRoutine;
+
+  /// Text for the button to select an end date
+  ///
+  /// In en, this message translates to:
+  /// **'Select End Date'**
+  String get selectEndDate;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

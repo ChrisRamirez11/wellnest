@@ -238,4 +238,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get close => '閉じる';
+
+  @override
+  String get endRoutine => 'ルーティンを終了';
+
+  @override
+  String get selectEndDate => '終了日を選択';
 }
