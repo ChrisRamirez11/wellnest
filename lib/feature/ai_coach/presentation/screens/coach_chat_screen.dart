@@ -182,10 +182,10 @@ class _InfoDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final numberFormatter = NumberFormat("#,###", "en_US")..symbols.GROUP_SEP;
-    final inputUsed = numberFormatter.format(data!.inputUsedThisMonth);
-    final inputLimit = numberFormatter.format(data!.inputMonthlyLimit);
-    final outputUsed = numberFormatter.format(data!.outputUsedThisMonth);
-    final outputLimit = numberFormatter.format(data!.outputMonthlyLimit);
+    final inputUsed = numberFormatter.format(data?.inputUsedThisMonth ?? 0);
+    final inputLimit = numberFormatter.format(data?.inputMonthlyLimit ?? 0);
+    final outputUsed = numberFormatter.format(data?.outputUsedThisMonth ?? 0);
+    final outputLimit = numberFormatter.format(data?.outputMonthlyLimit ?? 0);
 
     return AlertDialog(
       backgroundColor: Colors.grey.shade900,
