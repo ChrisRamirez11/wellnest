@@ -193,16 +193,16 @@ class _InfoDialog extends StatelessWidget {
         localization(context).tokenUsageTitle,
         style: textTheme(context).bodyLarge,
       ),
-      content: data != null
-          ? Column(
+      content:  Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
+                data != null
+          ? Text(
                   "${localization(context).tokenUsageInput}: $inputUsed / $inputLimit\n"
                   "${localization(context).tokenUsageOutput}: $outputUsed / $outputLimit",
                   style: textTheme(context).labelMedium,
-                ),
+                ): SizedBox(),
                 const SizedBox(height: 16),
                 RichText(
                   text: TextSpan(
@@ -221,33 +221,13 @@ class _InfoDialog extends StatelessWidget {
                   ),
                 ),
               ],
-            )
-          : const _AwaitingDataWidget(),
+            ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: Text(localization(context).close, style: textTheme(context).bodyMedium,),
         ),
       ],
-    );
-  }
-}
-
-// Widget shown while waiting for data
-class _AwaitingDataWidget extends StatelessWidget {
-  const _AwaitingDataWidget();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Center(child: CircularProgressIndicator()),
-        ],
-      ),
     );
   }
 }
