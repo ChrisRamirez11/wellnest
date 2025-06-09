@@ -353,6 +353,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   color: colorScheme(context).surfaceContainerLow,
                 ),
                 child: CustomBorderButton(
+                  borderWidth: 0,
                     radius: 15,
                     onClick: () => _showAmountPicker(context),
                     color: primary.withAlpha(150),
@@ -375,6 +376,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   color: colorScheme(context).surfaceContainerLow,
                 ),
                 child: CustomBorderButton(
+                  borderWidth: 0,
                   radius: 15,
                   color: primary.withAlpha(150),
                   onClick: () => _showTimePicker(context),
