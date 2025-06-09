@@ -23,6 +23,7 @@ import 'package:wellnest/feature/routines/data/models/routine_model.dart';
 import 'package:wellnest/feature/routines/presentation/providers/color_provider.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/feature/routines/presentation/widgets/color_selector_tile.dart';
+import 'package:wellnest/feature/routines/presentation/widgets/custom_border_button.dart';
 import 'package:wellnest/feature/routines/presentation/widgets/custom_text_field.dart';
 import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
 
@@ -346,12 +347,18 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               width: double.infinity,
-              child: CustomButton(
-                  radius: 15,
-                  onClick: () => _showAmountPicker(context),
-                  color: primary.withAlpha(150),
-                  text:
-                      '${_targetController.text}${int.tryParse(_targetController.text) == 1 ? ' ${localization(context).time}' : ' ${localization(context).times}'}'),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: colorScheme(context).surfaceContainerLow,
+                ),
+                child: CustomBorderButton(
+                    radius: 15,
+                    onClick: () => _showAmountPicker(context),
+                    color: primary.withAlpha(150),
+                    text:
+                        '${_targetController.text}${int.tryParse(_targetController.text) == 1 ? ' ${localization(context).time}' : ' ${localization(context).times}'}'),
+              ),
             ),
           ],
         );
@@ -362,11 +369,17 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               width: double.infinity,
-              child: CustomButton(
-                radius: 15,
-                color: primary.withAlpha(150),
-                onClick: () => _showTimePicker(context),
-                text: formatDuration(int.parse(_targetController.text)),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: colorScheme(context).surfaceContainerLow,
+                ),
+                child: CustomBorderButton(
+                  radius: 15,
+                  color: primary.withAlpha(150),
+                  onClick: () => _showTimePicker(context),
+                  text: formatDuration(int.parse(_targetController.text)),
+                ),
               ),
             ),
           ],
@@ -792,15 +805,17 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
             child: Column(
               children: [
                 SwitchListTile(
-                  thumbIcon: WidgetStatePropertyAll(Icon(
-                    _alarmActive
-                        ? Icons.notifications_active
-                        : Icons.notifications_off,
-                  )),
+                  // thumbIcon: WidgetStatePropertyAll(Icon(
+                  //   _alarmActive
+                  //       ? Icons.notifications_active
+                  //       : Icons.notifications_off,
+                  // )),
                   inactiveTrackColor: Colors.black45,
                   title: Text(
                     localization(context).remindHabit,
-                    style: textTheme(context).bodyLarge,
+                    style: textTheme(context)
+                        .bodyLarge!
+                        .copyWith(color: Colors.grey.shade400),
                   ),
                   value: _alarmActive,
                   onChanged: (value) async {
@@ -826,7 +841,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                 _alarmActive
                     ? SizedBox(
                         width: size(context).width * 0.8,
-                        child: CustomButton(
+                        child: CustomBorderButton(
                             color: primary.withAlpha(150),
                             radius: 10,
                             onClick: () async {
@@ -864,14 +879,16 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                     : SizedBox.shrink(),
                 // New SwitchListTile for End Date
                 SwitchListTile(
-                  thumbIcon: WidgetStatePropertyAll(Icon(
-                    _endDateActive ? Icons.event_available : Icons.event_busy,
-                  )),
+                  // thumbIcon: WidgetStatePropertyAll(Icon(
+                  //   _endDateActive ? Icons.event_available : Icons.event_busy,
+                  // )),
                   inactiveTrackColor: Colors.black45,
                   title: Text(
                     localization(context)
                         .endRoutine, // You might want to localize this
-                    style: textTheme(context).bodyLarge,
+                    style: textTheme(context)
+                        .bodyLarge!
+                        .copyWith(color: Colors.grey.shade400),
                   ),
                   value: _endDateActive,
                   onChanged: (value) async {
@@ -903,7 +920,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                 _endDateActive
                     ? SizedBox(
                         width: size(context).width * 0.8,
-                        child: CustomButton(
+                        child: CustomBorderButton(
                             color: primary.withAlpha(150),
                             radius: 10,
                             onClick: () async {
