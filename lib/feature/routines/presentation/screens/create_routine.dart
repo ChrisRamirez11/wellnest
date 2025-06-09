@@ -808,7 +808,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                       _alarmActive = value;
                     });
                     if (value) {
-                      await Future.delayed(Duration(milliseconds: 250));
+                      await Future.delayed(Duration(milliseconds: 50));
                       WidgetsBinding.instance.addPostFrameCallback(
                         (_) {
                           if (_scrollController.hasClients) {
@@ -885,7 +885,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                       }
                     });
                     if (value) {
-                      await Future.delayed(Duration(milliseconds: 250));
+                      await Future.delayed(Duration(milliseconds: 50));
                       WidgetsBinding.instance.addPostFrameCallback(
                         (_) {
                           if (_scrollController.hasClients) {
