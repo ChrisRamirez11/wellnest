@@ -7,7 +7,6 @@ import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/get_translated_error_message.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/ai_coach/business/entity/ai_coach_prompt.dart';
-import 'package:wellnest/feature/ai_coach/business/entity/ai_coach_response.dart';
 import 'package:wellnest/feature/ai_coach/business/entity/chat_message_entity.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/ai_coach_provider/ai_coach_state.dart';
 import 'package:wellnest/feature/ai_coach/presentation/provider/last_prompt_provider.dart';
@@ -74,7 +73,6 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
     final notifier = ref.read(aiCoachNotifierProvider.notifier);
     final selectedTimeRange = ref.watch(selectedTimeRangeProvider);
     final language = ref.watch(localeProvider).locale;
-    final data = state.data;
 
     // Scroll to bottom if user is near the bottom
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -106,7 +104,7 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
                 showDialog(
                   context: context,
                   builder: (ctx) {
-                    return _InfoDialog(data: data);
+                    return _InfoDialog();
                   },
                 );
               },
@@ -172,15 +170,14 @@ class _CoachChatScreenState extends ConsumerState<CoachChatScreen> {
   }
 }
 
-class _InfoDialog extends StatelessWidget {
-  const _InfoDialog({
-    required this.data,
-  });
-
-  final AiCoachResponse? data;
+class _InfoDialog extends ConsumerWidget {
+  const _InfoDialog();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(aiCoachNotifierProvider);
+    final data = state.data;
+
     final numberFormatter = NumberFormat("#,###", "en_US")..symbols.GROUP_SEP;
     final inputUsed = numberFormatter.format(data?.inputUsedThisMonth ?? 0);
     final inputLimit = numberFormatter.format(data?.inputMonthlyLimit ?? 0);
@@ -193,39 +190,41 @@ class _InfoDialog extends StatelessWidget {
         localization(context).tokenUsageTitle,
         style: textTheme(context).bodyLarge,
       ),
-      content:  Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "${localization(context).tokenUsageInput}: $inputUsed / $inputLimit\n"
+            "${localization(context).tokenUsageOutput}: $outputUsed / $outputLimit",
+            style: textTheme(context).labelMedium,
+          ),
+          const SizedBox(height: 16),
+          RichText(
+            text: TextSpan(
+              style: TextStyle(color: Colors.white),
               children: [
-                data != null
-          ? Text(
-                  "${localization(context).tokenUsageInput}: $inputUsed / $inputLimit\n"
-                  "${localization(context).tokenUsageOutput}: $outputUsed / $outputLimit",
+                TextSpan(
+                  text: '${localization(context).tokenUsageTitleExplanation}:'
+                      "\n",
+                  style: textTheme(context).bodyMedium,
+                ),
+                TextSpan(
+                  text: localization(context).tokenUsageExplanation,
                   style: textTheme(context).labelMedium,
-                ): SizedBox(),
-                const SizedBox(height: 16),
-                RichText(
-                  text: TextSpan(
-                    style: TextStyle(color: Colors.white),
-                    children: [
-                      TextSpan(
-                        text: '${localization(context).tokenUsageTitleExplanation}:'"\n",
-                        style: textTheme(context).bodyMedium,
-                      ),
-                      TextSpan(
-                        text:
-                            localization(context).tokenUsageExplanation,
-                        style: textTheme(context).labelMedium,
-                      ),
-                    ],
-                  ),
                 ),
               ],
             ),
+          ),
+        ],
+      ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(localization(context).close, style: textTheme(context).bodyMedium,),
+          child: Text(
+            localization(context).close,
+            style: textTheme(context).bodyMedium,
+          ),
         ),
       ],
     );

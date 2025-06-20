@@ -47,20 +47,24 @@ class _TokensUsageWidgetState extends ConsumerState<TokensUsageWidget> {
     final state = ref.watch(aiCoachNotifierProvider);
     final data = state.data;
 
+    final inputUsed = data?.inputUsedThisMonth ?? 0;
+    final inputLimit = data?.inputMonthlyLimit ?? 0;
+    final outputUsed = data?.outputUsedThisMonth ?? 0;
+    final outputLimit = data?.outputMonthlyLimit ?? 0;
+
     // If there is no data yet, show placeholder
     if (data == null) {
       ref.watch(aiCoachNotifierProvider.notifier).loadInitialStats();
-      return const LinearProgressIndicator();
     }
 
     // Select values according to the current mode
     final used = (_viewMode == TokenViewMode.input
-            ? data.inputUsedThisMonth
-            : data.outputUsedThisMonth)
+            ? inputUsed
+            : outputUsed)
         .toDouble();
     final limit = (_viewMode == TokenViewMode.input
-            ? data.inputMonthlyLimit
-            : data.outputMonthlyLimit)
+            ? inputLimit
+            : outputLimit)
         .toDouble();
     final percentage = limit > 0 ? (used / limit).clamp(0.0, 1.0) : 0.0;
     final color = _getProgressColor(percentage, context);
@@ -96,8 +100,8 @@ class _TokensUsageWidgetState extends ConsumerState<TokensUsageWidget> {
     );
   }
 
-  Widget _buildContent(
-      double used, double limit, double percentage, Color color, TokenViewMode mode) {
+  Widget _buildContent(double used, double limit, double percentage,
+      Color color, TokenViewMode mode) {
     return Column(
       key: ValueKey(mode),
       children: [
