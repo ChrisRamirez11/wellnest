@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:wellnest/core/global_providers/locale_provider.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
-import 'package:wellnest/core/widgets/custom_app_bar.dart';
+import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
 import 'package:wellnest/feature/flutter_heatmap_calendar/src/widget/custom_fab_location.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'data/heatmap_color_mode.dart';
@@ -154,6 +156,37 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
   DateTime? _currentDate;
   bool _showReturnToToday = false;
 
+  bool visible = true;
+  late double height;
+  late double width;
+
+  void _toggleCalendarVisibility() {
+    setState(() {
+      height = !visible
+          ? MediaQuery.of(context).orientation == Orientation.portrait
+              ? size(context).width * .8
+              : size(context).width * .4
+          : 0;
+      width = !visible
+          ? MediaQuery.of(context).orientation == Orientation.portrait
+              ? size(context).width
+              : size(context).width * .45
+          : 0;
+      visible = !visible;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    height = MediaQuery.of(context).orientation == Orientation.portrait
+        ? size(context).width * .8
+        : size(context).width * .4;
+    width = MediaQuery.of(context).orientation == Orientation.portrait
+        ? size(context).width
+        : size(context).width * .45;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -270,9 +303,12 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
 
   @override
   Widget build(BuildContext context) {
+    final selectedDate =
+        ref.watch(currentSelectedDateProvider).currentSelectedDate;
+    final locale = ref.watch(localeProvider).locale?.languageCode;
     return Scaffold(
-      appBar: CustomAppBar(
-        actionsList: [
+      appBar: AppBar(
+        actions: [
           Container(
             margin: EdgeInsets.only(right: 15),
             height: 40,
@@ -297,7 +333,26 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
             ),
           )
         ],
-        titleString: localization(context).calendar.toUpperCase(),
+        title: GestureDetector(
+          onTap: _toggleCalendarVisibility,
+          child: Row(
+            spacing: 5,
+            children: [
+              Text(
+                  visible
+                      ? localization(context).calendar.toUpperCase()
+                      : DateFormat.yMMMd(locale)
+                          .format(selectedDate)
+                          .toUpperCase(),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, color: secondary)),
+              Icon(
+                !visible ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
+                color: Colors.grey.shade400,
+              )
+            ],
+          ),
+        ),
       ),
       floatingActionButton: getFab(),
       floatingActionButtonLocation:
@@ -307,17 +362,10 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
         primary: true,
         child: Column(
           children: [
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? size(context).width * .8
-                        : size(context).width * .4,
-                maxWidth:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? size(context).width
-                        : size(context).width * .45,
-              ),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              height: height,
+              width: width,
               child: FittedBox(
                 fit: BoxFit.fill,
                 child: Padding(
@@ -363,8 +411,10 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
             ),
             ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxHeight: MediaQuery.sizeOf(context).height *
-                      .48, //By setting this to max everything is slideable like an all
+                  maxHeight: visible
+                      ? MediaQuery.sizeOf(context).height * .48
+                      : double
+                          .infinity, //By setting this to max everything is slideable like an all
                   minHeight: MediaQuery.sizeOf(context).height * .2,
                   maxWidth: MediaQuery.sizeOf(context).width,
                 ),
