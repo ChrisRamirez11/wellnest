@@ -95,6 +95,14 @@ class UserPreferences {
     return _prefs.getBool('firstOpening') ?? true;
   }
 
+  set calendarVisibility(bool value) {
+    _prefs.setBool('calendarVisibility', value);
+  }
+
+  bool get calendarVisibility {
+    return _prefs.getBool('calendarVisibility') ?? true;
+  }
+
   set locale(String? value) {
     _prefs.setString('locale', value!);
   }

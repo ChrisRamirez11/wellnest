@@ -5,6 +5,7 @@ import 'package:wellnest/core/global_providers/locale_provider.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
+import 'package:wellnest/feature/calendar/presentation/providers/calendar_visibility_provider.dart';
 import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
 import 'package:wellnest/feature/flutter_heatmap_calendar/src/widget/custom_fab_location.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
@@ -156,35 +157,43 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
   DateTime? _currentDate;
   bool _showReturnToToday = false;
 
-  bool visible = true;
   late double height;
   late double width;
 
-  void _toggleCalendarVisibility() {
-    setState(() {
-      height = !visible
-          ? MediaQuery.of(context).orientation == Orientation.portrait
-              ? size(context).width * .8
-              : size(context).width * .4
-          : 0;
-      width = !visible
-          ? MediaQuery.of(context).orientation == Orientation.portrait
-              ? size(context).width
-              : size(context).width * .45
-          : 0;
-      visible = !visible;
-    });
+  ({double height, double width}) _calculateDimensions(
+      BuildContext context, bool visible) {
+    if (!visible) return (height: 0, width: 0);
+
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
+    return (
+      height:
+          isPortrait ? size(context).width * 0.8 : size(context).width * 0.4,
+      width: isPortrait ? size(context).width : size(context).width * 0.45,
+    );
+  }
+
+  void _toggleCalendarVisibility(bool visible, void Function() fun) {
+    if (context.mounted) {
+      setState(() {
+        final dimensions = _calculateDimensions(context, !visible);
+        height = dimensions.height;
+        width = dimensions.width;
+        fun();
+      });
+    }
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    height = MediaQuery.of(context).orientation == Orientation.portrait
-        ? size(context).width * .8
-        : size(context).width * .4;
-    width = MediaQuery.of(context).orientation == Orientation.portrait
-        ? size(context).width
-        : size(context).width * .45;
+    if (context.mounted) {
+      final visible = ref.watch(calendarVisibilityProvider);
+      final dimensions = _calculateDimensions(context, visible);
+      height = dimensions.height;
+      width = dimensions.width;
+    }
   }
 
   @override
@@ -306,6 +315,11 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
     final selectedDate =
         ref.watch(currentSelectedDateProvider).currentSelectedDate;
     final locale = ref.watch(localeProvider).locale?.languageCode;
+
+    //Calendar Visibility
+    final visibleNotifier = ref.read(calendarVisibilityProvider.notifier);
+    final visible = ref.watch(calendarVisibilityProvider);
+
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -334,7 +348,8 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
           )
         ],
         title: GestureDetector(
-          onTap: _toggleCalendarVisibility,
+          onTap: () => _toggleCalendarVisibility(
+              visible, visibleNotifier.toggleVisibility),
           child: Row(
             spacing: 5,
             children: [
