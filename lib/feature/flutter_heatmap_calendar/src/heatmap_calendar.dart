@@ -347,27 +347,8 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
             ),
           )
         ],
-        title: GestureDetector(
-          onTap: () => _toggleCalendarVisibility(
-              visible, visibleNotifier.toggleVisibility),
-          child: Row(
-            spacing: 5,
-            children: [
-              Text(
-                  visible
-                      ? localization(context).calendar.toUpperCase()
-                      : DateFormat.yMMMd(locale)
-                          .format(selectedDate)
-                          .toUpperCase(),
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, color: secondary)),
-              Icon(
-                !visible ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
-                color: Colors.grey.shade400,
-              )
-            ],
-          ),
-        ),
+        title: appBarTitleWidget(
+            visible, visibleNotifier, context, locale, selectedDate),
       ),
       floatingActionButton: getFab(),
       floatingActionButtonLocation:
@@ -438,6 +419,48 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
         ),
       ),
     );
+  }
+
+  GestureDetector appBarTitleWidget(
+      bool visible,
+      CalendarVisibilityProvider visibleNotifier,
+      BuildContext context,
+      String? locale,
+      DateTime selectedDate) {
+    return GestureDetector(
+        onTap: () => _toggleCalendarVisibility(
+            visible, visibleNotifier.toggleVisibility),
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          transitionBuilder: (Widget child, Animation<double> animation) {
+            return ScaleTransition(
+              scale: animation,
+              child: child,
+            );
+          },
+          child: Row(
+            spacing: 5,
+            key: ValueKey<bool>(visible),
+            children: [
+              Text(
+                visible
+                    ? localization(context).calendar.toUpperCase()
+                    : DateFormat.yMMMd(locale)
+                        .format(selectedDate)
+                        .toUpperCase(),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: secondary,
+                ),
+              ),
+              Icon(
+                visible ? Icons.keyboard_arrow_down : Icons.arrow_forward_ios,
+                size: visible ? 25 : 15,
+                color: Colors.grey.shade400,
+              ),
+            ],
+          ),
+        ));
   }
 
   Widget getFab() {
