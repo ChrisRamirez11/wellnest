@@ -8,7 +8,7 @@ class SelectRoutinesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedCategory = ref.watch(selectedCategoryProvider);
-    final selectedRoutineIds = ref.watch(selectedRoutinesProvider);
+    final selectedRoutineName = ref.watch(selectedRoutinesProvider);
 
     if (selectedCategory == null) {
       return Center(child: Text('No category selected'));
@@ -19,20 +19,24 @@ class SelectRoutinesScreen extends ConsumerWidget {
         itemCount: selectedCategory.routines.length,
         itemBuilder: (context, index) {
           final routine = selectedCategory.routines[index];
-          final isSelected = selectedRoutineIds.contains(routine.id);
+          final isSelected = selectedRoutineName.contains(routine.name);
 
           return ListTile(
             title: Text(routine.name),
             trailing: Icon(
               isSelected ? Icons.check_circle : Icons.radio_button_unchecked,
-              color: isSelected ? Theme.of(context).colorScheme.primary : Colors.grey,
+              color: isSelected
+                  ? Theme.of(context).colorScheme.primary
+                  : Colors.grey,
             ),
             onTap: () {
               final notifier = ref.read(selectedRoutinesProvider.notifier);
               if (isSelected) {
-                notifier.state = selectedRoutineIds.where((id) => id != routine.id).toList();
+                notifier.state = selectedRoutineName
+                    .where((name) => name != routine.name)
+                    .toList();
               } else {
-                notifier.state = [...selectedRoutineIds, routine.id];
+                notifier.state = [...selectedRoutineName, routine.name];
               }
             },
           );
@@ -41,4 +45,3 @@ class SelectRoutinesScreen extends ConsumerWidget {
     );
   }
 }
-

@@ -16,5 +16,5 @@ final categoriesProvider = FutureProvider<List<RoutineCategory>>((ref) async {
 final selectedCategoryProvider = StateProvider<RoutineCategory?>((ref) => null);
 
 
-final selectedRoutinesProvider = StateProvider<List<int?>>((ref) => []);
+final selectedRoutinesProvider = StateProvider<List<String?>>((ref) => []);
 
