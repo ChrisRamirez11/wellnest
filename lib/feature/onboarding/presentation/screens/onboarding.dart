@@ -53,14 +53,15 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final List<Widget> pages = [
       OnboardingPageOne(),
       OnboardingPageTwo(),
-      SelectCategoriesScreen(onCategorySelected: (category) {
-        ref.read(selectedCategoryProvider.notifier).state = category;
-      }),
-      SelectRoutinesScreen(),
+      // SelectCategoriesScreen(onCategorySelected: (category) {
+      //   ref.read(selectedCategoryProvider.notifier).state = category;
+      // }),
+      // SelectRoutinesScreen(),
     ];
 
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
         leadingWidth: 50,
         actions: [SizedBox(width: 50)],
         centerTitle: true,
@@ -107,7 +108,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 // when FINISH is hitted, is when it understands the first step of the app was succesful
                 ref.watch(firstTimeOpening).appOpened();
                 showPaywall();
-                Navigator.of(context).pushReplacementNamed('/');
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/',
+                  (route) => false,
+                );
               },
               text: localization(context).finish.toUpperCase()),
     );

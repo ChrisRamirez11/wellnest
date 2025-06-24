@@ -8,7 +8,7 @@ class SelectRoutinesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedCategory = ref.watch(selectedCategoryProvider);
-    final selectedRoutineName = ref.watch(selectedRoutinesProvider);
+    final selectedRoutineNames = ref.watch(selectedRoutinesProvider);
 
     if (selectedCategory == null) {
       return Center(child: Text('No category selected'));
@@ -19,7 +19,7 @@ class SelectRoutinesScreen extends ConsumerWidget {
         itemCount: selectedCategory.routines.length,
         itemBuilder: (context, index) {
           final routine = selectedCategory.routines[index];
-          final isSelected = selectedRoutineName.contains(routine.name);
+          final isSelected = selectedRoutineNames.contains(routine.name);
 
           return ListTile(
             title: Text(routine.name),
@@ -32,11 +32,11 @@ class SelectRoutinesScreen extends ConsumerWidget {
             onTap: () {
               final notifier = ref.read(selectedRoutinesProvider.notifier);
               if (isSelected) {
-                notifier.state = selectedRoutineName
+                notifier.state = selectedRoutineNames
                     .where((name) => name != routine.name)
                     .toList();
               } else {
-                notifier.state = [...selectedRoutineName, routine.name];
+                notifier.state = [...selectedRoutineNames, routine.name];
               }
             },
           );
