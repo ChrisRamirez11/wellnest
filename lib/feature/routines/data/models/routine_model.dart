@@ -7,6 +7,8 @@ import 'package:wellnest/feature/routines/business/entity/routine_entity.dart';
 
 part 'routine_model.g.dart';
 
+final now = DateTime.now();
+
 @collection
 class RoutineModel {
   Id? id;
@@ -78,7 +80,10 @@ class RoutineModel {
       name: map['name'] as String,
       days: List<bool>.from(map['days'] as List),
       finished: map['finished'] as bool,
-      createdDate: DateTime.parse(map['createdDate'] as String),
+      createdDate: map['createdDate'] != null &&
+              (map['createdDate'] as String).isNotEmpty
+          ? DateTime.parse(map['createdDate'] as String)
+          : DateTime(now.year, now.month, now.day),
       colorValue: map['colorValue'] as int? ?? Colors.blue.value,
       type: RoutineType.values
           .byName(map['type'] as String? ?? RoutineType.task.name)

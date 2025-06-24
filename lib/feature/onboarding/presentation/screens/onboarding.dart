@@ -7,6 +7,9 @@ import 'package:wellnest/core/widgets/custom_button.dart';
 import 'package:wellnest/feature/onboarding/presentation/provider/first_app_opening.dart';
 import 'package:wellnest/feature/onboarding/presentation/widgets/onboarding_page_one.dart';
 import 'package:wellnest/feature/onboarding/presentation/widgets/onboarding_page_two.dart';
+import 'package:wellnest/feature/onboarding/presentation/widgets/select_category_screen.dart';
+import 'package:wellnest/feature/onboarding/presentation/widgets/select_routines_screen.dart';
+import 'package:wellnest/feature/routines/presentation/providers/categories_provider.dart';
 
 import '../../../../core/theme/theme.dart';
 
@@ -22,8 +25,6 @@ class OnboardingScreen extends ConsumerStatefulWidget {
 class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final PageController _controller = PageController();
   int _currentPageIndex = 0;
-
-  final List<Widget> _pages = [OnboardingPageOne(), OnboardingPageTwo()];
 
   @override
   void initState() {
@@ -49,16 +50,21 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> pages = [
+      OnboardingPageOne(),
+      OnboardingPageTwo(),
+      SelectCategoriesScreen(onCategorySelected: (category) {
+        ref.read(selectedCategoryProvider.notifier).state = category;
+      }),
+      SelectRoutinesScreen(),
+    ];
+
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar(backgroundColor: Colors.transparent,
         leadingWidth: 50,
-        actions: [
-          SizedBox(
-            width: 50,
-          )
-        ],
+        actions: [SizedBox(width: 50)],
         centerTitle: true,
-        title: _buildProgressIndicator(),
+        title: _buildProgressIndicator(pages.length),
         leading: _currentPageIndex > 0
             ? IconButton(
                 icon: const Icon(Icons.arrow_back_ios),
@@ -71,21 +77,21 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               )
             : SizedBox(),
       ),
-      bottomNavigationBar: getButtons(context),
+      bottomNavigationBar: getButtons(context, pages.length),
       body: PageView(
         controller: _controller,
         physics: const NeverScrollableScrollPhysics(),
-        children: _pages,
+        children: pages,
       ),
     );
   }
 
-  Padding getButtons(BuildContext context) {
+  Padding getButtons(BuildContext context, int totalPages) {
     return Padding(
       padding: const EdgeInsets.all(15),
-      child: _currentPageIndex != (_pages.length - 1)
+      child: _currentPageIndex != (totalPages - 1)
           ? CustomButton(
-              color: colorScheme(context).primaryContainer,
+              color: Colors.blue,
               textColor: ghostWhite,
               onClick: () {
                 _controller.nextPage(
@@ -93,33 +99,32 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   curve: Curves.easeIn,
                 );
               },
-              text: localization(context).next)
+              text: localization(context).next.toUpperCase())
           : CustomButton(
-              color: colorScheme(context).primaryContainer,
+              color: Colors.blue,
               textColor: ghostWhite,
               onClick: () {
                 // when FINISH is hitted, is when it understands the first step of the app was succesful
                 ref.watch(firstTimeOpening).appOpened();
                 showPaywall();
-
                 Navigator.of(context).pushReplacementNamed('/');
               },
               text: localization(context).finish.toUpperCase()),
     );
   }
 
-  Widget _buildProgressIndicator() {
+  Widget _buildProgressIndicator(int totalPages) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
-        _pages.length,
+        totalPages,
         (index) => Expanded(
           child: Container(
             height: 4,
             margin: const EdgeInsets.symmetric(horizontal: 4),
             decoration: BoxDecoration(
               color: _currentPageIndex == index
-                  ? primary
+                  ? Colors.blue.shade400
                   : Colors.grey.withValues(alpha: 0.4),
               borderRadius: BorderRadius.circular(2),
             ),
