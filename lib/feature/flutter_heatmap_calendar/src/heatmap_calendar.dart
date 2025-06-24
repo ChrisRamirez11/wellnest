@@ -322,6 +322,10 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
 
     return Scaffold(
       appBar: AppBar(
+        foregroundColor: secondary,
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         actions: [
           Container(
             margin: EdgeInsets.only(right: 15),

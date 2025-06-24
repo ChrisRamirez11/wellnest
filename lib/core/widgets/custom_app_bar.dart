@@ -8,6 +8,9 @@ class CustomAppBar extends AppBar {
   CustomAppBar({super.key, required this.titleString, this.actionsList, this.leadingWidget})
       : super(
           foregroundColor: secondary,
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
           title: titleWidget(titleString),
           actions: actionsList,
           leading: leadingWidget
