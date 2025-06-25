@@ -6,7 +6,7 @@ import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
 
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
-import 'package:wellnest/feature/calendar/presentation/widgets/routine_tile.dart';
+import 'package:wellnest/feature/calendar/presentation/widgets/small_routine_tile.dart';
 
 const indentSize = 20.0;
 

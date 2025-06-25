@@ -9,7 +9,6 @@ import 'package:wellnest/feature/onboarding/presentation/widgets/onboarding_page
 import 'package:wellnest/feature/onboarding/presentation/widgets/onboarding_page_two.dart';
 import 'package:wellnest/feature/onboarding/presentation/widgets/select_category_screen.dart';
 import 'package:wellnest/feature/onboarding/presentation/widgets/select_routines_screen.dart';
-import 'package:wellnest/feature/routines/presentation/providers/categories_provider.dart';
 
 import '../../../../core/theme/theme.dart';
 
@@ -53,10 +52,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final List<Widget> pages = [
       OnboardingPageOne(),
       OnboardingPageTwo(),
-      // SelectCategoriesScreen(onCategorySelected: (category) {
-      //   ref.read(selectedCategoryProvider.notifier).state = category;
-      // }),
-      // SelectRoutinesScreen(),
+      SelectCategoriesScreen(),
+      SelectRoutinesScreen(),
     ];
 
     return Scaffold(
