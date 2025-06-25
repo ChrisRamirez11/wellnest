@@ -4,11 +4,13 @@ import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/utils/show_paywall.dart';
 import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
+import 'package:wellnest/feature/onboarding/presentation/provider/categories_provider.dart';
 import 'package:wellnest/feature/onboarding/presentation/provider/first_app_opening.dart';
 import 'package:wellnest/feature/onboarding/presentation/widgets/onboarding_page_one.dart';
 import 'package:wellnest/feature/onboarding/presentation/widgets/onboarding_page_two.dart';
 import 'package:wellnest/feature/onboarding/presentation/widgets/select_category_screen.dart';
 import 'package:wellnest/feature/onboarding/presentation/widgets/select_routines_screen.dart';
+import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 
 import '../../../../core/theme/theme.dart';
 
@@ -101,14 +103,34 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           : CustomButton(
               color: Colors.blue,
               textColor: ghostWhite,
-              onClick: () {
+              onClick: () async {
                 // when FINISH is hitted, is when it understands the first step of the app was succesful
                 ref.watch(firstTimeOpening).appOpened();
+
+                // Inserts the default selected routines
+                final routinesList = (ref
+                            .watch(selectedCategoryProvider.notifier)
+                            .state
+                            ?.routines ??
+                        [])
+                    .where(
+                      (routine) => ref.watch(selectedRoutinesProvider).any(
+                            (name) => name!.contains(routine.name),
+                          ),
+                    )
+                    .toList();
+
+                await ref
+                    .watch(routineProvider)
+                    .upsertAllRoutines(routinesList);
+
                 showPaywall();
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/',
-                  (route) => false,
-                );
+                if (context.mounted) {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/',
+                    (route) => false,
+                  );
+                }
               },
               text: localization(context).finish.toUpperCase()),
     );
