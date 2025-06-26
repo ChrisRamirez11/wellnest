@@ -294,10 +294,11 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   }
 
   Widget _buildTypeButton(RoutineType type, String label, IconData icon) {
+    final colorNotifier = ref.watch(colorProvider);
     final isSelected = _selectedType == type;
     return CustomButton(
         icon: Icon(icon, color: isSelected ? secondary : Colors.grey.shade600),
-        color: isSelected ? primary.withAlpha(150) : null,
+        color: isSelected ? colorNotifier.color.withAlpha(150) : null,
         textColor: isSelected ? secondary : Colors.grey.shade600,
         radius: 10,
         onClick: () {
@@ -339,6 +340,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   }
 
   Widget _buildTargetInput() {
+    final colorNotifier = ref.watch(colorProvider);
     switch (_selectedType) {
       case RoutineType.amount:
         return Column(
@@ -353,10 +355,10 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   color: colorScheme(context).surfaceContainerLow,
                 ),
                 child: CustomBorderButton(
-                  borderWidth: 0,
+                    borderWidth: 0,
                     radius: 15,
                     onClick: () => _showAmountPicker(context),
-                    color: primary.withAlpha(150),
+                    color: colorNotifier.color.withAlpha(150),
                     text:
                         '${_targetController.text}${int.tryParse(_targetController.text) == 1 ? ' ${localization(context).time}' : ' ${localization(context).times}'}'),
               ),
@@ -378,7 +380,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                 child: CustomBorderButton(
                   borderWidth: 0,
                   radius: 15,
-                  color: primary.withAlpha(150),
+                  color: colorNotifier.color.withAlpha(150),
                   onClick: () => _showTimePicker(context),
                   text: formatDuration(int.parse(_targetController.text)),
                 ),
@@ -392,6 +394,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   }
 
   void _showAmountPicker(BuildContext context) {
+    final colorNotifier = ref.watch(colorProvider);
     int currentValue = int.tryParse(_targetController.text) ?? 1;
 
     showModalBottomSheet(
@@ -429,7 +432,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: CustomButton(
-                  color: primary.withAlpha(150),
+                  color: colorNotifier.color.withAlpha(150),
                   textColor: secondary,
                   text: 'Confirm',
                   onClick: () {
@@ -450,6 +453,8 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   }
 
   void _showTimePicker(BuildContext context) {
+    final colorNotifier = ref.watch(colorProvider);
+
     int totalSeconds = int.tryParse(_targetController.text) ?? 0;
     int hours = totalSeconds ~/ 3600;
     int minutes = (totalSeconds % 3600) ~/ 60;
@@ -532,7 +537,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: CustomButton(
-                  color: primary.withAlpha(150),
+                  color: colorNotifier.color.withAlpha(150),
                   textColor: secondary,
                   text: 'Confirm',
                   onClick: () {
@@ -554,6 +559,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   }
 
   Widget weekDays(BuildContext context) {
+    final colorNotifier = ref.watch(colorProvider);
     return FittedBox(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15),
@@ -575,7 +581,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: _days[index]
-                        ? primary.withAlpha(150)
+                        ? colorNotifier.color.withAlpha(150)
                         : Colors.transparent,
                   ),
                   child: Center(
@@ -600,7 +606,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: CustomButton(
-          color: primary,
+          color: colorNotifier.color,
           text: localization(context).save.toUpperCase(),
           onClick: !loading
               ? () async {
@@ -759,6 +765,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
   }
 
   Widget getAdvancedSettings() {
+    final colorNotifier = ref.watch(colorProvider);
     final locale = ref.watch(localeProvider).locale?.languageCode;
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -788,11 +795,13 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
         trailing: isExpanded
             ? Transform.rotate(
                 angle: 90 * (pi / 180),
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 18,
-                ))
-            : Icon(Icons.arrow_forward_ios, size: 18),
+                child: Icon(Icons.arrow_forward_ios,
+                    size: 18, color: colorNotifier.color))
+            : Icon(
+                Icons.arrow_forward_ios,
+                size: 18,
+                color: colorNotifier.color,
+              ),
         title: Text(
           localization(context).advancedSettings,
           style: textTheme(context)
@@ -813,6 +822,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   //       : Icons.notifications_off,
                   // )),
                   inactiveTrackColor: Colors.black45,
+                  activeColor: colorNotifier.color,
                   title: Text(
                     localization(context).remindHabit,
                     style: textTheme(context)
@@ -844,7 +854,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                     ? SizedBox(
                         width: size(context).width * 0.8,
                         child: CustomBorderButton(
-                            color: primary.withAlpha(150),
+                            color: colorNotifier.color.withAlpha(150),
                             radius: 10,
                             onClick: () async {
                               final time = await showTimePicker(
@@ -885,6 +895,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   //   _endDateActive ? Icons.event_available : Icons.event_busy,
                   // )),
                   inactiveTrackColor: Colors.black45,
+                  activeColor: colorNotifier.color,
                   title: Text(
                     localization(context)
                         .endRoutine, // You might want to localize this
@@ -923,7 +934,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                     ? SizedBox(
                         width: size(context).width * 0.8,
                         child: CustomBorderButton(
-                            color: primary.withAlpha(150),
+                            color: colorNotifier.color.withAlpha(150),
                             radius: 10,
                             onClick: () async {
                               final selectedDate = await showDatePicker(
