@@ -244,4 +244,112 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get selectEndDate => '終了日を選択';
+
+  @override
+  String get health => '健康とフィットネス';
+
+  @override
+  String get productivity => '生産性と集中力';
+
+  @override
+  String get mental_wellness => 'メンタルウェルネスとマインドフルネス';
+
+  @override
+  String get personal_growth => '自己成長と学習';
+
+  @override
+  String get organization => '整理とライフスタイル';
+
+  @override
+  String get long_term_goals => '長期的な目標と責任';
+
+  @override
+  String get drinking_water => '水をもっと飲む';
+
+  @override
+  String get daily_exercise => '毎日の運動（ジム、ヨガ、ランニング）';
+
+  @override
+  String get stretching => 'ストレッチや可動性ルーティン';
+
+  @override
+  String get medication => '薬/サプリメントの服用';
+
+  @override
+  String get meal_tracking => '食事またはマクロの追跡';
+
+  @override
+  String get pomodoro => 'ポモドーロテクニックのセッション';
+
+  @override
+  String get todo_completion => '毎日のToDoリストの完了';
+
+  @override
+  String get social_media_limit => 'SNSの利用制限';
+
+  @override
+  String get skill_learning => 'スキルの学習（コーディング、言語など）';
+
+  @override
+  String get planning_rituals => '朝/夜の計画ルーティン';
+
+  @override
+  String get meditation => '瞑想または呼吸法';
+
+  @override
+  String get journaling => 'ジャーナリング（感謝、振り返り）';
+
+  @override
+  String get therapy => 'セラピーまたは気分の追跡';
+
+  @override
+  String get digital_detox => 'デジタルデトックスの時間';
+
+  @override
+  String get boundaries => '境界線の設定（断る、オフラインになる）';
+
+  @override
+  String get reading => '本/記事を読む';
+
+  @override
+  String get hobby_practice => '趣味の練習（音楽、アート、執筆）';
+
+  @override
+  String get podcasts => 'ポッドキャスト/教育コンテンツを聴く';
+
+  @override
+  String get networking => 'ネットワーキングまたは意図的な交流';
+
+  @override
+  String get public_speaking => 'スピーチの練習';
+
+  @override
+  String get making_bed => '毎日ベッドを整える';
+
+  @override
+  String get cleaning => '週次の掃除/整理';
+
+  @override
+  String get budgeting => '予算管理または支出追跡';
+
+  @override
+  String get meal_prep => '食事の準備';
+
+  @override
+  String get decluttering => '片付け（例：1日1アイテム）';
+
+  @override
+  String get saving_money => '貯金（毎日/週々の振替）';
+
+  @override
+  String get career_development => 'キャリア開発（コース、ネットワーキング）';
+
+  @override
+  String get creative_projects => 'クリエイティブプロジェクト（執筆、制作）';
+
+  @override
+  String get sustainability => 'サステナビリティ習慣（リサイクル、廃棄物削減）';
+
+  @override
+  String get relationships => '人間関係の構築（家族/友人に電話）';
 }

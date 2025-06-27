@@ -314,5 +314,149 @@
     "selectEndDate": "Select End Date",
     "@selectEndDate": {
         "description": "Text for the button to select an end date"
+    },
+    "health": "Health & Fitness",
+    "@health": {
+        "description": "Physical well-being, movement, and body care"
+    },
+    "productivity": "Productivity & Focus",
+    "@productivity": {
+        "description": "Work, study, and efficiency habits"
+    },
+    "mental_wellness": "Mental Wellness & Mindfulness",
+    "@mental_wellness": {
+        "description": "Emotional balance and self-care"
+    },
+    "personal_growth": "Personal Growth & Learning",
+    "@personal_growth": {
+        "description": "Self-improvement and knowledge-building"
+    },
+    "organization": "Organization & Lifestyle",
+    "@organization": {
+        "description": "Daily structure and environment"
+    },
+    "long_term_goals": "Long-Term Goals & Accountability",
+    "@long_term_goals": {
+        "description": "Big-picture aspirations broken into habits"
+    },
+    "drinking_water": "Drinking more water",
+    "@drinking_water": {
+        "description": "Track daily water intake"
+    },
+    "daily_exercise": "Daily exercise (gym, yoga, running)",
+    "@daily_exercise": {
+        "description": "Physical activity routine"
+    },
+    "stretching": "Stretching or mobility routines",
+    "@stretching": {
+        "description": "Flexibility exercises"
+    },
+    "medication": "Taking medication/vitamins",
+    "@medication": {
+        "description": "Daily medication tracking"
+    },
+    "meal_tracking": "Tracking meals or macros",
+    "@meal_tracking": {
+        "description": "Nutrition monitoring"
+    },
+    "pomodoro": "Pomodoro technique sessions",
+    "@pomodoro": {
+        "description": "Focused work intervals"
+    },
+    "todo_completion": "Daily to-do list completion",
+    "@todo_completion": {
+        "description": "Task accomplishment tracking"
+    },
+    "social_media_limit": "Limiting social media use",
+    "@social_media_limit": {
+        "description": "Screen time management"
+    },
+    "skill_learning": "Learning a skill (coding, language, etc.)",
+    "@skill_learning": {
+        "description": "Skill development sessions"
+    },
+    "planning_rituals": "Morning/evening planning rituals",
+    "@planning_rituals": {
+        "description": "Daily planning routine"
+    },
+    "meditation": "Meditation or breathwork",
+    "@meditation": {
+        "description": "Mindfulness practice"
+    },
+    "journaling": "Journaling (gratitude, reflections)",
+    "@journaling": {
+        "description": "Daily writing practice"
+    },
+    "therapy": "Therapy or mood tracking",
+    "@therapy": {
+        "description": "Mental health tracking"
+    },
+    "digital_detox": "Digital detox periods",
+    "@digital_detox": {
+        "description": "Tech-free time"
+    },
+    "boundaries": "Setting boundaries (saying no, unplugging)",
+    "@boundaries": {
+        "description": "Personal limit setting"
+    },
+    "reading": "Reading books/articles",
+    "@reading": {
+        "description": "Daily reading habit"
+    },
+    "hobby_practice": "Practicing a hobby (music, art, writing)",
+    "@hobby_practice": {
+        "description": "Creative activity time"
+    },
+    "podcasts": "Listening to podcasts/educational content",
+    "@podcasts": {
+        "description": "Learning through audio"
+    },
+    "networking": "Networking or socializing intentionally",
+    "@networking": {
+        "description": "Social connection"
+    },
+    "public_speaking": "Public speaking practice",
+    "@public_speaking": {
+        "description": "Communication skills development"
+    },
+    "making_bed": "Making the bed daily",
+    "@making_bed": {
+        "description": "Morning routine starter"
+    },
+    "cleaning": "Weekly cleaning/deep organizing",
+    "@cleaning": {
+        "description": "Home maintenance"
+    },
+    "budgeting": "Budgeting or expense tracking",
+    "@budgeting": {
+        "description": "Financial management"
+    },
+    "meal_prep": "Meal prepping",
+    "@meal_prep": {
+        "description": "Food preparation"
+    },
+    "decluttering": "Decluttering (e.g., 1 item per day)",
+    "@decluttering": {
+        "description": "Space organization"
+    },
+    "saving_money": "Saving money (daily/weekly transfers)",
+    "@saving_money": {
+        "description": "Financial goal"
+    },
+    "career_development": "Career development (courses, networking)",
+    "@career_development": {
+        "description": "Professional growth"
+    },
+    "creative_projects": "Creative projects (writing, building something)",
+    "@creative_projects": {
+        "description": "Project work"
+    },
+    "sustainability": "Sustainability habits (recycling, reducing waste)",
+    "@sustainability": {
+        "description": "Eco-friendly practices"
+    },
+    "relationships": "Relationship-building (calling family/friends)",
+    "@relationships": {
+        "description": "Social connections"
     }
 }

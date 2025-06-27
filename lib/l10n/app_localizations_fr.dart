@@ -244,4 +244,112 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get selectEndDate => 'Sélectionner la Date de Fin';
+
+  @override
+  String get health => 'Santé et Fitness';
+
+  @override
+  String get productivity => 'Productivité et Concentration';
+
+  @override
+  String get mental_wellness => 'Bien-être Mental et Pleine Conscience';
+
+  @override
+  String get personal_growth => 'Développement Personnel et Apprentissage';
+
+  @override
+  String get organization => 'Organisation et Mode de Vie';
+
+  @override
+  String get long_term_goals => 'Objectifs à Long Terme et Responsabilisation';
+
+  @override
+  String get drinking_water => 'Boire plus d\'eau';
+
+  @override
+  String get daily_exercise => 'Exercice quotidien (gym, yoga, course)';
+
+  @override
+  String get stretching => 'Étirements ou routines de mobilité';
+
+  @override
+  String get medication => 'Prendre des médicaments/vitamines';
+
+  @override
+  String get meal_tracking => 'Suivi des repas ou macros';
+
+  @override
+  String get pomodoro => 'Sessions de technique Pomodoro';
+
+  @override
+  String get todo_completion => 'Réalisation de la liste de tâches quotidiennes';
+
+  @override
+  String get social_media_limit => 'Limiter l\'utilisation des réseaux sociaux';
+
+  @override
+  String get skill_learning => 'Apprendre une compétence (codage, langue, etc.)';
+
+  @override
+  String get planning_rituals => 'Rituels de planification matin/soir';
+
+  @override
+  String get meditation => 'Méditation ou exercices de respiration';
+
+  @override
+  String get journaling => 'Journal (gratitude, réflexions)';
+
+  @override
+  String get therapy => 'Thérapie ou suivi de l\'humeur';
+
+  @override
+  String get digital_detox => 'Périodes de détox numérique';
+
+  @override
+  String get boundaries => 'Fixer des limites (dire non, se déconnecter)';
+
+  @override
+  String get reading => 'Lire des livres/articles';
+
+  @override
+  String get hobby_practice => 'Pratiquer un passe-temps (musique, art, écriture)';
+
+  @override
+  String get podcasts => 'Écouter des podcasts/contenu éducatif';
+
+  @override
+  String get networking => 'Réseautage ou socialisation intentionnelle';
+
+  @override
+  String get public_speaking => 'Pratique de la prise de parole en public';
+
+  @override
+  String get making_bed => 'Faire son lit quotidiennement';
+
+  @override
+  String get cleaning => 'Nettoyage/organisation hebdomadaire';
+
+  @override
+  String get budgeting => 'Budget ou suivi des dépenses';
+
+  @override
+  String get meal_prep => 'Préparation des repas';
+
+  @override
+  String get decluttering => 'Désencombrement (ex: 1 objet par jour)';
+
+  @override
+  String get saving_money => 'Économiser (transferts quotidiens/hebdomadaires)';
+
+  @override
+  String get career_development => 'Développement professionnel (cours, réseautage)';
+
+  @override
+  String get creative_projects => 'Projets créatifs (écriture, construction)';
+
+  @override
+  String get sustainability => 'Habitudes durables (recyclage, réduction des déchets)';
+
+  @override
+  String get relationships => 'Construire des relations (appeler famille/amis)';
 }

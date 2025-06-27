@@ -244,4 +244,112 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectEndDate => 'Select End Date';
+
+  @override
+  String get health => 'Health & Fitness';
+
+  @override
+  String get productivity => 'Productivity & Focus';
+
+  @override
+  String get mental_wellness => 'Mental Wellness & Mindfulness';
+
+  @override
+  String get personal_growth => 'Personal Growth & Learning';
+
+  @override
+  String get organization => 'Organization & Lifestyle';
+
+  @override
+  String get long_term_goals => 'Long-Term Goals & Accountability';
+
+  @override
+  String get drinking_water => 'Drinking more water';
+
+  @override
+  String get daily_exercise => 'Daily exercise (gym, yoga, running)';
+
+  @override
+  String get stretching => 'Stretching or mobility routines';
+
+  @override
+  String get medication => 'Taking medication/vitamins';
+
+  @override
+  String get meal_tracking => 'Tracking meals or macros';
+
+  @override
+  String get pomodoro => 'Pomodoro technique sessions';
+
+  @override
+  String get todo_completion => 'Daily to-do list completion';
+
+  @override
+  String get social_media_limit => 'Limiting social media use';
+
+  @override
+  String get skill_learning => 'Learning a skill (coding, language, etc.)';
+
+  @override
+  String get planning_rituals => 'Morning/evening planning rituals';
+
+  @override
+  String get meditation => 'Meditation or breathwork';
+
+  @override
+  String get journaling => 'Journaling (gratitude, reflections)';
+
+  @override
+  String get therapy => 'Therapy or mood tracking';
+
+  @override
+  String get digital_detox => 'Digital detox periods';
+
+  @override
+  String get boundaries => 'Setting boundaries (saying no, unplugging)';
+
+  @override
+  String get reading => 'Reading books/articles';
+
+  @override
+  String get hobby_practice => 'Practicing a hobby (music, art, writing)';
+
+  @override
+  String get podcasts => 'Listening to podcasts/educational content';
+
+  @override
+  String get networking => 'Networking or socializing intentionally';
+
+  @override
+  String get public_speaking => 'Public speaking practice';
+
+  @override
+  String get making_bed => 'Making the bed daily';
+
+  @override
+  String get cleaning => 'Weekly cleaning/deep organizing';
+
+  @override
+  String get budgeting => 'Budgeting or expense tracking';
+
+  @override
+  String get meal_prep => 'Meal prepping';
+
+  @override
+  String get decluttering => 'Decluttering (e.g., 1 item per day)';
+
+  @override
+  String get saving_money => 'Saving money (daily/weekly transfers)';
+
+  @override
+  String get career_development => 'Career development (courses, networking)';
+
+  @override
+  String get creative_projects => 'Creative projects (writing, building something)';
+
+  @override
+  String get sustainability => 'Sustainability habits (recycling, reducing waste)';
+
+  @override
+  String get relationships => 'Relationship-building (calling family/friends)';
 }

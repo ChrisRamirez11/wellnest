@@ -1,17 +1,9 @@
-import 'dart:convert';
-
-import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:wellnest/feature/calendar/data/models/routine_category.dart';
+import 'package:wellnest/feature/routines/data/datasources/local/routine_category_list.dart';
 
 class DefaultOnboardingRoutines {
-    Future<List<RoutineCategory>> loadRoutines() async {
-    final jsonString = await rootBundle.loadString('assets/data/routines.json');
-    final Map<String, dynamic> jsonMap = json.decode(jsonString);
-
-    final categories = (jsonMap['categories'] as List)
-        .map((e) => RoutineCategory.fromJson(e))
-        .toList();
-
-    return categories;
+  List<RoutineCategory> loadRoutines(BuildContext context) {
+    return routineCategories(context);
   }
 }

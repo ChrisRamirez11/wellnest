@@ -8,9 +8,9 @@ final routineRepositoryProvider =
   return DefaultOnboardingRoutinesRepositoryImpl(DefaultOnboardingRoutines());
 });
 
-final categoriesProvider = FutureProvider<List<RoutineCategory>>((ref) async {
+final categoriesProvider = StateProvider<DefaultOnboardingRoutinesRepositoryImpl>((ref) {
   final repository = ref.watch(routineRepositoryProvider);
-  return repository.loadRoutines();
+  return repository;
 });
 
 final selectedCategoryProvider = StateProvider<RoutineCategory?>((ref) => null);

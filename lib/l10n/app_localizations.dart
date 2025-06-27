@@ -572,6 +572,222 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select End Date'**
   String get selectEndDate;
+
+  /// Physical well-being, movement, and body care
+  ///
+  /// In en, this message translates to:
+  /// **'Health & Fitness'**
+  String get health;
+
+  /// Work, study, and efficiency habits
+  ///
+  /// In en, this message translates to:
+  /// **'Productivity & Focus'**
+  String get productivity;
+
+  /// Emotional balance and self-care
+  ///
+  /// In en, this message translates to:
+  /// **'Mental Wellness & Mindfulness'**
+  String get mental_wellness;
+
+  /// Self-improvement and knowledge-building
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Growth & Learning'**
+  String get personal_growth;
+
+  /// Daily structure and environment
+  ///
+  /// In en, this message translates to:
+  /// **'Organization & Lifestyle'**
+  String get organization;
+
+  /// Big-picture aspirations broken into habits
+  ///
+  /// In en, this message translates to:
+  /// **'Long-Term Goals & Accountability'**
+  String get long_term_goals;
+
+  /// Track daily water intake
+  ///
+  /// In en, this message translates to:
+  /// **'Drinking more water'**
+  String get drinking_water;
+
+  /// Physical activity routine
+  ///
+  /// In en, this message translates to:
+  /// **'Daily exercise (gym, yoga, running)'**
+  String get daily_exercise;
+
+  /// Flexibility exercises
+  ///
+  /// In en, this message translates to:
+  /// **'Stretching or mobility routines'**
+  String get stretching;
+
+  /// Daily medication tracking
+  ///
+  /// In en, this message translates to:
+  /// **'Taking medication/vitamins'**
+  String get medication;
+
+  /// Nutrition monitoring
+  ///
+  /// In en, this message translates to:
+  /// **'Tracking meals or macros'**
+  String get meal_tracking;
+
+  /// Focused work intervals
+  ///
+  /// In en, this message translates to:
+  /// **'Pomodoro technique sessions'**
+  String get pomodoro;
+
+  /// Task accomplishment tracking
+  ///
+  /// In en, this message translates to:
+  /// **'Daily to-do list completion'**
+  String get todo_completion;
+
+  /// Screen time management
+  ///
+  /// In en, this message translates to:
+  /// **'Limiting social media use'**
+  String get social_media_limit;
+
+  /// Skill development sessions
+  ///
+  /// In en, this message translates to:
+  /// **'Learning a skill (coding, language, etc.)'**
+  String get skill_learning;
+
+  /// Daily planning routine
+  ///
+  /// In en, this message translates to:
+  /// **'Morning/evening planning rituals'**
+  String get planning_rituals;
+
+  /// Mindfulness practice
+  ///
+  /// In en, this message translates to:
+  /// **'Meditation or breathwork'**
+  String get meditation;
+
+  /// Daily writing practice
+  ///
+  /// In en, this message translates to:
+  /// **'Journaling (gratitude, reflections)'**
+  String get journaling;
+
+  /// Mental health tracking
+  ///
+  /// In en, this message translates to:
+  /// **'Therapy or mood tracking'**
+  String get therapy;
+
+  /// Tech-free time
+  ///
+  /// In en, this message translates to:
+  /// **'Digital detox periods'**
+  String get digital_detox;
+
+  /// Personal limit setting
+  ///
+  /// In en, this message translates to:
+  /// **'Setting boundaries (saying no, unplugging)'**
+  String get boundaries;
+
+  /// Daily reading habit
+  ///
+  /// In en, this message translates to:
+  /// **'Reading books/articles'**
+  String get reading;
+
+  /// Creative activity time
+  ///
+  /// In en, this message translates to:
+  /// **'Practicing a hobby (music, art, writing)'**
+  String get hobby_practice;
+
+  /// Learning through audio
+  ///
+  /// In en, this message translates to:
+  /// **'Listening to podcasts/educational content'**
+  String get podcasts;
+
+  /// Social connection
+  ///
+  /// In en, this message translates to:
+  /// **'Networking or socializing intentionally'**
+  String get networking;
+
+  /// Communication skills development
+  ///
+  /// In en, this message translates to:
+  /// **'Public speaking practice'**
+  String get public_speaking;
+
+  /// Morning routine starter
+  ///
+  /// In en, this message translates to:
+  /// **'Making the bed daily'**
+  String get making_bed;
+
+  /// Home maintenance
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly cleaning/deep organizing'**
+  String get cleaning;
+
+  /// Financial management
+  ///
+  /// In en, this message translates to:
+  /// **'Budgeting or expense tracking'**
+  String get budgeting;
+
+  /// Food preparation
+  ///
+  /// In en, this message translates to:
+  /// **'Meal prepping'**
+  String get meal_prep;
+
+  /// Space organization
+  ///
+  /// In en, this message translates to:
+  /// **'Decluttering (e.g., 1 item per day)'**
+  String get decluttering;
+
+  /// Financial goal
+  ///
+  /// In en, this message translates to:
+  /// **'Saving money (daily/weekly transfers)'**
+  String get saving_money;
+
+  /// Professional growth
+  ///
+  /// In en, this message translates to:
+  /// **'Career development (courses, networking)'**
+  String get career_development;
+
+  /// Project work
+  ///
+  /// In en, this message translates to:
+  /// **'Creative projects (writing, building something)'**
+  String get creative_projects;
+
+  /// Eco-friendly practices
+  ///
+  /// In en, this message translates to:
+  /// **'Sustainability habits (recycling, reducing waste)'**
+  String get sustainability;
+
+  /// Social connections
+  ///
+  /// In en, this message translates to:
+  /// **'Relationship-building (calling family/friends)'**
+  String get relationships;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
