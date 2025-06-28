@@ -3,14 +3,22 @@ import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/feature/calendar/data/models/routine_category.dart';
 import 'package:wellnest/feature/routines/data/models/routine_model.dart';
 
-
+class AppIcons {
+  static const IconData health = IconData(0xe28d, fontFamily: 'MaterialIcons');
+  static const IconData productivity = IconData(0xe6f2, fontFamily: 'MaterialIcons');
+  static const IconData mentalWellness = IconData(0xe56f, fontFamily: 'MaterialIcons');
+  static const IconData longTermGoals = IconData(0xe28e, fontFamily: 'MaterialIcons');
+  static const IconData organization = IconData(0xf06bb, fontFamily: 'MaterialIcons');
+  static const IconData personalGrowth = IconData(0xe559, fontFamily: 'MaterialIcons');
+  
+}
 
 List<RoutineCategory> routineCategories(BuildContext context) => [
   RoutineCategory(
     id: "health",
     name: localization(context).health,
     description: "Physical well-being, movement, and body care",
-    icon: "0xe28d",
+    icon: AppIcons.health,
     color: Color(0xFFFF6B6B),
     routines: [
       RoutineModel(
@@ -94,7 +102,7 @@ List<RoutineCategory> routineCategories(BuildContext context) => [
     id: "productivity",
     name: localization(context).productivity,
     description: "Work, study, and efficiency habits",
-    icon: "0xe6f2",
+    icon: AppIcons.productivity,
     color: Color(0xFF4ECDC4),
     routines: [
       RoutineModel(
@@ -178,7 +186,7 @@ List<RoutineCategory> routineCategories(BuildContext context) => [
     id: "mental_wellness",
     name: localization(context).mental_wellness,
     description: "Emotional balance and self-care",
-    icon: "0xe56f",
+    icon: AppIcons.mentalWellness,
     color: Color(0xFFFFD93D),
     routines: [
       RoutineModel(
@@ -262,7 +270,7 @@ List<RoutineCategory> routineCategories(BuildContext context) => [
     id: "personal_growth",
     name: localization(context).personal_growth,
     description: "Self-improvement and knowledge-building",
-    icon: "0xe559",
+    icon: AppIcons.personalGrowth,
     color: Color(0xFF7D5FFF),
     routines: [
       RoutineModel(
@@ -346,7 +354,7 @@ List<RoutineCategory> routineCategories(BuildContext context) => [
     id: "organization",
     name: localization(context).organization,
     description: "Daily structure and environment",
-    icon: "0xf06bb",
+    icon: AppIcons.organization,
     color: Color(0xFFFF9F1C),
     routines: [
       RoutineModel(
@@ -430,7 +438,7 @@ List<RoutineCategory> routineCategories(BuildContext context) => [
     id: "long_term_goals",
     name: localization(context).long_term_goals,
     description: "Big-picture aspirations broken into habits",
-    icon: "0xe28e",
+    icon: AppIcons.longTermGoals,
     color: Color(0xFFFF3F61),
     routines: [
       RoutineModel(

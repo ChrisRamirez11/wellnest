@@ -22,9 +22,9 @@ class _SelectCategoriesPageState extends ConsumerState<SelectCategoriesScreen> {
 
     return Scaffold(
         body: SingleChildScrollView(
-          child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
           SizedBox(
             height: 30,
           ),
@@ -55,7 +55,7 @@ class _SelectCategoriesPageState extends ConsumerState<SelectCategoriesScreen> {
             itemBuilder: (context, index) {
               final category = routineCategories[index];
               final isSelected = selectedIndex == index;
-          
+
               if (selectedIndex == null && routineCategories.isNotEmpty) {
                 final selectedCategory = ref.read(selectedCategoryProvider);
                 WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -70,7 +70,7 @@ class _SelectCategoriesPageState extends ConsumerState<SelectCategoriesScreen> {
                       routineCategories[selectedIndex ?? 0];
                 });
               }
-          
+
               return Card(
                 elevation: 2,
                 shape: RoundedRectangleBorder(
@@ -86,15 +86,15 @@ class _SelectCategoriesPageState extends ConsumerState<SelectCategoriesScreen> {
                     setState(() {
                       selectedIndex = index;
                     });
-                    ref.read(selectedCategoryProvider.notifier).state = category;
+                    ref.read(selectedCategoryProvider.notifier).state =
+                        category;
                   },
                   child: SizedBox(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          IconData(int.parse(category.icon),
-                              fontFamily: 'MaterialIcons'),
+                          category.icon,
                           size: 40,
                           color: isSelected ? ghostWhite : category.color,
                         ),
@@ -114,8 +114,8 @@ class _SelectCategoriesPageState extends ConsumerState<SelectCategoriesScreen> {
               );
             },
           ),
-                ],
-              ),
-        ));
+        ],
+      ),
+    ));
   }
 }

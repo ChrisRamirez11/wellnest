@@ -5,7 +5,7 @@ class RoutineCategory {
   final String id;
   final String name;
   final String description;
-  final String icon;
+  final IconData icon;
   final Color color;
   final List<RoutineModel> routines;
 
@@ -17,17 +17,4 @@ class RoutineCategory {
     required this.color,
     required this.routines,
   });
-
-  factory RoutineCategory.fromJson(Map<String, dynamic> json) {
-    return RoutineCategory(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      icon: json['icon'],
-      color: Color(int.parse(json['color'].substring(1, 7), radix: 16) + 0xFF000000),
-      routines: (json['routines'] as List)
-          .map((routine) => RoutineModel.fromMap(routine))
-          .toList(),
-    );
-  }
 }
