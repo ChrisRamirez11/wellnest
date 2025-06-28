@@ -111,6 +111,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sleepMessage => 'Choose the time you usually end your day.';
 
   @override
+  String get targetQuestion => 'What\'s your target?';
+
+  @override
+  String get targetMessage => 'Select a category to explore routines';
+
+  @override
+  String get selectRoutines => 'Select your routines';
+
+  @override
+  String get selectRoutinesMessage => 'You can always modify your selections later.';
+
+  @override
   String get morningNotiTitle => 'Good Morning';
 
   @override

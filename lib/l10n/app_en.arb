@@ -135,6 +135,22 @@
     "@sleepMessage": {
         "description": "Message for onboarding, page 2."
     },
+    "targetQuestion": "What's your target?",
+    "@targetQuestion": {
+        "description": "Question for onboarding, page 3, select category."
+    },
+    "targetMessage": "Select a category to explore routines",
+    "@targetMessage": {
+        "description": "Message for onboarding, page 3."
+    },
+    "selectRoutines": "Select your routines",
+    "@selectRoutines": {
+        "description": "Question for onboarding, page 4, select routines."
+    },
+    "selectRoutinesMessage": "You can always modify your selections later.",
+    "@selectRoutinesMessage": {
+        "description": "Message for onboarding, page 4."
+    },
     "morningNotiTitle": "Good Morning",
     "@morningNotiTitle": {
         "description": "Morning notification greeting"

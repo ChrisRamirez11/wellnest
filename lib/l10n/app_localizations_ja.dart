@@ -111,6 +111,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get sleepMessage => '一日を終える通常の時間を選んでください。';
 
   @override
+  String get targetQuestion => 'あなたの目標は何ですか？';
+
+  @override
+  String get targetMessage => 'ルーティンを探すためにカテゴリーを選択してください';
+
+  @override
+  String get selectRoutines => 'ルーティンを選択してください';
+
+  @override
+  String get selectRoutinesMessage => '後でいつでも選択を変更できます';
+
+  @override
   String get morningNotiTitle => 'おはようございます';
 
   @override

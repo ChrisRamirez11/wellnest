@@ -303,6 +303,30 @@ abstract class AppLocalizations {
   /// **'Choose the time you usually end your day.'**
   String get sleepMessage;
 
+  /// Question for onboarding, page 3, select category.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s your target?'**
+  String get targetQuestion;
+
+  /// Message for onboarding, page 3.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a category to explore routines'**
+  String get targetMessage;
+
+  /// Question for onboarding, page 4, select routines.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your routines'**
+  String get selectRoutines;
+
+  /// Message for onboarding, page 4.
+  ///
+  /// In en, this message translates to:
+  /// **'You can always modify your selections later.'**
+  String get selectRoutinesMessage;
+
   /// Morning notification greeting
   ///
   /// In en, this message translates to:

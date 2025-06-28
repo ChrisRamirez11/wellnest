@@ -6,10 +6,10 @@ import 'package:wellnest/core/utils/utils.dart';
 import 'package:wellnest/core/widgets/custom_button.dart';
 import 'package:wellnest/feature/onboarding/presentation/provider/categories_provider.dart';
 import 'package:wellnest/feature/onboarding/presentation/provider/first_app_opening.dart';
-import 'package:wellnest/feature/onboarding/presentation/widgets/onboarding_page_one.dart';
-import 'package:wellnest/feature/onboarding/presentation/widgets/onboarding_page_two.dart';
-import 'package:wellnest/feature/onboarding/presentation/widgets/select_category_screen.dart';
-import 'package:wellnest/feature/onboarding/presentation/widgets/select_routines_screen.dart';
+import 'package:wellnest/feature/onboarding/presentation/screens/onboarding_page_one.dart';
+import 'package:wellnest/feature/onboarding/presentation/screens/onboarding_page_two.dart';
+import 'package:wellnest/feature/onboarding/presentation/screens/select_category_screen.dart';
+import 'package:wellnest/feature/onboarding/presentation/screens/select_routines_screen.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 
 import '../../../../core/theme/theme.dart';
