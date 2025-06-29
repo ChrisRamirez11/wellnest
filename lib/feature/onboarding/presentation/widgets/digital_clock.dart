@@ -39,7 +39,7 @@ class _DigitalClockState extends State<DigitalClock>
               ),
               padding: const EdgeInsets.all(6),
               child: TweenAnimationBuilder<double>(
-                tween: Tween(begin: 0.95, end: 1.0),
+                tween: Tween(begin: 0.8, end: 1.0),
                 duration: const Duration(seconds: 1),
                 curve: Curves.easeInOut,
                 builder: (context, value, child) {

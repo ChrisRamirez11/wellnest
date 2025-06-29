@@ -2,7 +2,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:wellnest/core/global_providers/is_premium_user_provider.dart';
 import 'package:wellnest/core/global_providers/locale_provider.dart';
 import 'package:wellnest/feature/ai_coach/presentation/screens/coach_chat_screen.dart';
-import 'package:wellnest/feature/onboarding/presentation/provider/first_app_opening.dart';
 import 'package:wellnest/feature/onboarding/presentation/screens/onboarding.dart';
 import 'package:wellnest/feature/routines/presentation/screens/routines_screen.dart';
 import 'package:wellnest/feature/settings/presentation/screens/subsettings/notifications_screen.dart';
@@ -107,7 +106,7 @@ class _MyAppState extends ConsumerState<MyApp> {
             .watch(localeProvider)
             .locale, // Use the locale from provider, if null, uses device language as default
         localizationsDelegates: AppLocalizations.localizationsDelegates,
-        initialRoute: ref.watch(firstTimeOpening).firstTimeOpening ? '/onboarding' : '/',
+        initialRoute: '/',
         routes: {
           '/': (context) => const Skeleton(),
           '/onboarding': (context) => OnboardingScreen(),

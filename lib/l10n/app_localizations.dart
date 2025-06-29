@@ -312,7 +312,7 @@ abstract class AppLocalizations {
   /// Message for onboarding, page 3.
   ///
   /// In en, this message translates to:
-  /// **'Select a category to explore routines'**
+  /// **'Select a category to explore routines.'**
   String get targetMessage;
 
   /// Question for onboarding, page 4, select routines.

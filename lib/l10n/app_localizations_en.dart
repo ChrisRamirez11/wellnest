@@ -114,7 +114,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get targetQuestion => 'What\'s your target?';
 
   @override
-  String get targetMessage => 'Select a category to explore routines';
+  String get targetMessage => 'Select a category to explore routines.';
 
   @override
   String get selectRoutines => 'Select your routines';

@@ -7,6 +7,8 @@ import 'package:wellnest/feature/ads/app_open_ad/app_lifecycle.dart';
 import 'package:wellnest/core/preferences/user_preferences.dart';
 import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
 import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
+import 'package:wellnest/feature/onboarding/presentation/provider/first_app_opening.dart';
+import 'package:wellnest/feature/onboarding/presentation/screens/onboarding.dart';
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/feature/settings/presentation/screens/settings_screen.dart';
 import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
@@ -70,6 +72,10 @@ class _SkeletonState extends ConsumerState<Skeleton> {
 
   @override
   Widget build(BuildContext context) {
+    if (ref.watch(firstTimeOpening).firstTimeOpening) {
+      return const OnboardingScreen();
+    }
+
     final index = ref.watch(indexProvider);
     return SafeArea(
         child: Scaffold(

@@ -139,7 +139,7 @@
     "@targetQuestion": {
         "description": "Question for onboarding, page 3, select category."
     },
-    "targetMessage": "Select a category to explore routines",
+    "targetMessage": "Select a category to explore routines.",
     "@targetMessage": {
         "description": "Message for onboarding, page 3."
     },
