@@ -358,69 +358,57 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
       floatingActionButtonLocation:
           CustomFABLocation(offset: Offset(15, -(size(context).height * .1))),
       floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
-      body: SingleChildScrollView(
-        primary: true,
-        child: Column(
-          children: [
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              height: height,
-              width: width,
-              child: FittedBox(
-                fit: BoxFit.fill,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: _intrinsicWidth(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        _header(),
-                        _weekLabel(),
-                        HeatMapCalendarPage(
-                          completionMap: widget.completionMap,
-                          currentSelectedDate: widget.currentSelectedDate,
-                          currentSelectedDateColor:
-                              widget.currentSelectedDateColor,
-                          baseDate: _currentDate ?? DateTime.now(),
+      body: Column(
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            height: height,
+            width: width,
+            child: FittedBox(
+              fit: BoxFit.fill,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: _intrinsicWidth(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      _header(),
+                      _weekLabel(),
+                      HeatMapCalendarPage(
+                        completionMap: widget.completionMap,
+                        currentSelectedDate: widget.currentSelectedDate,
+                        currentSelectedDateColor:
+                            widget.currentSelectedDateColor,
+                        baseDate: _currentDate ?? DateTime.now(),
+                        colorMode: widget.colorMode,
+                        flexible: widget.flexible,
+                        size: widget.size,
+                        fontSize: widget.fontSize,
+                        defaultColor: widget.defaultColor,
+                        textColor: widget.textColor,
+                        margin: widget.margin,
+                        datasets: widget.datasets,
+                        colorsets: widget.colorsets,
+                        borderRadius: widget.borderRadius,
+                        onClick: widget.onClick,
+                      ),
+                      if (widget.showColorTip == true)
+                        HeatMapColorTip(
                           colorMode: widget.colorMode,
-                          flexible: widget.flexible,
-                          size: widget.size,
-                          fontSize: widget.fontSize,
-                          defaultColor: widget.defaultColor,
-                          textColor: widget.textColor,
-                          margin: widget.margin,
-                          datasets: widget.datasets,
                           colorsets: widget.colorsets,
-                          borderRadius: widget.borderRadius,
-                          onClick: widget.onClick,
+                          leftWidget: widget.colorTipHelper?[0],
+                          rightWidget: widget.colorTipHelper?[1],
+                          containerCount: widget.colorTipCount,
+                          size: widget.colorTipSize,
                         ),
-                        if (widget.showColorTip == true)
-                          HeatMapColorTip(
-                            colorMode: widget.colorMode,
-                            colorsets: widget.colorsets,
-                            leftWidget: widget.colorTipHelper?[0],
-                            rightWidget: widget.colorTipHelper?[1],
-                            containerCount: widget.colorTipCount,
-                            size: widget.colorTipSize,
-                          ),
-                      ],
-                    ),
+                    ],
                   ),
                 ),
               ),
             ),
-            ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: visible
-                      ? MediaQuery.sizeOf(context).height * .48
-                      : double
-                          .infinity, //By setting this to max everything is slideable like an all
-                  minHeight: MediaQuery.sizeOf(context).height * .2,
-                  maxWidth: MediaQuery.sizeOf(context).width,
-                ),
-                child: widget.child ?? SizedBox.shrink())
-          ],
-        ),
+          ),
+          widget.child ?? SizedBox.shrink()
+        ],
       ),
     );
   }
