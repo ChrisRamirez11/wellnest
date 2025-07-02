@@ -407,7 +407,7 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
               ),
             ),
           ),
-          widget.child ?? SizedBox.shrink()
+          Expanded(child: widget.child ?? SizedBox.shrink())
         ],
       ),
     );
