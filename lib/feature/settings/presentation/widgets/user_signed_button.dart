@@ -7,6 +7,7 @@ import 'package:wellnest/core/widgets/custom_button.dart';
 import 'package:wellnest/feature/auth/data/models/profile_model.dart';
 import 'package:wellnest/feature/auth/presentation/riverpod/profile_provider.dart';
 import 'package:wellnest/feature/data_backup_restore/presentation/provider/data_provider.dart';
+import 'package:wellnest/feature/settings/presentation/providers/orange_icon_provider.dart';
 
 class UserSignedButton extends ConsumerStatefulWidget {
   const UserSignedButton({super.key});
@@ -24,6 +25,10 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
 
   @override
   Widget build(BuildContext context) {
+    final hasSeenOrangeIconNotifier = ref.watch(orangeIconProvider.notifier);
+    final hasSeenOrangeIconState =
+        ref.watch(orangeIconProvider.notifier).currentState;
+
     final profile = ref.watch(profileProvider).profile;
     final failure = ref.watch(profileProvider).failure;
     late Widget widget;
@@ -31,34 +36,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
     if (profile != null) {
       widget = InkWell(
         onTap: () async {
-          //shows the loading dialog
-          showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) => SimpleDialog(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              children: [
-                SizedBox(
-                  height: size(context).height * 0.09,
-                  width: size(context).width,
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              ],
-            ),
-          );
-
-          final dataNotifier = ref.read(dataProvider);
-          dataNotifier.setFailureToNull();
-          // Perform backup & restore //TODO add a no connection dialgog if the user is offline
-          await dataNotifier.backupRestore(ref, context);
-
-          //closes the dialog
-          if (context.mounted) {
-            Navigator.of(context).pop();
-          }
+          await _performSync(context);
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -97,7 +75,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                           profile.fullName,
                           style: textTheme(context).bodyLarge,
                         ),
-                        Icon(
+                        const Icon(
                           Icons.arrow_drop_down,
                           size: 25,
                         )
@@ -116,7 +94,40 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                       profile.email,
                       style: textTheme(context).bodyMedium,
                     )))),
-            trailing: const Icon(Icons.autorenew),
+            trailing: Tooltip(
+              message: 'Press to sync your data',
+              child: IconButton(
+                icon: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    const Icon(Icons.autorenew),
+                    if (!hasSeenOrangeIconState)
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        child: Container(
+                          width: 12,
+                          height: 12,
+                          decoration: BoxDecoration(
+                            color: Colors.orange,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              width: 2,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+                onPressed: () async {
+                  if (!hasSeenOrangeIconState) {
+                    hasSeenOrangeIconNotifier.setHasSeenOrangeIcon();
+                  }
+                  await _performSync(context);
+                },
+              ),
+            ),
           ),
         ),
       );
@@ -143,6 +154,53 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
       );
     }
     return widget;
+  }
+
+  Future<void> _performSync(BuildContext context) async {
+    //shows the loading dialog
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => SimpleDialog(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        children: [
+          SizedBox(
+            height: size(context).height * 0.09,
+            width: size(context).width,
+            child: const Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 8),
+                  Text('Syncing your data...'),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+
+    final dataNotifier = ref.read(dataProvider);
+    dataNotifier.setFailureToNull();
+    // Perform backup & restore
+    await dataNotifier.backupRestore(ref, context);
+
+    //closes the dialog
+    if (context.mounted) {
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Data synced successfully!',
+            style: textTheme(context).labelMedium,
+          ),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
   }
 
   Widget getLogOutBottomSheet(BuildContext context, ProfileModel profile) {
@@ -189,16 +247,17 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                         )))),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 1,
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               width: size(context).width,
               height: 50,
               child: CustomButton(
                 onClick: () async {
                   await ref.watch(profileProvider).signOut(context);
+                  ref.watch(orangeIconProvider.notifier).reset();
                   if (context.mounted) {
                     Navigator.of(context).pop();
                   }
@@ -208,7 +267,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               width: size(context).width,
               height: 50,
               child: CustomButton(
@@ -217,7 +276,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                 color: Colors.grey.shade600,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             )
           ],

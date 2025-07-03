@@ -95,6 +95,14 @@ class UserPreferences {
     return _prefs.getBool('firstOpening') ?? true;
   }
 
+    set hasSeenOrangeIcon(bool value) {
+    _prefs.setBool('hasSeenOrangeIcon', value);
+  }
+
+  bool get hasSeenOrangeIcon {
+    return _prefs.getBool('hasSeenOrangeIcon') ?? false;
+  }
+
   set calendarVisibility(bool value) {
     _prefs.setBool('calendarVisibility', value);
   }
