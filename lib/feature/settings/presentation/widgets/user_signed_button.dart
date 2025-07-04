@@ -25,7 +25,6 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
 
   @override
   Widget build(BuildContext context) {
-    final hasSeenOrangeIconNotifier = ref.watch(orangeIconProvider.notifier);
     final hasSeenOrangeIconState =
         ref.watch(orangeIconProvider.notifier).currentState;
 
@@ -34,99 +33,91 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
     late Widget widget;
 
     if (profile != null) {
-      widget = InkWell(
-        onTap: () async {
-          await _performSync(context);
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListTile(
-            minTileHeight: 70,
-            leading: CircleAvatar(
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: CachedNetworkImage(
-                    fadeInCurve: Curves.ease,
-                    fadeOutCurve: Curves.ease,
-                    imageUrl: profile.avatarUrl,
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.person_off),
-                  )),
-            ),
-            title: SizedBox(
-              height: 30,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: FittedBox(
-                  child: InkWell(
-                    onTap: () => showModalBottomSheet(
-                        backgroundColor: Colors.grey.shade900,
-                        useSafeArea: true,
-                        showDragHandle: true,
-                        constraints: BoxConstraints(
-                            maxHeight: size(context).height * .4),
-                        context: context,
-                        builder: (context) =>
-                            getLogOutBottomSheet(context, profile)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          profile.fullName,
-                          style: textTheme(context).bodyLarge,
-                        ),
-                        const Icon(
-                          Icons.arrow_drop_down,
-                          size: 25,
-                        )
-                      ],
-                    ),
+      widget = Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+          minTileHeight: 70,
+          leading: CircleAvatar(
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: CachedNetworkImage(
+                  fadeInCurve: Curves.ease,
+                  fadeOutCurve: Curves.ease,
+                  imageUrl: profile.avatarUrl,
+                  errorWidget: (context, url, error) =>
+                      const Icon(Icons.person_off),
+                )),
+          ),
+          title: SizedBox(
+            height: 30,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: FittedBox(
+                child: InkWell(
+                  onTap: () => showModalBottomSheet(
+                      backgroundColor: Colors.grey.shade900,
+                      useSafeArea: true,
+                      showDragHandle: true,
+                      constraints:
+                          BoxConstraints(maxHeight: size(context).height * .4),
+                      context: context,
+                      builder: (context) =>
+                          getLogOutBottomSheet(context, profile)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        profile.fullName,
+                        style: textTheme(context).bodyLarge,
+                      ),
+                      const Icon(
+                        Icons.arrow_drop_down,
+                        size: 25,
+                      )
+                    ],
                   ),
                 ),
               ),
             ),
-            subtitle: SizedBox(
-                height: 20,
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: FittedBox(
-                        child: Text(
-                      profile.email,
-                      style: textTheme(context).bodyMedium,
-                    )))),
-            trailing: Tooltip(
-              message: localization(context).syncTooltip,
-              child: IconButton(
-                icon: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const Icon(Icons.autorenew),
-                    if (!hasSeenOrangeIconState)
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        child: Container(
-                          width: 12,
-                          height: 12,
-                          decoration: BoxDecoration(
-                            color: Colors.orange,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              width: 2,
-                            ),
+          ),
+          subtitle: SizedBox(
+              height: 20,
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: FittedBox(
+                      child: Text(
+                    profile.email,
+                    style: textTheme(context).bodyMedium,
+                  )))),
+          trailing: Tooltip(
+            message: localization(context).syncTooltip,
+            child: IconButton(
+              icon: Stack(
+                alignment: Alignment.center,
+                children: [
+                  const Icon(Icons.autorenew),
+                  if (!hasSeenOrangeIconState)
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Container(
+                        width: 12,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          color: Colors.orange,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            width: 2,
                           ),
                         ),
                       ),
-                  ],
-                ),
-                onPressed: () async {
-                  if (!hasSeenOrangeIconState) {
-                    hasSeenOrangeIconNotifier.setHasSeenOrangeIcon();
-                  }
-                  await _performSync(context);
-                },
+                    ),
+                ],
               ),
+              onPressed: () async {
+                await _performSync(context);
+              },
             ),
           ),
         ),
@@ -182,6 +173,12 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
         ],
       ),
     );
+
+    final hasSeenOrangeIconNotifier = ref.watch(orangeIconProvider.notifier);
+    // Update the orange icon state
+    if (!hasSeenOrangeIconNotifier.currentState) {
+      hasSeenOrangeIconNotifier.setHasSeenOrangeIcon();
+    }
 
     final dataNotifier = ref.read(dataProvider);
     dataNotifier.setFailureToNull();
