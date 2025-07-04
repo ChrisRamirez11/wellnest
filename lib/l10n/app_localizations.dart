@@ -812,6 +812,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Relationship-building (calling family/friends)'**
   String get relationships;
+
+  /// Tooltip message
+  ///
+  /// In en, this message translates to:
+  /// **'Press to sync your data'**
+  String get syncTooltip;
+
+  /// Syncing data message
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing your data...'**
+  String get syncingData;
+
+  /// Data synced succesfully message
+  ///
+  /// In en, this message translates to:
+  /// **'Data synced successfully!'**
+  String get dataSynced;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

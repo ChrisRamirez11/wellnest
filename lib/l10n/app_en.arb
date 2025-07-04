@@ -474,5 +474,17 @@
     "relationships": "Relationship-building (calling family/friends)",
     "@relationships": {
         "description": "Social connections"
+    },
+    "syncTooltip": "Press to sync your data",
+    "@syncTooltip": {
+        "description": "Tooltip message"
+    },
+    "syncingData": "Syncing your data...",
+    "@syncingData": {
+        "description": "Syncing data message"
+    },
+    "dataSynced": "Data synced successfully!",
+    "@dataSynced": {
+        "description": "Data synced succesfully message"
     }
 }

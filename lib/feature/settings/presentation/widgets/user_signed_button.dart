@@ -95,7 +95,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                       style: textTheme(context).bodyMedium,
                     )))),
             trailing: Tooltip(
-              message: 'Press to sync your data',
+              message: localization(context).syncTooltip,
               child: IconButton(
                 icon: Stack(
                   alignment: Alignment.center,
@@ -168,13 +168,13 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
           SizedBox(
             height: size(context).height * 0.09,
             width: size(context).width,
-            child: const Center(
+            child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CircularProgressIndicator(),
                   SizedBox(height: 8),
-                  Text('Syncing your data...'),
+                  Text(localization(context).syncingData),
                 ],
               ),
             ),
@@ -194,7 +194,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Data synced successfully!',
+            localization(context).dataSynced,
             style: textTheme(context).labelMedium,
           ),
           duration: Duration(seconds: 2),

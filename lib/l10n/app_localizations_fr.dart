@@ -364,4 +364,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get relationships => 'Construire des relations (appeler famille/amis)';
+
+  @override
+  String get syncTooltip => 'Appuyez pour synchroniser vos données';
+
+  @override
+  String get syncingData => 'Synchronisation de vos données...';
+
+  @override
+  String get dataSynced => 'Données synchronisées avec succès !';
 }

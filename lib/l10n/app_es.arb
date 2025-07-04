@@ -117,5 +117,8 @@
     "career_development": "Desarrollo profesional (cursos, networking)",
     "creative_projects": "Proyectos creativos (escritura, construir algo)",
     "sustainability": "Hábitos sostenibles (reciclaje, reducir desperdicios)",
-    "relationships": "Construir relaciones (llamar a familia/amigos)"
+    "relationships": "Construir relaciones (llamar a familia/amigos)",
+    "syncTooltip": "Presiona para sincronizar tus datos",
+    "syncingData": "Sincronizando tus datos...",
+    "dataSynced": "¡Datos sincronizados correctamente!"
 }

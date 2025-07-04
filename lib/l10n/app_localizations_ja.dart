@@ -364,4 +364,13 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get relationships => '人間関係の構築（家族/友人に電話）';
+
+  @override
+  String get syncTooltip => 'データを同期するには押してください';
+
+  @override
+  String get syncingData => 'データを同期中...';
+
+  @override
+  String get dataSynced => 'データの同期が成功しました！';
 }

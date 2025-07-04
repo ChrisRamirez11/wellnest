@@ -117,5 +117,8 @@
     "career_development": "キャリア開発（コース、ネットワーキング）",
     "creative_projects": "クリエイティブプロジェクト（執筆、制作）",
     "sustainability": "サステナビリティ習慣（リサイクル、廃棄物削減）",
-    "relationships": "人間関係の構築（家族/友人に電話）"
+    "relationships": "人間関係の構築（家族/友人に電話）",
+    "syncTooltip": "データを同期するには押してください",
+    "syncingData": "データを同期中...",
+    "dataSynced": "データの同期が成功しました！"
 }
