@@ -159,6 +159,11 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
   }
 
   Widget backContainer() {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final date = ref.watch(currentSelectedDateProvider).currentSelectedDate;
+    final isBefore = date.isBefore(today);
+
     return Card(
       color: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -180,8 +185,7 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                   color: !flag
                       ? widget.routine.finished!
                           ? ghostWhite
-                          : ghostWhite.withAlpha(
-                              80) // Más transparente cuando está deshabilitado
+                          : ghostWhite.withAlpha(80)
                       : Colors.transparent,
                 ),
                 onPressed: !flag && widget.routine.finished!
@@ -189,8 +193,7 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                         final dateNotifier = ref.read(dateProvider);
                         await _undoRoutine(dateNotifier);
                         setState(() {
-                          flag =
-                              true; // Cierra el contenedor después de deshacer
+                          flag = true;
                         });
                       }
                     : null,
@@ -199,9 +202,9 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                 highlightColor: ghostWhite.withAlpha(100),
                 icon: Icon(
                   Icons.edit_square,
-                  color: !flag ? ghostWhite : Colors.transparent,
+                  color: !flag && !isBefore ? ghostWhite : ghostWhite.withAlpha(80),
                 ),
-                onPressed: !flag
+                onPressed: !flag && !isBefore
                     ? () {
                         Navigator.push(
                           context,
@@ -336,21 +339,14 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
   }
 
   Widget _getTrailing() {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final date = ref.watch(currentSelectedDateProvider).currentSelectedDate;
-    final isBefore = date.isBefore(today);
-
-    return isBefore
-        ? SizedBox.shrink()
-        : IconButton(
-            icon: const Icon(Icons.more_horiz, color: ghostWhite),
-            onPressed: () {
-              setState(() {
-                flag = !flag;
-              });
-            },
-          );
+    return IconButton(
+      icon: const Icon(Icons.more_horiz, color: ghostWhite),
+      onPressed: () {
+        setState(() {
+          flag = !flag;
+        });
+      },
+    );
   }
 
   Widget _buildProgressIndicator(DateProvider dateNotifier) {
