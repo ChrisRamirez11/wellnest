@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wellnest/core/consts/consts.dart';
 import 'package:wellnest/core/global_providers/is_premium_user_provider.dart';
 
-class PurchasesObserver implements AdaptyUIObserver {
+class PurchasesObserver implements AdaptyUIPaywallsEventsObserver {
   void Function(AdaptyError)? onAdaptyErrorOccurred;
   void Function(Object)? onUnknownErrorOccurred;
 
@@ -19,7 +19,8 @@ class PurchasesObserver implements AdaptyUIObserver {
   factory PurchasesObserver({WidgetRef? ref}) {
     if (ref != null) {
       if (_instance._initialized) {
-        debugPrint('[PurchasesObserver] Ya fue inicializado. Ignorando nuevo ref.');
+        debugPrint(
+            '[PurchasesObserver] Ya fue inicializado. Ignorando nuevo ref.');
       } else {
         _instance.ref = ref;
         _instance._initialized = true;
@@ -44,8 +45,7 @@ class PurchasesObserver implements AdaptyUIObserver {
 
       if (!isActivated) {
         await Adapty().activate(
-          configuration: AdaptyConfiguration(
-              apiKey: Consts.adaptyKey)
+          configuration: AdaptyConfiguration(apiKey: Consts.adaptyKey)
             ..withLogLevel(AdaptyLogLevel.error)
             ..withObserverMode(false)
             ..withCustomerUserId(null)
@@ -60,7 +60,7 @@ class PurchasesObserver implements AdaptyUIObserver {
         Adapty().setupAfterHotRestart();
       }
 
-      AdaptyUI().setObserver(this);
+      AdaptyUI().setPaywallsEventsObserver(this);
 
       await callGetPaywallForDefaultAudience('example_ab_test');
     } catch (e) {
@@ -85,7 +85,7 @@ class PurchasesObserver implements AdaptyUIObserver {
         ? 'assets/adapty/fallback_ios.json'
         : 'assets/adapty/fallback_android.json';
     return _withErrorHandling(() async {
-      await adapty.setFallbackPaywalls(assetId);
+      await adapty.setFallback(assetId);
     });
   }
 
@@ -220,7 +220,7 @@ class PurchasesObserver implements AdaptyUIObserver {
 
   @override
   void paywallViewDidPerformAction(
-      AdaptyUIView view, AdaptyUIAction action) async {
+      AdaptyUIPaywallView view, AdaptyUIAction action) async {
     debugPrint(
         '#Example# paywallViewDidPerformAction ${action.runtimeType} of $view');
 
@@ -255,19 +255,21 @@ class PurchasesObserver implements AdaptyUIObserver {
   }
 
   @override
-  void paywallViewDidFailLoadingProducts(AdaptyUIView view, AdaptyError error) {
+  void paywallViewDidFailLoadingProducts(
+      AdaptyUIPaywallView view, AdaptyError error) {
     debugPrint(
         '#Example# paywallViewDidFailLoadingProducts of $view, error = $error');
   }
 
   @override
-  void paywallViewDidFailRendering(AdaptyUIView view, AdaptyError error) {
+  void paywallViewDidFailRendering(
+      AdaptyUIPaywallView view, AdaptyError error) {
     debugPrint(
         '#Example# paywallViewDidFailRendering of $view, error = $error');
   }
 
   @override
-  Future<void> paywallViewDidFinishPurchase(AdaptyUIView view,
+  Future<void> paywallViewDidFinishPurchase(AdaptyUIPaywallView view,
       AdaptyPaywallProduct product, AdaptyPurchaseResult purchaseResult) async {
     debugPrint('#Example# paywallViewDidFinishPurchase of $view');
 
@@ -286,26 +288,27 @@ class PurchasesObserver implements AdaptyUIObserver {
   }
 
   @override
-  void paywallViewDidFailPurchase(
-      AdaptyUIView view, AdaptyPaywallProduct product, AdaptyError error) {
+  void paywallViewDidFailPurchase(AdaptyUIPaywallView view,
+      AdaptyPaywallProduct product, AdaptyError error) {
     debugPrint(
         '#Example# paywallViewDidFailPurchase ${product.vendorProductId} of $view, error = $error');
   }
 
   @override
-  void paywallViewDidStartRestore(AdaptyUIView view) {
+  void paywallViewDidStartRestore(AdaptyUIPaywallView view) {
     debugPrint('#Example# paywallViewDidStartRestore of $view');
   }
 
   @override
-  void paywallViewDidFinishRestore(AdaptyUIView view, AdaptyProfile profile) {
+  void paywallViewDidFinishRestore(
+      AdaptyUIPaywallView view, AdaptyProfile profile) {
     debugPrint('#Example# paywallViewDidFinishRestore of $view');
 
     _handleFinishRestore(view, profile);
   }
 
   Future<void> _handleFinishRestore(
-      AdaptyUIView view, AdaptyProfile profile) async {
+      AdaptyUIPaywallView view, AdaptyProfile profile) async {
     await view.showDialog(
       title: 'Success!',
       content: 'Purchases were successfully restored.',
@@ -319,7 +322,7 @@ class PurchasesObserver implements AdaptyUIObserver {
   }
 
   @override
-  void paywallViewDidFailRestore(AdaptyUIView view, AdaptyError error) {
+  void paywallViewDidFailRestore(AdaptyUIPaywallView view, AdaptyError error) {
     debugPrint('#Example# paywallViewDidFailRestore of $view, error = $error');
 
     view.showDialog(
@@ -330,14 +333,31 @@ class PurchasesObserver implements AdaptyUIObserver {
   }
 
   @override
-  void paywallViewDidSelectProduct(AdaptyUIView view, String productId) {
+  void paywallViewDidSelectProduct(AdaptyUIPaywallView view, String productId) {
     debugPrint('#Example# paywallViewDidSelectProduct $productId of $view');
   }
 
   @override
   void paywallViewDidStartPurchase(
-      AdaptyUIView view, AdaptyPaywallProduct product) {
+      AdaptyUIPaywallView view, AdaptyPaywallProduct product) {
     debugPrint(
         '#Example# paywallViewDidStartPurchase ${product.vendorProductId} of $view');
+  }
+
+  @override
+  void paywallViewDidAppear(AdaptyUIPaywallView view) {
+    debugPrint('#Example# paywallViewDidAppear of $view');
+  }
+
+  @override
+  void paywallViewDidDisappear(AdaptyUIPaywallView view) {
+    debugPrint('#Example# paywallViewDidDisappear of $view');
+  }
+
+  @override
+  void paywallViewDidFinishWebPaymentNavigation(AdaptyUIPaywallView view,
+      AdaptyPaywallProduct? product, AdaptyError? error) {
+    debugPrint(
+        '#Example# paywallViewDidFinishWebPaymentNavigation of $view, product = $product, error = $error');
   }
 }
