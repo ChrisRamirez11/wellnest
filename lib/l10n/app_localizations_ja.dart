@@ -90,13 +90,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get logOut => 'ログアウト';
 
   @override
-  String get wellnestWhatIs => 'Wellnestは、ウェルネスとメンタルヘルスを管理するアプリです。私たちの使命は、より健康で幸せな生活を送るためのツールを提供することです。';
+  String get wellnestWhatIs =>
+      'Wellnestは、ウェルネスとメンタルヘルスを管理するアプリです。私たちの使命は、より健康で幸せな生活を送るためのツールを提供することです。';
 
   @override
-  String get whoWeAre => '私たちは小さなチームですが、ユーザーに最高の体験を提供したいと思っています。あなたのフィードバックやアイデアは、私たちの革新の基盤です。Wellnestを使うだけでなく、その未来を共に形作っていただいているのです。';
+  String get whoWeAre =>
+      '私たちは小さなチームですが、ユーザーに最高の体験を提供したいと思っています。あなたのフィードバックやアイデアは、私たちの革新の基盤です。Wellnestを使うだけでなく、その未来を共に形作っていただいているのです。';
 
   @override
-  String get supportUsWithIdeas => 'Wellnestを改善するアイデアがありますか？アプリ内の提案ボックスからぜひお聞かせください！';
+  String get supportUsWithIdeas =>
+      'Wellnestを改善するアイデアがありますか？アプリ内の提案ボックスからぜひお聞かせください！';
 
   @override
   String get wakeUpQuestion => '普段何時に起きますか？';
@@ -204,7 +207,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get permissionRequired => '権限が必要です';
 
   @override
-  String get askUnrestrictedBattery => 'バックグラウンドでカウントダウンが正しく動作するように、アプリに無制限のバッテリー使用を許可してください。';
+  String get askUnrestrictedBattery =>
+      'バックグラウンドでカウントダウンが正しく動作するように、アプリに無制限のバッテリー使用を許可してください。';
 
   @override
   String get tokenLimitReachedError => 'トークンの上限に達しました。';
@@ -246,7 +250,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tokenUsageTitleExplanation => 'トークン使用の仕組み';
 
   @override
-  String get tokenUsageExplanation => 'Axio にメッセージを送信したり、返信を受け取ったりするたびに、トークンが使用されます。これは、入力を処理し、有意義な返答を生成するための処理量を表しています。\n\nこれらの制限により、体験を意図的かつ集中したものに保つことができます。いずれかの制限に達すると、次の月のサイクルが始まるまでコーチングが一時停止されます。\n\n「トークンはお金やポイントではありません。これは、どれだけ考えられるか、そしてどれだけ質問できるかということです。」\n— Axio';
+  String get tokenUsageExplanation =>
+      'Axio にメッセージを送信したり、返信を受け取ったりするたびに、トークンが使用されます。これは、入力を処理し、有意義な返答を生成するための処理量を表しています。\n\nこれらの制限により、体験を意図的かつ集中したものに保つことができます。いずれかの制限に達すると、次の月のサイクルが始まるまでコーチングが一時停止されます。\n\n「トークンはお金やポイントではありません。これは、どれだけ考えられるか、そしてどれだけ質問できるかということです。」\n— Axio';
 
   @override
   String get close => '閉じる';

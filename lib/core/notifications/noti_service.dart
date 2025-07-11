@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -100,7 +102,7 @@ class NotiService {
     final list = await notificationsPlugin.pendingNotificationRequests();
 
     for (var e in list) {
-      debugPrint('checkScheduledNotis for: ${e.body ?? 'xd'}');
+      log('checkScheduledNotis for: ${e.body ?? 'no body'}, ${e.id}');
     }
     return list;
   }

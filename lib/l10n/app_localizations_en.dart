@@ -78,7 +78,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteReoutineQuestion => 'Are you sure to delete this routine?';
 
   @override
-  String get deleteReoutineAwareness => 'Deleting this routine will simply remove it from your routines list.';
+  String get deleteReoutineAwareness =>
+      'Deleting this routine will simply remove it from your routines list.';
 
   @override
   String get cancel => 'Cancel';
@@ -90,13 +91,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logOut => 'Log Out';
 
   @override
-  String get wellnestWhatIs => 'Wellnest is an app designed to help you manage your wellness and personal growth. Our mission is to provide you with the tools and resources you need to live a healthier, happier life.';
+  String get wellnestWhatIs =>
+      'Wellnest is an app designed to help you manage your wellness and personal growth. Our mission is to provide you with the tools and resources you need to live a healthier, happier life.';
 
   @override
-  String get whoWeAre => 'We are a small team trying to give our users the best we can. Your feedback and ideas are the cornerstone of our innovation. By sharing your thoughts, you\'re not just using Wellnest – you\'re helping shape its future.';
+  String get whoWeAre =>
+      'We are a small team trying to give our users the best we can. Your feedback and ideas are the cornerstone of our innovation. By sharing your thoughts, you\'re not just using Wellnest – you\'re helping shape its future.';
 
   @override
-  String get supportUsWithIdeas => 'Have an idea to make Wellnest even better? We\'d love to hear from you! Reach out to us through our in-app suggestion box.';
+  String get supportUsWithIdeas =>
+      'Have an idea to make Wellnest even better? We\'d love to hear from you! Reach out to us through our in-app suggestion box.';
 
   @override
   String get wakeUpQuestion => 'What time do you usually wake up?';
@@ -120,19 +124,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectRoutines => 'Select your routines';
 
   @override
-  String get selectRoutinesMessage => 'You can always modify your selections later.';
+  String get selectRoutinesMessage =>
+      'You can always modify your selections later.';
 
   @override
   String get morningNotiTitle => 'Good Morning';
 
   @override
-  String get morningNotiBody => 'Review your daily routines and finish them as you go. Don\'t forget mark them as done';
+  String get morningNotiBody =>
+      'Review your daily routines and finish them as you go. Don\'t forget mark them as done';
 
   @override
   String get nightNotiTitle => 'Hey There';
 
   @override
-  String get nightNotiBody => 'End your day by reviewing unfinished tasks and wrapping them up.';
+  String get nightNotiBody =>
+      'End your day by reviewing unfinished tasks and wrapping them up.';
 
   @override
   String get morningNoti => 'Morning Notification';
@@ -189,7 +196,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quitTimer => 'Are you sure to quit the timer?';
 
   @override
-  String get timerSaved => 'Your current progress will be saved. You can return later to continue.';
+  String get timerSaved =>
+      'Your current progress will be saved. You can return later to continue.';
 
   @override
   String get ok => 'Ok';
@@ -204,13 +212,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get permissionRequired => 'Permission Required';
 
   @override
-  String get askUnrestrictedBattery => 'To ensure the countdown works properly on the backround, allow the app to use Unrestricted Battery.';
+  String get askUnrestrictedBattery =>
+      'To ensure the countdown works properly on the backround, allow the app to use Unrestricted Battery.';
 
   @override
   String get tokenLimitReachedError => 'You have reached your token limit.';
 
   @override
-  String get coachResponseError => 'An error occurred while generating the coach response.';
+  String get coachResponseError =>
+      'An error occurred while generating the coach response.';
 
   @override
   String get next => 'Next';
@@ -246,7 +256,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tokenUsageTitleExplanation => 'How Token Usage Works';
 
   @override
-  String get tokenUsageExplanation => 'Every time you send a message to Axio or receive a response, tokens are used. They represent the effort it takes to process your input and generate meaningful replies.\n\nThese limits help keep your experience focused and intentional. If either limit is reached, coaching will pause until the next monthly cycle begins.\n\n\"Tokens aren\'t money or points. They\'re how much I can think, and how much you can ask.\"\n— Axio';
+  String get tokenUsageExplanation =>
+      'Every time you send a message to Axio or receive a response, tokens are used. They represent the effort it takes to process your input and generate meaningful replies.\n\nThese limits help keep your experience focused and intentional. If either limit is reached, coaching will pause until the next monthly cycle begins.\n\n\"Tokens aren\'t money or points. They\'re how much I can think, and how much you can ask.\"\n— Axio';
 
   @override
   String get close => 'Close';
@@ -357,10 +368,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get career_development => 'Career development (courses, networking)';
 
   @override
-  String get creative_projects => 'Creative projects (writing, building something)';
+  String get creative_projects =>
+      'Creative projects (writing, building something)';
 
   @override
-  String get sustainability => 'Sustainability habits (recycling, reducing waste)';
+  String get sustainability =>
+      'Sustainability habits (recycling, reducing waste)';
 
   @override
   String get relationships => 'Relationship-building (calling family/friends)';

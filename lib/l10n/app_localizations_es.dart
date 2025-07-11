@@ -45,7 +45,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get signIn => 'Iniciar sesión con Google';
 
   @override
-  String get backupRestoreComment => 'Inicia sesión para sincronizar y guardar tus datos';
+  String get backupRestoreComment =>
+      'Inicia sesión para sincronizar y guardar tus datos';
 
   @override
   String get send => 'Enviar';
@@ -78,7 +79,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deleteReoutineQuestion => 'Desea eliminar esta rutina?';
 
   @override
-  String get deleteReoutineAwareness => 'Al eliminar esta rutina la removerá de su lista de rutinas.';
+  String get deleteReoutineAwareness =>
+      'Al eliminar esta rutina la removerá de su lista de rutinas.';
 
   @override
   String get cancel => 'Cancelar';
@@ -90,13 +92,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get logOut => 'Cerrar Sesión';
 
   @override
-  String get wellnestWhatIs => 'Wellnest es una aplicación diseñada para ayudarte a gestionar tu bienestar y crecimiento personal. Nuestra misión es proporcionarte las herramientas y recursos que necesitas para vivir una vida más saludable y feliz.';
+  String get wellnestWhatIs =>
+      'Wellnest es una aplicación diseñada para ayudarte a gestionar tu bienestar y crecimiento personal. Nuestra misión es proporcionarte las herramientas y recursos que necesitas para vivir una vida más saludable y feliz.';
 
   @override
-  String get whoWeAre => 'Somos un equipo pequeño que intenta dar lo mejor de sí a nuestros usuarios. Tus comentarios e ideas son la base de nuestra innovación. Al compartir tus pensamientos, no solo estás usando Wellnest, sino que también estás ayudando a darle forma a su futuro.';
+  String get whoWeAre =>
+      'Somos un equipo pequeño que intenta dar lo mejor de sí a nuestros usuarios. Tus comentarios e ideas son la base de nuestra innovación. Al compartir tus pensamientos, no solo estás usando Wellnest, sino que también estás ayudando a darle forma a su futuro.';
 
   @override
-  String get supportUsWithIdeas => '¿Tienes una idea para mejorar Wellnest? ¡Nos encantaría escucharte! Contáctanos a través de nuestro buzón de sugerencias dentro de la aplicación.';
+  String get supportUsWithIdeas =>
+      '¿Tienes una idea para mejorar Wellnest? ¡Nos encantaría escucharte! Contáctanos a través de nuestro buzón de sugerencias dentro de la aplicación.';
 
   @override
   String get wakeUpQuestion => '¿A qué hora sueles despertarte?';
@@ -120,19 +125,22 @@ class AppLocalizationsEs extends AppLocalizations {
   String get selectRoutines => 'Selecciona tus rutinas';
 
   @override
-  String get selectRoutinesMessage => 'Siempre puedes modificar tus selecciones más tarde.';
+  String get selectRoutinesMessage =>
+      'Siempre puedes modificar tus selecciones más tarde.';
 
   @override
   String get morningNotiTitle => 'Buenos días';
 
   @override
-  String get morningNotiBody => 'Revisa tus rutinas diarias y complétalas sobre la marcha. No olvides marcarlas como hechas.';
+  String get morningNotiBody =>
+      'Revisa tus rutinas diarias y complétalas sobre la marcha. No olvides marcarlas como hechas.';
 
   @override
   String get nightNotiTitle => 'Hola';
 
   @override
-  String get nightNotiBody => 'Termina tu día revisando las tareas pendientes y finalizándolas.';
+  String get nightNotiBody =>
+      'Termina tu día revisando las tareas pendientes y finalizándolas.';
 
   @override
   String get morningNoti => 'Notificación Matutina';
@@ -189,7 +197,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get quitTimer => '¿Estás seguro de salir del temporizador?';
 
   @override
-  String get timerSaved => 'Tu progreso actual se guardará. Puedes continuar más tarde.';
+  String get timerSaved =>
+      'Tu progreso actual se guardará. Puedes continuar más tarde.';
 
   @override
   String get ok => 'Aceptar';
@@ -204,13 +213,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get permissionRequired => 'Permiso Requerido';
 
   @override
-  String get askUnrestrictedBattery => 'Para asegurar que el temporizador funcione correctamente en segundo plano, permite que la aplicación use Batería Sin Restricciones.';
+  String get askUnrestrictedBattery =>
+      'Para asegurar que el temporizador funcione correctamente en segundo plano, permite que la aplicación use Batería Sin Restricciones.';
 
   @override
   String get tokenLimitReachedError => 'Has alcanzado tu límite de tokens.';
 
   @override
-  String get coachResponseError => 'Ocurrió un error al generar la respuesta del coach.';
+  String get coachResponseError =>
+      'Ocurrió un error al generar la respuesta del coach.';
 
   @override
   String get next => 'Siguiente';
@@ -246,7 +257,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tokenUsageTitleExplanation => 'Cómo funciona el uso de tokens';
 
   @override
-  String get tokenUsageExplanation => 'Cada vez que envías un mensaje a Axio o recibes una respuesta, se usan tokens. Representan el esfuerzo necesario para procesar tu entrada y generar respuestas significativas.\n\nEstos límites ayudan a mantener tu experiencia enfocada e intencional. Si se alcanza alguno de los límites, el coaching se pausará hasta que comience el siguiente ciclo mensual.\n\n\"Los tokens no son dinero ni puntos. Son cuánto puedo pensar y cuánto puedes preguntar.\"\n— Axio';
+  String get tokenUsageExplanation =>
+      'Cada vez que envías un mensaje a Axio o recibes una respuesta, se usan tokens. Representan el esfuerzo necesario para procesar tu entrada y generar respuestas significativas.\n\nEstos límites ayudan a mantener tu experiencia enfocada e intencional. Si se alcanza alguno de los límites, el coaching se pausará hasta que comience el siguiente ciclo mensual.\n\n\"Los tokens no son dinero ni puntos. Son cuánto puedo pensar y cuánto puedes preguntar.\"\n— Axio';
 
   @override
   String get close => 'Cerrar';
@@ -300,7 +312,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get social_media_limit => 'Limitar el uso de redes sociales';
 
   @override
-  String get skill_learning => 'Aprender una habilidad (programación, idiomas, etc.)';
+  String get skill_learning =>
+      'Aprender una habilidad (programación, idiomas, etc.)';
 
   @override
   String get planning_rituals => 'Rituales de planificación mañana/noche';
@@ -351,16 +364,20 @@ class AppLocalizationsEs extends AppLocalizations {
   String get decluttering => 'Organizar espacio (ej: 1 objeto por día)';
 
   @override
-  String get saving_money => 'Ahorrar dinero (transferencias diarias/semanales)';
+  String get saving_money =>
+      'Ahorrar dinero (transferencias diarias/semanales)';
 
   @override
-  String get career_development => 'Desarrollo profesional (cursos, networking)';
+  String get career_development =>
+      'Desarrollo profesional (cursos, networking)';
 
   @override
-  String get creative_projects => 'Proyectos creativos (escritura, construir algo)';
+  String get creative_projects =>
+      'Proyectos creativos (escritura, construir algo)';
 
   @override
-  String get sustainability => 'Hábitos sostenibles (reciclaje, reducir desperdicios)';
+  String get sustainability =>
+      'Hábitos sostenibles (reciclaje, reducir desperdicios)';
 
   @override
   String get relationships => 'Construir relaciones (llamar a familia/amigos)';

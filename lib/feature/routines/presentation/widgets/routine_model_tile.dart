@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wellnest/core/notifications/noti_service.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/delete_routine_date_today.dart';
 import 'package:wellnest/core/utils/utils.dart';
@@ -130,6 +131,10 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                       flag = !flag;
                     });
 
+                    //Cancels the notification of the routine if have any
+                    await NotiService()
+                        .cancelNotificationById(widget.routine.id!);
+
                     await ref
                         .watch(routineProvider)
                         .deleteRoutine(widget.routine.id!);
@@ -184,7 +189,9 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                             triggerMode: TooltipTriggerMode.tap,
                             message: widget.routine.name,
                             showDuration: Duration(seconds: 5),
-                            decoration: BoxDecoration(color: obsidian, borderRadius: BorderRadius.circular(5)),
+                            decoration: BoxDecoration(
+                                color: obsidian,
+                                borderRadius: BorderRadius.circular(5)),
                             textStyle: textTheme(context)
                                 .labelMedium!
                                 .copyWith(color: secondary),

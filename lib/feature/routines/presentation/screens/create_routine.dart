@@ -233,6 +233,10 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                         .watch(currentSelectedDateProvider)
                         .changeDate(DateTime.now());
 
+                    //Cancels the notification of the routine if have any
+                    await NotiService()
+                        .cancelNotificationById(widget.routineModel!.id!);
+
                     await ref
                         .watch(routineProvider)
                         .deleteRoutine(widget.routineModel!.id!);
