@@ -57,11 +57,11 @@ class _SmallRoutinesViewState extends State<SmallRoutinesView> {
               onClick: () => Navigator.of(context).pushNamed('/createRoutine'),
               text: localization(context).createNewRoutine.toUpperCase(),
               radius: 10,
-              textColor: secondary,
+              textColor: ghostWhite,
               icon: Icon(
                 Icons.add,
                 size: 30,
-                color: secondary,
+                color: ghostWhite,
               ),
             ),
           ),
