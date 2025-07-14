@@ -27,305 +27,226 @@ import 'package:wellnest/feature/routines/data/repositories/routine_repository_i
 import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
 import 'package:wellnest/main.dart';
 
-final dataProvider = ChangeNotifierProvider(
-  (ref) => DataProvider(),
-);
+final dataProvider = ChangeNotifierProvider((ref) => DataProvider());
 
 class DataProvider extends ChangeNotifier {
   bool loading = false;
   Failure? _failure;
+  Failure? get failure => _failure;
 
-  get failure => _failure;
-
-  //Setting Up the repositories
-  //Backup and Restore - Data Repository
-  final _dataRepository =
+  final _dataRepo =
       DataRepositoryImpl(dataRemoteDatasource: DataRemoteDatasourceImpl());
-  //local data to be restored
-  final _dateRepository =
+  final _dateRepo =
       DateRepositoryImpl(dateLocalDatasource: DateLocalDatasourceImpl());
-  final _routineRepository = RoutineRepositoryImpl(
+  final _routineRepo = RoutineRepositoryImpl(
       routineLocalDatasource: RoutineLocalDatasourceImpl());
 
-  void setFailureToNull() {
+  void clearFailure() {
     _failure = null;
   }
 
   Future<void> backupRestore(WidgetRef ref, BuildContext context) async {
-    final userId = supabase.auth.currentUser!.id;
-    final preferences = UserPreferences();
-
-    //setting up the ChangeNotifiers
-    final routinesNotifier = ref.watch(routineProvider);
-    final dateNotifier = ref.watch(dateProvider);
-
-    //set up the backup and restore UseCases
-    final getDataUseCase =
-        GetDataUsecase(dataRepository: _dataRepository); //backup
-    final updateDataUseCase =
-        UpdateDataUsecase(dataRepository: _dataRepository); //restore
-
-    //fetch the local datas
-    final datesOrFailure = await GetEveryDate(_dateRepository).call();
-    final routinesOrFailure = await GetEveryRoutine(_routineRepository).call();
-
-    //variables to save the local data
-    List<DateModel> dates = [];
-    List<RoutineModel> routines = [];
-
-    //data variable
-    DataModel? data;
-
-    //methods
-    //sees if theres a failure in getting any local data or saves it if not
-    datesOrFailure.fold(
-      (l) => _failure = l,
-      (r) => dates = r
-          .map(
-            (e) => DateModel.fromEntity(e),
-          )
-          .toList(),
-    );
-
-    routinesOrFailure.fold(
-      (l) => _failure = l,
-      (r) => routines = r
-          .map(
-            (e) => RoutineModel.fromEntity(e),
-          )
-          .toList(),
-    );
-
-    //failure != null stops function
-    if (_failure != null) {
-      if (context.mounted) {
-        didFail(context);
-      }
-      return;
-    }
-
-    //fetch data or failure
-    final dataOrFailure = await getDataUseCase.call();
-    dataOrFailure.fold(
-      (l) => _failure = l,
-      (r) => data = DataModel.fromEntity(r),
-    );
-
-    //failure != null stops function
-    if (_failure != null) {
-      if (context.mounted) {
-        didFail(context);
-      }
-      return;
-    }
-
-    //if data not null will add the fetched data to local datas(eg. List<DateModel>)
-    //GOOD TO KNOW that here is were really is backing up by adding data to the local
-    if (data != null && !preferences.backedupData) {
-      for (var i = 0; i < data!.dates.length; i++) {
-        if (dates.any((element) => //we check if the date exists
-            element.date == DateModel.fromMap(data!.dates[i]).date)) {
-          //we take the index of the existent date
-          final index = dates.indexWhere((element) =>
-              element.date == DateModel.fromMap(data!.dates[i]).date);
-          //merge the existent with the incoming
-          dates[index]
-              .routines
-              .addAll(DateModel.fromMap(data!.dates[i]).routines);
-          dates[index].completedRoutineAmount =
-              _getCompletedQuantity(DateModel.fromMap(data!.dates[i]));
-        } else {
-          dates.add(DateModel.fromMap(data!.dates[i]));
-        }
-      }
-
-      //merge the existent with the incoming
-      routines
-          .addAll(data!.routines.map((e) => RoutineModel.fromMap(e)).toList());
-    }
-
-    //updates the local datas(the backup)
-    await routinesNotifier
-        .upsertAllRoutines(routines); //routines first so they have an id
-    await dateNotifier.upsertAllDates(dates);
-
-    //updating the providers
-    await routinesNotifier.getRoutines();
-    await dateNotifier.getDates();
-
-    if (context.mounted && !preferences.backedupData) {
-      //if is backing up we set the backedupData to true so it wont create a restore point
-      preferences.backedupData = true;
-      //this is used to maerge today date with saved data
-      await getRestoreProcess(
-          ref,
-          data!.dates
-              .map(
-                (e) => DateModel.fromMap(e),
-              )
-              .toList());
-    }
-
-    //RESTORING NOTIFICATIONS // this most be done only once
-    await NotiService().cancelAllNotifications();
-    if (context.mounted) await setGlobalAppNotification(ref, context);
-    if (context.mounted) await setRoutinesReminders(context, ref);
-
-    //UPDATES data to how it should depending on if is backing up or just creating the restore point
-    data = DataModel(
-        id: data!.id,
-        userId: userId,
-        dates: ref
-            .watch(dateProvider)
-            .dates!
-            .map(
-              (e) => e.toMap(),
-            )
-            .toList(),
-        routines: ref
-            .watch(routineProvider)
-            .routines!
-            .map(
-              (e) => e.toMap(),
-            )
-            .toList());
-    //creates the restore point
-    final voidOrFailure = await updateDataUseCase.call(data!);
-
-    voidOrFailure.fold(
-      (l) => _failure = l,
-      (r) => debugPrint('Data Update Succesful'),
-    );
-
-    //failure != null stops function
-    if (_failure != null) {
-      if (context.mounted) {
-        didFail(context);
-      }
-      return;
-    }
-
-    notifyListeners();
-    debugPrint('Backup and Restore Succesful');
-  }
-
-  setLoadingTrue() {
     loading = true;
     notifyListeners();
-  }
 
-  void didFail(BuildContext context) {
+    final userId = supabase.auth.currentUser!.id;
+    final prefs = UserPreferences();
+    final routinesNotifier = ref.read(routineProvider);
+    final datesNotifier = ref.read(dateProvider);
+
+    // Fetch local data
+    final datesResult = await GetEveryDate(_dateRepo).call();
+    final routinesResult = await GetEveryRoutine(_routineRepo).call();
+
+    List<DateModel> localDates = [];
+    List<RoutineModel> localRoutines = [];
+
+    datesResult.fold(
+      (err) => _failure = err,
+      (list) => localDates = list.map(DateModel.fromEntity).toList(),
+    );
+    routinesResult.fold(
+      (err) => _failure = err,
+      (list) => localRoutines = list.map(RoutineModel.fromEntity).toList(),
+    );
+
+    if (context.mounted && _handleFailure(context)) return;
+
+    // Fetch remote backup
+    final dataResult = await GetDataUsecase(dataRepository: _dataRepo).call();
+    DataModel? remoteData;
+    dataResult.fold(
+      (err) => _failure = err,
+      (entity) => remoteData = DataModel.fromEntity(entity),
+    );
+    if (context.mounted && _handleFailure(context)) return;
+
+    // Merge remote into local on first backup
+    if (remoteData != null && !prefs.backedupData) {
+      _mergeDates(localDates, remoteData!.dates);
+      localRoutines.addAll(remoteData!.routines.map(RoutineModel.fromMap));
+    }
+
+    // Persist merged local data
+    await routinesNotifier.upsertAllRoutines(localRoutines);
+    await datesNotifier.upsertAllDates(localDates);
+    await routinesNotifier.getRoutines();
+    await datesNotifier.getDates();
+
+    // Create restore point if first backup
+    if (!prefs.backedupData && remoteData != null) {
+      prefs.backedupData = true;
+      await _createRestorePoint(
+          ref, remoteData!.dates.map(DateModel.fromMap).toList());
+    }
+
+    // Reset notifications
+    await NotiService().cancelAllNotifications();
+    if (context.mounted) {
+      await setGlobalAppNotification(ref, context);
+      if (context.mounted) await setRoutinesReminders(context, ref);
+    }
+
+    // Update remote with current state
+    final updatedData = DataModel(
+      id: remoteData!.id,
+      userId: userId,
+      dates: ref.read(dateProvider).dates!.map((e) => e.toMap()).toList(),
+      routines:
+          ref.read(routineProvider).routines!.map((e) => e.toMap()).toList(),
+    );
+    final updateResult =
+        await UpdateDataUsecase(dataRepository: _dataRepo).call(updatedData);
+    updateResult.fold(
+        (err) => _failure = err, (_) => debugPrint('Data update successful'));
+    if (context.mounted && _handleFailure(context)) return;
+
     loading = false;
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-      _failure!.errorMessage,
-      style: textTheme(context).labelMedium,
-    )));
     notifyListeners();
-    return;
-  }
-}
-
-Future<void> getRestoreProcess(WidgetRef ref, List<DateModel> dates) async {
-  // Get ChangeNotifier instances
-  final dateNotifier = ref.watch(dateProvider);
-  final selDateN = ref.watch(currentSelectedDateProvider);
-  final routines = ref.watch(routineProvider).routines ?? [];
-  List<Routine> preservedRoutinesFromDate =
-      []; // List to store preserved routines before backupRestore (Most Have IDs)
-  List<Routine> routinesListWithID = []; // List to store routines with IDs
-
-  final wasCreatedBeforeNotifier = ref.watch(todayDateCreatedBefore);
-
-  // Update selected date to now
-  selDateN.changeDate(DateTime.now());
-
-  await validateDateModel(routines, selDateN.currentSelectedDate, ref);
-
-  if (dateNotifier.date?.id != null) {
-    //if have ID date exists before backupRestore
-    preservedRoutinesFromDate.addAll(dateNotifier.date!.routines);
-    await dateNotifier.deleteDate(dateNotifier.date!.id!);
-    wasCreatedBeforeNotifier.setValue(true);
-  } else {
-    return;
+    debugPrint('Backup and restore completed');
   }
 
-  // Re-create a fresh model for today
-  await validateDateModel(routines, selDateN.currentSelectedDate, ref);
+  bool _handleFailure(BuildContext context) {
+    if (_failure != null) {
+      loading = false;
+      if (context.mounted) _showError(context);
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
 
-  if (preservedRoutinesFromDate.isNotEmpty) {
-    dateNotifier.date!.routines.removeWhere(
-      //performed to preserve the state of the routines befoe backupRestore
-      (r) => preservedRoutinesFromDate.any(
-        (preserved) => r.id == preserved.id,
-      ),
+  void _showError(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+          content: Text(_failure!.errorMessage,
+              style: textTheme(context).labelMedium)),
     );
   }
 
-  bool dataFromServer =
-      dates.any((element) => element.date == selDateN.currentSelectedDate);
-
-  // var list = (wasCreatedBeforeNotifier.was && dataFromServer) ? :
-
-  for (var routine in routines) {
-    final routineIndex = dateNotifier.date!.routines.indexWhere(
-      (r) => areSameRoutine(r.toModel(), routine),
-    );
-
-    if (routineIndex != -1) {
-      final id = routine.id;
-      Routine routineWithNoId = (dataFromServer
-              ? dates
-                  .where(
-                      (element) => element.date == selDateN.currentSelectedDate)
-                  .first
-                  .routines
-              : dateNotifier.date!.routines)
-          .where((element) => areSameRoutine(element.toModel(), routine))
-          .first;
-
-      // Merge properties except for the id that is in the routine from the date
-      routinesListWithID.add(Routine(
-          id: id,
-          name: routineWithNoId.name,
-          days: routineWithNoId.days,
-          finished: routineWithNoId.finished,
-          createdDate: routineWithNoId.createdDate,
-          colorValue: routineWithNoId.colorValue,
-          type: routineWithNoId.type,
-          targetCount: routineWithNoId.targetCount,
-          currentCount: routineWithNoId.currentCount,
-          targetDurationSeconds: routineWithNoId.targetDurationSeconds,
-          elapsedTimeSeconds: routineWithNoId.elapsedTimeSeconds,
-          alarmActive: routineWithNoId.alarmActive ?? false,
-          alarmTime: routineWithNoId.alarmTime,
-          endAt: routineWithNoId.endAt));
+  void _mergeDates(List<DateModel> local, List<Map<String, dynamic>> remote) {
+    for (final raw in remote) {
+      final incoming = DateModel.fromMap(raw);
+      final idx = local.indexWhere((d) => d.date == incoming.date);
+      if (idx >= 0) {
+        local[idx].routines.addAll(incoming.routines);
+        local[idx].completedRoutineAmount = _countCompleted(local[idx]);
+      } else {
+        local.add(incoming);
+      }
     }
   }
 
-  if (wasCreatedBeforeNotifier.was) {
-    preservedRoutinesFromDate.removeWhere(
-      (r) => routinesListWithID.any(
-        (element) => areSameRoutine(r.toModel(), element.toModel()),
-      ),
-    );
+  Future<void> _createRestorePoint(
+    WidgetRef ref,
+    List<DateModel> backupDates,
+  ) async {
+    final dateNotifier = ref.read(dateProvider);
+    final selDateN = ref.read(currentSelectedDateProvider);
+    final wasBefore = ref.read(todayDateCreatedBefore);
+    final routines = ref.read(routineProvider).routines!;
+
+    // 1. Move selected date to today and ensure it exists
+    selDateN.changeDate(DateTime.now());
+    await validateDateModel(routines, selDateN.currentSelectedDate, ref);
+
+    // 2. If today's date existed, preserve its routines and delete it
+    List<Routine> preserved = [];
+    if (dateNotifier.date?.id != null) {
+      preserved = List.from(dateNotifier.date!.routines);
+      await dateNotifier.deleteDate(dateNotifier.date!.id!);
+      wasBefore.setValue(true);
+    } else {
+      // If no existing date, nothing to restore
+      return;
+    }
+
+    // 3. Re-create today’s date (fresh, empty)
+    await validateDateModel(routines, selDateN.currentSelectedDate, ref);
+
+    // 4. Remove from the new date any routines we already preserved
+    if (preserved.isNotEmpty) {
+      dateNotifier.date!.routines
+          .removeWhere((r) => preserved.any((p) => p.id == r.id));
+    }
+
+    // 5. Decide source list: server backup vs local date
+    final dataFromServer =
+        backupDates.any((d) => d.date == selDateN.currentSelectedDate);
+    final sourceDate = dataFromServer
+        ? backupDates.firstWhere((d) => d.date == selDateN.currentSelectedDate)
+        : dateNotifier.date!;
+    final sourceRoutines = sourceDate.routines;
+
+    // 6. Merge back into a list with preserved IDs
+    final merged = <Routine>[];
+    for (final orig in routines) {
+      // find if this routine exists in the new date
+      final matchIdx = dateNotifier.date!.routines
+          .indexWhere((d) => areSameRoutine(d.toModel(), orig));
+      if (matchIdx != -1) {
+        // pick the matching routine from the correct source
+        final template = sourceRoutines.firstWhere(
+          (d) => areSameRoutine(d.toModel(), orig),
+          orElse: () => dateNotifier.date!.routines[matchIdx],
+        );
+
+        // recreate with original ID but updated properties
+        merged.add(Routine(
+          id: orig.id,
+          name: template.name,
+          days: template.days,
+          finished: template.finished,
+          createdDate: template.createdDate,
+          colorValue: template.colorValue,
+          type: template.type,
+          targetCount: template.targetCount,
+          currentCount: template.currentCount,
+          targetDurationSeconds: template.targetDurationSeconds,
+          elapsedTimeSeconds: template.elapsedTimeSeconds,
+          alarmActive: template.alarmActive ?? false,
+          alarmTime: template.alarmTime,
+          endAt: template.endAt,
+        ));
+      } else {
+        // not in date’s routines → skip or log
+        debugPrint('⚠️ Routine not matched: ${orig.name} (${orig.id})');
+      }
+    }
+
+    // 7. If we preserved an old date, drop duplicates and combine
+    if (wasBefore.was) {
+      preserved.removeWhere(
+          (p) => merged.any((m) => areSameRoutine(p.toModel(), m.toModel())));
+    }
+    dateNotifier.date!
+      ..routines = [...preserved, ...merged]
+      ..completedRoutineAmount = _countCompleted(dateNotifier.date!);
+
+    // 8. Persist the merged date
+    await dateNotifier.upsertDate(dateNotifier.date!);
   }
 
-  dateNotifier.date!.routines = []; // Clear the existing routines list
-  dateNotifier.date!.routines //Add the preserved routines and the new ones
-      .addAll([...preservedRoutinesFromDate, ...routinesListWithID]);
-  dateNotifier.date!.completedRoutineAmount =
-      _getCompletedQuantity(dateNotifier.date!);
-
-  // Persist merged model
-  await dateNotifier.upsertDate(dateNotifier.date!);
-}
-
-int _getCompletedQuantity(DateModel dateModel) {
-  int result = 0;
-  for (var routine in dateModel.routines) {
-    result += routine.finished! ? 1 : 0;
-  }
-  return result;
+  int _countCompleted(DateModel date) =>
+      date.routines.where((r) => r.finished == true).length;
 }

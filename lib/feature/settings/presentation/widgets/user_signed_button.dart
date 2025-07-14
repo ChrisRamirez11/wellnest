@@ -183,7 +183,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
     }
 
     final dataNotifier = ref.read(dataProvider);
-    dataNotifier.setFailureToNull();
+    dataNotifier.clearFailure();
     // Perform backup & restore
     await dataNotifier.backupRestore(ref, context);
 
