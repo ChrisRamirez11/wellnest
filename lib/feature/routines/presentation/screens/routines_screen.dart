@@ -14,24 +14,62 @@ class RoutinesScreen extends ConsumerWidget {
     final routinesNotifier = ref.watch(routineProvider);
     final failure = routinesNotifier.failure;
     final routines = routinesNotifier.routines;
-    late Widget widget;
+    final showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
+
+    Widget widget;
+
     if (failure != null) {
       widget = Center(child: Text('Error: $failure'));
     } else if (routines != null) {
-      widget = ListView.builder(
-        itemCount: routines.length,
-        itemBuilder: (context, index) {
-          return RoutineTile(
-            routine: routines[index],
-            index: index,
-          );
-        },
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+
+      final activeRoutines = routines
+          .where((r) => r.endAt == null || r.endAt!.isAfter(today))
+          .toList();
+      final endedRoutines = routines
+          .where((r) => r.endAt != null && (!r.endAt!.isAfter(today)))
+          .toList();
+
+      widget = ListView(
+        padding: const EdgeInsets.only(bottom: 20),
+        children: [
+          ...activeRoutines.asMap().entries.map(
+                (entry) => RoutineTile(
+                  routine: entry.value,
+                ),
+              ),
+          if (endedRoutines.isNotEmpty) ...[
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+              child: Row(
+                children: [
+                  Expanded(child: Divider()),
+                  SizedBox(width: 10),
+                  Text(
+                    'ENDED',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(child: Divider()),
+                ],
+              ),
+            ),
+            ...endedRoutines.asMap().entries.map(
+                  (entry) => RoutineTile(
+                    routine: entry.value,
+                  ),
+                ),
+          ],
+        ],
       );
     } else {
       widget = const Center(child: CircularProgressIndicator());
     }
 
-    final showFab = MediaQuery.of(context).viewInsets.bottom == 0.0;
     return Scaffold(
       appBar: CustomAppBar(
         leadingWidget: IconButton(
@@ -40,14 +78,8 @@ class RoutinesScreen extends ConsumerWidget {
         ),
         titleString: localization(context).routines,
         actionsList: [
-          showFab
-              ? const CustomFab(
-                  isMini: true,
-                )
-              : const SizedBox(),
-          SizedBox(
-            width: 10,
-          ),
+          if (showFab) const CustomFab(isMini: true),
+          const SizedBox(width: 10),
         ],
       ),
       body: widget,

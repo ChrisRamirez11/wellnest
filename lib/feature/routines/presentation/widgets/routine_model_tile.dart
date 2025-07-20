@@ -14,11 +14,9 @@ import 'package:wellnest/feature/routines/presentation/screens/create_routine.da
 import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
 
 class RoutineTile extends ConsumerStatefulWidget {
-  final int index;
   final RoutineModel routine;
   const RoutineTile({
     super.key,
-    required this.index,
     required this.routine,
   });
 
