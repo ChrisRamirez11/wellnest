@@ -386,4 +386,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dataSynced => 'Data synced successfully!';
+
+  @override
+  String get ended => 'Ended';
 }

@@ -120,5 +120,6 @@
     "relationships": "人間関係の構築（家族/友人に電話）",
     "syncTooltip": "データを同期するには押してください",
     "syncingData": "データを同期中...",
-    "dataSynced": "データの同期が成功しました！"
+    "dataSynced": "データの同期が成功しました！",
+    "ended": "終了"
 }

@@ -833,6 +833,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Data synced successfully!'**
   String get dataSynced;
+
+  /// 'Ended'
+  ///
+  /// In en, this message translates to:
+  /// **'Ended'**
+  String get ended;
 }
 
 class _AppLocalizationsDelegate

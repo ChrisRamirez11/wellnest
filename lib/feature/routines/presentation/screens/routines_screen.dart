@@ -40,18 +40,17 @@ class RoutinesScreen extends ConsumerWidget {
                 ),
               ),
           if (endedRoutines.isNotEmpty) ...[
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
               child: Row(
                 children: [
                   Expanded(child: Divider()),
                   SizedBox(width: 10),
                   Text(
-                    'ENDED',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                    ),
+                    localization(context).ended.toUpperCase(),
+                    style: textTheme(context)
+                        .bodyLarge!
+                        .copyWith(color: Colors.grey),
                   ),
                   SizedBox(width: 10),
                   Expanded(child: Divider()),

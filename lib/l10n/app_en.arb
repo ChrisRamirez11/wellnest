@@ -486,5 +486,9 @@
     "dataSynced": "Data synced successfully!",
     "@dataSynced": {
         "description": "Data synced succesfully message"
+    },
+    "ended": "Ended",
+    "@ended": {
+        "description": "'Ended'"
     }
 }

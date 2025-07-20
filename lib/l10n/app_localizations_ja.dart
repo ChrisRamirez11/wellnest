@@ -378,4 +378,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get dataSynced => 'データの同期が成功しました！';
+
+  @override
+  String get ended => '終了';
 }

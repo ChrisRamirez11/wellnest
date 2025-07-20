@@ -120,5 +120,6 @@
     "relationships": "Construire des relations (appeler famille/amis)",
     "syncTooltip": "Appuyez pour synchroniser vos données",
     "syncingData": "Synchronisation de vos données...",
-    "dataSynced": "Données synchronisées avec succès !"
+    "dataSynced": "Données synchronisées avec succès !",
+    "ended": "Terminé"
 }
