@@ -31,40 +31,37 @@ class RoutinesScreen extends ConsumerWidget {
           .where((r) => r.endAt != null && (!r.endAt!.isAfter(today)))
           .toList();
 
-      widget = ListView(
-        padding: const EdgeInsets.only(bottom: 20),
-        children: [
-          ...activeRoutines.asMap().entries.map(
-                (entry) => RoutineTile(
-                  routine: entry.value,
+      if (activeRoutines.isEmpty && endedRoutines.isEmpty) {
+        widget = _NoRoutinesPlaceholder();
+      } else {
+        widget = ListView(
+          padding: const EdgeInsets.only(bottom: 20),
+          children: [
+            ...activeRoutines.map((r) => RoutineTile(routine: r)),
+            if (endedRoutines.isNotEmpty) ...[
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+                child: Row(
+                  children: [
+                    const Expanded(child: Divider()),
+                    const SizedBox(width: 10),
+                    Text(
+                      localization(context).ended.toUpperCase(),
+                      style: textTheme(context)
+                          .bodyLarge!
+                          .copyWith(color: Colors.grey),
+                    ),
+                    const SizedBox(width: 10),
+                    const Expanded(child: Divider()),
+                  ],
                 ),
               ),
-          if (endedRoutines.isNotEmpty) ...[
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
-              child: Row(
-                children: [
-                  Expanded(child: Divider()),
-                  SizedBox(width: 10),
-                  Text(
-                    localization(context).ended.toUpperCase(),
-                    style: textTheme(context)
-                        .bodyLarge!
-                        .copyWith(color: Colors.grey),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(child: Divider()),
-                ],
-              ),
-            ),
-            ...endedRoutines.asMap().entries.map(
-                  (entry) => RoutineTile(
-                    routine: entry.value,
-                  ),
-                ),
+              ...endedRoutines.map((r) => RoutineTile(routine: r)),
+            ],
           ],
-        ],
-      );
+        );
+      }
     } else {
       widget = const Center(child: CircularProgressIndicator());
     }
@@ -82,6 +79,43 @@ class RoutinesScreen extends ConsumerWidget {
         ],
       ),
       body: widget,
+    );
+  }
+}
+
+class _NoRoutinesPlaceholder extends StatelessWidget {
+  const _NoRoutinesPlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.calendar_today, size: 72, color: Colors.grey.shade400),
+            const SizedBox(height: 20),
+            Text(
+              localization(context).noRoutines,
+              style: textTheme(context).labelLarge?.copyWith(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey.shade700,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              localization(context).motivationalMessage,
+              style: textTheme(context).bodyMedium?.copyWith(
+                    color: Colors.grey.shade600,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

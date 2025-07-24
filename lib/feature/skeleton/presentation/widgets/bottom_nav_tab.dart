@@ -23,7 +23,8 @@ class BottomNavTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () => pageController.jumpToPage(pageIndex),
+      onTap: () => pageController.animateToPage(pageIndex,
+          duration: Duration(milliseconds: 250), curve: Curves.easeOut),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
