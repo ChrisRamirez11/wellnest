@@ -839,6 +839,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ended'**
   String get ended;
+
+  /// No routines message
+  ///
+  /// In en, this message translates to:
+  /// **'No routines yet'**
+  String get noRoutines;
+
+  /// Motivational message
+  ///
+  /// In en, this message translates to:
+  /// **'Start your journey with your first healthy routine. Consistency begins with one small step.'**
+  String get motivationalMessage;
 }
 
 class _AppLocalizationsDelegate

@@ -401,4 +401,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get ended => 'Terminé';
+
+  @override
+  String get noRoutines => 'Pas encore de routines';
+
+  @override
+  String get motivationalMessage =>
+      'Commencez votre voyage avec votre première routine saine. La cohérence commence par un petit pas.';
 }

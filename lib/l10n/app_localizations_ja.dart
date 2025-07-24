@@ -381,4 +381,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get ended => '終了';
+
+  @override
+  String get noRoutines => 'まだルーティンがありません';
+
+  @override
+  String get motivationalMessage => '最初の健康的なルーティンで旅を始めましょう。継続は小さな一歩から始まります。';
 }

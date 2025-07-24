@@ -121,5 +121,7 @@
     "syncTooltip": "Presiona para sincronizar tus datos",
     "syncingData": "Sincronizando tus datos...",
     "dataSynced": "¡Datos sincronizados correctamente!",
-    "ended": "Terminado"
+    "ended": "Terminado",
+    "noRoutines": "No hay rutinas aún",
+    "motivationalMessage": "Comienza tu viaje con tu primera rutina saludable. La consistencia comienza con un pequeño paso."
 }

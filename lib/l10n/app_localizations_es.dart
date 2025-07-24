@@ -393,4 +393,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get ended => 'Terminado';
+
+  @override
+  String get noRoutines => 'No hay rutinas aún';
+
+  @override
+  String get motivationalMessage =>
+      'Comienza tu viaje con tu primera rutina saludable. La consistencia comienza con un pequeño paso.';
 }

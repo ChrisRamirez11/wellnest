@@ -490,5 +490,13 @@
     "ended": "Ended",
     "@ended": {
         "description": "'Ended'"
+    },
+    "noRoutines": "No routines yet",
+    "@noRoutines": {
+        "description": "No routines message"
+    },
+    "motivationalMessage": "Start your journey with your first healthy routine. Consistency begins with one small step.",
+    "@motivationalMessage": {
+        "description": "Motivational message"
     }
 }
