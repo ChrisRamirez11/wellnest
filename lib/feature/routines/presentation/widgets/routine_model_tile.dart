@@ -173,6 +173,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
               spacing: 15,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //ROUTINE NAME
                     Column(
@@ -221,11 +222,11 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
                       ],
                     ),
                     const Expanded(child: SizedBox()),
-                    IconButton(
-                      icon: const Icon(
+                    GestureDetector(
+                      child: const Icon(
                         Icons.more_horiz,
                       ),
-                      onPressed: () {
+                      onTap: () {
                         setState(() {
                           flag = !flag;
                         });
