@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vibration/vibration.dart';
 import 'package:wellnest/core/theme/theme.dart';
 import 'package:wellnest/core/utils/can_update_checkbox.dart';
 import 'package:wellnest/core/utils/format_duration.dart';
@@ -45,6 +46,13 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
     );
   }
 
+  void vibrationFeedback() {
+    Vibration.vibrate(
+      pattern: [0, 50],
+      intensities: [0, 100],
+    );
+  }
+
   Widget getControlWidget(DateProvider dateNotifier) {
     final type = widget.routine.type ?? RoutineType.task.name;
     final canUpdate = canUpdateCheckbox(
@@ -55,6 +63,8 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
       if (!canUpdate) return;
 
       _routineCompletedAnimation(completed);
+      if (completed) vibrationFeedback();
+
       setState(() {
         routine.finished = completed;
         color = completed
@@ -82,6 +92,7 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
       if (routine.currentCount! < routine.targetCount!) {
         setState(() {
           routine.currentCount = routine.currentCount! + 1;
+          vibrationFeedback();
         });
 
         if (routine.currentCount! >= routine.targetCount!) {
@@ -135,12 +146,11 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
       case RoutineType.amount:
         return Row(
           children: [
-            GestureDetector(
+            IconButton(
+              enableFeedback: false,
+              icon: const Icon(Icons.add, color: ghostWhite),
+              onPressed: canUpdate ? handleAmountIncrement : null,
               onLongPress: canUpdate ? handleAmountComplete : null,
-              child: IconButton(
-                icon: const Icon(Icons.add, color: ghostWhite),
-                onPressed: canUpdate ? handleAmountIncrement : null,
-              ),
             ),
           ],
         );
@@ -149,6 +159,7 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
         return Row(
           children: [
             IconButton(
+              enableFeedback: false,
               icon: const Icon(Icons.play_arrow, color: ghostWhite),
               onLongPress: canUpdate ? handleTimedComplete : null,
               onPressed: canUpdate ? handleTimedStart : null,
@@ -202,7 +213,9 @@ class _RoutineTileState extends ConsumerState<SmallRoutineTile> {
                 highlightColor: ghostWhite.withAlpha(100),
                 icon: Icon(
                   Icons.edit_square,
-                  color: !flag && !isBefore ? ghostWhite : ghostWhite.withAlpha(80),
+                  color: !flag && !isBefore
+                      ? ghostWhite
+                      : ghostWhite.withAlpha(80),
                 ),
                 onPressed: !flag && !isBefore
                     ? () {
