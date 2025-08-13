@@ -30,7 +30,7 @@ class _BannerAdWidgetState extends ConsumerState<BannerAdWidget> {
   void _loadBannerAd() {
     _bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
-      request: AdRequest(),
+      request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (Ad ad) {
@@ -56,23 +56,26 @@ class _BannerAdWidgetState extends ConsumerState<BannerAdWidget> {
   Widget build(BuildContext context) {
     final isPremium = ref.watch(isPremiumUser).isPremium ?? true;
 
-    return (_isAdLoaded && !isPremium)
-        ? Card(
-          color: widget.cardColor,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            margin: const EdgeInsets.all(10),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                  minHeight: _bannerAd!.size.height.toDouble(), maxHeight: 110),
-              child: Container(
-                  padding: const EdgeInsets.all(20),
-                  width: double.infinity,
-                  child: AdWidget(ad: _bannerAd!)),
-            ),
-          )
-        : SizedBox(
-            height: 20,
-          );
+    if (!_isAdLoaded || isPremium) {
+      return const SizedBox.shrink();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(10), // margen externo
+      child: Card(
+        color: widget.cardColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: SizedBox(
+            width: _bannerAd!.size.width.toDouble(),
+            height: _bannerAd!.size.height.toDouble(),
+            child: AdWidget(ad: _bannerAd!),
+          ),
+        ),
+      ),
+    );
   }
 }
