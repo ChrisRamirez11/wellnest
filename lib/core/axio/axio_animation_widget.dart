@@ -12,24 +12,58 @@ class AxioAnimationWidget extends StatefulWidget {
 }
 
 class _AxioAnimationWidgetState extends State<AxioAnimationWidget> {
-  Artboard? _artboard;
+  RiveWidgetController? _riveController;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    widget.controller.load().then((artboard) {
-      setState(() {
-        _artboard = artboard;
-      });
-    });
+    _initRive();
+  }
+
+  Future<void> _initRive() async {
+    try {
+      await widget.controller.load();
+      
+      final file = widget.controller.getFile();
+      final controller = RiveWidgetController(
+        file,
+        artboardSelector: ArtboardSelector.byName('Axio Idle'),
+        stateMachineSelector: StateMachineSelector.byDefault(),
+      );
+      
+      if (mounted) {
+        setState(() {
+          _riveController = controller;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+      debugPrint('Error loading Rive animation: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    _riveController?.dispose();
+    widget.controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_artboard == null) {
+    if (_isLoading || _riveController == null) {
       return const SizedBox();
     }
 
-    return Rive(artboard: _artboard!, fit: BoxFit.cover,);
+    return RiveWidget(
+      controller: _riveController!,
+      fit: Fit.cover,
+    );
   }
 }
