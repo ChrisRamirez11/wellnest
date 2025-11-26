@@ -1,4 +1,5 @@
-import 'package:isar/isar.dart';
+
+import 'package:isar_community/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
 import 'package:wellnest/feature/routines/data/models/routine_model.dart';

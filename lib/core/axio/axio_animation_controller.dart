@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 
 class AxioAnimationController {
-  late StateMachineController _stateMachineController;
+  late StateMachine _stateMachine;
   late SMIBool? isHappy;
   late SMINumber? progress;
 
@@ -11,14 +11,16 @@ class AxioAnimationController {
     final file = RiveFile.import(data);
     final artboard = file.artboards.where((artboard) => artboard.name == 'Axio Idle').first;
 
-    _stateMachineController = StateMachineController.fromArtboard(
-      artboard,
-      'axions',
-    )!;
-    artboard.addController(_stateMachineController);
+    final stateMachine = artboard.defaultStateMachine();
+    if (stateMachine == null) {
+      throw Exception('State machine not found on Axio Idle artboard');
+    }
 
-    isHappy = _stateMachineController.findInput<bool>('isHappy') as SMIBool?;
-    progress = _stateMachineController.findInput<double>('progress') as SMINumber?;
+    _stateMachine = stateMachine;
+
+    // Use modern API to get inputs directly from StateMachine (v0.13.2+)
+    isHappy = _stateMachine.boolean('isHappy');
+    progress = _stateMachine.number('progress');
 
     return artboard;
   }

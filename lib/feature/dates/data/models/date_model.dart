@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/material.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 
 import 'package:wellnest/feature/dates/business/entity/date_entity.dart';
 import 'package:wellnest/feature/routines/business/entity/routine_entity.dart';

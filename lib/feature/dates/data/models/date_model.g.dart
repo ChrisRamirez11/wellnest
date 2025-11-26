@@ -45,7 +45,7 @@ const DateModelSchema = CollectionSchema(
   getId: _dateModelGetId,
   getLinks: _dateModelGetLinks,
   attach: _dateModelAttach,
-  version: '3.1.8',
+  version: '3.3.0',
 );
 
 int _dateModelEstimateSize(

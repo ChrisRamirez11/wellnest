@@ -826,7 +826,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   //       : Icons.notifications_off,
                   // )),
                   inactiveTrackColor: Colors.black45,
-                  activeColor: colorNotifier.color,
+                  activeThumbColor: colorNotifier.color,
                   title: Text(
                     localization(context).remindHabit,
                     style: textTheme(context)
@@ -899,7 +899,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   //   _endDateActive ? Icons.event_available : Icons.event_busy,
                   // )),
                   inactiveTrackColor: Colors.black45,
-                  activeColor: colorNotifier.color,
+                  activeThumbColor: colorNotifier.color,
                   title: Text(
                     localization(context)
                         .endRoutine, // You might want to localize this

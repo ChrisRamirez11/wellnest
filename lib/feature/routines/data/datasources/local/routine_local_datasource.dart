@@ -1,4 +1,4 @@
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:wellnest/core/local_dbs/isar_database.dart';
 import 'package:wellnest/core/errors/excpetions.dart';
 import 'package:wellnest/feature/routines/data/models/routine_model.dart';
@@ -29,7 +29,7 @@ class RoutineLocalDatasourceImpl implements RoutineLocalDatasource {
   @override
   Future<RoutineModel?> getRoutine(int id) async {
     try {
-      final isarInstance = await  IsarDatabase().isar;
+      final isarInstance = await IsarDatabase().isar;
       return await isarInstance.routineModels.get(id);
     } catch (e) {
       throw CacheException(message: e.toString());
@@ -39,7 +39,7 @@ class RoutineLocalDatasourceImpl implements RoutineLocalDatasource {
   @override
   Future<List<RoutineModel>> getEveryRoutine() async {
     try {
-      final isarInstance = await  IsarDatabase().isar;
+      final isarInstance = await IsarDatabase().isar;
       return await isarInstance.routineModels.where().findAll();
     } catch (e) {
       throw CacheException(message: e.toString());
@@ -48,8 +48,8 @@ class RoutineLocalDatasourceImpl implements RoutineLocalDatasource {
 
   @override
   Future<void> deleteRoutine(int id) async {
-    try{
-      final isarInstance = await  IsarDatabase().isar;
+    try {
+      final isarInstance = await IsarDatabase().isar;
       await isarInstance.writeTxn(
         () async => await isarInstance.routineModels.delete(id),
       );
@@ -57,10 +57,10 @@ class RoutineLocalDatasourceImpl implements RoutineLocalDatasource {
       throw CacheException(message: e.toString());
     }
   }
-  
+
   @override
   Future<List<int>> upsertAllRoutines(List<RoutineModel> routineModels) async {
-    try{
+    try {
       final isarInstance = await IsarDatabase().isar;
       final res = await isarInstance.writeTxn(
         () async => await isarInstance.routineModels.putAll(routineModels),
