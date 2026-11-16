@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/core/theme/theme.dart';
-import 'package:wellnest/core/utils/utils.dart';
-import 'package:wellnest/feature/flutter_heatmap_calendar/src/util/date_util.dart';
-import 'package:wellnest/feature/routines/business/entity/routine_entity.dart';
-import 'package:wellnest/feature/routines/data/models/routine_model.dart';
-import 'package:wellnest/feature/onboarding/presentation/provider/categories_provider.dart';
+import 'package:task_nest/core/theme/theme.dart';
+import 'package:task_nest/core/utils/utils.dart';
+import 'package:task_nest/feature/flutter_heatmap_calendar/src/util/date_util.dart';
+import 'package:task_nest/feature/routines/business/entity/routine_entity.dart';
+import 'package:task_nest/feature/routines/data/models/routine_model.dart';
+import 'package:task_nest/feature/onboarding/presentation/provider/categories_provider.dart';
 
 class SelectRoutinesScreen extends ConsumerWidget {
   const SelectRoutinesScreen({super.key});
@@ -169,7 +169,7 @@ class SelectRoutinesScreen extends ConsumerWidget {
               ),
               child: Center(
                 child: Text(
-                  DateUtil(ref).weekLabel[index][0].toUpperCase(),
+                  DateUtil().weekLabel[index][0].toUpperCase(),
                   style: textTheme(context).bodySmall!.copyWith(
                         color: secondary,
                       ),

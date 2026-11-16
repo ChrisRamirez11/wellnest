@@ -9,19 +9,13 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get language => 'English';
-
-  @override
-  String get languageTitle => 'Language';
-
-  @override
   String get calendar => 'Calendar';
 
   @override
   String get routines => 'Routines';
 
   @override
-  String get me => 'Me';
+  String get settings => 'Settings';
 
   @override
   String get createNewRoutine => 'Create New Routine';
@@ -30,28 +24,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get newRoutine => 'New Routine';
 
   @override
-  String get contributors => 'Contributors';
-
-  @override
-  String get feedback => 'Feedback';
-
-  @override
-  String get about => 'About Us';
+  String get about => 'About';
 
   @override
   String get notifications => 'Notifications';
-
-  @override
-  String get signIn => 'Google Sign In';
-
-  @override
-  String get backupRestoreComment => 'Sign in to sync and backup data';
-
-  @override
-  String get send => 'Send';
-
-  @override
-  String get feedbackComment => 'Give us feedback or any suggestion.';
 
   @override
   String get save => 'Save';
@@ -64,15 +40,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get routineName => 'Routine name';
-
-  @override
-  String get selectLanguage => 'Select Language';
-
-  @override
-  String get goDeluxe => 'Go Premium';
-
-  @override
-  String get premiumUser => 'Premium User';
 
   @override
   String get deleteReoutineQuestion => 'Are you sure to delete this routine?';
@@ -88,19 +55,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get delete => 'Delete';
 
   @override
-  String get logOut => 'Log Out';
-
-  @override
-  String get wellnestWhatIs =>
-      'Wellnest is an app designed to help you manage your wellness and personal growth. Our mission is to provide you with the tools and resources you need to live a healthier, happier life.';
-
-  @override
-  String get whoWeAre =>
-      'We are a small team trying to give our users the best we can. Your feedback and ideas are the cornerstone of our innovation. By sharing your thoughts, you\'re not just using Wellnest – you\'re helping shape its future.';
-
-  @override
-  String get supportUsWithIdeas =>
-      'Have an idea to make Wellnest even better? We\'d love to hear from you! Reach out to us through our in-app suggestion box.';
+  String get appDescription =>
+      'TaskNest is a simple, offline habit tracker. All your routines and progress stay on this device.';
 
   @override
   String get wakeUpQuestion => 'What time do you usually wake up?';
@@ -132,7 +88,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get morningNotiBody =>
-      'Review your daily routines and finish them as you go. Don\'t forget mark them as done';
+      'Review your daily routines and finish them as you go. Don\'t forget to mark them as done.';
 
   @override
   String get nightNotiTitle => 'Hey There';
@@ -213,60 +169,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get askUnrestrictedBattery =>
-      'To ensure the countdown works properly on the backround, allow the app to use Unrestricted Battery.';
-
-  @override
-  String get tokenLimitReachedError => 'You have reached your token limit.';
-
-  @override
-  String get coachResponseError =>
-      'An error occurred while generating the coach response.';
+      'To ensure the countdown works properly in the background, allow the app to use Unrestricted Battery.';
 
   @override
   String get next => 'Next';
-
-  @override
-  String get messageAxio => 'Message Axio...';
-
-  @override
-  String get enableNoti => 'Enable notifications permission';
-
-  @override
-  String get goPremiumAxio => 'Go premium to use AxioAI';
-
-  @override
-  String get dontSendData => 'Don\'t Send Data';
-
-  @override
-  String get weekData => 'Week Data';
-
-  @override
-  String get monthData => 'Month Data';
-
-  @override
-  String get tokenUsageTitle => 'Token usage';
-
-  @override
-  String get tokenUsageInput => 'Input tokens';
-
-  @override
-  String get tokenUsageOutput => 'Output tokens';
-
-  @override
-  String get tokenUsageTitleExplanation => 'How Token Usage Works';
-
-  @override
-  String get tokenUsageExplanation =>
-      'Every time you send a message to Axio or receive a response, tokens are used. They represent the effort it takes to process your input and generate meaningful replies.\n\nThese limits help keep your experience focused and intentional. If either limit is reached, coaching will pause until the next monthly cycle begins.\n\n\"Tokens aren\'t money or points. They\'re how much I can think, and how much you can ask.\"\n— Axio';
-
-  @override
-  String get close => 'Close';
 
   @override
   String get endRoutine => 'End Routine';
 
   @override
   String get selectEndDate => 'Select End Date';
+
+  @override
+  String get enableNoti => 'Enable notifications permission';
 
   @override
   String get health => 'Health & Fitness';
@@ -377,15 +292,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get relationships => 'Relationship-building (calling family/friends)';
-
-  @override
-  String get syncTooltip => 'Press to sync your data';
-
-  @override
-  String get syncingData => 'Syncing your data...';
-
-  @override
-  String get dataSynced => 'Data synced successfully!';
 
   @override
   String get ended => 'Ended';

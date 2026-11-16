@@ -1,502 +1,97 @@
 {
-    "language": "English",
-    "@language": {
-        "description": "The current language"
-    },
-    "languageTitle": "Language",
-    "@languageTitle": {
-        "description": "Language ins it´s language"
-    },
     "calendar": "Calendar",
-    "@calendar": {
-        "description": "The calendar appbar title"
-    },
     "routines": "Routines",
-    "@routines": {
-        "description": "The routines appbar title"
-    },
-    "me": "Me",
-    "@me": {
-        "description": "The me appbar title"
-    },
+    "settings": "Settings",
     "createNewRoutine": "Create New Routine",
-    "@createNewRoutine": {
-        "description": "Create a new routine button"
-    },
     "newRoutine": "New Routine",
-    "@newRoutine": {
-        "description": "New routine appbar title"
-    },
-    "contributors": "Contributors",
-    "@contributors": {
-        "description": "Contributors title"
-    },
-    "feedback": "Feedback",
-    "@feedback": {
-        "description": "Feedback title"
-    },
-    "about": "About Us",
-    "@about": {
-        "description": "About Us title"
-    },
+    "about": "About",
     "notifications": "Notifications",
-    "@notifications": {
-        "description": "Notifications title"
-    },
-    "signIn": "Google Sign In",
-    "@signIn": {
-        "description": "Google Sign In title"
-    },
-    "backupRestoreComment": "Sign in to sync and backup data",
-    "@backupRestoreComment": {
-        "description": "backupRestoreComment title"
-    },
-    "send": "Send",
-    "@send": {
-        "description": "Send button"
-    },
-    "feedbackComment": "Give us feedback or any suggestion.",
-    "@feedbackComment": {
-        "description": "Feedback or suggestion comment"
-    },
     "save": "Save",
-    "@save": {
-        "description": "Save button"
-    },
     "selectWeekDays": "Select Week Days",
-    "@selectWeekDays": {
-        "description": "Select Week Days"
-    },
     "selectColor": "Select Color",
-    "@selectColor": {
-        "description": "Select Color"
-    },
     "routineName": "Routine name",
-    "@routineName": {
-        "description": "Routine name"
-    },
-    "selectLanguage": "Select Language",
-    "@selectLanguage": {
-        "description": "Select Language"
-    },
-    "goDeluxe": "Go Premium",
-    "@goDeluxe": {
-        "description": "Go Premium"
-    },
-    "premiumUser": "Premium User",
-    "@premiumUser": {
-        "description": "Premium User"
-    },
     "deleteReoutineQuestion": "Are you sure to delete this routine?",
-    "@deleteReoutineQuestion": {
-        "description": "Question in the dialog for deleting routine"
-    },
     "deleteReoutineAwareness": "Deleting this routine will simply remove it from your routines list.",
-    "@deleteReoutineAwareness": {
-        "description": "Be aware dialog of deleting routine"
-    },
     "cancel": "Cancel",
-    "@cancel": {
-        "description": "Cancel"
-    },
     "delete": "Delete",
-    "@delete": {
-        "description": "Delete"
-    },
-    "logOut": "Log Out",
-    "@logOut": {
-        "description": "Log Out"
-    },
-    "wellnestWhatIs": "Wellnest is an app designed to help you manage your wellness and personal growth. Our mission is to provide you with the tools and resources you need to live a healthier, happier life.",
-    "@wellnestWhatIs": {
-        "description": "Wellnest explanation for about us"
-    },
-    "whoWeAre": "We are a small team trying to give our users the best we can. Your feedback and ideas are the cornerstone of our innovation. By sharing your thoughts, you're not just using Wellnest – you're helping shape its future.",
-    "@whoWeAre": {
-        "description": "Explanation of our team"
-    },
-    "supportUsWithIdeas": "Have an idea to make Wellnest even better? We'd love to hear from you! Reach out to us through our in-app suggestion box.",
-    "@supportUsWithIdeas": {
-        "description": "Exhort to support with ideas or suggestions"
-    },
+    "appDescription": "TaskNest is a simple, offline habit tracker. All your routines and progress stay on this device.",
     "wakeUpQuestion": "What time do you usually wake up?",
-    "@wakeUpQuestion": {
-        "description": "Question for onboarding, page 1, select wake up time."
-    },
     "wakeUpMessage": "Choose the time you usually start a new day.",
-    "@wakeUpMessage": {
-        "description": "Message for onboarding, page 1."
-    },
     "sleepQuestion": "What time do you usually end your day?",
-    "@sleepQuestion": {
-        "description": "Question for onboarding, page 2, select sleep time."
-    },
     "sleepMessage": "Choose the time you usually end your day.",
-    "@sleepMessage": {
-        "description": "Message for onboarding, page 2."
-    },
     "targetQuestion": "What's your target?",
-    "@targetQuestion": {
-        "description": "Question for onboarding, page 3, select category."
-    },
     "targetMessage": "Select a category to explore routines.",
-    "@targetMessage": {
-        "description": "Message for onboarding, page 3."
-    },
     "selectRoutines": "Select your routines",
-    "@selectRoutines": {
-        "description": "Question for onboarding, page 4, select routines."
-    },
     "selectRoutinesMessage": "You can always modify your selections later.",
-    "@selectRoutinesMessage": {
-        "description": "Message for onboarding, page 4."
-    },
     "morningNotiTitle": "Good Morning",
-    "@morningNotiTitle": {
-        "description": "Morning notification greeting"
-    },
-    "morningNotiBody": "Review your daily routines and finish them as you go. Don't forget mark them as done",
-    "@morningNotiBody": {
-        "description": "Morning notification body"
-    },
+    "morningNotiBody": "Review your daily routines and finish them as you go. Don't forget to mark them as done.",
     "nightNotiTitle": "Hey There",
-    "@nightNotiTitle": {
-        "description": "Night notification greeting"
-    },
     "nightNotiBody": "End your day by reviewing unfinished tasks and wrapping them up.",
-    "@nightNotiBody": {
-        "description": "Night notification body"
-    },
     "morningNoti": "Morning Notification",
-    "@morningNoti": {
-        "description": "Morning Notification"
-    },
     "nightNoti": "Night Notification",
-    "@nightNoti": {
-        "description": "Night Notification"
-    },
     "track": "Track",
-    "@track": {
-        "description": "Track in create routine"
-    },
     "task": "Task",
-    "@task": {
-        "description": "Task in create routine"
-    },
     "amount": "Amount",
-    "@amount": {
-        "description": "Amount in create routine"
-    },
     "timeRoutine": "Time",
-    "@timeRoutine": {
-        "description": "This time is for the RoutineType.time"
-    },
     "time": "time",
-    "@time": {
-        "description": "To say that a routine of amount is of 1 time"
-    },
     "times": "times",
-    "@times": {
-        "description": "To say that a routine of amount is of more or iqual 2 time"
-    },
     "selectDuration": "Select Duration",
-    "@selectDuration": {
-        "description": "Select Duration CupertinoPicker"
-    },
     "selectAmount": "Select Amount",
-    "@selectAmount": {
-        "description": "Select Amount CupertinoPicker"
-    },
     "today": "Today",
-    "@today": {
-        "description": "Today Fab"
-    },
     "markDone": "Mark as Done",
-    "@markDone": {
-        "description": "Mark as Done"
-    },
     "reset": "Reset",
-    "@reset": {
-        "description": "Reset the timer"
-    },
     "resume": "Resume",
-    "@resume": {
-        "description": "Resume"
-    },
     "pause": "Pause",
-    "@pause": {
-        "description": "Pause"
-    },
     "finish": "Finish",
-    "@finish": {
-        "description": "Finish"
-    },
     "routineReminderBody": "It's time to grow, complete your routine",
-    "@routineReminderBody": {
-        "description": "It's time to grow, complete your routine"
-    },
     "quitTimer": "Are you sure to quit the timer?",
-    "@quitTimer": {
-        "description": "Quit Timer Question"
-    },
     "timerSaved": "Your current progress will be saved. You can return later to continue.",
-    "@timerSaved": {
-        "description": "Timer Will be saved message"
-    },
     "ok": "Ok",
-    "@ok": {
-        "description": "Ok"
-    },
     "advancedSettings": "Advanced Settings",
-    "@advancedSettings": {
-        "description": "Advanced Settings"
-    },
     "remindHabit": "Remind this habit",
-    "@remindHabit": {
-        "description": "Remind this habit"
-    },
     "permissionRequired": "Permission Required",
-    "@permissionRequired": {
-        "description": "Permission Required"
-    },
-    "askUnrestrictedBattery": "To ensure the countdown works properly on the backround, allow the app to use Unrestricted Battery.",
-    "@askUnrestrictedBattery": {
-        "description": "Ask for unrestricted battery"
-    },
-    "tokenLimitReachedError": "You have reached your token limit.",
-    "@tokenLimitReachedError": {
-        "description": "Error message shown when the user reaches their monthly token usage limit"
-    },
-    "coachResponseError": "An error occurred while generating the coach response.",
-    "@coachResponseError": {
-        "description": "Generic error message shown when the coach response could not be generated"
-    },
+    "askUnrestrictedBattery": "To ensure the countdown works properly in the background, allow the app to use Unrestricted Battery.",
     "next": "Next",
-    "@next": {
-        "description": "Next"
-    },
-    "messageAxio": "Message Axio...",
-    "@messageAxio": {
-        "description": "Message Axio"
-    },
-    "enableNoti": "Enable notifications permission",
-    "@enableNoti": {
-        "description": "Enable notifications permission"
-    },
-    "goPremiumAxio": "Go premium to use AxioAI",
-    "@goPremiumAxio": {
-        "description": "Go premium to use AxioAI"
-    },
-    "dontSendData": "Don't Send Data",
-    "@dontSendData": {
-        "description": "Don't Send Data"
-    },
-    "weekData": "Week Data",
-    "@weekData": {
-        "description": "Week Data"
-    },
-    "monthData": "Month Data",
-    "@monthData": {
-        "description": "Month Data"
-    },
-    "tokenUsageTitle": "Token usage",
-    "@tokenUsageTitle": {
-        "description": "Title of the token usage dialog"
-    },
-    "tokenUsageInput": "Input tokens",
-    "@tokenUsageInput": {
-        "description": "Displays input token usage with used and limit values"
-    },
-    "tokenUsageOutput": "Output tokens",
-    "@tokenUsageOutput": {
-        "description": "Displays output token usage with used and limit values"
-    },
-    "tokenUsageTitleExplanation": "How Token Usage Works",
-    "@tokenUsageTitleExplanation": {
-        "description": "Title of the token usage explanation section"
-    },
-    "tokenUsageExplanation": "Every time you send a message to Axio or receive a response, tokens are used. They represent the effort it takes to process your input and generate meaningful replies.\n\nThese limits help keep your experience focused and intentional. If either limit is reached, coaching will pause until the next monthly cycle begins.\n\n\"Tokens aren't money or points. They're how much I can think, and how much you can ask.\"\n— Axio",
-    "@tokenUsageExplanation": {
-        "description": "Explanation of how token usage works"
-    },
-    "close": "Close",
-    "@close": {
-        "description": "Close"
-    },
     "endRoutine": "End Routine",
-    "@endRoutine": {
-        "description": "Text for the 'End Routine' switch"
-    },
     "selectEndDate": "Select End Date",
-    "@selectEndDate": {
-        "description": "Text for the button to select an end date"
-    },
+    "enableNoti": "Enable notifications permission",
     "health": "Health & Fitness",
-    "@health": {
-        "description": "Physical well-being, movement, and body care"
-    },
     "productivity": "Productivity & Focus",
-    "@productivity": {
-        "description": "Work, study, and efficiency habits"
-    },
     "mental_wellness": "Mental Wellness & Mindfulness",
-    "@mental_wellness": {
-        "description": "Emotional balance and self-care"
-    },
     "personal_growth": "Personal Growth & Learning",
-    "@personal_growth": {
-        "description": "Self-improvement and knowledge-building"
-    },
     "organization": "Organization & Lifestyle",
-    "@organization": {
-        "description": "Daily structure and environment"
-    },
     "long_term_goals": "Long-Term Goals & Accountability",
-    "@long_term_goals": {
-        "description": "Big-picture aspirations broken into habits"
-    },
     "drinking_water": "Drinking more water",
-    "@drinking_water": {
-        "description": "Track daily water intake"
-    },
     "daily_exercise": "Daily exercise (gym, yoga, running)",
-    "@daily_exercise": {
-        "description": "Physical activity routine"
-    },
     "stretching": "Stretching or mobility routines",
-    "@stretching": {
-        "description": "Flexibility exercises"
-    },
     "medication": "Taking medication/vitamins",
-    "@medication": {
-        "description": "Daily medication tracking"
-    },
     "meal_tracking": "Tracking meals or macros",
-    "@meal_tracking": {
-        "description": "Nutrition monitoring"
-    },
     "pomodoro": "Pomodoro technique sessions",
-    "@pomodoro": {
-        "description": "Focused work intervals"
-    },
     "todo_completion": "Daily to-do list completion",
-    "@todo_completion": {
-        "description": "Task accomplishment tracking"
-    },
     "social_media_limit": "Limiting social media use",
-    "@social_media_limit": {
-        "description": "Screen time management"
-    },
     "skill_learning": "Learning a skill (coding, language, etc.)",
-    "@skill_learning": {
-        "description": "Skill development sessions"
-    },
     "planning_rituals": "Morning/evening planning rituals",
-    "@planning_rituals": {
-        "description": "Daily planning routine"
-    },
     "meditation": "Meditation or breathwork",
-    "@meditation": {
-        "description": "Mindfulness practice"
-    },
     "journaling": "Journaling (gratitude, reflections)",
-    "@journaling": {
-        "description": "Daily writing practice"
-    },
     "therapy": "Therapy or mood tracking",
-    "@therapy": {
-        "description": "Mental health tracking"
-    },
     "digital_detox": "Digital detox periods",
-    "@digital_detox": {
-        "description": "Tech-free time"
-    },
     "boundaries": "Setting boundaries (saying no, unplugging)",
-    "@boundaries": {
-        "description": "Personal limit setting"
-    },
     "reading": "Reading books/articles",
-    "@reading": {
-        "description": "Daily reading habit"
-    },
     "hobby_practice": "Practicing a hobby (music, art, writing)",
-    "@hobby_practice": {
-        "description": "Creative activity time"
-    },
     "podcasts": "Listening to podcasts/educational content",
-    "@podcasts": {
-        "description": "Learning through audio"
-    },
     "networking": "Networking or socializing intentionally",
-    "@networking": {
-        "description": "Social connection"
-    },
     "public_speaking": "Public speaking practice",
-    "@public_speaking": {
-        "description": "Communication skills development"
-    },
     "making_bed": "Making the bed daily",
-    "@making_bed": {
-        "description": "Morning routine starter"
-    },
     "cleaning": "Weekly cleaning/deep organizing",
-    "@cleaning": {
-        "description": "Home maintenance"
-    },
     "budgeting": "Budgeting or expense tracking",
-    "@budgeting": {
-        "description": "Financial management"
-    },
     "meal_prep": "Meal prepping",
-    "@meal_prep": {
-        "description": "Food preparation"
-    },
     "decluttering": "Decluttering (e.g., 1 item per day)",
-    "@decluttering": {
-        "description": "Space organization"
-    },
     "saving_money": "Saving money (daily/weekly transfers)",
-    "@saving_money": {
-        "description": "Financial goal"
-    },
     "career_development": "Career development (courses, networking)",
-    "@career_development": {
-        "description": "Professional growth"
-    },
     "creative_projects": "Creative projects (writing, building something)",
-    "@creative_projects": {
-        "description": "Project work"
-    },
     "sustainability": "Sustainability habits (recycling, reducing waste)",
-    "@sustainability": {
-        "description": "Eco-friendly practices"
-    },
     "relationships": "Relationship-building (calling family/friends)",
-    "@relationships": {
-        "description": "Social connections"
-    },
-    "syncTooltip": "Press to sync your data",
-    "@syncTooltip": {
-        "description": "Tooltip message"
-    },
-    "syncingData": "Syncing your data...",
-    "@syncingData": {
-        "description": "Syncing data message"
-    },
-    "dataSynced": "Data synced successfully!",
-    "@dataSynced": {
-        "description": "Data synced succesfully message"
-    },
     "ended": "Ended",
-    "@ended": {
-        "description": "'Ended'"
-    },
     "noRoutines": "No routines yet",
-    "@noRoutines": {
-        "description": "No routines message"
-    },
-    "motivationalMessage": "Start your journey with your first healthy routine. Consistency begins with one small step.",
-    "@motivationalMessage": {
-        "description": "Motivational message"
-    }
+    "motivationalMessage": "Start your journey with your first healthy routine. Consistency begins with one small step."
 }

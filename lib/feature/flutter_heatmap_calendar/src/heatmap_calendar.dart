@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:wellnest/core/global_providers/locale_provider.dart';
-import 'package:wellnest/core/theme/theme.dart';
-import 'package:wellnest/core/utils/utils.dart';
-import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
-import 'package:wellnest/feature/calendar/presentation/providers/calendar_visibility_provider.dart';
-import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
-import 'package:wellnest/feature/flutter_heatmap_calendar/src/widget/custom_fab_location.dart';
-import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
+import 'package:task_nest/core/theme/theme.dart';
+import 'package:task_nest/core/utils/utils.dart';
+import 'package:task_nest/core/utils/validate_date_model_creation.dart.dart';
+import 'package:task_nest/feature/calendar/presentation/providers/calendar_visibility_provider.dart';
+import 'package:task_nest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
+import 'package:task_nest/feature/flutter_heatmap_calendar/src/widget/custom_fab_location.dart';
+import 'package:task_nest/feature/routines/presentation/providers/routine_provider.dart';
 import 'data/heatmap_color_mode.dart';
 import 'widget/heatmap_calendar_page.dart';
 import 'widget/heatmap_color_tip.dart';
@@ -259,7 +258,7 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
         //If currentDate isn't null and month is valid then show the month name and year, otherwise show empty string.
         // This shows the month and year in a format like "January 2022", "February 2023" etc.
         Text(
-          '${_currentDate?.month != null ? DateUtil(ref).monthLabel[_currentDate!.month - 1] : ''} ${_currentDate?.year}',
+          '${_currentDate?.month != null ? DateUtil().monthLabel[_currentDate!.month - 1] : ''} ${_currentDate?.year}',
           style: TextStyle(
             fontSize: widget.monthFontSize ?? 12,
           ),
@@ -281,7 +280,7 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        for (String label in DateUtil(ref).weekLabel)
+        for (String label in DateUtil().weekLabel)
           WidgetUtil.flexibleContainer(
             widget.flexible ?? false,
             false,
@@ -314,7 +313,6 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
   Widget build(BuildContext context) {
     final selectedDate =
         ref.watch(currentSelectedDateProvider).currentSelectedDate;
-    final locale = ref.watch(localeProvider).locale?.languageCode;
 
     //Calendar Visibility
     final visibleNotifier = ref.read(calendarVisibilityProvider.notifier);
@@ -351,8 +349,8 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
             ),
           )
         ],
-        title: appBarTitleWidget(
-            visible, visibleNotifier, context, locale, selectedDate),
+        title:
+            appBarTitleWidget(visible, visibleNotifier, context, selectedDate),
       ),
       floatingActionButton: getFab(),
       floatingActionButtonLocation:
@@ -417,7 +415,6 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
       bool visible,
       CalendarVisibilityProvider visibleNotifier,
       BuildContext context,
-      String? locale,
       DateTime selectedDate) {
     return GestureDetector(
         onTap: () => _toggleCalendarVisibility(
@@ -437,9 +434,7 @@ class _HeatMapCalendar extends ConsumerState<HeatMapCalendar> {
               Text(
                 visible
                     ? localization(context).calendar.toUpperCase()
-                    : DateFormat.yMMMd(locale)
-                        .format(selectedDate)
-                        .toUpperCase(),
+                    : DateFormat.yMMMd().format(selectedDate).toUpperCase(),
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: secondary,

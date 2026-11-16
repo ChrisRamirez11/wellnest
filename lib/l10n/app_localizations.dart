@@ -6,9 +6,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
-import 'app_localizations_es.dart';
-import 'app_localizations_fr.dart';
-import 'app_localizations_ja.dart';
 
 // ignore_for_file: type=lint
 
@@ -95,758 +92,573 @@ abstract class AppLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[
-    Locale('en'),
-    Locale('es'),
-    Locale('fr'),
-    Locale('ja')
-  ];
+  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
 
-  /// The current language
-  ///
-  /// In en, this message translates to:
-  /// **'English'**
-  String get language;
-
-  /// Language ins it´s language
-  ///
-  /// In en, this message translates to:
-  /// **'Language'**
-  String get languageTitle;
-
-  /// The calendar appbar title
+  /// No description provided for @calendar.
   ///
   /// In en, this message translates to:
   /// **'Calendar'**
   String get calendar;
 
-  /// The routines appbar title
+  /// No description provided for @routines.
   ///
   /// In en, this message translates to:
   /// **'Routines'**
   String get routines;
 
-  /// The me appbar title
+  /// No description provided for @settings.
   ///
   /// In en, this message translates to:
-  /// **'Me'**
-  String get me;
+  /// **'Settings'**
+  String get settings;
 
-  /// Create a new routine button
+  /// No description provided for @createNewRoutine.
   ///
   /// In en, this message translates to:
   /// **'Create New Routine'**
   String get createNewRoutine;
 
-  /// New routine appbar title
+  /// No description provided for @newRoutine.
   ///
   /// In en, this message translates to:
   /// **'New Routine'**
   String get newRoutine;
 
-  /// Contributors title
+  /// No description provided for @about.
   ///
   /// In en, this message translates to:
-  /// **'Contributors'**
-  String get contributors;
-
-  /// Feedback title
-  ///
-  /// In en, this message translates to:
-  /// **'Feedback'**
-  String get feedback;
-
-  /// About Us title
-  ///
-  /// In en, this message translates to:
-  /// **'About Us'**
+  /// **'About'**
   String get about;
 
-  /// Notifications title
+  /// No description provided for @notifications.
   ///
   /// In en, this message translates to:
   /// **'Notifications'**
   String get notifications;
 
-  /// Google Sign In title
-  ///
-  /// In en, this message translates to:
-  /// **'Google Sign In'**
-  String get signIn;
-
-  /// backupRestoreComment title
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in to sync and backup data'**
-  String get backupRestoreComment;
-
-  /// Send button
-  ///
-  /// In en, this message translates to:
-  /// **'Send'**
-  String get send;
-
-  /// Feedback or suggestion comment
-  ///
-  /// In en, this message translates to:
-  /// **'Give us feedback or any suggestion.'**
-  String get feedbackComment;
-
-  /// Save button
+  /// No description provided for @save.
   ///
   /// In en, this message translates to:
   /// **'Save'**
   String get save;
 
-  /// Select Week Days
+  /// No description provided for @selectWeekDays.
   ///
   /// In en, this message translates to:
   /// **'Select Week Days'**
   String get selectWeekDays;
 
-  /// Select Color
+  /// No description provided for @selectColor.
   ///
   /// In en, this message translates to:
   /// **'Select Color'**
   String get selectColor;
 
-  /// Routine name
+  /// No description provided for @routineName.
   ///
   /// In en, this message translates to:
   /// **'Routine name'**
   String get routineName;
 
-  /// Select Language
-  ///
-  /// In en, this message translates to:
-  /// **'Select Language'**
-  String get selectLanguage;
-
-  /// Go Premium
-  ///
-  /// In en, this message translates to:
-  /// **'Go Premium'**
-  String get goDeluxe;
-
-  /// Premium User
-  ///
-  /// In en, this message translates to:
-  /// **'Premium User'**
-  String get premiumUser;
-
-  /// Question in the dialog for deleting routine
+  /// No description provided for @deleteReoutineQuestion.
   ///
   /// In en, this message translates to:
   /// **'Are you sure to delete this routine?'**
   String get deleteReoutineQuestion;
 
-  /// Be aware dialog of deleting routine
+  /// No description provided for @deleteReoutineAwareness.
   ///
   /// In en, this message translates to:
   /// **'Deleting this routine will simply remove it from your routines list.'**
   String get deleteReoutineAwareness;
 
-  /// Cancel
+  /// No description provided for @cancel.
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
 
-  /// Delete
+  /// No description provided for @delete.
   ///
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
 
-  /// Log Out
+  /// No description provided for @appDescription.
   ///
   /// In en, this message translates to:
-  /// **'Log Out'**
-  String get logOut;
+  /// **'TaskNest is a simple, offline habit tracker. All your routines and progress stay on this device.'**
+  String get appDescription;
 
-  /// Wellnest explanation for about us
-  ///
-  /// In en, this message translates to:
-  /// **'Wellnest is an app designed to help you manage your wellness and personal growth. Our mission is to provide you with the tools and resources you need to live a healthier, happier life.'**
-  String get wellnestWhatIs;
-
-  /// Explanation of our team
-  ///
-  /// In en, this message translates to:
-  /// **'We are a small team trying to give our users the best we can. Your feedback and ideas are the cornerstone of our innovation. By sharing your thoughts, you\'re not just using Wellnest – you\'re helping shape its future.'**
-  String get whoWeAre;
-
-  /// Exhort to support with ideas or suggestions
-  ///
-  /// In en, this message translates to:
-  /// **'Have an idea to make Wellnest even better? We\'d love to hear from you! Reach out to us through our in-app suggestion box.'**
-  String get supportUsWithIdeas;
-
-  /// Question for onboarding, page 1, select wake up time.
+  /// No description provided for @wakeUpQuestion.
   ///
   /// In en, this message translates to:
   /// **'What time do you usually wake up?'**
   String get wakeUpQuestion;
 
-  /// Message for onboarding, page 1.
+  /// No description provided for @wakeUpMessage.
   ///
   /// In en, this message translates to:
   /// **'Choose the time you usually start a new day.'**
   String get wakeUpMessage;
 
-  /// Question for onboarding, page 2, select sleep time.
+  /// No description provided for @sleepQuestion.
   ///
   /// In en, this message translates to:
   /// **'What time do you usually end your day?'**
   String get sleepQuestion;
 
-  /// Message for onboarding, page 2.
+  /// No description provided for @sleepMessage.
   ///
   /// In en, this message translates to:
   /// **'Choose the time you usually end your day.'**
   String get sleepMessage;
 
-  /// Question for onboarding, page 3, select category.
+  /// No description provided for @targetQuestion.
   ///
   /// In en, this message translates to:
   /// **'What\'s your target?'**
   String get targetQuestion;
 
-  /// Message for onboarding, page 3.
+  /// No description provided for @targetMessage.
   ///
   /// In en, this message translates to:
   /// **'Select a category to explore routines.'**
   String get targetMessage;
 
-  /// Question for onboarding, page 4, select routines.
+  /// No description provided for @selectRoutines.
   ///
   /// In en, this message translates to:
   /// **'Select your routines'**
   String get selectRoutines;
 
-  /// Message for onboarding, page 4.
+  /// No description provided for @selectRoutinesMessage.
   ///
   /// In en, this message translates to:
   /// **'You can always modify your selections later.'**
   String get selectRoutinesMessage;
 
-  /// Morning notification greeting
+  /// No description provided for @morningNotiTitle.
   ///
   /// In en, this message translates to:
   /// **'Good Morning'**
   String get morningNotiTitle;
 
-  /// Morning notification body
+  /// No description provided for @morningNotiBody.
   ///
   /// In en, this message translates to:
-  /// **'Review your daily routines and finish them as you go. Don\'t forget mark them as done'**
+  /// **'Review your daily routines and finish them as you go. Don\'t forget to mark them as done.'**
   String get morningNotiBody;
 
-  /// Night notification greeting
+  /// No description provided for @nightNotiTitle.
   ///
   /// In en, this message translates to:
   /// **'Hey There'**
   String get nightNotiTitle;
 
-  /// Night notification body
+  /// No description provided for @nightNotiBody.
   ///
   /// In en, this message translates to:
   /// **'End your day by reviewing unfinished tasks and wrapping them up.'**
   String get nightNotiBody;
 
-  /// Morning Notification
+  /// No description provided for @morningNoti.
   ///
   /// In en, this message translates to:
   /// **'Morning Notification'**
   String get morningNoti;
 
-  /// Night Notification
+  /// No description provided for @nightNoti.
   ///
   /// In en, this message translates to:
   /// **'Night Notification'**
   String get nightNoti;
 
-  /// Track in create routine
+  /// No description provided for @track.
   ///
   /// In en, this message translates to:
   /// **'Track'**
   String get track;
 
-  /// Task in create routine
+  /// No description provided for @task.
   ///
   /// In en, this message translates to:
   /// **'Task'**
   String get task;
 
-  /// Amount in create routine
+  /// No description provided for @amount.
   ///
   /// In en, this message translates to:
   /// **'Amount'**
   String get amount;
 
-  /// This time is for the RoutineType.time
+  /// No description provided for @timeRoutine.
   ///
   /// In en, this message translates to:
   /// **'Time'**
   String get timeRoutine;
 
-  /// To say that a routine of amount is of 1 time
+  /// No description provided for @time.
   ///
   /// In en, this message translates to:
   /// **'time'**
   String get time;
 
-  /// To say that a routine of amount is of more or iqual 2 time
+  /// No description provided for @times.
   ///
   /// In en, this message translates to:
   /// **'times'**
   String get times;
 
-  /// Select Duration CupertinoPicker
+  /// No description provided for @selectDuration.
   ///
   /// In en, this message translates to:
   /// **'Select Duration'**
   String get selectDuration;
 
-  /// Select Amount CupertinoPicker
+  /// No description provided for @selectAmount.
   ///
   /// In en, this message translates to:
   /// **'Select Amount'**
   String get selectAmount;
 
-  /// Today Fab
+  /// No description provided for @today.
   ///
   /// In en, this message translates to:
   /// **'Today'**
   String get today;
 
-  /// Mark as Done
+  /// No description provided for @markDone.
   ///
   /// In en, this message translates to:
   /// **'Mark as Done'**
   String get markDone;
 
-  /// Reset the timer
+  /// No description provided for @reset.
   ///
   /// In en, this message translates to:
   /// **'Reset'**
   String get reset;
 
-  /// Resume
+  /// No description provided for @resume.
   ///
   /// In en, this message translates to:
   /// **'Resume'**
   String get resume;
 
-  /// Pause
+  /// No description provided for @pause.
   ///
   /// In en, this message translates to:
   /// **'Pause'**
   String get pause;
 
-  /// Finish
+  /// No description provided for @finish.
   ///
   /// In en, this message translates to:
   /// **'Finish'**
   String get finish;
 
-  /// It's time to grow, complete your routine
+  /// No description provided for @routineReminderBody.
   ///
   /// In en, this message translates to:
   /// **'It\'s time to grow, complete your routine'**
   String get routineReminderBody;
 
-  /// Quit Timer Question
+  /// No description provided for @quitTimer.
   ///
   /// In en, this message translates to:
   /// **'Are you sure to quit the timer?'**
   String get quitTimer;
 
-  /// Timer Will be saved message
+  /// No description provided for @timerSaved.
   ///
   /// In en, this message translates to:
   /// **'Your current progress will be saved. You can return later to continue.'**
   String get timerSaved;
 
-  /// Ok
+  /// No description provided for @ok.
   ///
   /// In en, this message translates to:
   /// **'Ok'**
   String get ok;
 
-  /// Advanced Settings
+  /// No description provided for @advancedSettings.
   ///
   /// In en, this message translates to:
   /// **'Advanced Settings'**
   String get advancedSettings;
 
-  /// Remind this habit
+  /// No description provided for @remindHabit.
   ///
   /// In en, this message translates to:
   /// **'Remind this habit'**
   String get remindHabit;
 
-  /// Permission Required
+  /// No description provided for @permissionRequired.
   ///
   /// In en, this message translates to:
   /// **'Permission Required'**
   String get permissionRequired;
 
-  /// Ask for unrestricted battery
+  /// No description provided for @askUnrestrictedBattery.
   ///
   /// In en, this message translates to:
-  /// **'To ensure the countdown works properly on the backround, allow the app to use Unrestricted Battery.'**
+  /// **'To ensure the countdown works properly in the background, allow the app to use Unrestricted Battery.'**
   String get askUnrestrictedBattery;
 
-  /// Error message shown when the user reaches their monthly token usage limit
-  ///
-  /// In en, this message translates to:
-  /// **'You have reached your token limit.'**
-  String get tokenLimitReachedError;
-
-  /// Generic error message shown when the coach response could not be generated
-  ///
-  /// In en, this message translates to:
-  /// **'An error occurred while generating the coach response.'**
-  String get coachResponseError;
-
-  /// Next
+  /// No description provided for @next.
   ///
   /// In en, this message translates to:
   /// **'Next'**
   String get next;
 
-  /// Message Axio
-  ///
-  /// In en, this message translates to:
-  /// **'Message Axio...'**
-  String get messageAxio;
-
-  /// Enable notifications permission
-  ///
-  /// In en, this message translates to:
-  /// **'Enable notifications permission'**
-  String get enableNoti;
-
-  /// Go premium to use AxioAI
-  ///
-  /// In en, this message translates to:
-  /// **'Go premium to use AxioAI'**
-  String get goPremiumAxio;
-
-  /// Don't Send Data
-  ///
-  /// In en, this message translates to:
-  /// **'Don\'t Send Data'**
-  String get dontSendData;
-
-  /// Week Data
-  ///
-  /// In en, this message translates to:
-  /// **'Week Data'**
-  String get weekData;
-
-  /// Month Data
-  ///
-  /// In en, this message translates to:
-  /// **'Month Data'**
-  String get monthData;
-
-  /// Title of the token usage dialog
-  ///
-  /// In en, this message translates to:
-  /// **'Token usage'**
-  String get tokenUsageTitle;
-
-  /// Displays input token usage with used and limit values
-  ///
-  /// In en, this message translates to:
-  /// **'Input tokens'**
-  String get tokenUsageInput;
-
-  /// Displays output token usage with used and limit values
-  ///
-  /// In en, this message translates to:
-  /// **'Output tokens'**
-  String get tokenUsageOutput;
-
-  /// Title of the token usage explanation section
-  ///
-  /// In en, this message translates to:
-  /// **'How Token Usage Works'**
-  String get tokenUsageTitleExplanation;
-
-  /// Explanation of how token usage works
-  ///
-  /// In en, this message translates to:
-  /// **'Every time you send a message to Axio or receive a response, tokens are used. They represent the effort it takes to process your input and generate meaningful replies.\n\nThese limits help keep your experience focused and intentional. If either limit is reached, coaching will pause until the next monthly cycle begins.\n\n\"Tokens aren\'t money or points. They\'re how much I can think, and how much you can ask.\"\n— Axio'**
-  String get tokenUsageExplanation;
-
-  /// Close
-  ///
-  /// In en, this message translates to:
-  /// **'Close'**
-  String get close;
-
-  /// Text for the 'End Routine' switch
+  /// No description provided for @endRoutine.
   ///
   /// In en, this message translates to:
   /// **'End Routine'**
   String get endRoutine;
 
-  /// Text for the button to select an end date
+  /// No description provided for @selectEndDate.
   ///
   /// In en, this message translates to:
   /// **'Select End Date'**
   String get selectEndDate;
 
-  /// Physical well-being, movement, and body care
+  /// No description provided for @enableNoti.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable notifications permission'**
+  String get enableNoti;
+
+  /// No description provided for @health.
   ///
   /// In en, this message translates to:
   /// **'Health & Fitness'**
   String get health;
 
-  /// Work, study, and efficiency habits
+  /// No description provided for @productivity.
   ///
   /// In en, this message translates to:
   /// **'Productivity & Focus'**
   String get productivity;
 
-  /// Emotional balance and self-care
+  /// No description provided for @mental_wellness.
   ///
   /// In en, this message translates to:
   /// **'Mental Wellness & Mindfulness'**
   String get mental_wellness;
 
-  /// Self-improvement and knowledge-building
+  /// No description provided for @personal_growth.
   ///
   /// In en, this message translates to:
   /// **'Personal Growth & Learning'**
   String get personal_growth;
 
-  /// Daily structure and environment
+  /// No description provided for @organization.
   ///
   /// In en, this message translates to:
   /// **'Organization & Lifestyle'**
   String get organization;
 
-  /// Big-picture aspirations broken into habits
+  /// No description provided for @long_term_goals.
   ///
   /// In en, this message translates to:
   /// **'Long-Term Goals & Accountability'**
   String get long_term_goals;
 
-  /// Track daily water intake
+  /// No description provided for @drinking_water.
   ///
   /// In en, this message translates to:
   /// **'Drinking more water'**
   String get drinking_water;
 
-  /// Physical activity routine
+  /// No description provided for @daily_exercise.
   ///
   /// In en, this message translates to:
   /// **'Daily exercise (gym, yoga, running)'**
   String get daily_exercise;
 
-  /// Flexibility exercises
+  /// No description provided for @stretching.
   ///
   /// In en, this message translates to:
   /// **'Stretching or mobility routines'**
   String get stretching;
 
-  /// Daily medication tracking
+  /// No description provided for @medication.
   ///
   /// In en, this message translates to:
   /// **'Taking medication/vitamins'**
   String get medication;
 
-  /// Nutrition monitoring
+  /// No description provided for @meal_tracking.
   ///
   /// In en, this message translates to:
   /// **'Tracking meals or macros'**
   String get meal_tracking;
 
-  /// Focused work intervals
+  /// No description provided for @pomodoro.
   ///
   /// In en, this message translates to:
   /// **'Pomodoro technique sessions'**
   String get pomodoro;
 
-  /// Task accomplishment tracking
+  /// No description provided for @todo_completion.
   ///
   /// In en, this message translates to:
   /// **'Daily to-do list completion'**
   String get todo_completion;
 
-  /// Screen time management
+  /// No description provided for @social_media_limit.
   ///
   /// In en, this message translates to:
   /// **'Limiting social media use'**
   String get social_media_limit;
 
-  /// Skill development sessions
+  /// No description provided for @skill_learning.
   ///
   /// In en, this message translates to:
   /// **'Learning a skill (coding, language, etc.)'**
   String get skill_learning;
 
-  /// Daily planning routine
+  /// No description provided for @planning_rituals.
   ///
   /// In en, this message translates to:
   /// **'Morning/evening planning rituals'**
   String get planning_rituals;
 
-  /// Mindfulness practice
+  /// No description provided for @meditation.
   ///
   /// In en, this message translates to:
   /// **'Meditation or breathwork'**
   String get meditation;
 
-  /// Daily writing practice
+  /// No description provided for @journaling.
   ///
   /// In en, this message translates to:
   /// **'Journaling (gratitude, reflections)'**
   String get journaling;
 
-  /// Mental health tracking
+  /// No description provided for @therapy.
   ///
   /// In en, this message translates to:
   /// **'Therapy or mood tracking'**
   String get therapy;
 
-  /// Tech-free time
+  /// No description provided for @digital_detox.
   ///
   /// In en, this message translates to:
   /// **'Digital detox periods'**
   String get digital_detox;
 
-  /// Personal limit setting
+  /// No description provided for @boundaries.
   ///
   /// In en, this message translates to:
   /// **'Setting boundaries (saying no, unplugging)'**
   String get boundaries;
 
-  /// Daily reading habit
+  /// No description provided for @reading.
   ///
   /// In en, this message translates to:
   /// **'Reading books/articles'**
   String get reading;
 
-  /// Creative activity time
+  /// No description provided for @hobby_practice.
   ///
   /// In en, this message translates to:
   /// **'Practicing a hobby (music, art, writing)'**
   String get hobby_practice;
 
-  /// Learning through audio
+  /// No description provided for @podcasts.
   ///
   /// In en, this message translates to:
   /// **'Listening to podcasts/educational content'**
   String get podcasts;
 
-  /// Social connection
+  /// No description provided for @networking.
   ///
   /// In en, this message translates to:
   /// **'Networking or socializing intentionally'**
   String get networking;
 
-  /// Communication skills development
+  /// No description provided for @public_speaking.
   ///
   /// In en, this message translates to:
   /// **'Public speaking practice'**
   String get public_speaking;
 
-  /// Morning routine starter
+  /// No description provided for @making_bed.
   ///
   /// In en, this message translates to:
   /// **'Making the bed daily'**
   String get making_bed;
 
-  /// Home maintenance
+  /// No description provided for @cleaning.
   ///
   /// In en, this message translates to:
   /// **'Weekly cleaning/deep organizing'**
   String get cleaning;
 
-  /// Financial management
+  /// No description provided for @budgeting.
   ///
   /// In en, this message translates to:
   /// **'Budgeting or expense tracking'**
   String get budgeting;
 
-  /// Food preparation
+  /// No description provided for @meal_prep.
   ///
   /// In en, this message translates to:
   /// **'Meal prepping'**
   String get meal_prep;
 
-  /// Space organization
+  /// No description provided for @decluttering.
   ///
   /// In en, this message translates to:
   /// **'Decluttering (e.g., 1 item per day)'**
   String get decluttering;
 
-  /// Financial goal
+  /// No description provided for @saving_money.
   ///
   /// In en, this message translates to:
   /// **'Saving money (daily/weekly transfers)'**
   String get saving_money;
 
-  /// Professional growth
+  /// No description provided for @career_development.
   ///
   /// In en, this message translates to:
   /// **'Career development (courses, networking)'**
   String get career_development;
 
-  /// Project work
+  /// No description provided for @creative_projects.
   ///
   /// In en, this message translates to:
   /// **'Creative projects (writing, building something)'**
   String get creative_projects;
 
-  /// Eco-friendly practices
+  /// No description provided for @sustainability.
   ///
   /// In en, this message translates to:
   /// **'Sustainability habits (recycling, reducing waste)'**
   String get sustainability;
 
-  /// Social connections
+  /// No description provided for @relationships.
   ///
   /// In en, this message translates to:
   /// **'Relationship-building (calling family/friends)'**
   String get relationships;
 
-  /// Tooltip message
-  ///
-  /// In en, this message translates to:
-  /// **'Press to sync your data'**
-  String get syncTooltip;
-
-  /// Syncing data message
-  ///
-  /// In en, this message translates to:
-  /// **'Syncing your data...'**
-  String get syncingData;
-
-  /// Data synced succesfully message
-  ///
-  /// In en, this message translates to:
-  /// **'Data synced successfully!'**
-  String get dataSynced;
-
-  /// 'Ended'
+  /// No description provided for @ended.
   ///
   /// In en, this message translates to:
   /// **'Ended'**
   String get ended;
 
-  /// No routines message
+  /// No description provided for @noRoutines.
   ///
   /// In en, this message translates to:
   /// **'No routines yet'**
   String get noRoutines;
 
-  /// Motivational message
+  /// No description provided for @motivationalMessage.
   ///
   /// In en, this message translates to:
   /// **'Start your journey with your first healthy routine. Consistency begins with one small step.'**
@@ -864,7 +676,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'es', 'fr', 'ja'].contains(locale.languageCode);
+      <String>['en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -875,12 +687,6 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
-    case 'es':
-      return AppLocalizationsEs();
-    case 'fr':
-      return AppLocalizationsFr();
-    case 'ja':
-      return AppLocalizationsJa();
   }
 
   throw FlutterError(

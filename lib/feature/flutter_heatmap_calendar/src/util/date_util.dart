@@ -1,33 +1,22 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:wellnest/core/global_providers/locale_provider.dart';
-import 'package:wellnest/core/utils/capitalize_first_letter.dart';
+import 'package:task_nest/core/utils/capitalize_first_letter.dart';
 
 class DateUtil {
-  final WidgetRef ref;
-  late final String? locale;
-
-  DateUtil(this.ref) {
-    locale = ref
-        .watch(localeProvider)
-        .locale
-        ?.languageCode; // Access the locale from the provider
-  }
+  const DateUtil();
 
   static const int DAYS_IN_WEEK = 7;
 
-  // Get localized month names
+  // Get month names
   List<String> get monthLabel => List.generate(12, (index) {
         return capitalizeFirstLetter(
-            DateFormat.MMMM(locale).format(DateTime(2024, index + 1, 1)));
+            DateFormat.MMMM().format(DateTime(2024, index + 1, 1)));
       });
 
-  // Get localized weekday names (starting from Monday, only first 3 letters)
+  // Get weekday names (starting from Monday, only first 3 letters)
   List<String> get weekLabel => List.generate(7, (index) {
-        String shortName =
-            DateFormat.EEEE(locale).format(DateTime(2024, 1, index));
+        String shortName = DateFormat.EEEE().format(DateTime(2024, 1, index));
         return capitalizeFirstLetter(shortName).substring(0, 3);
       });
 

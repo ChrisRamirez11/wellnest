@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/core/notifications/noti_service.dart';
-import 'package:wellnest/core/theme/theme.dart';
-import 'package:wellnest/core/utils/delete_routine_date_today.dart';
-import 'package:wellnest/core/utils/utils.dart';
-import 'package:wellnest/feature/dates/data/models/date_model.dart';
-import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
-import 'package:wellnest/feature/flutter_heatmap_calendar/src/util/date_util.dart';
-import 'package:wellnest/feature/routines/business/entity/routine_entity.dart';
-import 'package:wellnest/feature/routines/data/models/routine_model.dart';
-import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
-import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
-import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
+import 'package:task_nest/core/notifications/noti_service.dart';
+import 'package:task_nest/core/theme/theme.dart';
+import 'package:task_nest/core/utils/delete_routine_date_today.dart';
+import 'package:task_nest/core/utils/utils.dart';
+import 'package:task_nest/feature/dates/data/models/date_model.dart';
+import 'package:task_nest/feature/dates/presentation/providers/date_provider.dart';
+import 'package:task_nest/feature/flutter_heatmap_calendar/src/util/date_util.dart';
+import 'package:task_nest/feature/routines/business/entity/routine_entity.dart';
+import 'package:task_nest/feature/routines/data/models/routine_model.dart';
+import 'package:task_nest/feature/routines/presentation/providers/routine_provider.dart';
+import 'package:task_nest/feature/routines/presentation/screens/create_routine.dart';
+import 'package:task_nest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
 
 class RoutineTile extends ConsumerStatefulWidget {
   final RoutineModel routine;
@@ -263,7 +263,7 @@ class _RoutineTileState extends ConsumerState<RoutineTile> {
               ),
               child: Center(
                 child: Text(
-                  DateUtil(ref).weekLabel[index][0].toUpperCase(),
+                  DateUtil().weekLabel[index][0].toUpperCase(),
                   style: textTheme(context).bodySmall!.copyWith(
                         color: secondary,
                       ),
