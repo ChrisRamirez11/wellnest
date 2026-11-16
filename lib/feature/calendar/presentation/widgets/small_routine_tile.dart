@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vibration/vibration.dart';
-import 'package:wellnest/core/theme/theme.dart';
-import 'package:wellnest/core/utils/can_update_checkbox.dart';
-import 'package:wellnest/core/utils/format_duration.dart';
-import 'package:wellnest/core/utils/utils.dart';
-import 'package:wellnest/feature/dates/data/models/date_model.dart';
-import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
-import 'package:wellnest/feature/routines/business/entity/routine_entity.dart';
-import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
-import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
-import 'package:wellnest/feature/calendar/presentation/screens/countdown_page.dart';
+import 'package:task_nest/core/theme/theme.dart';
+import 'package:task_nest/core/utils/can_update_checkbox.dart';
+import 'package:task_nest/core/utils/format_duration.dart';
+import 'package:task_nest/core/utils/utils.dart';
+import 'package:task_nest/feature/dates/data/models/date_model.dart';
+import 'package:task_nest/feature/dates/presentation/providers/date_provider.dart';
+import 'package:task_nest/feature/routines/business/entity/routine_entity.dart';
+import 'package:task_nest/feature/routines/presentation/screens/create_routine.dart';
+import 'package:task_nest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
+import 'package:task_nest/feature/calendar/presentation/screens/countdown_page.dart';
 
 class SmallRoutineTile extends ConsumerStatefulWidget {
   final int index;

@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:wellnest/core/preferences/user_preferences.dart';
-import 'package:wellnest/core/utils/utils.dart';
+import 'package:task_nest/core/preferences/user_preferences.dart';
+import 'package:task_nest/core/utils/utils.dart';
 
 Future<void> requestIgnoreBatteryOptimizations(BuildContext context) async {
   final prefs = UserPreferences();
