@@ -17,7 +17,7 @@ Out of scope (handled later in a fork): the technical challenge items (public AP
 - [x] 1.1 Remove monetization and ads (Adapty, paywall, premium, AdMob, app-open ad).
 - [x] 1.2 Remove AI Coach, Axio/Rive and the nav entry point.
 - [x] 1.3 Remove Supabase auth and remote backup/restore.
-- [ ] 1.4 Remove Feedback/community; keep a minimal About.
+- [x] 1.4 Remove Feedback/community; keep a minimal About.
 - [ ] 2.1 Simplify shell/navigation and settings to local options only.
 - [ ] 2.2 Clean onboarding (no paywall, English-only copy).
 - [ ] 2.3 Keep timer sound/vibration; drop unused interaction deps only.

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:wellnest/core/utils/utils.dart';
-import 'package:wellnest/core/widgets/custom_app_bar.dart';
+import 'package:task_nest/core/utils/utils.dart';
+import 'package:task_nest/core/widgets/custom_app_bar.dart';
 
 class AboutUsScreen extends StatefulWidget {
   const AboutUsScreen({super.key});
@@ -21,6 +21,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
 
   Future<void> _loadAppVersion() async {
     final packageInfo = await PackageInfo.fromPlatform();
+    if (!mounted) return;
     setState(() {
       _appVersion = packageInfo.version;
     });
@@ -45,26 +46,13 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Wellnest App',
+                  'TaskNest',
                   style: textTheme(context).bodyLarge!.copyWith(fontSize: 24),
                 ),
+                Text('v$_appVersion', style: textTheme(context).labelSmall),
+                const SizedBox(height: 8),
                 Text(
-                  'Version: $_appVersion',
-                  style: textTheme(context).labelMedium,
-                ),
-                SizedBox(height: 8),
-                Text(
-                  localization(context).wellnestWhatIs,
-                  style: textTheme(context).labelMedium,
-                ),
-                SizedBox(height: 8),
-                Text(
-                  localization(context).whoWeAre,
-                  style: textTheme(context).labelMedium,
-                ),
-                SizedBox(height: 8),
-                Text(
-                  localization(context).supportUsWithIdeas,
+                  localization(context).appDescription,
                   style: textTheme(context).labelMedium,
                 ),
               ],
