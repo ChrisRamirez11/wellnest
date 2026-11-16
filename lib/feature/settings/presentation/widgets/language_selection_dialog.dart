@@ -51,10 +51,11 @@ class LanguageSelectionDialog extends ConsumerWidget {
                   //Sets again the notifications, so it's translated
                   if (context.mounted) {
                     await setGlobalAppNotification(ref, context);
-                  }if (context.mounted) {
+                  }
+                  if (context.mounted) {
                     await setRoutinesReminders(context, ref);
                   }
-                  
+
                   if (context.mounted) Navigator.pop(context);
                 },
               ),

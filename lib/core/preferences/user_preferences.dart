@@ -22,7 +22,7 @@ class UserPreferences {
   bool get darkMode {
     return _prefs.getBool('DarkMode') ?? true;
   }
-  
+
   set premiumUser(bool value) {
     _prefs.setBool('premiumUser', value);
   }
@@ -95,7 +95,7 @@ class UserPreferences {
     return _prefs.getBool('firstOpening') ?? true;
   }
 
-    set hasSeenOrangeIcon(bool value) {
+  set hasSeenOrangeIcon(bool value) {
     _prefs.setBool('hasSeenOrangeIcon', value);
   }
 

@@ -62,14 +62,14 @@ class DateLocalDatasourceImpl implements DateLocalDatasource {
       throw CacheException(message: e.toString());
     }
   }
-  
+
   @override
   Future<List<int>> upsertAllDates(List<DateModel> dateModels) async {
     try {
       final isarInstance = await IsarDatabase().isar;
       final res = await isarInstance.writeTxn(
           () async => await isarInstance.dateModels.putAll(dateModels));
-          return res;
+      return res;
     } catch (e) {
       throw CacheException(message: e.toString());
     }

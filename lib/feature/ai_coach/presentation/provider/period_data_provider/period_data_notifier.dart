@@ -40,8 +40,7 @@ class PeriodDataNotifier extends StateNotifier<PeriodDataState> {
 
       if (filteredData.isEmpty) {
         state = state.copyWith(
-            summary: "No data available for this period.",
-            loading: false);
+            summary: "No data available for this period.", loading: false);
         return;
       }
 

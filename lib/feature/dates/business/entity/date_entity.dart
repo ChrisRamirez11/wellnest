@@ -6,7 +6,7 @@ class DateEntity {
   DateTime date;
   List<RoutineEntity> routines;
   int completedRoutineAmount;
-  
+
   DateEntity({
     this.id,
     required this.date,

@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-class L10n{
+class L10n {
   static final all = [
     Locale('en'),
     Locale('es'),

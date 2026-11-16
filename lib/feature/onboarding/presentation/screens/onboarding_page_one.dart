@@ -44,8 +44,7 @@ class OnboardingPageOne extends ConsumerWidget {
                     return Theme(
                       data: Theme.of(context).copyWith(
                         textTheme: TextTheme(
-                          labelLarge: TextStyle(
-                              fontSize: 15),
+                          labelLarge: TextStyle(fontSize: 15),
                         ),
                       ),
                       child: child!,

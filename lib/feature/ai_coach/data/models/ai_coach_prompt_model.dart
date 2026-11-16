@@ -22,7 +22,8 @@ class AiCoachPromptModel {
       'language': language,
       if (summary != null) 'summary': summary,
       if (period != null) 'period': period,
-      if (previousResponseId != null) 'previous_response_id': previousResponseId,
+      if (previousResponseId != null)
+        'previous_response_id': previousResponseId,
     };
   }
 }

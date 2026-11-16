@@ -98,7 +98,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
     Future(
       () {
         ref.read(colorProvider).setColor(
-            Color(widget.routineModel?.colorValue ?? Colors.blue.value));
+            Color(widget.routineModel?.colorValue ?? Colors.blue.toARGB32()));
       },
     );
   }
@@ -662,7 +662,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                 DateTime.now().year, DateTime.now().month, DateTime.now().day),
         //checks if finished or not
         finished: false,
-        colorValue: colorNotifier.color.value,
+        colorValue: colorNotifier.color.toARGB32(),
         type: _selectedType.name,
         currentCount: 0,
         elapsedTimeSeconds: 0,

@@ -6,19 +6,18 @@ class CompletionBorderPainter extends CustomPainter {
   final double strokeWidth;
   final double? borderRadius;
 
-  CompletionBorderPainter({
-    required this.percent,
-    required this.borderColor,
-    this.strokeWidth = 8.0,
-    this.borderRadius = 12
-  });
+  CompletionBorderPainter(
+      {required this.percent,
+      required this.borderColor,
+      this.strokeWidth = 8.0,
+      this.borderRadius = 12});
 
   @override
   void paint(Canvas canvas, Size size) {
     // 1) Compute an inset rectangle so the stroke sits fully inside
     final sw = strokeWidth;
-    final rect = Offset(sw / 2, sw / 2) &
-        Size(size.width - sw, size.height - sw);
+    final rect =
+        Offset(sw / 2, sw / 2) & Size(size.width - sw, size.height - sw);
 
     // 2) Build a path that begins at the top-center of the RRect
     final path = Path()
@@ -84,6 +83,7 @@ class CompletionBorderPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CompletionBorderPainter oldDelegate) {
-    return oldDelegate.percent != percent || oldDelegate.borderColor != borderColor;
+    return oldDelegate.percent != percent ||
+        oldDelegate.borderColor != borderColor;
   }
 }

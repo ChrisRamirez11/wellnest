@@ -32,9 +32,9 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
       child: Scaffold(
         appBar: CustomAppBar(
           leadingWidget: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
           titleString: localization(context).about,
         ),
         body: Padding(

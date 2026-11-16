@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-TimeOfDay stringToTimeOfDay(String s){
+TimeOfDay stringToTimeOfDay(String s) {
   final parts = s.split(':');
   if (parts.length != 2) {
     throw FormatException('Invalid time format, expected HH:mm');

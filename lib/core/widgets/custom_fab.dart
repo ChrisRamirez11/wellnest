@@ -12,6 +12,10 @@ class CustomFab extends ConsumerWidget {
         mini: isMini ?? false,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
         onPressed: () => Navigator.of(context).pushNamed('/createRoutine'),
-        child: const Icon(Icons.add, color: ghostWhite, size: 30,));
+        child: const Icon(
+          Icons.add,
+          color: ghostWhite,
+          size: 30,
+        ));
   }
 }

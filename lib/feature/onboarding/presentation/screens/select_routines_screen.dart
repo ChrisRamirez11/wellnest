@@ -40,7 +40,9 @@ class SelectRoutinesScreen extends ConsumerWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -48,9 +50,10 @@ class SelectRoutinesScreen extends ConsumerWidget {
               itemBuilder: (context, index) {
                 final routine = selectedCategory.routines[index];
                 final isSelected = selectedRoutineNames.contains(routine.name);
-        
+
                 return Card(
-                  color: isSelected ? Colors.blue.shade900 : Colors.grey.shade800,
+                  color:
+                      isSelected ? Colors.blue.shade900 : Colors.grey.shade800,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                   margin: const EdgeInsets.all(10),
@@ -64,7 +67,10 @@ class SelectRoutinesScreen extends ConsumerWidget {
                             .where((name) => name != routine.name)
                             .toList();
                       } else {
-                        notifier.state = [...selectedRoutineNames, routine.name];
+                        notifier.state = [
+                          ...selectedRoutineNames,
+                          routine.name
+                        ];
                       }
                     },
                     child: Container(

@@ -74,9 +74,7 @@ class DateProvider extends ChangeNotifier {
       (r) => debugPrint('date succesfully deleted'),
     );
 
-    _dates!.removeWhere(
-      (element) =>
-          element.id == id);
+    _dates!.removeWhere((element) => element.id == id);
 
     notifyListeners();
   }

@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wellnest/core/preferences/user_preferences.dart';
 
-final orangeIconProvider = StateNotifierProvider<OrangeIconProvider, bool>((ref) {
+final orangeIconProvider =
+    StateNotifierProvider<OrangeIconProvider, bool>((ref) {
   return OrangeIconProvider();
 });
 
@@ -19,7 +20,7 @@ class OrangeIconProvider extends StateNotifier<bool> {
     _prefs.hasSeenOrangeIcon = true;
     state = true;
   }
-  
+
   void reset() {
     _prefs.hasSeenOrangeIcon = false;
     state = false;

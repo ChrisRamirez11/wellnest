@@ -10,22 +10,26 @@ class DateUtil {
   late final String? locale;
 
   DateUtil(this.ref) {
-    locale = ref.watch(localeProvider).locale?.languageCode; // Access the locale from the provider
+    locale = ref
+        .watch(localeProvider)
+        .locale
+        ?.languageCode; // Access the locale from the provider
   }
 
   static const int DAYS_IN_WEEK = 7;
 
   // Get localized month names
   List<String> get monthLabel => List.generate(12, (index) {
-    return capitalizeFirstLetter(
-        DateFormat.MMMM(locale).format(DateTime(2024, index + 1, 1)));
-  });
+        return capitalizeFirstLetter(
+            DateFormat.MMMM(locale).format(DateTime(2024, index + 1, 1)));
+      });
 
   // Get localized weekday names (starting from Monday, only first 3 letters)
   List<String> get weekLabel => List.generate(7, (index) {
-    String shortName = DateFormat.EEEE(locale).format(DateTime(2024, 1, index));
-    return capitalizeFirstLetter(shortName).substring(0, 3);
-  });
+        String shortName =
+            DateFormat.EEEE(locale).format(DateTime(2024, 1, index));
+        return capitalizeFirstLetter(shortName).substring(0, 3);
+      });
 
   /// Get start day of month.
   static DateTime startDayOfMonth(final DateTime referenceDate) =>

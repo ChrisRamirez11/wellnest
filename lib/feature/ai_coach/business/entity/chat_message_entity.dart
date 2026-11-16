@@ -13,7 +13,8 @@ class ChatMessage {
     this.isLoading = false,
   });
 
-  ChatMessage copyWith({ String? id, String? text, Author? author, bool? isLoading }) {
+  ChatMessage copyWith(
+      {String? id, String? text, Author? author, bool? isLoading}) {
     return ChatMessage(
       id: id ?? this.id,
       text: text ?? this.text,

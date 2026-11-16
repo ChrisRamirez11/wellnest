@@ -1,4 +1,3 @@
-
 import 'package:isar_community/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wellnest/feature/dates/data/models/date_model.dart';
@@ -20,7 +19,8 @@ class IsarDatabase {
 
     final dir = await getApplicationDocumentsDirectory();
 
-    _isar = await Isar.open([RoutineModelSchema, DateModelSchema], directory: dir.path);
+    _isar = await Isar.open([RoutineModelSchema, DateModelSchema],
+        directory: dir.path);
     return _isar!;
   }
 }

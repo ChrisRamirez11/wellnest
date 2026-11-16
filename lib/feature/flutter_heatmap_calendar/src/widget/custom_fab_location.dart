@@ -7,7 +7,8 @@ class CustomFABLocation extends FloatingActionButtonLocation {
 
   @override
   Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
-    final defaultOffset = FloatingActionButtonLocation.miniEndFloat.getOffset(scaffoldGeometry);
+    final defaultOffset =
+        FloatingActionButtonLocation.miniEndFloat.getOffset(scaffoldGeometry);
     return defaultOffset + offset;
   }
 }

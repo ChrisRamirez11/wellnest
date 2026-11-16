@@ -37,4 +37,3 @@ Future<void> googleNativeSignIn() async {
     throw 'Error inesperado $e';
   }
 }
-

@@ -70,14 +70,13 @@ class _CustomNavBarState extends ConsumerState<CustomNavBar> {
             child: GestureDetector(
                 onTap: () => getSignInOrAxioScreen(context),
                 child: Container(
-                  height: 60,
-                  width: 75,
-                  decoration: BoxDecoration(
-                    color: obsidian,
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                  child: Axio()
-                )),
+                    height: 60,
+                    width: 75,
+                    decoration: BoxDecoration(
+                      color: obsidian,
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Axio())),
           ),
         ],
       ),

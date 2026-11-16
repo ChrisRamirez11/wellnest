@@ -58,13 +58,9 @@ class _TokensUsageWidgetState extends ConsumerState<TokensUsageWidget> {
     }
 
     // Select values according to the current mode
-    final used = (_viewMode == TokenViewMode.input
-            ? inputUsed
-            : outputUsed)
-        .toDouble();
-    final limit = (_viewMode == TokenViewMode.input
-            ? inputLimit
-            : outputLimit)
+    final used =
+        (_viewMode == TokenViewMode.input ? inputUsed : outputUsed).toDouble();
+    final limit = (_viewMode == TokenViewMode.input ? inputLimit : outputLimit)
         .toDouble();
     final percentage = limit > 0 ? (used / limit).clamp(0.0, 1.0) : 0.0;
     final color = _getProgressColor(percentage, context);

@@ -24,14 +24,14 @@ class _AxioAnimationWidgetState extends State<AxioAnimationWidget> {
   Future<void> _initRive() async {
     try {
       await widget.controller.load();
-      
+
       final file = widget.controller.getFile();
       final controller = RiveWidgetController(
         file,
         artboardSelector: ArtboardSelector.byName('Axio Idle'),
         stateMachineSelector: StateMachineSelector.byDefault(),
       );
-      
+
       if (mounted) {
         setState(() {
           _riveController = controller;

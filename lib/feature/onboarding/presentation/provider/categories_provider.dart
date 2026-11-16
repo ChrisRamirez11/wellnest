@@ -8,13 +8,12 @@ final routineRepositoryProvider =
   return DefaultOnboardingRoutinesRepositoryImpl(DefaultOnboardingRoutines());
 });
 
-final categoriesProvider = StateProvider<DefaultOnboardingRoutinesRepositoryImpl>((ref) {
+final categoriesProvider =
+    StateProvider<DefaultOnboardingRoutinesRepositoryImpl>((ref) {
   final repository = ref.watch(routineRepositoryProvider);
   return repository;
 });
 
 final selectedCategoryProvider = StateProvider<RoutineCategory?>((ref) => null);
 
-
 final selectedRoutinesProvider = StateProvider<List<String?>>((ref) => []);
-

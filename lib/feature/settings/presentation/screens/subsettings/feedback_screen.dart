@@ -26,9 +26,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       child: Scaffold(
         appBar: CustomAppBar(
           leadingWidget: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
           titleString: localization(context).feedback,
         ),
         body: Padding(
@@ -68,34 +68,34 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         color:
             feedbackController.text.isNotEmpty ? primary : Colors.grey.shade700,
         onClick: feedbackController.text.isNotEmpty
-    ? () async {
-        final String feedback = feedbackController.text;
-        final String encodedSubject = Uri.encodeComponent(subject);
-        final String encodedBody = Uri.encodeComponent(feedback);
+            ? () async {
+                final String feedback = feedbackController.text;
+                final String encodedSubject = Uri.encodeComponent(subject);
+                final String encodedBody = Uri.encodeComponent(feedback);
 
-        final Uri emailLaunchUri = Uri(
-          scheme: 'mailto',
-          path: email,
-          query: 'subject=$encodedSubject&body=$encodedBody',
-        );
+                final Uri emailLaunchUri = Uri(
+                  scheme: 'mailto',
+                  path: email,
+                  query: 'subject=$encodedSubject&body=$encodedBody',
+                );
 
-        if (await canLaunchUrl(emailLaunchUri)) {
-          await launchUrl(emailLaunchUri);
-          feedbackController.clear();
-        } else {
-          if (context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  'Could not launch email client',
-                  style: textTheme(context).labelMedium,
-                ),
-              ),
-            );
-          }
-        }
-      }
-    : null,
+                if (await canLaunchUrl(emailLaunchUri)) {
+                  await launchUrl(emailLaunchUri);
+                  feedbackController.clear();
+                } else {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Could not launch email client',
+                          style: textTheme(context).labelMedium,
+                        ),
+                      ),
+                    );
+                  }
+                }
+              }
+            : null,
         text: localization(context).send.toUpperCase(),
       ),
     );

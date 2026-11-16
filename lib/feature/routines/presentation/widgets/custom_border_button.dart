@@ -40,7 +40,8 @@ class CustomBorderButton extends StatelessWidget {
         icon: icon ?? const SizedBox(width: 0, height: 0),
         style: ButtonStyle(
           backgroundColor: WidgetStatePropertyAll(
-            buttonColor.withAlpha(alpha.clamp(0, 255)), // Usamos el alpha proporcionado
+            buttonColor.withAlpha(
+                alpha.clamp(0, 255)), // Usamos el alpha proporcionado
           ),
           side: WidgetStatePropertyAll(
             BorderSide(color: buttonColor, width: borderWidth),

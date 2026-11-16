@@ -84,7 +84,7 @@ class RoutineModel {
               (map['createdDate'] as String).isNotEmpty
           ? DateTime.parse(map['createdDate'] as String)
           : DateTime(now.year, now.month, now.day),
-      colorValue: map['colorValue'] as int? ?? Colors.blue.value,
+      colorValue: map['colorValue'] as int? ?? Colors.blue.toARGB32(),
       type: RoutineType.values
           .byName(map['type'] as String? ?? RoutineType.task.name)
           .name,

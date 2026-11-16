@@ -5,7 +5,7 @@ import 'package:wellnest/feature/ads/app_open_ad/app_open_ad.dart';
 class AppLifecycleReactor {
   final AppOpenAdManager appOpenAdManager;
 
-  AppLifecycleReactor({required this.appOpenAdManager}){
+  AppLifecycleReactor({required this.appOpenAdManager}) {
     _listenToAppStateChanges();
   }
 

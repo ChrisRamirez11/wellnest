@@ -3,7 +3,8 @@ import 'package:wellnest/feature/routines/business/repositories/default_onboardi
 import 'package:wellnest/feature/routines/data/datasources/local/default_onboarding_routines.dart';
 import 'package:wellnest/feature/calendar/data/models/routine_category.dart';
 
-class DefaultOnboardingRoutinesRepositoryImpl extends DefaultOnboardingRoutinesRepository {
+class DefaultOnboardingRoutinesRepositoryImpl
+    extends DefaultOnboardingRoutinesRepository {
   final DefaultOnboardingRoutines _defaultOnboardingRoutines;
 
   DefaultOnboardingRoutinesRepositoryImpl(this._defaultOnboardingRoutines);
@@ -12,5 +13,4 @@ class DefaultOnboardingRoutinesRepositoryImpl extends DefaultOnboardingRoutinesR
   List<RoutineCategory> loadRoutines(BuildContext context) {
     return _defaultOnboardingRoutines.loadRoutines(context);
   }
-  
 }

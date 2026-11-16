@@ -90,8 +90,7 @@ class _UserSignedButtonState extends ConsumerState<UserSignedButton> {
                     style: textTheme(context).bodyMedium,
                   )))),
           trailing: Tooltip(
-            textStyle:
-                textTheme(context).bodySmall!.copyWith(color: obsidian),
+            textStyle: textTheme(context).bodySmall!.copyWith(color: obsidian),
             message: localization(context).syncTooltip,
             child: IconButton(
               icon: Stack(

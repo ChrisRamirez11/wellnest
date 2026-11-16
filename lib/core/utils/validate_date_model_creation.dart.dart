@@ -50,8 +50,8 @@ Future<void> validateDateModel(
   );
 
   // 6) If the date is today or in the past, perform upsert in the database; if it's in the future, do not
-  final isPastOrToday = date.isBefore(normalizedToday) ||
-      date.isAtSameMomentAs(normalizedToday);
+  final isPastOrToday =
+      date.isBefore(normalizedToday) || date.isAtSameMomentAs(normalizedToday);
 
   if (filteredRoutines.isNotEmpty && isPastOrToday) {
     await dateNotifier.upsertDate(dateModel);

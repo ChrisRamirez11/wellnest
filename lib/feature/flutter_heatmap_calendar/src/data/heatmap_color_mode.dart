@@ -1,5 +1,1 @@
-enum ColorMode {
-  opacity,
-  color,
-  completion
-}
+enum ColorMode { opacity, color, completion }

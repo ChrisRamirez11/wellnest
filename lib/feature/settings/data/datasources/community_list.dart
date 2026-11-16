@@ -1,2 +1,1 @@
-List<String> communityList = [
-];
+List<String> communityList = [];

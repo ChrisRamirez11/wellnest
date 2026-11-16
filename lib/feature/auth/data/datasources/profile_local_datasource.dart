@@ -1,5 +1,3 @@
-
-
 import 'package:wellnest/feature/auth/data/models/profile_model.dart';
 import 'package:wellnest/core/errors/excpetions.dart';
 import 'package:wellnest/core/preferences/user_preferences.dart';

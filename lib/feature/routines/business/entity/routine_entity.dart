@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-
 // routine_type.dart
 enum RoutineType {
   task,
@@ -9,6 +8,7 @@ enum RoutineType {
 
   String get name => toString().split('.').last;
 }
+
 // routine_entity.dart
 class RoutineEntity {
   int? id;

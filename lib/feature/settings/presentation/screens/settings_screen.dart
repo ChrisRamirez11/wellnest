@@ -9,6 +9,8 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(titleString: localization(context).me.toUpperCase()), body: const SettingsBody(),);
+      appBar: CustomAppBar(titleString: localization(context).me.toUpperCase()),
+      body: const SettingsBody(),
+    );
   }
 }

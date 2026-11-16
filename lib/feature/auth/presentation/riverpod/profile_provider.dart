@@ -51,8 +51,11 @@ class ProfileProvider extends ChangeNotifier {
     return userDataOrFailure.fold(
       (newFailure) {
         if (context.mounted) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(newFailure.errorMessage, style: textTheme(context).labelMedium,)));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+            newFailure.errorMessage,
+            style: textTheme(context).labelMedium,
+          )));
         }
         return ProfileModel(
             id: id,
@@ -82,8 +85,11 @@ class ProfileProvider extends ChangeNotifier {
     userUpdatedOrFailure.fold(
       (newFailure) {
         if (context.mounted) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(newFailure.errorMessage, style: textTheme(context).labelMedium,)));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+            newFailure.errorMessage,
+            style: textTheme(context).labelMedium,
+          )));
         }
       },
       (success) {
@@ -99,8 +105,11 @@ class ProfileProvider extends ChangeNotifier {
     signedOutOrFailure.fold(
       (newFailure) {
         if (context.mounted) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(newFailure.errorMessage, style: textTheme(context).labelMedium,)));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+            newFailure.errorMessage,
+            style: textTheme(context).labelMedium,
+          )));
         }
         notifyListeners();
         return;
