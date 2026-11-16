@@ -15,7 +15,7 @@ Out of scope (handled later in a fork): the technical challenge items (public AP
 
 - [x] 0.1 Document scope, add baseline unit tests and format the codebase.
 - [x] 1.1 Remove monetization and ads (Adapty, paywall, premium, AdMob, app-open ad).
-- [ ] 1.2 Remove AI Coach, Axio/Rive and the nav entry point.
+- [x] 1.2 Remove AI Coach, Axio/Rive and the nav entry point.
 - [ ] 1.3 Remove Supabase auth and remote backup/restore.
 - [ ] 1.4 Remove Feedback/community; keep a minimal About.
 - [ ] 2.1 Simplify shell/navigation and settings to local options only.
