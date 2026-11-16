@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/core/notifications/global_app_notification.dart';
-import 'package:wellnest/core/notifications/noti_service.dart';
-import 'package:wellnest/core/notifications/notifications_provider.dart';
-import 'package:wellnest/core/utils/set_routines_reminders.dart';
-import 'package:wellnest/core/utils/utils.dart';
-import 'package:wellnest/feature/ads/banner_ad.dart';
-import 'package:wellnest/feature/auth/presentation/riverpod/google_native_signin.dart';
-import 'package:wellnest/feature/auth/presentation/riverpod/profile_provider.dart';
-import 'package:wellnest/feature/settings/presentation/widgets/go_deluxe_button.dart';
-import 'package:wellnest/feature/settings/presentation/widgets/language_selection_dialog.dart';
-import 'package:wellnest/feature/settings/presentation/widgets/user_signed_button.dart';
-import 'package:wellnest/main.dart';
+import 'package:task_nest/core/notifications/global_app_notification.dart';
+import 'package:task_nest/core/notifications/noti_service.dart';
+import 'package:task_nest/core/notifications/notifications_provider.dart';
+import 'package:task_nest/core/utils/set_routines_reminders.dart';
+import 'package:task_nest/core/utils/utils.dart';
 
 class SettingsBody extends ConsumerStatefulWidget {
   const SettingsBody({super.key});
@@ -26,118 +19,22 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: SingleChildScrollView(
-        child: Column(
-          spacing: 5,
-          children: [
-            getSignInBox(context),
-            getGoDeluxeButton(),
-            getSettigsBox(context),
-            BannerAdWidget()
-          ],
-        ),
+        child: Column(spacing: 5, children: [_settingsCard(context)]),
       ),
     );
   }
 
-  Widget getSignInBox(BuildContext context) {
-    final user = supabase.auth.currentUser;
-    final profileNotifier = ref.watch(profileProvider);
-
+  Card _settingsCard(BuildContext context) {
     return Card(
-      // color: colorScheme(context).surfaceContainerHigh,
-      clipBehavior: Clip.antiAlias,
-      child: (user == null && profileNotifier.profile == null)
-          ? InkWell(
-              onTap: () async {
-                await googleNativeSignIn();
-                if (mounted) {
-                  setState(() {});
-                }
-              },
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: ListTile(
-                    minTileHeight: 70,
-                    title: Text(
-                      localization(context).signIn,
-                      style: textTheme(context).bodyLarge,
-                    ),
-                    subtitle: Align(
-                      alignment: Alignment.centerLeft,
-                      child: SizedBox(
-                        height: 20,
-                        child: FittedBox(
-                            child: Text(
-                          localization(context).backupRestoreComment,
-                          style: textTheme(context)
-                              .bodyMedium!
-                              .copyWith(color: Colors.grey),
-                        )),
-                      ),
-                    ),
-                    trailing: Icon(Icons.backup),
-                  ),
-                ),
-              ),
-            )
-          : const UserSignedButton(),
-    );
-  }
-
-  Widget getGoDeluxeButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: GoDeluxeButton(),
-    );
-  }
-
-  Card getSettigsBox(BuildContext context) {
-    return Card(
-      // color: colorScheme(context).surfaceContainerHigh,
       child: SizedBox(
         width: double.infinity,
         child: Column(
           children: [
-            getNotificationsTile(),
-            getDivider(),
+            _notificationsTile(),
+            _divider(),
             ListTile(
               minTileHeight: 70,
-              leading: Icon(
-                Icons.translate,
-              ),
-              title: Text(
-                localization(context).languageTitle,
-                style: textTheme(context).bodyMedium,
-              ),
-              onTap: () => showDialog(
-                context: context,
-                builder: (context) => LanguageSelectionDialog(),
-              ),
-              trailing: Text(
-                localization(context).language,
-                style: textTheme(context).bodySmall,
-              ),
-            ),
-            getDivider(),
-            ListTile(
-              minTileHeight: 70,
-              leading: Icon(
-                Icons.feedback,
-              ),
-              title: Text(
-                localization(context).feedback,
-                style: textTheme(context).bodyMedium,
-              ),
-              onTap: () => Navigator.pushNamed(context, '/feedback'),
-            ),
-            getDivider(),
-            ListTile(
-              minTileHeight: 70,
-              leading: Icon(
-                Icons.info,
-              ),
+              leading: const Icon(Icons.info),
               title: Text(
                 localization(context).about,
                 style: textTheme(context).bodyMedium,
@@ -150,8 +47,8 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
     );
   }
 
-  Divider getDivider() {
-    return Divider(
+  Divider _divider() {
+    return const Divider(
       indent: 50,
       endIndent: 20,
       thickness: 1,
@@ -160,14 +57,12 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
     );
   }
 
-  ListTile getNotificationsTile() {
+  ListTile _notificationsTile() {
+    final notificationsEnabled = ref.watch(notificationProvider).setted;
     return ListTile(
       onTap: () => Navigator.pushNamed(context, '/notifications'),
       minTileHeight: 70,
-      leading: Icon(
-        Icons.notifications,
-        size: 25,
-      ),
+      leading: const Icon(Icons.notifications, size: 25),
       title: Text(
         localization(context).notifications,
         style: textTheme(context).bodyMedium,
@@ -176,25 +71,28 @@ class _SettingsBodyState extends ConsumerState<SettingsBody> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Switch(
-              thumbIcon: WidgetStatePropertyAll(Icon(
-                ref.watch(notificationProvider).setted
+            thumbIcon: WidgetStatePropertyAll(
+              Icon(
+                notificationsEnabled
                     ? Icons.notifications_active
                     : Icons.notifications_off,
-              )),
-              value: ref.watch(notificationProvider).setted,
-              onChanged: (value) async {
-                if (value) {
-                  await setGlobalAppNotification(ref, context);
-                  if (mounted) {
-                    await setRoutinesReminders(context, ref);
-                  }
-                  ref.watch(notificationProvider).changeValue(value);
-                } else {
-                  NotiService().cancelAllNotifications();
-                  ref.watch(notificationProvider).changeValue(value);
+              ),
+            ),
+            value: notificationsEnabled,
+            onChanged: (value) async {
+              if (value) {
+                await setGlobalAppNotification(ref, context);
+                if (mounted) {
+                  await setRoutinesReminders(context, ref);
                 }
-              }),
-          Icon(Icons.arrow_forward_ios)
+                ref.watch(notificationProvider).changeValue(value);
+              } else {
+                NotiService().cancelAllNotifications();
+                ref.watch(notificationProvider).changeValue(value);
+              }
+            },
+          ),
+          const Icon(Icons.arrow_forward_ios),
         ],
       ),
     );

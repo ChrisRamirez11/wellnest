@@ -1,110 +1,47 @@
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:wellnest/core/global_providers/is_premium_user_provider.dart';
-import 'package:wellnest/core/global_providers/locale_provider.dart';
-import 'package:wellnest/feature/ai_coach/presentation/screens/coach_chat_screen.dart';
-import 'package:wellnest/feature/onboarding/presentation/screens/onboarding.dart';
-import 'package:wellnest/feature/routines/presentation/screens/routines_screen.dart';
-import 'package:wellnest/feature/settings/presentation/screens/subsettings/notifications_screen.dart';
-import 'package:wellnest/l10n/app_localizations.dart';
-import 'package:wellnest/purchase_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:wellnest/core/consts/consts.dart';
-import 'package:wellnest/core/notifications/noti_service.dart';
-import 'package:wellnest/core/preferences/user_preferences.dart';
-import 'package:wellnest/core/theme/theme.dart';
-import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
-import 'package:wellnest/feature/settings/presentation/screens/subsettings/about_us_screen.dart';
-import 'package:wellnest/feature/settings/presentation/screens/subsettings/feedback_screen.dart';
-import 'package:wellnest/feature/skeleton/presentation/screens/skeleton.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
+import 'package:task_nest/core/notifications/noti_service.dart';
+import 'package:task_nest/core/preferences/user_preferences.dart';
+import 'package:task_nest/core/theme/theme.dart';
+import 'package:task_nest/feature/onboarding/presentation/screens/onboarding.dart';
+import 'package:task_nest/feature/routines/presentation/screens/create_routine.dart';
+import 'package:task_nest/feature/routines/presentation/screens/routines_screen.dart';
+import 'package:task_nest/feature/settings/presentation/screens/subsettings/about_us_screen.dart';
+import 'package:task_nest/feature/settings/presentation/screens/subsettings/notifications_screen.dart';
+import 'package:task_nest/feature/skeleton/presentation/screens/skeleton.dart';
+import 'package:task_nest/l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  try {
-    await Supabase.initialize(
-        url: Consts.supabaseUrl,
-        anonKey: Consts.anonKey,
-        authOptions:
-            const FlutterAuthClientOptions(authFlowType: AuthFlowType.pkce));
-  } catch (e) {
-    debugPrint(e.toString());
-  }
 
-  if (supabase.auth.currentSession != null) {
-    try {
-      supabase.auth.refreshSession();
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
-  MobileAds.instance.initialize();
-  RequestConfiguration requestConfiguration =
-      RequestConfiguration(testDeviceIds: [Consts.pixel7, Consts.samsung]);
-  MobileAds.instance.updateRequestConfiguration(requestConfiguration);
-
+  Intl.defaultLocale = 'en';
+  await initializeDateFormatting('en');
   await UserPreferences().initPrefs();
   await NotiService().initNotifications();
-
   await AndroidFlutterLocalNotificationsPlugin().requestExactAlarmsPermission();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]).then(
-    (value) => runApp(const ProviderScope(child: MyApp())),
-  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-final supabase = Supabase.instance.client;
-
-class MyApp extends ConsumerStatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  ConsumerState<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends ConsumerState<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Future<void> didChangeDependencies() async {
-    super.didChangeDependencies();
-
-    // Set your desired locale
-    String? locale = ref.watch(localeProvider).locale?.languageCode; // Spanish
-    // Initialize locale data
-    await initializeDateFormatting(locale, null);
-
-    await PurchasesObserver(ref: ref).initialize();
-
-    final isPremiumNotifier = ref.watch(isPremiumUser);
-    await isPremiumNotifier.premiumSetter();
-  }
 
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
-      data: MediaQuery.of(context).copyWith(
-        alwaysUse24HourFormat: true,
-      ),
+      data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'WellNest',
-        theme: theme,
-        darkTheme: themeDark,
+        title: 'TaskNest',
+        theme: themeDark,
         themeMode: ThemeMode.dark,
         supportedLocales: AppLocalizations.supportedLocales,
-        locale: ref
-            .watch(localeProvider)
-            .locale, // Use the locale from provider, if null, uses device language as default
+        locale: const Locale('en'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         initialRoute: '/',
         routes: {
@@ -113,9 +50,7 @@ class _MyAppState extends ConsumerState<MyApp> {
           '/routines': (context) => RoutinesScreen(),
           '/createRoutine': (context) => const CreateRoutineScreen(),
           '/about': (context) => const AboutUsScreen(),
-          '/feedback': (context) => FeedbackScreen(),
           '/notifications': (context) => NotificationsScreen(),
-          '/coach': (context) => CoachChatScreen(),
         },
       ),
     );
