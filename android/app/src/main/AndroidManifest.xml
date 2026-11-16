@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="WellNest"
+        android:label="TaskNest"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
@@ -41,12 +41,6 @@
                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
             </intent-filter>
         </receiver>
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-9279967937920220~4448138201"/>
-        <meta-data
-            android:name="AdaptyPublicSdkKey"
-            android:value="public_live_UmPgdKBg.dMGgudZOQGPsaqLBhTwR" />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

@@ -1,12 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:wellnest/core/utils/utils.dart';
-import 'package:wellnest/feature/ads/banner_ad.dart';
-import 'package:wellnest/core/theme/theme.dart';
-import 'package:wellnest/core/widgets/custom_button.dart';
+import 'package:task_nest/core/utils/utils.dart';
+import 'package:task_nest/core/theme/theme.dart';
+import 'package:task_nest/core/widgets/custom_button.dart';
 
-import 'package:wellnest/feature/dates/data/models/date_model.dart';
-import 'package:wellnest/feature/calendar/presentation/widgets/small_routine_tile.dart';
+import 'package:task_nest/feature/dates/data/models/date_model.dart';
+import 'package:task_nest/feature/calendar/presentation/widgets/small_routine_tile.dart';
 
 const indentSize = 20.0;
 
@@ -51,21 +50,21 @@ class _SmallRoutinesViewState extends State<SmallRoutinesView> {
                 )
               : SizedBox.shrink(),
           Container(
-            margin: EdgeInsets.only(top: 10, bottom: 10, left: 35, right: 35),
+            margin: const EdgeInsets.only(
+              top: 10,
+              bottom: 10,
+              left: 35,
+              right: 35,
+            ),
             width: double.infinity,
             child: CustomButton(
               onClick: () => Navigator.of(context).pushNamed('/createRoutine'),
               text: localization(context).createNewRoutine.toUpperCase(),
               radius: 10,
               textColor: ghostWhite,
-              icon: Icon(
-                Icons.add,
-                size: 30,
-                color: ghostWhite,
-              ),
+              icon: const Icon(Icons.add, size: 30, color: ghostWhite),
             ),
           ),
-          BannerAdWidget()
         ],
       ),
     );

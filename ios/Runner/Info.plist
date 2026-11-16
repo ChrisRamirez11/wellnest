@@ -5,7 +5,7 @@
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
-		<string>WellNest</string>
+		<string>TaskNest</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 		<key>CFBundleInfoDictionaryVersion</key>
 		<string>6.0</string>
 		<key>CFBundleName</key>
-		<string>com.dynamicjobs.wellnest</string>
+		<string>com.chris.tasknest</string>
 		<key>CFBundlePackageType</key>
 		<string>APPL</string>
 		<key>CFBundleShortVersionString</key>
@@ -51,11 +51,7 @@
 			<string>tel</string>
 			<string>mailto</string>
 		</array>
-		<key>GADApplicationIdentifier</key>
-		<string>ca-app-pub-9279967937920220~6752272881</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
-		<key>AdaptyPublicSdkKey</key>
-		<string>public_live_UmPgdKBg.dMGgudZOQGPsaqLBhTwR</string>
 	</dict>
 </plist>
