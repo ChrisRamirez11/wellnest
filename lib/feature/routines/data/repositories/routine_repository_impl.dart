@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dartz/dartz.dart';
-import 'package:wellnest/core/errors/excpetions.dart';
-import 'package:wellnest/core/errors/failures.dart';
-import 'package:wellnest/feature/routines/business/entity/routine_entity.dart';
-import 'package:wellnest/feature/routines/business/repositories/routine_repository.dart';
-import 'package:wellnest/feature/routines/data/datasources/local/routine_local_datasource.dart';
-import 'package:wellnest/feature/routines/data/models/routine_model.dart';
+import 'package:task_nest/core/errors/excpetions.dart';
+import 'package:task_nest/core/errors/failures.dart';
+import 'package:task_nest/feature/routines/business/entity/routine_entity.dart';
+import 'package:task_nest/feature/routines/business/repositories/routine_repository.dart';
+import 'package:task_nest/feature/routines/data/datasources/local/routine_local_datasource.dart';
+import 'package:task_nest/feature/routines/data/models/routine_model.dart';
 
 class RoutineRepositoryImpl implements RoutineRepository {
   RoutineLocalDatasource routineLocalDatasource;

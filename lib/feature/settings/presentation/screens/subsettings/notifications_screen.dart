@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:wellnest/core/global_providers/global_noti_ids.dart';
-import 'package:wellnest/core/notifications/global_app_notification.dart';
-import 'package:wellnest/core/notifications/noti_service.dart';
-import 'package:wellnest/core/notifications/notifications_provider.dart';
-import 'package:wellnest/core/theme/theme.dart';
-import 'package:wellnest/core/utils/set_routines_reminders.dart';
-import 'package:wellnest/core/utils/string_to_time_of_day.dart';
-import 'package:wellnest/core/utils/utils.dart';
-import 'package:wellnest/core/widgets/custom_app_bar.dart';
-import 'package:wellnest/feature/onboarding/presentation/provider/start_and_end_time_provider.dart';
-import 'package:wellnest/feature/routines/data/models/routine_model.dart';
-import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
-import 'package:wellnest/feature/routines/presentation/screens/create_routine.dart';
+import 'package:task_nest/core/global_providers/global_noti_ids.dart';
+import 'package:task_nest/core/notifications/global_app_notification.dart';
+import 'package:task_nest/core/notifications/noti_service.dart';
+import 'package:task_nest/core/notifications/notifications_provider.dart';
+import 'package:task_nest/core/theme/theme.dart';
+import 'package:task_nest/core/utils/set_routines_reminders.dart';
+import 'package:task_nest/core/utils/string_to_time_of_day.dart';
+import 'package:task_nest/core/utils/utils.dart';
+import 'package:task_nest/core/widgets/custom_app_bar.dart';
+import 'package:task_nest/feature/onboarding/presentation/provider/start_and_end_time_provider.dart';
+import 'package:task_nest/feature/routines/data/models/routine_model.dart';
+import 'package:task_nest/feature/routines/presentation/providers/routine_provider.dart';
+import 'package:task_nest/feature/routines/presentation/screens/create_routine.dart';
 
 class NotificationsScreen extends ConsumerStatefulWidget {
   const NotificationsScreen({super.key});

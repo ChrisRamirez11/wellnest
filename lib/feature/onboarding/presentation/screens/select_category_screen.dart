@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/core/theme/theme.dart';
-import 'package:wellnest/core/utils/utils.dart';
-import 'package:wellnest/feature/onboarding/presentation/provider/categories_provider.dart';
+import 'package:task_nest/core/theme/theme.dart';
+import 'package:task_nest/core/utils/utils.dart';
+import 'package:task_nest/feature/onboarding/presentation/provider/categories_provider.dart';
 
 class SelectCategoriesScreen extends ConsumerStatefulWidget {
   const SelectCategoriesScreen({super.key});

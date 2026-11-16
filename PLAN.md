@@ -23,7 +23,7 @@ Out of scope (handled later in a fork): the technical challenge items (public AP
 - [x] 2.3 Keep timer sound/vibration; drop unused interaction deps only.
 - [x] 3.1 Prune dependencies, assets, constants and preferences.
 - [x] 3.2 Prune l10n to English only and delete dead code.
-- [ ] 3.3 Rename app/package to TaskNest and update docs.
+- [x] 3.3 Rename app/package to TaskNest and update docs.
 
 ## Verify (each step)
 1. `dart format --set-exit-if-changed .`

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wellnest/feature/flutter_heatmap_calendar/src/data/heatmap_color_mode.dart';
-import 'package:wellnest/feature/flutter_heatmap_calendar/src/widget/custom_painter.dart';
+import 'package:task_nest/feature/flutter_heatmap_calendar/src/data/heatmap_color_mode.dart';
+import 'package:task_nest/feature/flutter_heatmap_calendar/src/widget/custom_painter.dart';
 import '../data/heatmap_color.dart';
 
 class HeatMapContainer extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:wellnest/core/errors/failures.dart';
-import 'package:wellnest/feature/dates/business/entity/date_entity.dart';
+import 'package:task_nest/core/errors/failures.dart';
+import 'package:task_nest/feature/dates/business/entity/date_entity.dart';
 
 abstract class DateRepository {
   Future<Either<Failure, int>> upsertDate(DateEntity dateEntity);

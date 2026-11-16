@@ -1,15 +1,29 @@
-# Wellnest
+# TaskNest
 
-A new Flutter project.
+TaskNest is a small, offline-first habit tracker built with Flutter. Create
+routines, track them day by day and keep your progress on your device: no
+accounts, no ads and no cloud.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Task, amount and timed routines.
+- Calendar/heatmap view with a daily routine list.
+- Local reminders, morning/night notifications and timed routines with sound
+  and vibration.
+- First-run onboarding with default routine suggestions.
+- English-only UI.
 
-A few resources to get you started if this is your first Flutter project:
+## Getting started
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```sh
+flutter pub get
+flutter run
+```
 
-![](https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSaeLc7jwr4VTqd95tGVZZTByj2IQckZSOVFF0uyoOhga1ZTB0V3R1w9m41yb2d3l5V6RY_vM_jbJgG12PhxnlrHe26B8G6STgXhr6TDMk)
+## Verify
 
+```sh
+dart format --set-exit-if-changed .
+flutter analyze
+flutter test
+```

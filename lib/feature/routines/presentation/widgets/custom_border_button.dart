@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wellnest/core/theme/theme.dart';
-import 'package:wellnest/core/utils/utils.dart';
+import 'package:task_nest/core/theme/theme.dart';
+import 'package:task_nest/core/utils/utils.dart';
 
 class CustomBorderButton extends StatelessWidget {
   const CustomBorderButton({

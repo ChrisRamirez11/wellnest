@@ -4,14 +4,14 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:wellnest/core/errors/failures.dart';
-import 'package:wellnest/feature/routines/business/usecases/delete_routine.dart';
-import 'package:wellnest/feature/routines/business/usecases/get_every_routine.dart';
-import 'package:wellnest/feature/routines/business/usecases/upsert_all_routines.dart';
-import 'package:wellnest/feature/routines/business/usecases/upsert_routine.dart';
-import 'package:wellnest/feature/routines/data/datasources/local/routine_local_datasource.dart';
-import 'package:wellnest/feature/routines/data/models/routine_model.dart';
-import 'package:wellnest/feature/routines/data/repositories/routine_repository_impl.dart';
+import 'package:task_nest/core/errors/failures.dart';
+import 'package:task_nest/feature/routines/business/usecases/delete_routine.dart';
+import 'package:task_nest/feature/routines/business/usecases/get_every_routine.dart';
+import 'package:task_nest/feature/routines/business/usecases/upsert_all_routines.dart';
+import 'package:task_nest/feature/routines/business/usecases/upsert_routine.dart';
+import 'package:task_nest/feature/routines/data/datasources/local/routine_local_datasource.dart';
+import 'package:task_nest/feature/routines/data/models/routine_model.dart';
+import 'package:task_nest/feature/routines/data/repositories/routine_repository_impl.dart';
 
 final routineProvider = ChangeNotifierProvider(
   (ref) => RoutineProvider(),

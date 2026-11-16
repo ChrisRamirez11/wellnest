@@ -1,4 +1,4 @@
-package com.dynamicjobs.wellnest
+package com.chris.tasknest
 
 import io.flutter.embedding.android.FlutterActivity
 

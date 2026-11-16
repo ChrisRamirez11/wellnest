@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wellnest/core/utils/can_update_checkbox.dart';
-import 'package:wellnest/core/utils/capitalize_first_letter.dart';
-import 'package:wellnest/core/utils/format_duration.dart';
-import 'package:wellnest/core/utils/string_to_time_of_day.dart';
+import 'package:task_nest/core/utils/can_update_checkbox.dart';
+import 'package:task_nest/core/utils/capitalize_first_letter.dart';
+import 'package:task_nest/core/utils/format_duration.dart';
+import 'package:task_nest/core/utils/string_to_time_of_day.dart';
 
 void main() {
   group('formatDuration', () {

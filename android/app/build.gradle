@@ -15,7 +15,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.dynamicjobs.wellnest"
+    namespace = "com.chris.tasknest"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -30,7 +30,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.dynamicjobs.wellnest"
+        applicationId = "com.chris.tasknest"
         multiDexEnabled true
         
         minSdk = flutter.minSdkVersion

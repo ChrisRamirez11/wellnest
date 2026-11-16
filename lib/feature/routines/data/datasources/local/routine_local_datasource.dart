@@ -1,7 +1,7 @@
 import 'package:isar_community/isar.dart';
-import 'package:wellnest/core/local_dbs/isar_database.dart';
-import 'package:wellnest/core/errors/excpetions.dart';
-import 'package:wellnest/feature/routines/data/models/routine_model.dart';
+import 'package:task_nest/core/local_dbs/isar_database.dart';
+import 'package:task_nest/core/errors/excpetions.dart';
+import 'package:task_nest/feature/routines/data/models/routine_model.dart';
 
 abstract class RoutineLocalDatasource {
   Future<RoutineModel?> getRoutine(int id);

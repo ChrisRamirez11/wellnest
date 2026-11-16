@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/core/utils/string_to_time_of_day.dart';
-import 'package:wellnest/core/utils/utils.dart';
-import 'package:wellnest/feature/onboarding/presentation/provider/start_and_end_time_provider.dart';
-import 'package:wellnest/feature/onboarding/presentation/widgets/digital_clock.dart';
+import 'package:task_nest/core/utils/string_to_time_of_day.dart';
+import 'package:task_nest/core/utils/utils.dart';
+import 'package:task_nest/feature/onboarding/presentation/provider/start_and_end_time_provider.dart';
+import 'package:task_nest/feature/onboarding/presentation/widgets/digital_clock.dart';
 
 class OnboardingPageTwo extends ConsumerWidget {
   const OnboardingPageTwo({super.key});

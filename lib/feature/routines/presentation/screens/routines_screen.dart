@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/core/utils/utils.dart';
-import 'package:wellnest/core/widgets/custom_app_bar.dart';
-import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
-import 'package:wellnest/feature/routines/presentation/widgets/routine_model_tile.dart';
-import 'package:wellnest/core/widgets/custom_fab.dart';
+import 'package:task_nest/core/utils/utils.dart';
+import 'package:task_nest/core/widgets/custom_app_bar.dart';
+import 'package:task_nest/feature/routines/presentation/providers/routine_provider.dart';
+import 'package:task_nest/feature/routines/presentation/widgets/routine_model_tile.dart';
+import 'package:task_nest/core/widgets/custom_fab.dart';
 
 class RoutinesScreen extends ConsumerWidget {
   const RoutinesScreen({super.key});

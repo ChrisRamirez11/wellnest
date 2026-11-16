@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wellnest/feature/routines/data/models/routine_model.dart';
+import 'package:task_nest/feature/routines/data/models/routine_model.dart';
 
 class RoutineCategory {
   final String id;

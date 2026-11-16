@@ -5,30 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "dev",
+            "name": "TaskNest",
             "request": "launch",
-            "type": "dart",
-            "args": [
-                "--dart-define-from-file=env/dev.json"
-            ]
+            "type": "dart"
         },
         {
-            "name": "wellnest (profile mode)",
+            "name": "TaskNest (profile mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile",
-            "args": [
-                "--dart-define-from-file=env/dev.json"
-            ]
+            "flutterMode": "profile"
         },
         {
-            "name": "wellnest (release mode)",
+            "name": "TaskNest (release mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release",
-            "args": [
-                "--dart-define-from-file=env/dev.json"
-            ]
+            "flutterMode": "release"
         }
     ]
 }

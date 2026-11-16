@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wellnest/core/theme/theme.dart';
+import 'package:task_nest/core/theme/theme.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String titleString;

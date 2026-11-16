@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wellnest/core/utils/utils.dart';
+import 'package:task_nest/core/utils/utils.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({

@@ -3,14 +3,14 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:wellnest/core/errors/failures.dart';
-import 'package:wellnest/feature/dates/business/usecases/delete_date.dart';
-import 'package:wellnest/feature/dates/business/usecases/get_every_date.dart';
-import 'package:wellnest/feature/dates/business/usecases/upsert_all_dates.dart';
-import 'package:wellnest/feature/dates/business/usecases/upsert_date.dart';
-import 'package:wellnest/feature/dates/data/datasources/local/date_local_datasource.dart';
-import 'package:wellnest/feature/dates/data/models/date_model.dart';
-import 'package:wellnest/feature/dates/data/repositories/date_repository_impl.dart';
+import 'package:task_nest/core/errors/failures.dart';
+import 'package:task_nest/feature/dates/business/usecases/delete_date.dart';
+import 'package:task_nest/feature/dates/business/usecases/get_every_date.dart';
+import 'package:task_nest/feature/dates/business/usecases/upsert_all_dates.dart';
+import 'package:task_nest/feature/dates/business/usecases/upsert_date.dart';
+import 'package:task_nest/feature/dates/data/datasources/local/date_local_datasource.dart';
+import 'package:task_nest/feature/dates/data/models/date_model.dart';
+import 'package:task_nest/feature/dates/data/repositories/date_repository_impl.dart';
 
 final dateProvider = ChangeNotifierProvider(
   (ref) => DateProvider(),

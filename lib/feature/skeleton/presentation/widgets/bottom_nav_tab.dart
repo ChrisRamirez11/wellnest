@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/core/theme/theme.dart';
+import 'package:task_nest/core/theme/theme.dart';
 
 class BottomNavTab extends ConsumerWidget {
   final int pageIndex;

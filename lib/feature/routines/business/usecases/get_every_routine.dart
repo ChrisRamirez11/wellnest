@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:wellnest/core/errors/failures.dart';
-import 'package:wellnest/feature/routines/business/entity/routine_entity.dart';
-import 'package:wellnest/feature/routines/business/repositories/routine_repository.dart';
+import 'package:task_nest/core/errors/failures.dart';
+import 'package:task_nest/feature/routines/business/entity/routine_entity.dart';
+import 'package:task_nest/feature/routines/business/repositories/routine_repository.dart';
 
 class GetEveryRoutine {
   final RoutineRepository _routineRepository;

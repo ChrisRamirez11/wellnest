@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/core/preferences/user_preferences.dart';
+import 'package:task_nest/core/preferences/user_preferences.dart';
 
 final globalNotiIdsProvider = ChangeNotifierProvider<GlobalNotiIds>((ref) {
   return GlobalNotiIds();

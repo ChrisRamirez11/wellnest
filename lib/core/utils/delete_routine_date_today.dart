@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/feature/dates/data/models/date_model.dart';
-import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
+import 'package:task_nest/feature/dates/data/models/date_model.dart';
+import 'package:task_nest/feature/dates/presentation/providers/date_provider.dart';
 
 Future<void> deleteRoutineDateToday(
     WidgetRef ref, Routine routineToDelete) async {

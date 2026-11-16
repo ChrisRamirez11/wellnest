@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:wellnest/core/errors/failures.dart';
-import 'package:wellnest/feature/dates/business/repositories/date_repository.dart';
+import 'package:task_nest/core/errors/failures.dart';
+import 'package:task_nest/feature/dates/business/repositories/date_repository.dart';
 
 class DeleteDate {
   final DateRepository _dateRepository;
