@@ -3,48 +3,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreferences {
   static final UserPreferences _instancia = UserPreferences._internal();
+
   factory UserPreferences() {
     return _instancia;
   }
 
   UserPreferences._internal();
+
   late SharedPreferencesWithCache _prefs;
 
-  initPrefs() async {
+  Future<void> initPrefs() async {
     _prefs = await SharedPreferencesWithCache.create(
-        cacheOptions: SharedPreferencesWithCacheOptions());
-  }
-
-  set darkMode(bool value) {
-    _prefs.setBool('DarkMode', value);
-  }
-
-  bool get darkMode {
-    return _prefs.getBool('DarkMode') ?? true;
-  }
-
-  set premiumUser(bool value) {
-    _prefs.setBool('premiumUser', value);
-  }
-
-  bool get premiumUser {
-    return _prefs.getBool('premiumUser') ?? false;
-  }
-
-  set cacheUser(String user) {
-    _prefs.setString('CachedUser', user);
-  }
-
-  String get cacheUser {
-    return _prefs.getString('CachedUser') ?? '';
-  }
-
-  set backedupData(bool value) {
-    _prefs.setBool('BackedupData', value);
-  }
-
-  bool get backedupData {
-    return _prefs.getBool('BackedupData') ?? false;
+      cacheOptions: const SharedPreferencesWithCacheOptions(),
+    );
   }
 
   set firstTimeNotiSetted(bool value) {
@@ -95,28 +66,12 @@ class UserPreferences {
     return _prefs.getBool('firstOpening') ?? true;
   }
 
-  set hasSeenOrangeIcon(bool value) {
-    _prefs.setBool('hasSeenOrangeIcon', value);
-  }
-
-  bool get hasSeenOrangeIcon {
-    return _prefs.getBool('hasSeenOrangeIcon') ?? false;
-  }
-
   set calendarVisibility(bool value) {
     _prefs.setBool('calendarVisibility', value);
   }
 
   bool get calendarVisibility {
     return _prefs.getBool('calendarVisibility') ?? true;
-  }
-
-  set locale(String? value) {
-    _prefs.setString('locale', value!);
-  }
-
-  String? get locale {
-    return _prefs.getString('locale');
   }
 
   set startOfDay(String value) {

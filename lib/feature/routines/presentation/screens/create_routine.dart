@@ -4,28 +4,26 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:wellnest/core/global_providers/locale_provider.dart';
-import 'package:wellnest/core/notifications/noti_service.dart';
-import 'package:wellnest/core/utils/delete_routine_date_today.dart';
-import 'package:wellnest/core/utils/format_duration.dart';
-import 'package:wellnest/core/utils/string_to_time_of_day.dart';
-import 'package:wellnest/core/utils/utils.dart';
-import 'package:wellnest/core/utils/validate_date_model_creation.dart.dart';
-import 'package:wellnest/core/widgets/custom_app_bar.dart';
-import 'package:wellnest/core/widgets/custom_button.dart';
-import 'package:wellnest/feature/dates/data/models/date_model.dart';
-import 'package:wellnest/feature/dates/presentation/providers/date_provider.dart';
-import 'package:wellnest/feature/flutter_heatmap_calendar/src/util/date_util.dart';
-import 'package:wellnest/feature/routines/business/entity/routine_entity.dart';
-import 'package:wellnest/feature/routines/data/models/routine_model.dart';
-import 'package:wellnest/feature/routines/presentation/providers/color_provider.dart';
-import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
-import 'package:wellnest/feature/routines/presentation/widgets/color_selector_tile.dart';
-import 'package:wellnest/feature/routines/presentation/widgets/custom_border_button.dart';
-import 'package:wellnest/feature/routines/presentation/widgets/custom_text_field.dart';
-import 'package:wellnest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
+import 'package:task_nest/core/notifications/noti_service.dart';
+import 'package:task_nest/core/utils/delete_routine_date_today.dart';
+import 'package:task_nest/core/utils/format_duration.dart';
+import 'package:task_nest/core/utils/string_to_time_of_day.dart';
+import 'package:task_nest/core/utils/utils.dart';
+import 'package:task_nest/core/utils/validate_date_model_creation.dart.dart';
+import 'package:task_nest/core/widgets/custom_app_bar.dart';
+import 'package:task_nest/core/widgets/custom_button.dart';
+import 'package:task_nest/feature/dates/data/models/date_model.dart';
+import 'package:task_nest/feature/dates/presentation/providers/date_provider.dart';
+import 'package:task_nest/feature/flutter_heatmap_calendar/src/util/date_util.dart';
+import 'package:task_nest/feature/routines/business/entity/routine_entity.dart';
+import 'package:task_nest/feature/routines/data/models/routine_model.dart';
+import 'package:task_nest/feature/routines/presentation/providers/color_provider.dart';
+import 'package:task_nest/feature/routines/presentation/providers/routine_provider.dart';
+import 'package:task_nest/feature/routines/presentation/widgets/color_selector_tile.dart';
+import 'package:task_nest/feature/routines/presentation/widgets/custom_border_button.dart';
+import 'package:task_nest/feature/routines/presentation/widgets/custom_text_field.dart';
+import 'package:task_nest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
 
 import '../../../../core/theme/theme.dart';
 
@@ -277,20 +275,16 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                 child: _buildTypeButton(
               RoutineType.task,
               localization(context).task,
-              FontAwesomeIcons.solidCircleCheck,
+              Icons.check_circle,
             )),
             const SizedBox(width: 8),
             Expanded(
-                child: _buildTypeButton(
-                    RoutineType.amount,
-                    localization(context).amount,
-                    FontAwesomeIcons.circleArrowUp)),
+                child: _buildTypeButton(RoutineType.amount,
+                    localization(context).amount, Icons.add_circle_outline)),
             const SizedBox(width: 8),
             Expanded(
-                child: _buildTypeButton(
-                    RoutineType.timed,
-                    localization(context).timeRoutine,
-                    FontAwesomeIcons.solidClock)),
+                child: _buildTypeButton(RoutineType.timed,
+                    localization(context).timeRoutine, Icons.timer)),
           ],
         ),
       ],
@@ -590,7 +584,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                   ),
                   child: Center(
                     child: Text(
-                      DateUtil(ref).weekLabel[index][0].toUpperCase(),
+                      DateUtil().weekLabel[index][0].toUpperCase(),
                       style: textTheme(context)
                           .bodyMedium!
                           .copyWith(color: secondary),
@@ -770,7 +764,6 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
 
   Widget getAdvancedSettings() {
     final colorNotifier = ref.watch(colorProvider);
-    final locale = ref.watch(localeProvider).locale?.languageCode;
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: ExpansionTile(
@@ -965,7 +958,7 @@ class _CreateRoutineScreenState extends ConsumerState<CreateRoutineScreen> {
                               }
                             },
                             text: _endAt != null
-                                ? DateFormat.yMMMd(locale).format(_endAt!)
+                                ? DateFormat.yMMMd().format(_endAt!)
                                 : localization(context).selectEndDate),
                       )
                     : SizedBox.shrink(),
