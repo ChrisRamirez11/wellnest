@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wellnest/core/notifications/noti_service.dart';
-import 'package:wellnest/core/utils/show_paywall.dart';
-import 'package:wellnest/core/utils/utils.dart';
-import 'package:wellnest/core/widgets/custom_button.dart';
-import 'package:wellnest/feature/onboarding/presentation/provider/categories_provider.dart';
-import 'package:wellnest/feature/onboarding/presentation/provider/first_app_opening.dart';
-import 'package:wellnest/feature/onboarding/presentation/screens/onboarding_page_one.dart';
-import 'package:wellnest/feature/onboarding/presentation/screens/onboarding_page_two.dart';
-import 'package:wellnest/feature/onboarding/presentation/screens/select_category_screen.dart';
-import 'package:wellnest/feature/onboarding/presentation/screens/select_routines_screen.dart';
-import 'package:wellnest/feature/routines/presentation/providers/routine_provider.dart';
+import 'package:task_nest/core/notifications/noti_service.dart';
+import 'package:task_nest/core/utils/utils.dart';
+import 'package:task_nest/core/widgets/custom_button.dart';
+import 'package:task_nest/feature/onboarding/presentation/provider/categories_provider.dart';
+import 'package:task_nest/feature/onboarding/presentation/provider/first_app_opening.dart';
+import 'package:task_nest/feature/onboarding/presentation/screens/onboarding_page_one.dart';
+import 'package:task_nest/feature/onboarding/presentation/screens/onboarding_page_two.dart';
+import 'package:task_nest/feature/onboarding/presentation/screens/select_category_screen.dart';
+import 'package:task_nest/feature/onboarding/presentation/screens/select_routines_screen.dart';
+import 'package:task_nest/feature/routines/presentation/providers/routine_provider.dart';
 
 import '../../../../core/theme/theme.dart';
 
@@ -124,7 +123,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     .watch(routineProvider)
                     .upsertAllRoutines(routinesList);
 
-                showPaywall();
                 if (context.mounted) {
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     '/',

@@ -19,7 +19,7 @@ Out of scope (handled later in a fork): the technical challenge items (public AP
 - [x] 1.3 Remove Supabase auth and remote backup/restore.
 - [x] 1.4 Remove Feedback/community; keep a minimal About.
 - [x] 2.1 Simplify shell/navigation and settings to local options only.
-- [ ] 2.2 Clean onboarding (no paywall, English-only copy).
+- [x] 2.2 Clean onboarding (no paywall, English-only copy).
 - [ ] 2.3 Keep timer sound/vibration; drop unused interaction deps only.
 - [ ] 3.1 Prune dependencies, assets, constants and preferences.
 - [ ] 3.2 Prune l10n to English only and delete dead code.
