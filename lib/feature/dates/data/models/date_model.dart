@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:isar_community/isar.dart';
 
-import 'package:wellnest/feature/dates/business/entity/date_entity.dart';
-import 'package:wellnest/feature/routines/business/entity/routine_entity.dart';
-import 'package:wellnest/feature/routines/data/models/routine_model.dart';
+import 'package:task_nest/feature/dates/business/entity/date_entity.dart';
+import 'package:task_nest/feature/routines/business/entity/routine_entity.dart';
+import 'package:task_nest/feature/routines/data/models/routine_model.dart';
 
 part 'date_model.g.dart';
 
@@ -45,30 +45,6 @@ class DateModel {
           )
           .toList(),
       completedRoutineAmount: completedRoutineAmount);
-
-  Map<String, dynamic> toMap() => <String, dynamic>{
-        /*
-    id commented because im using toMap only for storing in supabase the data and to avoid having the repeated Ids when
-    backup happens i'll store it in the cloud without id
-    */
-        // 'id': id,
-        'date': date.toIso8601String(),
-        'routines': routines.map((x) => x.toMap()).toList(),
-        'completedRoutineAmount': completedRoutineAmount,
-      };
-
-  factory DateModel.fromMap(Map<String, dynamic> map) {
-    return DateModel(
-      id: map['id'],
-      date: DateTime.parse(map['date']),
-      routines: List<Routine>.from(
-        (map['routines'] as List).map<Routine>(
-          (x) => Routine.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
-      completedRoutineAmount: map['completedRoutineAmount'] as int,
-    );
-  }
 }
 
 @embedded
@@ -168,40 +144,4 @@ class Routine {
       alarmActive: alarmActive ?? false,
       alarmTime: alarmTime,
       endAt: endAt);
-
-  factory Routine.fromMap(Map<String, dynamic> map) => Routine(
-      id: map['id'] as int?,
-      name: map['name'] as String?,
-      days: List<bool>.from(map['days'] as List? ?? []),
-      finished: map['finished'] as bool? ?? false,
-      createdDate: map['createdDate'] != null
-          ? DateTime.parse(map['createdDate'] as String)
-          : null,
-      colorValue: map['colorValue'] as int?,
-      type: map['type'] as String,
-      targetCount: map['targetCount'] as int?,
-      currentCount: map['currentCount'] as int? ?? 0,
-      targetDurationSeconds: map['targetDuration'] as int?,
-      elapsedTimeSeconds: map['elapsedTime'] as int? ?? 0,
-      alarmActive: map['alarmActive'] as bool? ?? false,
-      alarmTime: map['alarmTime'] as String? ?? '',
-      endAt:
-          map['endAt'] != null ? DateTime.parse(map['endAt'] as String) : null);
-
-  Map<String, dynamic> toMap() => <String, dynamic>{
-        // 'id': id,
-        'name': name,
-        'days': days,
-        'finished': finished,
-        'createdDate': createdDate?.toIso8601String(),
-        'colorValue': colorValue,
-        'type': type,
-        'targetCount': targetCount,
-        'currentCount': currentCount,
-        'targetDuration': targetDurationSeconds,
-        'elapsedTime': elapsedTimeSeconds,
-        'alarmActive': alarmActive,
-        'alarmTime': alarmTime,
-        'endAt': endAt?.toIso8601String(),
-      };
 }
