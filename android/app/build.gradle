@@ -46,13 +46,15 @@ android {
             storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
             storePassword keystoreProperties['storePassword']
         }
-        //! It may need in case of using it with a team, to use a if (keystorePropertiesFile.exists())
-        //! do this, if not, sign it with the default one.
-        debug {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
+        // Only use the custom keystore for debug builds when key.properties exists.
+        // Otherwise fall back to Android's default debug keystore.
+        if (keystorePropertiesFile.exists()) {
+            debug {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+                storePassword keystoreProperties['storePassword']
+            }
         }
     }
 
@@ -65,7 +67,9 @@ android {
         }
 
         debug {
-            signingConfig =  signingConfigs.getByName("debug")
+            if (keystorePropertiesFile.exists()) {
+                signingConfig = signingConfigs.getByName("debug")
+            }
         }
     }
 }
