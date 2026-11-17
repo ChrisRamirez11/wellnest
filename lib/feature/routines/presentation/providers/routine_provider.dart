@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:task_nest/core/errors/failures.dart';
+import 'package:task_nest/feature/routines/business/repositories/routine_repository.dart';
 import 'package:task_nest/feature/routines/business/usecases/delete_routine.dart';
 import 'package:task_nest/feature/routines/business/usecases/get_every_routine.dart';
 import 'package:task_nest/feature/routines/business/usecases/seed_from_api.dart';
@@ -23,12 +24,18 @@ class RoutineProvider extends ChangeNotifier {
   Failure? _failure;
   String? _apiSeedError;
 
-  RoutineProvider() {
-    getRoutines();
+  RoutineProvider({
+    RoutineRepository? routineRepository,
+    bool loadRoutinesOnCreate = true,
+  }) : repositoryImpl = routineRepository ??
+            RoutineRepositoryImpl(
+                routineLocalDatasource: RoutineLocalDatasourceImpl()) {
+    if (loadRoutinesOnCreate) {
+      getRoutines();
+    }
   }
 
-  final RoutineRepositoryImpl repositoryImpl = RoutineRepositoryImpl(
-      routineLocalDatasource: RoutineLocalDatasourceImpl());
+  final RoutineRepository repositoryImpl;
 
   List<RoutineModel>? get routines => _routines;
   Failure? get failure => _failure;
