@@ -44,7 +44,7 @@ flutter test
 
 | # | Requirement | Implementation |
 |---|---|---|
-| 1 | Task list, create form with validation, change state | `RoutinesScreen` lists routines (active and ended), `CreateRoutineScreen` validates name, week days and target before saving, and routines are completed by tapping them, incrementing an amount or running a timer (`RoutineTile`). |
+| 1 | Task list, create form with validation, change state | `RoutinesScreen` lists routines (active and ended), `CreateRoutineScreen` validates name, week days and target before saving, and today's routines are completed from the home calendar (`SmallRoutineTile`): tap a task, increment an amount or run a timer. |
 | 2 | Local storage, works offline | Isar Community collections `RoutineModel` and `DateModel` plus `shared_preferences` for small flags. Every screen reads from the local database. |
 | 3 | Initial load from a public API with visible network errors | `RoutineRemoteDatasourceImpl` GETs JSONPlaceholder `/todos`; `RoutineRepositoryImpl.seedFromApi` maps each todo to a task routine and stores it locally; `SeedFromApi` is called when onboarding finishes; `RoutineProvider.apiSeedError` drives a SnackBar shown by the home screen. |
 | 4 | Clear architecture and dependency injection | Feature-first Clean-ish layers (`data` / `business` / `presentation`), repositories returned as `Either<Failure, T>`, use cases per operation, Riverpod providers that receive their repository through the constructor. |
