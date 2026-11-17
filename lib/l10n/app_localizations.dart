@@ -663,6 +663,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Start your journey with your first healthy routine. Consistency begins with one small step.'**
   String get motivationalMessage;
+
+  /// No description provided for @apiSeedError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the sample tasks: {error}'**
+  String apiSeedError(String error);
 }
 
 class _AppLocalizationsDelegate

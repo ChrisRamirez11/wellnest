@@ -123,6 +123,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     .watch(routineProvider)
                     .upsertAllRoutines(routinesList);
 
+                // Seeds the sample tasks from the public API. A network
+                // failure is surfaced on the home screen and never blocks the
+                // offline flow.
+                await ref.read(routineProvider).seedFromApi();
+
                 if (context.mounted) {
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     '/',

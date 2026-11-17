@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:task_nest/core/errors/failures.dart';
 import 'package:task_nest/feature/routines/business/usecases/delete_routine.dart';
 import 'package:task_nest/feature/routines/business/usecases/get_every_routine.dart';
+import 'package:task_nest/feature/routines/business/usecases/seed_from_api.dart';
 import 'package:task_nest/feature/routines/business/usecases/upsert_all_routines.dart';
 import 'package:task_nest/feature/routines/business/usecases/upsert_routine.dart';
 import 'package:task_nest/feature/routines/data/datasources/local/routine_local_datasource.dart';
@@ -20,6 +21,7 @@ final routineProvider = ChangeNotifierProvider(
 class RoutineProvider extends ChangeNotifier {
   List<RoutineModel>? _routines;
   Failure? _failure;
+  String? _apiSeedError;
 
   RoutineProvider() {
     getRoutines();
@@ -30,6 +32,26 @@ class RoutineProvider extends ChangeNotifier {
 
   List<RoutineModel>? get routines => _routines;
   Failure? get failure => _failure;
+
+  /// User-facing message of the last failed API seed, if any.
+  String? get apiSeedError => _apiSeedError;
+
+  void clearApiSeedError() {
+    _apiSeedError = null;
+    notifyListeners();
+  }
+
+  Future<void> seedFromApi() async {
+    final failureOrRoutines = await SeedFromApi(repositoryImpl).call();
+
+    final failure = failureOrRoutines.fold<Failure?>((l) => l, (_) => null);
+    _apiSeedError = failure?.errorMessage;
+    notifyListeners();
+
+    if (failure == null) {
+      await getRoutines();
+    }
+  }
 
   Future<void> getRoutines() async {
     final failureOrRoutine = await GetEveryRoutine(repositoryImpl).call();

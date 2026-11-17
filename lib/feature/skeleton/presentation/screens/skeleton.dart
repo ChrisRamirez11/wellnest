@@ -4,6 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:task_nest/core/notifications/global_app_notification.dart';
 import 'package:task_nest/core/notifications/notifications_provider.dart';
 import 'package:task_nest/core/preferences/user_preferences.dart';
+import 'package:task_nest/core/utils/utils.dart';
 import 'package:task_nest/core/utils/validate_date_model_creation.dart.dart';
 import 'package:task_nest/feature/calendar/presentation/providers/current_selected_date_provider.dart';
 import 'package:task_nest/feature/calendar/presentation/screens/small_routines_screen.dart';
@@ -29,6 +30,7 @@ class Skeleton extends ConsumerStatefulWidget {
 
 class _SkeletonState extends ConsumerState<Skeleton> {
   final PageController _pageController = PageController();
+  bool _apiSeedErrorScheduled = false;
 
   @override
   Future<void> didChangeDependencies() async {
@@ -52,6 +54,29 @@ class _SkeletonState extends ConsumerState<Skeleton> {
       ref.watch(currentSelectedDateProvider).currentSelectedDate,
       ref,
     );
+
+    _showApiSeedError();
+  }
+
+  void _showApiSeedError() {
+    if (_apiSeedErrorScheduled) return;
+
+    final routineNotifier = ref.read(routineProvider);
+    final error = routineNotifier.apiSeedError;
+    if (error == null) return;
+
+    _apiSeedErrorScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _apiSeedErrorScheduled = false;
+      if (!mounted) return;
+
+      ref.read(routineProvider).clearApiSeedError();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(localization(context).apiSeedError(error)),
+        ),
+      );
+    });
   }
 
   @override

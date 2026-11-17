@@ -302,4 +302,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get motivationalMessage =>
       'Start your journey with your first healthy routine. Consistency begins with one small step.';
+
+  @override
+  String apiSeedError(String error) {
+    return 'Could not load the sample tasks: $error';
+  }
 }

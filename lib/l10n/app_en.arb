@@ -93,5 +93,13 @@
     "relationships": "Relationship-building (calling family/friends)",
     "ended": "Ended",
     "noRoutines": "No routines yet",
-    "motivationalMessage": "Start your journey with your first healthy routine. Consistency begins with one small step."
+    "motivationalMessage": "Start your journey with your first healthy routine. Consistency begins with one small step.",
+    "apiSeedError": "Could not load the sample tasks: {error}",
+    "@apiSeedError": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    }
 }
