@@ -5,14 +5,18 @@ import 'package:task_nest/core/errors/failures.dart';
 import 'package:task_nest/feature/routines/business/entity/routine_entity.dart';
 import 'package:task_nest/feature/routines/business/repositories/routine_repository.dart';
 import 'package:task_nest/feature/routines/data/datasources/local/routine_local_datasource.dart';
+import 'package:task_nest/feature/routines/data/datasources/remote/routine_remote_datasource.dart';
 import 'package:task_nest/feature/routines/data/models/routine_model.dart';
 
 class RoutineRepositoryImpl implements RoutineRepository {
-  RoutineLocalDatasource routineLocalDatasource;
+  final RoutineLocalDatasource routineLocalDatasource;
+  final RoutineRemoteDatasource routineRemoteDatasource;
 
   RoutineRepositoryImpl({
     required this.routineLocalDatasource,
-  });
+    RoutineRemoteDatasource? routineRemoteDatasource,
+  }) : routineRemoteDatasource =
+            routineRemoteDatasource ?? RoutineRemoteDatasourceImpl();
 
   @override
   Future<Either<Failure, void>> deleteRoutine(int id) async {
@@ -71,6 +75,27 @@ class RoutineRepositoryImpl implements RoutineRepository {
           )
           .toList());
       return Right(res);
+    } on CacheException catch (e) {
+      return Left(CacheFailure(errorMessage: e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<RoutineEntity>>> seedFromApi() async {
+    try {
+      final remoteRoutines = await routineRemoteDatasource.fetchTodos();
+
+      if (remoteRoutines.isEmpty) {
+        return const Right(<RoutineEntity>[]);
+      }
+
+      await routineLocalDatasource.upsertAllRoutines(
+        remoteRoutines.map(RoutineModel.fromEntity).toList(),
+      );
+
+      return Right(remoteRoutines);
+    } on ServerException catch (e) {
+      return Left(NetworkFailure(errorMessage: e.message));
     } on CacheException catch (e) {
       return Left(CacheFailure(errorMessage: e.message));
     }

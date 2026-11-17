@@ -9,4 +9,10 @@ abstract class RoutineRepository {
   Future<Either<Failure, RoutineEntity>> getRoutine(int id);
   Future<Either<Failure, List<RoutineEntity>>> getEveryRoutine();
   Future<Either<Failure, void>> deleteRoutine(int id);
+
+  /// Fetches the sample tasks from the remote API and stores them locally.
+  ///
+  /// Returns the imported routines, or a [NetworkFailure] when the remote
+  /// service cannot be reached or answers with an unexpected payload.
+  Future<Either<Failure, List<RoutineEntity>>> seedFromApi();
 }
