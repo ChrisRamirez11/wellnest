@@ -13,6 +13,22 @@ subprojects {
     project.evaluationDependsOn(":app")
 }
 
+// Some Flutter plugins still compile against an old Android SDK (for example
+// flutter_ringtone_player uses compileSdk 33) while their androidx dependencies
+// require 34+. Keep every Android subproject aligned with the app's compileSdk.
+// Projects already evaluated by evaluationDependsOn(":app") are skipped.
+subprojects {
+    if (!project.state.executed) {
+        project.afterEvaluate {
+            if (project.plugins.hasPlugin("com.android.library") || project.plugins.hasPlugin("com.android.application")) {
+                if (project.android.compileSdk == null || project.android.compileSdk < 36) {
+                    project.android.compileSdk = 36
+                }
+            }
+        }
+    }
+}
+
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
