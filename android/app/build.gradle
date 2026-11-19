@@ -25,10 +25,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17
-    }
-
     defaultConfig {
         applicationId = "com.chris.tasknest"
         multiDexEnabled true
@@ -48,11 +44,13 @@ android {
         }
         //! It may need in case of using it with a team, to use a if (keystorePropertiesFile.exists())
         //! do this, if not, sign it with the default one.
-        debug {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
+        if (keystorePropertiesFile.exists()) {
+            debug {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+                storePassword keystoreProperties['storePassword']
+            }
         }
     }
 
@@ -65,8 +63,17 @@ android {
         }
 
         debug {
-            signingConfig =  signingConfigs.getByName("debug")
+            if (keystorePropertiesFile.exists()) {
+                signingConfig = signingConfigs.getByName("debug")
+            }
+            // Otherwise AGP uses the default debug keystore.
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 
